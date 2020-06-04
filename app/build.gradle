@@ -22,7 +22,7 @@ import static org.gradle.api.tasks.testing.TestResult.ResultType
 android {
     compileSdkVersion 28
     defaultConfig {
-        applicationId "org.mozilla"
+        applicationId "com.ghostery.android"
         minSdkVersion Config.minSdkVersion
         targetSdkVersion Config.targetSdkVersion
         versionCode 1
@@ -141,6 +141,23 @@ android {
                     "deepLinkScheme": deepLinkSchemeValue
             ]
         }
+        ghostery releaseTemplate >> {
+            buildConfigField "boolean", "USE_RELEASE_VERSIONING", "true"
+            applicationIdSuffix ".ghostery"
+            def deepLinkSchemeValue = "ghostery"
+            buildConfigField "String", "DEEP_LINK_SCHEME", "\"$deepLinkSchemeValue\""
+            manifestPlaceholders = [
+                    // This release type is meant to replace Firefox (Release channel) and therefore needs to inherit
+                    // its sharedUserId for all eternity. See:
+                    // https://searchfox.org/mozilla-central/search?q=moz_android_shared_id&case=false&regexp=false&path=
+                    // Shipping an app update without sharedUserId can have
+                    // fatal consequences. For example see:
+                    //  - https://issuetracker.google.com/issues/36924841
+                    //  - https://issuetracker.google.com/issues/36905922
+                    "sharedUserId": "com.ghostery.android.ghostery.sharedID",
+                    "deepLinkScheme": deepLinkSchemeValue
+            ]
+        }
     }
 
     variantFilter { // There's a "release" build type that exists by default that we don't use (it's replaced by "nightly" and "beta")
@@ -160,6 +177,7 @@ android {
         // | fennecProduction   | ❌            | ✅       | Fenix build to replace production Firefox builds
         // | fennecBeta         | ❌            | ✅       | Fenix build to replace beta Firefox builds
         // | fennecNightly      | ✅            | ❌       | Fenix build to replace Nightly Firefox builds
+        // | ghostery           | ❌            | ✅       | Ghostery build to replace production Ghostery builds
 
         def flavors = flavors*.name.toString().toLowerCase()
 
@@ -176,6 +194,10 @@ android {
         }
 
         if (buildType.name == 'fennecNightly' && flavors.contains("geckobeta")) {
+            setIgnore true
+        }
+
+        if (buildType.name == 'ghostery' && flavors.contains('geckonightly')) {
             setIgnore true
         }
     }
@@ -209,6 +231,10 @@ android {
             manifest.srcFile "src/migration/AndroidManifest.xml"
         }
         fennecProduction {
+            java.srcDirs = ['src/migration/java']
+            manifest.srcFile "src/migration/AndroidManifest.xml"
+        }
+        ghostery {
             java.srcDirs = ['src/migration/java']
             manifest.srcFile "src/migration/AndroidManifest.xml"
         }
