@@ -26,7 +26,7 @@ class FenixOnboarding(context: Context) {
         metrics.track(Event.DismissedOnboarding)
     }
 
-    fun userHasBeenOnboarded() = onboardingPrefs.onboardedVersion == CURRENT_ONBOARDING_VERSION
+    fun userHasBeenOnboarded() = true // onboardingPrefs.onboardedVersion == CURRENT_ONBOARDING_VERSION
 
     companion object {
         private const val CURRENT_ONBOARDING_VERSION = 1
