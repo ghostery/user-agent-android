@@ -368,7 +368,7 @@ class Settings private constructor(
     var shouldUseBottomToolbar by booleanPreference(
         appContext.getPreferenceKey(R.string.pref_key_toolbar_bottom),
         // Default accessibility users to top toolbar
-        default = !touchExplorationIsEnabled && !switchServiceIsEnabled
+        default = false // !touchExplorationIsEnabled && !switchServiceIsEnabled
     )
 
     /**
