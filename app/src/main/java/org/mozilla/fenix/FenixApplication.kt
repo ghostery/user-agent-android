@@ -11,19 +11,13 @@ import android.os.StrictMode
 import androidx.annotation.CallSuper
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.getSystemService
-import kotlinx.coroutines.Deferred
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.*
 import mozilla.appservices.Megazord
 import mozilla.components.browser.session.Session
 import mozilla.components.concept.push.PushProcessor
 import mozilla.components.feature.addons.update.GlobalAddonDependencyProvider
+import mozilla.components.lib.crash.CrashReporter
 import mozilla.components.service.glean.Glean
-import mozilla.components.service.glean.config.Configuration
-import mozilla.components.service.glean.net.ConceptFetchHttpUploader
 import mozilla.components.support.base.log.Log
 import mozilla.components.support.base.log.logger.Logger
 import mozilla.components.support.base.log.sink.AndroidLogSink
@@ -46,7 +40,6 @@ import org.mozilla.fenix.session.PerformanceActivityLifecycleCallbacks
 import org.mozilla.fenix.session.VisibilityLifecycleCallback
 import org.mozilla.fenix.utils.BrowsersCache
 import org.mozilla.fenix.utils.Settings
-import mozilla.components.lib.crash.CrashReporter
 
 /**
  *The main application class for Fenix. Records data to measure initialization performance.
@@ -79,6 +72,7 @@ open class FenixApplication : LocaleAwareApplication() {
             return
         }
 
+        /* Ghostery Begin: do not initialise Glean +/
         if (Config.channel.isFenix) {
             // We need to always initialize Glean and do it early here.
             // Note that we are only initializing Glean here for "fenix" builds. "fennec" builds
@@ -86,10 +80,12 @@ open class FenixApplication : LocaleAwareApplication() {
             // user's choice from Fennec.
             initializeGlean()
         }
+        /+ Ghostery End */
 
         setupInMainProcessOnly()
     }
 
+    /* Ghostery Begin: do not use glean +/
     protected fun initializeGlean() {
         val telemetryEnabled = settings().isTelemetryEnabled
 
@@ -105,6 +101,7 @@ open class FenixApplication : LocaleAwareApplication() {
             uploadEnabled = telemetryEnabled
         )
     }
+    /+ Ghostery End */
 
     @CallSuper
     open fun setupInAllProcesses() {
@@ -226,10 +223,12 @@ open class FenixApplication : LocaleAwareApplication() {
     }
 
     private fun setupCrashReporting() {
+        /* Ghostery Begin: do not report crashes to Mozilla +/
         components
             .analytics
             .crashReporter
             .install(this)
+        /+ Ghostery End */
     }
 
     /**

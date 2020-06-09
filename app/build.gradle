@@ -52,7 +52,7 @@ android {
         debug {
             shrinkResources false
             minifyEnabled false
-            applicationIdSuffix ".fenix.debug"
+            applicationIdSuffix ".debug"
             manifestPlaceholders.isRaptorEnabled = "true"
             resValue "bool", "IS_DEBUG", "true"
             pseudoLocalesEnabled true

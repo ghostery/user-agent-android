@@ -109,10 +109,12 @@
             android:key="@string/pref_key_delete_browsing_data_on_quit_preference"
             android:title="@string/preferences_delete_browsing_data_on_quit" />
 
+        <!-- Ghostery Begin: removing data collection sub-menu as we do not collect anything -+>
         <androidx.preference.Preference
             android:icon="@drawable/ic_data_collection"
             android:key="@string/pref_key_data_choices"
             android:title="@string/preferences_data_collection" />
+        <+- Ghostery End -->
 
         <androidx.preference.SwitchPreference
             android:defaultValue="false"

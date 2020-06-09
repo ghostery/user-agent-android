@@ -4,28 +4,15 @@
 
 package org.mozilla.fenix.components
 
-import android.app.Application
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import mozilla.components.lib.crash.CrashReporter
-import mozilla.components.lib.crash.service.CrashReporterService
-import mozilla.components.lib.crash.service.GleanCrashReporterService
-import mozilla.components.lib.crash.service.MozillaSocorroService
-import mozilla.components.lib.crash.service.SentryService
-import org.mozilla.fenix.BuildConfig
 import org.mozilla.fenix.HomeActivity
 import org.mozilla.fenix.R
-import org.mozilla.fenix.components.metrics.AdjustMetricsService
-import org.mozilla.fenix.components.metrics.GleanMetricsService
-import org.mozilla.fenix.components.metrics.LeanplumMetricsService
 import org.mozilla.fenix.components.metrics.MetricController
-import org.mozilla.fenix.ext.settings
+import org.mozilla.fenix.crashes.DummyCrashReporter
 import org.mozilla.fenix.utils.Mockable
-import org.mozilla.geckoview.BuildConfig.MOZ_APP_BUILDID
-import org.mozilla.geckoview.BuildConfig.MOZ_APP_VENDOR
-import org.mozilla.geckoview.BuildConfig.MOZ_APP_VERSION
-import org.mozilla.geckoview.BuildConfig.MOZ_UPDATE_CHANNEL
 
 /**
  * Component group for all functionality related to analytics e.g. crash reporting and telemetry.
@@ -35,6 +22,7 @@ class Analytics(
     private val context: Context
 ) {
     val crashReporter: CrashReporter by lazy {
+        /* Ghostery Begin: disabling the CrashReporter +/
         val services = mutableListOf<CrashReporterService>()
 
         if (isSentryEnabled()) {
@@ -55,6 +43,7 @@ class Analytics(
             version = MOZ_APP_VERSION, buildId = MOZ_APP_BUILDID, vendor = MOZ_APP_VENDOR,
             releaseChannel = MOZ_UPDATE_CHANNEL)
         services.add(socorroService)
+        /+ Ghostery End */
 
         val intent = Intent(context, HomeActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
@@ -69,12 +58,12 @@ class Analytics(
 
         CrashReporter(
             context = context,
-            services = services,
-            telemetryServices = listOf(GleanCrashReporterService(context)),
-            shouldPrompt = CrashReporter.Prompt.ALWAYS,
+            services = listOf(DummyCrashReporter()), // Ghostery: services,
+            telemetryServices = listOf(), // Ghostery: listOf(GleanCrashReporterService(context)),
+            shouldPrompt = CrashReporter.Prompt.NEVER, // Ghostery: CrashReporter.Prompt.ALWAYS,
             promptConfiguration = CrashReporter.PromptConfiguration(
                 appName = context.getString(R.string.app_name),
-                organizationName = "Mozilla"
+                organizationName = "Ghostery" // Ghostery: "Mozilla"
             ),
             enabled = true,
             nonFatalCrashIntent = pendingIntent
@@ -83,15 +72,20 @@ class Analytics(
 
     val metrics: MetricController by lazy {
         MetricController.create(
+            listOf(),
+            /* Ghostery Begin: removing all the Metrics +/
             listOf(
                 GleanMetricsService(context),
                 LeanplumMetricsService(context as Application),
                 AdjustMetricsService(context)
             ),
-            isDataTelemetryEnabled = { context.settings().isTelemetryEnabled },
-            isMarketingDataTelemetryEnabled = { context.settings().isMarketingTelemetryEnabled }
+            /+ Ghostery End */
+            isDataTelemetryEnabled = { false }, // Ghostery { context.settings().isTelemetryEnabled },
+            isMarketingDataTelemetryEnabled = { false } // Ghostery { context.settings().isMarketingTelemetryEnabled }
         )
     }
 }
 
+/* Ghostery, this is now unused
 fun isSentryEnabled() = !BuildConfig.SENTRY_TOKEN.isNullOrEmpty()
+ */
