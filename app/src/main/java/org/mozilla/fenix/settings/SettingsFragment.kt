@@ -13,17 +13,14 @@ import android.os.Bundle
 import android.os.Handler
 import android.provider.Settings
 import android.widget.Toast
-import androidx.appcompat.content.res.AppCompatResources
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavDirections
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
 import androidx.preference.Preference
 import androidx.preference.PreferenceCategory
 import androidx.preference.PreferenceFragmentCompat
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import mozilla.components.concept.sync.AccountObserver
@@ -35,14 +32,7 @@ import org.mozilla.fenix.Config
 import org.mozilla.fenix.HomeActivity
 import org.mozilla.fenix.R
 import org.mozilla.fenix.components.metrics.Event
-import org.mozilla.fenix.ext.application
-import org.mozilla.fenix.ext.components
-import org.mozilla.fenix.ext.getPreferenceKey
-import org.mozilla.fenix.ext.metrics
-import org.mozilla.fenix.ext.requireComponents
-import org.mozilla.fenix.ext.settings
-import org.mozilla.fenix.ext.showToolbar
-import org.mozilla.fenix.ext.toRoundedDrawable
+import org.mozilla.fenix.ext.*
 import org.mozilla.fenix.settings.account.AccountAuthErrorPreference
 import org.mozilla.fenix.settings.account.AccountPreference
 import kotlin.system.exitProcess
@@ -393,6 +383,8 @@ class SettingsFragment : PreferenceFragmentCompat() {
      * Updates the UI to reflect current account state.
      * Possible conditions are logged-in without problems, logged-out, and logged-in but needs to re-authenticate.
      */
+    /* Ghostery Begin: disabling FirefoxSync entry points **/
+    @Suppress("UNUSED_PARAMETER")
     private fun updateAccountUIState(context: Context, profile: Profile?) {
         val preferenceSignIn =
             findPreference<Preference>(context.getPreferenceKey(R.string.pref_key_sign_in))
@@ -407,6 +399,12 @@ class SettingsFragment : PreferenceFragmentCompat() {
         val accountPreferenceCategory =
             findPreference<PreferenceCategory>(context.getPreferenceKey(R.string.pref_key_account_category))
 
+        preferenceSignIn?.isVisible = false
+        preferenceFirefoxAccount?.isVisible = false
+        preferenceFirefoxAccountAuthError?.isVisible = false
+        accountPreferenceCategory?.isVisible = false
+
+        /*
         val accountManager = requireComponents.backgroundServices.accountManager
         val account = accountManager.authenticatedAccount()
 
@@ -453,6 +451,8 @@ class SettingsFragment : PreferenceFragmentCompat() {
             preferenceFirefoxAccountAuthError?.isVisible = false
             accountPreferenceCategory?.isVisible = false
         }
+        */
+        /* Ghostery End */
     }
 
     private fun updateFxASyncOverrideMenu() {
