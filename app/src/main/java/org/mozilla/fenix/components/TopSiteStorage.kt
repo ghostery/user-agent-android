@@ -56,13 +56,7 @@ class TopSiteStorage(private val context: Context) {
     private fun addDefaultTopSites() {
         val topSiteCandidates = mutableListOf<Pair<String, String>>()
         if (!context.settings().defaultTopSitesAdded) {
-            topSiteCandidates.add(
-                Pair(
-                    context.getString(R.string.default_top_site_google),
-                    SupportUtils.GOOGLE_URL
-                )
-            )
-
+            /* Ghostery Begin: never show Pocket +/
             if (LocaleManager.getSelectedLocale(context).language == "en") {
                 topSiteCandidates.add(
                     Pair(
@@ -71,6 +65,7 @@ class TopSiteStorage(private val context: Context) {
                     )
                 )
             }
+            /+ Ghostery End */
 
             topSiteCandidates.add(
                 Pair(
