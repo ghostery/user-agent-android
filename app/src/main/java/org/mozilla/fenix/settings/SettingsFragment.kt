@@ -123,6 +123,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
     }
 
     private fun update(shouldUpdateAccountUIState: Boolean) {
+        /* Ghostery Begin: Removing tracking protection as it will be performed by Ghostery +/
         val trackingProtectionPreference =
             findPreference<Preference>(getPreferenceKey(R.string.pref_key_tracking_protection_settings))
         trackingProtectionPreference?.summary = context?.let {
@@ -132,6 +133,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
                 getString(R.string.tracking_protection_off)
             }
         }
+        /+ Ghostery End */
 
         val toolbarPreference =
             findPreference<Preference>(getPreferenceKey(R.string.pref_key_toolbar))
