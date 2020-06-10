@@ -73,7 +73,7 @@ class Core(private val context: Context) {
             requestInterceptor = AppRequestInterceptor(context),
             remoteDebuggingEnabled = context.settings().isRemoteDebuggingEnabled,
             testingModeEnabled = false,
-            trackingProtectionPolicy = trackingProtectionPolicyFactory.createTrackingProtectionPolicy(),
+            trackingProtectionPolicy = null, // Ghostery: trackingProtectionPolicyFactory.createTrackingProtectionPolicy(),
             historyTrackingDelegate = HistoryDelegate(lazyHistoryStorage),
             preferredColorScheme = getPreferredColorScheme(),
             automaticFontSizeAdjustment = context.settings().shouldUseAutoSize,
