@@ -79,6 +79,7 @@ class HomeMenu(
     }
 
     private val coreMenuItems by lazy {
+        /* Ghostery Begin: Removing "What's new from the Home Menu +/
         val whatsNewItem = BrowserMenuHighlightableItem(
             context.getString(R.string.browser_menu_whats_new),
             R.drawable.ic_whats_new,
@@ -90,7 +91,7 @@ class HomeMenu(
         ) {
             onItemTapped.invoke(Item.WhatsNew)
         }
-
+        /+ Ghostery End */
         val bookmarksItem = BrowserMenuImageText(
             context.getString(R.string.library_bookmarks),
             R.drawable.ic_bookmark_outline,
@@ -134,7 +135,7 @@ class HomeMenu(
         if (shouldUseBottomToolbar) {
             listOfNotNull(
                 accountAuthItem,
-                whatsNewItem,
+                // Ghostery: Removing "what's new" - whatsNewItem,
                 BrowserMenuDivider(),
                 bookmarksItem,
                 historyItem,
@@ -154,8 +155,8 @@ class HomeMenu(
                 BrowserMenuDivider(),
                 bookmarksItem,
                 historyItem,
-                BrowserMenuDivider(),
-                whatsNewItem
+                BrowserMenuDivider() //,
+                // Ghostery: Removing "what's new" - whatsNewItem
             ).also { items ->
                 items.getHighlight()?.let { onHighlightPresent(it) }
             }
