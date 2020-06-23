@@ -24,6 +24,7 @@ class PrivateBrowsingDescriptionViewHolder(
         view.private_session_description.text = resources.getString(
             R.string.private_browsing_placeholder_description_2, appName
         )
+        /* Ghostery Begin: removing common myths about private tabs +/
         val commonMythsText = view.private_session_common_myths.text.toString()
         val textWithLink = SpannableString(commonMythsText).apply {
             setSpan(UnderlineSpan(), 0, commonMythsText.length, 0)
@@ -35,6 +36,7 @@ class PrivateBrowsingDescriptionViewHolder(
                 interactor.onPrivateBrowsingLearnMoreClicked()
             }
         }
+        /+ Ghostery End */
     }
 
     companion object {
