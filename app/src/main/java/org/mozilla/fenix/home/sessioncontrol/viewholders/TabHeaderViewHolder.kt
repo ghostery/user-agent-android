@@ -102,12 +102,14 @@ class TabHeaderViewHolder(
                     context.getString(R.string.tabs_menu_share_tabs)
                 ) {
                     onItemTapped.invoke(Item.Share)
-                },
+                } // ,
+                /* Ghostery Begin: removing collections +/
                 SimpleBrowserMenuItem(
                     context.getString(R.string.tabs_menu_save_to_collection)
                 ) {
                     onItemTapped.invoke(Item.SaveToCollection)
                 }.apply { visible = { !isPrivate } }
+                /+ Ghostery End */
             )
         }
     }

@@ -69,8 +69,10 @@ private fun normalModeAdapterItems(
 
         tabs.isNotEmpty() && collections.isEmpty() -> {
             if (!useNewTabTray) { showTabs(items, tabs) }
+            /* Ghostery Begin: removing collections +/
             items.add(AdapterItem.CollectionHeader)
             items.add(noCollectionMessage)
+            /+ Ghostery End */
         }
 
         tabs.isEmpty() && collections.isNotEmpty() -> {
@@ -82,10 +84,12 @@ private fun normalModeAdapterItems(
             items.add(noTabMessage)
         }
 
+        /* Ghostery Begin: removing collections +/
         collections.isEmpty() && useNewTabTray -> {
             items.add(AdapterItem.CollectionHeader)
             items.add(noCollectionMessage)
         }
+        /+ Ghostery End */
     }
 
     return items
@@ -96,9 +100,12 @@ private fun showTabs(
     tabs: List<Tab>
 ) {
     items.addAll(tabs.reversed().map(AdapterItem::TabItem))
+    /* Ghostery Begin: disable collections button +/
     items.add(AdapterItem.SaveTabGroup)
+    /+ Ghostery End */
 }
 
+@Suppress("UNUSED_PARAMETER") // Ghostery
 private fun showCollections(
     collections: List<TabCollection>,
     expandedCollections: Set<Long>,
@@ -106,6 +113,7 @@ private fun showCollections(
     items: MutableList<AdapterItem>
 ) {
     // If the collection is expanded, we want to add all of its tabs beneath it in the adapter
+    /* Ghostery Begin: disable collections +/
     items.add(AdapterItem.CollectionHeader)
     collections.map {
         AdapterItem.CollectionItem(it, expandedCollections.contains(it.id), tabs.isNotEmpty())
@@ -115,6 +123,7 @@ private fun showCollections(
             items.addAll(collectionTabItems(it.collection))
         }
     }
+    /+ Ghostery End */
 }
 
 private fun privateModeAdapterItems(context: Context, tabs: List<Tab>): List<AdapterItem> {
