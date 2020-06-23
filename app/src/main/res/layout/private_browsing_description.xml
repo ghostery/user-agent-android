@@ -25,6 +25,7 @@
         android:textSize="14sp"
         tools:text="@string/private_browsing_placeholder_description_2" />
 
+    <!-- Ghostery Begin: removing common myths about private tabs -+>
     <org.mozilla.fenix.utils.LinkTextView
         android:id="@+id/private_session_common_myths"
         android:layout_width="match_parent"
@@ -39,4 +40,5 @@
         android:text="@string/private_browsing_common_myths"
         android:textColor="?primaryText"
         android:textSize="14sp" />
+    <!+- Ghostery End -->
 </LinearLayout>
