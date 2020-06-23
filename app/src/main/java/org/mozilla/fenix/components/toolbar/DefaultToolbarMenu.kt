@@ -180,10 +180,12 @@ class DefaultToolbarMenu(
         /+ Ghostery End */
         val shouldDeleteDataOnQuit = Settings.getInstance(context)
             .shouldDeleteBrowsingDataOnQuit
+        /* Ghostery Begin: disable report site issues +/
         val shouldShowWebcompatReporter = Config.channel !in setOf(
             ReleaseChannel.FenixProduction,
             ReleaseChannel.FennecProduction
         )
+        /+ Ghostery End */
 
         val menuItems = listOfNotNull(
             historyItem,
@@ -192,7 +194,7 @@ class DefaultToolbarMenu(
             settings,
             if (shouldDeleteDataOnQuit) deleteDataOnQuit else null,
             BrowserMenuDivider(),
-            if (shouldShowWebcompatReporter) reportIssue else null,
+            // Ghostery: if (shouldShowWebcompatReporter) reportIssue else null,
             findInPage,
             addToTopSites,
             addToHomescreen.apply { visible = ::canAddToHomescreen },
