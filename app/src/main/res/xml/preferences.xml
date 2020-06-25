@@ -127,10 +127,12 @@
         app:iconSpaceReserved="false"
         android:key="@string/pref_key_advanced"
         android:layout="@layout/preference_cat_style">
+        <!-- Ghostery Begin: removing Addons Menu access -+>
         <androidx.preference.Preference
             android:icon="@drawable/mozac_ic_extensions_black"
             android:key="@string/pref_key_addons"
             android:title="@string/preferences_addons" />
+        <!+- Ghostery End -->
 
         <androidx.preference.SwitchPreference
             android:defaultValue="false"
