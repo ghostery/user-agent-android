@@ -21,11 +21,6 @@ object FeatureFlags {
     const val asFeatureSyncDisabled = false
 
     /**
-     * Enables dynamic bottom toolbar
-     */
-    val dynamicBottomToolbar = Config.channel.isNightlyOrDebug
-
-    /**
      * Integration of push support provided by `feature-push` component into the Gecko engine.
      *
      * Behind nightly flag until all fatal bugs are resolved.
@@ -45,7 +40,18 @@ object FeatureFlags {
     val loginsEdit = Config.channel.isNightlyOrDebug
 
     /**
+     * Enable tab sync feature
+     */
+    val syncedTabs = Config.channel.isNightlyOrDebug
+
+    /**
      * Enables new tab tray pref
      */
     val tabTray = Config.channel.isNightlyOrDebug
+
+    /**
+     * Allows search widget CFR to be displayed.
+     * This is a placeholder for the experimentation framework determining cohorts.
+     */
+    val searchWidgetCFR = Config.channel.isDebug
 }

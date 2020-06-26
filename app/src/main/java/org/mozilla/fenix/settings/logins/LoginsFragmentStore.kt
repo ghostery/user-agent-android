@@ -17,14 +17,14 @@ import mozilla.components.lib.state.Store
  * @property origin Site of the saved login
  * @property username Username that's saved for this site
  * @property password Password that's saved for this site
- *  @property timeLastUsed Time of last use in milliseconds from the unix epoch.
+ * @property timeLastUsed Time of last use in milliseconds from the unix epoch.
  */
 @Parcelize
 data class SavedLogin(
     val guid: String,
     val origin: String,
     val username: String,
-    val password: String?,
+    val password: String,
     val timeLastUsed: Long
 ) : Parcelable
 
@@ -84,11 +84,13 @@ private fun savedLoginsStateReducer(
     action: LoginsAction
 ): LoginsListState {
     return when (action) {
-        is LoginsAction.UpdateLoginsList -> state.copy(
-            isLoading = false,
-            loginList = action.list,
-            filteredItems = action.list
-        )
+        is LoginsAction.UpdateLoginsList -> {
+            state.copy(
+                isLoading = false,
+                loginList = action.list,
+                filteredItems = state.sortingStrategy(action.list)
+            )
+        }
         is LoginsAction.FilterLogins -> {
             filterItems(
                 action.newText,

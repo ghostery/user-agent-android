@@ -21,6 +21,9 @@
     <!-- No Open Tabs Message Description -->
     <string name="no_open_tabs_description">Открытые вами вкладки будут показаны здесь.</string>
 
+    <!-- No Private Tabs Message Description -->
+    <string name="no_private_tabs_description">Ваши приватные вкладки будут показаны здесь.</string>
+
     <!-- About content. The first parameter is the name of the application. (For example: Fenix) -->
     <string name="about_content">%1$s разработан Mozilla.</string>
 
@@ -36,13 +39,21 @@
     <!-- Delete session button to erase your history in a private session -->
     <string name="private_browsing_delete_session">Удалить сессию</string>
 
-    <!-- Private mode shortcut "contextual feature recommender" (CFR) -->
+    <!-- Private mode shortcut "contextual feature recommendation" (CFR) -->
     <!-- Text for the main message -->
     <string name="cfr_message">Добавьте ярлык, чтобы открывать приватные вкладки с главного экрана.</string>
     <!-- Text for the positive button -->
     <string name="cfr_pos_button_text">Добавить ярлык</string>
     <!-- Text for the negative button -->
     <string name="cfr_neg_button_text">Нет, спасибо</string>
+
+    <!-- Search widget "contextual feature recommendation" (CFR) -->
+    <!-- Text for the main message. 'Firefox' intentionally hardcoded here.-->
+    <string name="search_widget_cfr_message">Открывайте Firefox быстрее. Добавьте виджет на ваш главный экран.</string>
+    <!-- Text for the positive button -->
+    <string name="search_widget_cfr_pos_button_text">Добавить виджет</string>
+    <!-- Text for the negative button -->
+    <string name="search_widget_cfr_neg_button_text">Не сейчас</string>
 
     <!-- Home screen icons - Long press shortcuts -->
     <!-- Shortcut action to open new tab -->
@@ -88,6 +99,8 @@
     <string name="browser_menu_add_to_homescreen">На домашний экран</string>
     <!-- Browser menu toggle that installs a Progressive Web App shortcut to the site on the device home screen. -->
     <string name="browser_menu_install_on_homescreen">Установить</string>
+    <!-- Menu option on the toolbar that takes you to synced tabs page-->
+    <string name="synced_tabs">Облачные вкладки</string>
     <!-- Browser menu button that opens the find in page menu -->
     <string name="browser_menu_find_in_page">Найти на странице</string>
     <!-- Browser menu button that creates a private tab -->
@@ -96,8 +109,6 @@
     <string name="browser_menu_new_tab">Новая вкладка</string>
     <!-- Browser menu button that saves the current tab to a collection -->
     <string name="browser_menu_save_to_collection_2">В коллекцию</string>
-    <!-- Browser menu button that opens a dialog to report issues with the current site -->
-    <string name="browser_menu_report_issue">Сообщить о проблеме с сайтом</string>
     <!-- Browser menu button that open a share menu to share the current site -->
     <string name="browser_menu_share">Поделиться</string>
     <!-- Share menu title, displayed when a user is sharing their current site -->
@@ -113,8 +124,10 @@
         The first parameter is the name of the app defined in app_name (for example: Fenix) -->
     <string name="browser_menu_powered_by2">На движке %1$s</string>
 
-    <!-- Browser menu button to put the the current page in reader mode -->
+    <!-- Browser menu button to put the current page in reader mode -->
     <string name="browser_menu_read">Вид для чтения</string>
+    <!-- Browser menu button content description to close reader mode and return the user to the regular browser -->
+    <string name="browser_menu_read_close">Закрыть вид для чтения</string>
     <!-- Browser menu button to open the current page in an external app -->
     <string name="browser_menu_open_app_link">Открыть в приложении</string>
     <!-- Browser menu button to configure reader mode appearance e.g. the used font type and size -->
@@ -257,6 +270,8 @@
     <string name="preferences_show_search_shortcuts">Ссылки на поисковые системы</string>
     <!-- Preference title for switch preference to show search suggestions -->
     <string name="preferences_show_search_suggestions">Поисковые предложения</string>
+    <!-- Preference title for switch preference to show voice search button -->
+    <string name="preferences_show_voice_search">Показывать голосовой поиск</string>
     <!-- Preference title for switch preference to show search suggestions also in private mode -->
     <string name="preferences_show_search_suggestions_in_private">Показывать в приватных окнах</string>
     <!-- Preference title for switch preference to show a clipboard suggestion when searching -->
@@ -285,6 +300,8 @@
     <string name="preferences_sync_bookmarks">Закладки</string>
     <!-- Preference for syncing logins -->
     <string name="preferences_sync_logins">Логины</string>
+    <!-- Preference for syncing tabs -->
+    <string name="preferences_sync_tabs">Вкладки</string>
     <!-- Preference for signing out -->
     <string name="preferences_sign_out">Выйти</string>
     <!-- Preference displays and allows changing current FxA device name -->
@@ -378,7 +395,7 @@
 
     <!-- Pairing Feature strings -->
     <!-- Instructions on how to access pairing -->
-    <string name="pair_instructions"><![CDATA[Посетите <b>firefox.com/pair</b> в Firefox на вашем компьютере, чтобы получить свой QR-код.]]></string>
+    <string name="pair_instructions_2"><![CDATA[Отсканируйте QR-код, показанный на <b>firefox.com/pair</b>]]></string>
     <!-- Button to open camera for pairing -->
     <string name="pair_open_camera">Открыть камеру</string>
     <!-- Button to cancel pairing -->
@@ -419,6 +436,8 @@
     <string name="library_desktop_bookmarks_unfiled">Другие закладки</string>
     <!-- Option in Library to open History page -->
     <string name="library_history">История</string>
+    <!-- Option in Library to open Synced Tabs page -->
+    <string name="library_synced_tabs">Облачные вкладки</string>
     <!-- Option in Library to open Reading List -->
     <string name="library_reading_list">Список для чтения</string>
     <!-- Menu Item Label for Search in Library -->
@@ -439,6 +458,26 @@
     <string name="tabs_header_private_tabs_title">Приватные вкладки</string>
     <!-- Content description (not visible, for screen readers etc.): Add tab button. Adds a news tab when pressed -->
     <string name="add_tab">Открыть вкладку</string>
+    <!-- Content description (not visible, for screen readers etc.): Add tab button. Adds a news tab when pressed -->
+    <string name="add_private_tab">Добавить приватную вкладку</string>
+    <!-- Text for the new tab button to indicate adding a new private tab in the tab -->
+    <string name="tab_drawer_fab_content">Приватно</string>
+    <!-- Text shown as the title of the open tab tray -->
+    <string name="tab_tray_title">Открытые вкладки</string>
+    <!-- Text shown in the menu for saving tabs to a collection -->
+    <string name="tab_tray_menu_item_save">Сохранить в коллекцию</string>
+    <!-- Text shown in the menu for sharing all tabs -->
+    <string name="tab_tray_menu_item_share">Поделиться всеми вкладками</string>
+    <!-- Text shown in the menu for closing all tabs -->
+    <string name="tab_tray_menu_item_close">Закрыть все вкладки</string>
+    <!-- Shortcut action to open new tab -->
+    <string name="tab_tray_menu_open_new_tab">Новая вкладка</string>
+    <!-- Shortcut action to open the home screen -->
+    <string name="tab_tray_menu_home">На главную</string>
+    <!-- Shortcut action to toggle private mode -->
+    <string name="tab_tray_menu_toggle">Переключить режим просмотра</string>
+    <!-- Content description (not visible, for screen readers etc.): Removes tab from collection button. Removes the selected tab from collection when pressed -->
+    <string name="remove_tab_from_collection">Удалить вкладку из коллекции</string>
     <!-- Content description (not visible, for screen readers etc.): Close tab button. Closes the current session when pressed -->
     <string name="close_tab">Закрыть вкладку</string>
     <!-- Content description (not visible, for screen readers etc.): Close tab <title> button. First parameter is tab title  -->
@@ -717,6 +756,9 @@
     <!-- Button to save currently selected tabs in the "select tabs" step of the collection creator-->
     <string name="create_collection_save">Сохранить</string>
 
+    <!-- Snackbar action to view the collection the user just created or updated -->
+    <string name="create_collection_view">Посмотреть</string>
+
     <!-- Default name for a new collection in "name new collection" step of the collection creator. %d is a placeholder for the number of collections-->
     <string name="create_collection_default_name">Коллекция %d</string>
 
@@ -835,14 +877,14 @@
     <string name="preference_accessibility_font_size_title">Размер шрифта</string>
 
     <!-- Title for Accessibility Text Automatic Size Scaling Preference -->
-    <string name="preference_accessibility_auto_size">Автоматический размер шрифта</string>
+    <string name="preference_accessibility_auto_size_2">Автоматический размер шрифта</string>
     <!-- Summary for Accessibility Text Automatic Size Scaling Preference -->
     <string name="preference_accessibility_auto_size_summary">Размер шрифта будет соответствовать настройкам Android. Отключите этот параметр, чтобы управлять размером шрифта здесь.</string>
 
     <!-- Title for the Delete browsing data preference -->
     <string name="preferences_delete_browsing_data">Удаление данных веб-сёрфинга</string>
     <!-- Title for the tabs item in Delete browsing data -->
-    <string name="preferences_delete_browsing_data_tabs_title">Открытые вкладки</string>
+    <string name="preferences_delete_browsing_data_tabs_title_2">Открытые вкладки</string>
     <!-- Subtitle for the tabs item in Delete browsing data, parameter will be replaced with the number of open tabs -->
     <string name="preferences_delete_browsing_data_tabs_subtitle">%d вкладки(ок)</string>
     <!-- Title for the data and history items in Delete browsing data -->
@@ -951,24 +993,26 @@
     <!-- text for the button to manually sign into Firefox account. The word "Firefox" should not be translated -->
     <string name="onboarding_firefox_account_sign_in">Войти в Firefox</string>
     <!-- text for the button to stay signed out when presented with an option to automatically sign-in. -->
-    <string name="onboarding_firefox_account_stay_signed_out">Запомнить меня</string>
+    <string name="onboarding_firefox_account_stay_signed_out">Не входить</string>
     <!-- text to display in the snackbar once account is signed-in -->
     <string name="onboarding_firefox_account_sync_is_on">Началась синхронизация</string>
     <!-- text to display in the snackbar if automatic sign-in fails. user may try again -->
     <string name="onboarding_firefox_account_automatic_signin_failed">Не удалось выполнить вход</string>
     <!-- text for the tracking protection onboarding card header -->
-    <string name="onboarding_tracking_protection_header">Защитите себя</string>
+    <string name="onboarding_tracking_protection_header_2">Автоматическая приватность</string>
     <!-- text for the tracking protection card description
     The first parameter is the name of the app (e.g. Firefox Preview) -->
-    <string name="onboarding_tracking_protection_description1">%s помогает не дать веб-сайтам отслеживать вас в Интернете.</string>
+    <string name="onboarding_tracking_protection_description_2">Настройки конфиденциальности и безопасности блокируют трекеры, вредоносные программы, и компании, которые вас отслеживают.</string>
     <!-- text for tracking protection radio button option for standard level of blocking -->
-    <string name="onboarding_tracking_protection_standard_button">Стандартная</string>
+    <string name="onboarding_tracking_protection_standard_button_2">Стандартная (по умолчанию)</string>
     <!-- text for standard blocking option button description -->
-    <string name="onboarding_tracking_protection_standard_button_description">Блокирует меньше трекеров, но позволяет обеспечить нормальную загрузку страниц</string>
+    <string name="onboarding_tracking_protection_standard_button_description_2">Блокирует меньше трекеров. Страницы будут загружаться нормально.</string>
     <!-- text for tracking protection radio button option for strict level of blocking -->
     <string name="onboarding_tracking_protection_strict_button">Строгая (рекомендуется)</string>
+    <!-- text for tracking protection radio button option for strict level of blocking -->
+    <string name="onboarding_tracking_protection_strict_option">Строгая</string>
     <!-- text for strict blocking option button description -->
-    <string name="onboarding_tracking_protection_strict_button_description">Блокирует больше трекеров для улучшения защиты и производительности, но некоторые сайты могут перестать корректно работать</string>
+    <string name="onboarding_tracking_protection_strict_button_description_2">Блокирует больше трекеров, рекламы и всплывающих окон. Страницы будут грузиться быстрее, но часть функций может не работать.</string>
     <!-- text for the toolbar position card header
         In English this is an idiom for "choose a side as in an argument or fight"
         but it is ok to make this more literally about "choosing a position in a physical space -->
@@ -1056,31 +1100,21 @@
     <!-- Text displayed that links to website about enhanced tracking protection -->
     <string name="preference_enhanced_tracking_protection_explanation_learn_more">Узнать больше</string>
     <!-- Preference for enhanced tracking protection for the standard protection settings -->
-    <string name="preference_enhanced_tracking_protection_standard_option">Стандартная</string>
-    <!-- Preference for enhanced tracking protection for the standard protection settings -->
-    <string name="preference_enhanced_tracking_protection_standard">Стандартная (рекомендуется)</string>
+    <string name="preference_enhanced_tracking_protection_standard_default_1">Стандартная (по умолчанию)</string>
     <!-- Preference description for enhanced tracking protection for the standard protection settings -->
-    <string name="preference_enhanced_tracking_protection_standard_description">Обеспечивает наилучший баланс защиты и производительности.</string>
-    <!-- Preference description for enhanced tracking protection for the standard protection settings -->
-    <string name="preference_enhanced_tracking_protection_standard_description_2">Страницы будут загружаться нормально, но будет блокироваться меньше трекеров.</string>
+    <string name="preference_enhanced_tracking_protection_standard_description_3">Блокирует меньше трекеров. Страницы будут загружаться нормально.</string>
     <!--  Accessibility text for the Standard protection information icon  -->
     <string name="preference_enhanced_tracking_protection_standard_info_button">Что блокируется стандартной защитой от отслеживания</string>
     <!-- Preference for enhanced tracking protection for the strict protection settings -->
     <string name="preference_enhanced_tracking_protection_strict">Строгая</string>
-    <!-- Preference for enhanced tracking protection for the strict protection settings, default setting -->
-    <string name="preference_enhanced_tracking_protection_strict_default">Строгая (по умолчанию)</string>
     <!-- Preference description for enhanced tracking protection for the strict protection settings -->
-    <string name="preference_enhanced_tracking_protection_strict_default_description">Строгая защита от отслеживания с увеличенной производительностью, некоторые сайты могут работать некорректно.</string>
-    <!-- Preference for enhanced tracking protection for the standard protection settings -->
-    <string name="preference_enhanced_tracking_protection_strict_recommended">Строгая (рекомендуется)</string>
-    <!-- Preference description for enhanced tracking protection for the strict protection settings -->
-    <string name="preference_enhanced_tracking_protection_strict_description">Усиленная защита может вызывать проблемы с некоторыми сайтами и их содержимым.</string>
+    <string name="preference_enhanced_tracking_protection_strict_description_2">Блокирует больше трекеров, рекламы и всплывающих окон. Страницы будут грузиться быстрее, но часть функций может не работать.</string>
     <!--  Accessibility text for the Strict protection information icon  -->
     <string name="preference_enhanced_tracking_protection_strict_info_button">Что блокируется строгой защитой от отслеживания</string>
     <!-- Preference for enhanced tracking protection for the custom protection settings -->
     <string name="preference_enhanced_tracking_protection_custom">Персональная</string>
     <!-- Preference description for enhanced tracking protection for the strict protection settings -->
-    <string name="preference_enhanced_tracking_protection_custom_description">Выберите, какие трекеры и скрипты необходимо блокировать</string>
+    <string name="preference_enhanced_tracking_protection_custom_description_2">Выберите, какие трекеры и скрипты необходимо блокировать.</string>
     <!--  Accessibility text for the Strict protection information icon  -->
     <string name="preference_enhanced_tracking_protection_custom_info_button">Что блокируется персональной защитой от отслеживания</string>
     <!-- Header for categories that are being blocked by current Enhanced Tracking Protection settings -->
@@ -1130,7 +1164,7 @@
     <!-- Description of tracking content that can be blocked by Enhanced Tracking Protection -->
     <string name="etp_tracking_content_description">Блокирует загрузку внешней рекламы, видео и другого содержимого, если они содержат отслеживающий код. Может повлиять на работу некоторых веб-сайтов.</string>
     <!-- Enhanced Tracking Protection Onboarding Message shown in a dialog above the toolbar. The first parameter is the name of the application (For example: Fenix) -->
-    <string name="etp_onboarding_message_2">Если %s блокирует трекеры на этом сайте, значок щита становится фиолетовым. Нажмите на него, чтобы увидеть, что блокируется.</string>
+    <string name="etp_onboarding_cfr_message">Фиолетовый цвет щита означает, что %s заблокировал трекеры на сайте. Нажмите, чтобы узнать больше.</string>
     <!-- Enhanced Tracking Protection message that protection is currently on for this site -->
     <string name="etp_panel_on">Защита для этого сайта включена</string>
     <!-- Enhanced Tracking Protection message that protection is currently off for this site -->
@@ -1409,4 +1443,19 @@
     <string name="edit">Редактирование</string>
     <!--  The error message in edit login view when password field is blank. -->
     <string name="saved_login_password_required">Требуется пароль</string>
+    <!-- Voice search button content description  -->
+    <string name="voice_search_content_description">Голосовой поиск</string>
+    <!-- Voice search prompt description displayed after the user presses the voice search button -->
+    <string name="voice_search_explainer">Говорите</string>
+
+    <!-- Synced Tabs -->
+    <!-- Text displayed when user is not logged into a Firefox Account -->
+    <string name="synced_tabs_connect_to_sync_account">Использовать Аккаунт Firefox.</string>
+    <!-- Text displayed to ask user to connect another device as no devices found with account -->
+    <string name="synced_tabs_connect_another_device">Подключить другое устройство.</string>
+    <!-- Text displayed asking user to re-authenticate -->
+    <string name="synced_tabs_reauth">Пожалуйста, авторизуйтесь повторно.</string>
+    <!-- Text displayed when user has disabled tab syncing in Firefox Sync Account -->
+    <string name="synced_tabs_enable_tab_syncing">Пожалуйста, включите синхронизацию вкладок.</string>
+
 </resources>

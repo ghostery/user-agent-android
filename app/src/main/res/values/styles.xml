@@ -72,13 +72,17 @@
         <item name="onboardingDeselected">@color/onboarding_illustration_deselected_normal_theme</item>
         <item name="addOnPrivateBrowsingExteriorCircleBackground">@color/add_on_private_browsing_exterior_circle_background_normal_theme</item>
         <item name="addOnPrivateBrowsingInteriorIconBackground">@color/add_on_private_browsing_interior_icon_background_normal_theme</item>
+        <item name="mozacPromptLoginEditTextCursorColor">@color/prompt_login_edit_text_cursor_color_normal_theme</item>
+        <item name="readerModeStartGradient">@color/readermode_start_gradient_normal_theme</item>
+        <item name="readerModeEndGradient">@color/readermode_end_gradient_normal_theme</item>
 
-        <item name="tabTrayItemText">@color/tab_tray_item_text_normal_theme</item>
-        <item name="tabTrayItemUrl">@color/tab_tray_item_url_normal_theme</item>
+
         <item name="tabTrayItemBackground">@color/tab_tray_item_background_normal_theme</item>
         <item name="tabTrayItemSelectedBackground">@color/tab_tray_item_selected_background_normal_theme</item>
         <item name="tabTrayToolbarBackground">@color/tab_tray_toolbar_background_normal_theme</item>
-        <item name="tabTrayItemDivider">@color/tab_tray_item_divider_normal_theme</item>
+        <item name="tabTrayItemMediaBackground">@color/tab_tray_item_media_background_normal_theme</item>
+        <item name="tabTrayHeadingIcon">@color/tab_tray_heading_icon_normal_theme</item>
+        <item name="tabTrayHeadingIconInactive">@color/tab_tray_heading_icon_inactive_normal_theme</item>
 
         <!-- Drawables -->
         <item name="fenixLogo">@drawable/ic_logo_wordmark_normal</item>
@@ -195,14 +199,15 @@
         <item name="onboardingDeselected">@color/onboarding_illustration_deselected_private_theme</item>
         <item name="addOnPrivateBrowsingExteriorCircleBackground">@color/add_on_private_browsing_exterior_circle_background_private_theme</item>
         <item name="addOnPrivateBrowsingInteriorIconBackground">@color/add_on_private_browsing_interior_icon_background_private_theme</item>
+        <item name="mozacPromptLoginEditTextCursorColor">@color/prompt_login_edit_text_cursor_color_private_theme</item>
 
         <!-- Tab Tray -->
-        <item name="tabTrayItemText">@color/tab_tray_item_text_private_theme</item>
-        <item name="tabTrayItemUrl">@color/tab_tray_item_url_private_theme</item>
-        <item name="tabTrayItemBackground">@color/tab_tray_item_background_private_theme</item>
+        <item name="tabTrayItemBackground">@color/tab_tray_item_background_normal_theme</item>
         <item name="tabTrayItemSelectedBackground">@color/tab_tray_item_selected_background_private_theme</item>
         <item name="tabTrayToolbarBackground">@color/tab_tray_toolbar_background_private_theme</item>
-        <item name="tabTrayItemDivider">@color/tab_tray_item_divider_private_theme</item>
+        <item name="tabTrayItemMediaBackground">@color/tab_tray_item_media_background_private_theme</item>
+        <item name="tabTrayHeadingIcon">@color/tab_tray_heading_icon_dark_theme</item>
+        <item name="tabTrayHeadingIconInactive">@color/tab_tray_heading_icon_inactive_dark_theme</item>
 
         <!-- Drawables -->
         <item name="fenixLogo">@drawable/ic_logo_wordmark_private</item>
@@ -246,8 +251,8 @@
 
     <!-- Ideally we should consolidate this with NeutralButton in the future -->
     <style name="NeutralOnboardingButton" parent="NeutralButton">
+        <item name="android:background">@drawable/onboarding_padded_background</item>
         <item name="backgroundTint">?neutralFaded</item>
-        <item name="android:layout_height">36dp</item>
         <item name="android:textColor">?primaryText</item>
     </style>
 
@@ -264,7 +269,9 @@
 
     <style name="search_pill" parent="Widget.AppCompat.Button.Borderless">
         <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">32dp</item>
+        <item name="android:layout_height">40dp</item>
+        <item name="android:paddingTop">4dp</item>
+        <item name="android:paddingBottom">4dp</item>
         <item name="android:textAllCaps">false</item>
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">@color/toggle_text_color</item>
@@ -526,5 +533,39 @@
 
     <style name="AutoCompleteTextViewStyle" parent="Widget.AppCompat.AutoCompleteTextView">
         <item name="android:textColorHint">@color/search_view_hint_color</item>
+    </style>
+
+    <style name="TabTrayDialogStyle" parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/BottomSheetModal</item>
+<!--        <item name="android:textAppearance">@style/TextAppearance.AppCompat</item>-->
+<!--        <item name="android:colorBackground">?foundation</item>-->
+
+<!--        <item name="android:windowAnimationStyle">@style/Animation.Design.BottomSheetDialog</item>-->
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowTranslucentNavigation">false</item>
+        <item name="android:navigationBarColor">@color/foundation_normal_theme</item>
+    </style>
+
+    <!-- Stuff to make the bottom sheet with round top borders -->
+    <style name="BottomSheetShapeAppearance" parent="ShapeAppearance.MaterialComponents.LargeComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeTopLeft">16dp</item>
+        <item name="cornerSizeTopRight">16dp</item>
+        <item name="colorSurface">@color/photonPurple50</item>
+        <item name="android:backgroundTint">@color/photonPurple50</item>
+        <item name="android:colorBackground">@color/photonPurple50</item>
+    </style>
+
+    <style name="BottomSheetModal" parent="Widget.Design.BottomSheet.Modal">
+        <item name="shapeAppearance">@style/BottomSheetShapeAppearance</item>
+        <item name="behavior_fitToContents">false</item>
+        <item name="behavior_expandedOffset">80</item>
+        <item name="behavior_skipCollapsed">true</item>
+    </style>
+
+    <style name="TabTrayFab" parent="Widget.MaterialComponents.ExtendedFloatingActionButton">
+        <item name="elevation">90dp</item>
+        <item name="android:stateListAnimator">@null</item>
     </style>
 </resources>

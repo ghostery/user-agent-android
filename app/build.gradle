@@ -44,7 +44,7 @@ android {
     def releaseTemplate = {
         shrinkResources true
         minifyEnabled true
-        proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        proguardFiles 'proguard-android-optimize-3.5.0-modified.txt', 'proguard-rules.pro'
         matchingFallbacks = ['release'] // Use on the "release" build type in dependencies (AARs)
     }
 
@@ -375,9 +375,13 @@ android.applicationVariants.all { variant ->
     }
 
     def buildDate = Config.generateBuildDate()
-    buildConfigField 'String', 'BUILD_DATE', '"' + buildDate + '"'
-
-    def variantName = variant.getName()
+    // Setting buildDate with every build changes the generated BuildConfig, which slows down the
+    // build. Only do this for non-debug builds, to speed-up builds produced during local development.
+    if (isDebug) {
+        buildConfigField 'String', 'BUILD_DATE', '"debug build"'
+    } else {
+        buildConfigField 'String', 'BUILD_DATE', '"' + buildDate + '"'
+    }
 
 // -------------------------------------------------------------------------------------------------
 // Adjust: Read token from local file if it exists (Only release builds)
@@ -486,13 +490,14 @@ dependencies {
     implementation Deps.mozilla_browser_awesomebar
     implementation Deps.mozilla_feature_downloads
     implementation Deps.mozilla_browser_domains
-    implementation Deps.mozilla_browser_tabstray
     implementation Deps.mozilla_browser_icons
     implementation Deps.mozilla_browser_menu
     implementation Deps.mozilla_browser_search
     implementation Deps.mozilla_browser_session
     implementation Deps.mozilla_browser_state
     implementation Deps.mozilla_browser_storage_sync
+    implementation Deps.mozilla_browser_tabstray
+    implementation Deps.mozilla_browser_thumbnails
     implementation Deps.mozilla_browser_toolbar
 
     implementation Deps.mozilla_support_extensions
@@ -512,6 +517,7 @@ dependencies {
     implementation Deps.mozilla_feature_qr
     implementation Deps.mozilla_feature_search
     implementation Deps.mozilla_feature_session
+    implementation Deps.mozilla_feature_syncedtabs
     implementation Deps.mozilla_feature_toolbar
     implementation Deps.mozilla_feature_tabs
     implementation Deps.mozilla_feature_findinpage
@@ -523,13 +529,16 @@ dependencies {
     implementation Deps.mozilla_feature_accounts_push
     implementation Deps.mozilla_feature_webcompat
     implementation Deps.mozilla_feature_webnotifications
+    implementation Deps.mozilla_feature_webcompat_reporter
 
+    implementation Deps.mozilla_service_experiments
     implementation Deps.mozilla_service_sync_logins
     implementation Deps.mozilla_service_firefox_accounts
     implementation Deps.mozilla_service_glean
     implementation Deps.mozilla_service_location
 
     implementation Deps.mozilla_support_base
+    implementation Deps.mozilla_support_images
     implementation Deps.mozilla_support_ktx
     implementation Deps.mozilla_support_rustlog
     implementation Deps.mozilla_support_utils
@@ -614,8 +623,6 @@ dependencies {
     testImplementation 'org.apache.maven:maven-ant-tasks:2.1.3'
     implementation Deps.mozilla_support_rusthttp
 
-    testImplementation Deps.mockito_core
-    androidTestImplementation Deps.mockito_android
     testImplementation Deps.mockk
 
     // For the initial release of Glean 19, we require consumer applications to

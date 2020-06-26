@@ -49,14 +49,16 @@
     <attr name="onboardingDeselected" format="reference"/>
     <attr name="addOnPrivateBrowsingExteriorCircleBackground" format="reference"/>
     <attr name="addOnPrivateBrowsingInteriorIconBackground" format="reference"/>
+    <attr name="readerModeStartGradient" format="reference"/>
+    <attr name="readerModeEndGradient" format="reference"/>
 
     <!-- Tab tray -->
-    <attr name="tabTrayItemText" format="reference"/>
-    <attr name="tabTrayItemUrl" format="reference" />
     <attr name="tabTrayItemBackground" format="reference" />
     <attr name="tabTrayItemSelectedBackground" format="reference" />
     <attr name="tabTrayToolbarBackground" format="reference" />
-    <attr name="tabTrayItemDivider" format="reference" />
+    <attr name="tabTrayItemMediaBackground" format="reference" />
+    <attr name="tabTrayHeadingIcon" format="reference" />
+    <attr name="tabTrayHeadingIconInactive" format="reference" />
 
     <declare-styleable name="TrackingProtectionCategory">
         <attr name="categoryItemTitle" format="reference" />

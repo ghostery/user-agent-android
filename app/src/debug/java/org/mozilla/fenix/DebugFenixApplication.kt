@@ -4,17 +4,20 @@
 
 package org.mozilla.fenix
 
+import android.os.StrictMode
 import androidx.preference.PreferenceManager
 import leakcanary.AppWatcher
 import leakcanary.LeakCanary
 import org.mozilla.fenix.ext.getPreferenceKey
+import org.mozilla.fenix.ext.resetPoliciesAfter
 
 class DebugFenixApplication : FenixApplication() {
 
     override fun setupLeakCanary() {
-        val isEnabled = PreferenceManager.getDefaultSharedPreferences(this)
-            .getBoolean(getPreferenceKey(R.string.pref_key_leakcanary), true)
-
+        val isEnabled = StrictMode.allowThreadDiskReads().resetPoliciesAfter {
+            PreferenceManager.getDefaultSharedPreferences(this)
+                .getBoolean(getPreferenceKey(R.string.pref_key_leakcanary), true)
+        }
         updateLeakCanaryState(isEnabled)
     }
 

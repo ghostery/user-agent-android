@@ -62,10 +62,15 @@ job-template:
           default: autograph_apk
     index:
         by-build-type:
-            (fennec-.+|nightly|performance-test|beta|production|debug):
+            (fennec-.+|nightly|performance-test|beta|production|debug|nightly-simulation):
                 type: signing
             default: {}
-    run-on-tasks-for: []
+    run-on-tasks-for:
+        by-build-type:
+            # No test job runs on push against this build type. Although we do want nightly-simulation
+            # signed to use it in the gecko trees.
+            nightly-simulation: [github-push]
+            default: []
     treeherder:
         job-symbol:
             by-build-type:

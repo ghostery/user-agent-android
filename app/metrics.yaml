@@ -11,7 +11,7 @@ events:
   app_opened:
     type: event
     description: |
-      A user opened the app
+      A user opened the app (from cold start, to the homescreen or browser)
     extra_keys:
       source:
         description: |
@@ -19,6 +19,7 @@ events:
           `custom_tab` or `link`
     bugs:
       - https://github.com/mozilla-mobile/fenix/issues/968
+      - https://github.com/mozilla-mobile/fenix/issues/10616
     data_reviews:
       - https://github.com/mozilla-mobile/fenix/pull/1067#issuecomment-474598673
     notification_emails:
@@ -137,6 +138,7 @@ events:
           show_search_shortcuts, open_links_in_a_private_tab (bug in
           implementation https://github.com/mozilla-mobile/fenix/issues/7384),
           pref_key_sync_logins, pref_key_sync_bookmarks, pref_key_sync_history,
+          pref_key_show_voice_search,
           and pref_key_show_search_suggestions_in_private.
       enabled:
         description: "Whether or not the preference is *now* enabled"
@@ -181,6 +183,24 @@ events:
       - https://github.com/mozilla-mobile/fenix/issues/5737
     data_reviews:
       - https://github.com/mozilla-mobile/fenix/pull/5975
+    notification_emails:
+      - fenix-core@mozilla.com
+    expires: "2020-09-01"
+  tab_counter_menu_action:
+    type: event
+    description:
+      A tab counter menu item was tapped
+    extra_keys:
+      item:
+        description: |
+          A string containing the name of the item the user tapped. These items
+          are:
+
+            New tab, New private tab, Close tab
+    bugs:
+      - https://github.com/mozilla-mobile/fenix/issues/11442
+    data_reviews:
+      - https://github.com/mozilla-mobile/fenix/pull/11533
     notification_emails:
       - fenix-core@mozilla.com
     expires: "2020-09-01"
@@ -324,7 +344,11 @@ metrics:
     type: counter
     lifetime: application
     description: |
-      A counter that indicates how many top sites a user has
+      A counter that indicates how many top sites a user has. This value will
+      only be set if the user has at least *one* top site. If they have 0,
+      this ping will not get sent, resulting in a null value. To disambiguate
+      between a failed `top_sites_count` ping and 0 top sites, please see
+      `has_top_sites`.
     send_in_pings:
       - metrics
     bugs:
@@ -475,7 +499,6 @@ metrics:
     notification_emails:
       - fenix-core@mozilla.com
     expires: "2020-09-01"
-
   toolbar_position:
     type: string
     lifetime: application
@@ -490,7 +513,267 @@ metrics:
     notification_emails:
       - fenix-core@mozilla.com
     expires: "2020-09-01"
+  search_widget_installed:
+    type: boolean
+    lifetime: application
+    description: |
+      Whether or not the search widget is installed
+    send_in_pings:
+      - metrics
+    bugs:
+      - https://github.com/mozilla-mobile/fenix/issues/9488
+    data_reviews:
+      - https://github.com/mozilla-mobile/fenix/pull/10958
+    notification_emails:
+      - fenix-core@mozilla.com
+    expires: "2020-09-01"
 
+preferences:
+  show_search_suggestions:
+    type: string_list
+    description: >
+      Whether or not the user has search suggestions enabled
+      default: true
+    send_in_pings:
+      - metrics
+    bugs:
+      - https://github.com/mozilla-mobile/fenix/issues/11118
+    data_reviews:
+      - https://github.com/mozilla-mobile/fenix/pull/11211
+    notification_emails:
+      - fenix-core@mozilla.com
+    expires: "2020-09-01"
+  remote_debugging:
+    type: string_list
+    description: >
+      Whether or not the user has remote debugging enabled
+      default: false
+    send_in_pings:
+      - metrics
+    bugs:
+      - https://github.com/mozilla-mobile/fenix/issues/11118
+    data_reviews:
+      - https://github.com/mozilla-mobile/fenix/pull/11211
+    notification_emails:
+      - fenix-core@mozilla.com
+    expires: "2020-09-01"
+  telemetry:
+    type: string_list
+    description: >
+      Whether or not the user has telemetry enabled. Note we should
+      never receive a "false" value for this since telemetry would
+      not send in that case.
+      default: true
+    send_in_pings:
+      - metrics
+    bugs:
+      - https://github.com/mozilla-mobile/fenix/issues/11118
+    data_reviews:
+      - https://github.com/mozilla-mobile/fenix/pull/11211
+    notification_emails:
+      - fenix-core@mozilla.com
+    expires: "2020-09-01"
+  tracking_protection:
+    type: string_list
+    description: >
+      What type of enhanced tracking protection the user has enabled.
+      "standard," "strict," "custom," or "" (if disabled)
+      default: "standard"
+    send_in_pings:
+      - metrics
+    bugs:
+      - https://github.com/mozilla-mobile/fenix/issues/11118
+    data_reviews:
+      - https://github.com/mozilla-mobile/fenix/pull/11211
+    notification_emails:
+      - fenix-core@mozilla.com
+    expires: "2020-09-01"
+  search_bookmarks:
+    type: string_list
+    description: >
+      Whether or not the user has enabled bookmark search suggestions
+      default: true
+    send_in_pings:
+      - metrics
+    bugs:
+      - https://github.com/mozilla-mobile/fenix/issues/11118
+    data_reviews:
+      - https://github.com/mozilla-mobile/fenix/pull/11211
+    notification_emails:
+      - fenix-core@mozilla.com
+    expires: "2020-09-01"
+  search_browsing_history:
+    type: string_list
+    description: >
+      Whether or not the user has enabled browsing history suggestions.
+      default: true
+    send_in_pings:
+      - metrics
+    bugs:
+      - https://github.com/mozilla-mobile/fenix/issues/11118
+    data_reviews:
+      - https://github.com/mozilla-mobile/fenix/pull/11211
+    notification_emails:
+      - fenix-core@mozilla.com
+    expires: "2020-09-01"
+  show_clipboard_suggestions:
+    type: string_list
+    description: >
+      Whether or not the user has enabled clipboard search suggestions.
+      default: true
+    send_in_pings:
+      - metrics
+    bugs:
+      - https://github.com/mozilla-mobile/fenix/issues/11118
+    data_reviews:
+      - https://github.com/mozilla-mobile/fenix/pull/11211
+    notification_emails:
+      - fenix-core@mozilla.com
+    expires: "2020-09-01"
+  show_search_shortcuts:
+    type: string_list
+    description: >
+      Whether or not the user has enabled search shortcuts.
+      default: true
+    send_in_pings:
+      - metrics
+    bugs:
+      - https://github.com/mozilla-mobile/fenix/issues/11118
+    data_reviews:
+      - https://github.com/mozilla-mobile/fenix/pull/11211
+    notification_emails:
+      - fenix-core@mozilla.com
+    expires: "2020-09-01"
+  open_links_in_a_private_tab:
+    type: string_list
+    description: >
+      Whether or not the user has enabled open links in a private tab.
+      default: false
+    send_in_pings:
+      - metrics
+    bugs:
+      - https://github.com/mozilla-mobile/fenix/issues/11118
+    data_reviews:
+      - https://github.com/mozilla-mobile/fenix/pull/11211
+    notification_emails:
+      - fenix-core@mozilla.com
+    expires: "2020-09-01"
+  sync:
+    type: string_list
+    description: >
+      Whether or not the user is signed into FxA
+      default: false
+    send_in_pings:
+      - metrics
+    bugs:
+      - https://github.com/mozilla-mobile/fenix/issues/11118
+    data_reviews:
+      - https://github.com/mozilla-mobile/fenix/pull/11211
+    notification_emails:
+      - fenix-core@mozilla.com
+    expires: "2020-09-01"
+  sync_items:
+    type: string_list
+    description: >
+      The list of items the user has chosen to sync with FxA.
+      default: "" if the user is signed out. Otherwise defaults to
+      whatever is set in their FxA account. New accounts set:
+      [bookmarks, history, passwords, tabs]
+    send_in_pings:
+      - metrics
+    bugs:
+      - https://github.com/mozilla-mobile/fenix/issues/11118
+    data_reviews:
+      - https://github.com/mozilla-mobile/fenix/pull/11211
+    notification_emails:
+      - fenix-core@mozilla.com
+    expires: "2020-09-01"
+  show_voice_search:
+    type: string_list
+    description: >
+      Whether or not the user has enabled the voice search button.
+      default: true
+    send_in_pings:
+      - metrics
+    bugs:
+      - https://github.com/mozilla-mobile/fenix/issues/11118
+    data_reviews:
+      - https://github.com/mozilla-mobile/fenix/pull/11211
+    notification_emails:
+      - fenix-core@mozilla.com
+    expires: "2020-09-01"
+  search_suggestions_private:
+    type: string_list
+    description: >
+      Whether or not the user has enabled showing search suggestions
+      in private mode.
+      default: false (we prompt the user, asking them to make a selection)
+    send_in_pings:
+      - metrics
+    bugs:
+      - https://github.com/mozilla-mobile/fenix/issues/11118
+    data_reviews:
+      - https://github.com/mozilla-mobile/fenix/pull/11211
+    notification_emails:
+      - fenix-core@mozilla.com
+    expires: "2020-09-01"
+  toolbar_position:
+    type: string_list
+    description: >
+      The position of the toolbar
+      default: bottom (defaults to top if the user has accessibility services)
+    send_in_pings:
+      - metrics
+    bugs:
+      - https://github.com/mozilla-mobile/fenix/issues/11118
+    data_reviews:
+      - https://github.com/mozilla-mobile/fenix/pull/11211
+    notification_emails:
+      - fenix-core@mozilla.com
+    expires: "2020-09-01"
+  accessibility_services:
+    type: string_list
+    description: >
+      Whether or not the user has touch exploration or switch services enabled.
+      These are built into the Android OS, not Fenix prefs.
+      default: ""
+    send_in_pings:
+      - metrics
+    bugs:
+      - https://github.com/mozilla-mobile/fenix/issues/11118
+    data_reviews:
+      - https://github.com/mozilla-mobile/fenix/pull/11211
+    notification_emails:
+      - fenix-core@mozilla.com
+    expires: "2020-09-01"
+  open_links_in_app:
+    type: string_list
+    description: >
+      Whether or not the user has the open links in apps feature enabled.
+      default: false
+    send_in_pings:
+      - metrics
+    bugs:
+      - https://github.com/mozilla-mobile/fenix/issues/11118
+    data_reviews:
+      - https://github.com/mozilla-mobile/fenix/pull/11446
+    notification_emails:
+      - fenix-core@mozilla.com
+    expires: "2020-09-01"
+  theme:
+    type: string_list
+    description: >
+      The theme the user has enabled. "light," "dark," "system," or "battery"
+      default: "system" for API 28+, else "light"
+    send_in_pings:
+      - metrics
+    bugs:
+      - https://github.com/mozilla-mobile/fenix/issues/11118
+    data_reviews:
+      - https://github.com/mozilla-mobile/fenix/pull/11446
+    notification_emails:
+      - fenix-core@mozilla.com
+    expires: "2020-09-01"
 
 search.default_engine:
   code:
@@ -1351,6 +1634,53 @@ search_widget:
       - fenix-core@mozilla.com
     expires: "2020-09-01"
 
+search_widget_cfr:
+  displayed:
+    type: event
+    description: |
+      The search widget cfr was displayed.
+    bugs:
+      - https://github.com/mozilla-mobile/fenix/issues/9488
+    data_reviews:
+      - https://github.com/mozilla-mobile/fenix/pull/10958
+    notification_emails:
+      - fenix-core@mozilla.com
+    expires: "2020-09-01"
+  add_widget_pressed:
+    type: event
+    description: |
+      The user pressed the "add widget" button.
+    bugs:
+      - https://github.com/mozilla-mobile/fenix/issues/9488
+    data_reviews:
+      - https://github.com/mozilla-mobile/fenix/pull/10958
+    notification_emails:
+      - fenix-core@mozilla.com
+    expires: "2020-09-01"
+  not_now_pressed:
+    type: event
+    description: |
+      The user pressed the "not now" button.
+    bugs:
+      - https://github.com/mozilla-mobile/fenix/issues/9488
+    data_reviews:
+      - https://github.com/mozilla-mobile/fenix/pull/10958
+    notification_emails:
+      - fenix-core@mozilla.com
+    expires: "2020-09-01"
+  canceled:
+    type: event
+    description: |
+      The user dismissed the search widget cfr by
+      tapping outside of the prompt
+    bugs:
+      - https://github.com/mozilla-mobile/fenix/issues/9488
+    data_reviews:
+      - https://github.com/mozilla-mobile/fenix/pull/10958
+    notification_emails:
+      - fenix-core@mozilla.com
+    expires: "2020-09-01"
+
 private_browsing_mode:
   garbage_icon:
     type: event
@@ -1472,15 +1802,17 @@ tracking_protection:
   etp_setting_changed:
     type: event
     description: |
-      A user changed their tracking protection level setting to either strict or
-      standard.
+      A user changed their tracking protection level setting to either strict,
+      standard, or custom.
     extra_keys:
       etp_setting:
-        description: "The new setting for ETP: strict, standard"
+        description: "The new setting for ETP: strict, standard, custom"
     bugs:
       - https://github.com/mozilla-mobile/fenix/issues/5312
+      - https://github.com/mozilla-mobile/fenix/issues/11063
     data_reviews:
       - https://github.com/mozilla-mobile/fenix/pull/5414#issuecomment-532847188
+      - https://github.com/mozilla-mobile/fenix/pull/11383
     notification_emails:
       - fenix-core@mozilla.com
     expires: "2020-09-01"
@@ -1826,7 +2158,31 @@ search_suggestions:
       - fenix-core@mozilla.com
     expires: "2020-09-01"
 
+voice_search:
+  tapped:
+    type: event
+    description: |
+      A user selected the voice search button on the search screen.
+    bugs:
+      - https://github.com/mozilla-mobile/fenix/issues/10465
+    data_reviews:
+      - https://github.com/mozilla-mobile/fenix/pull/10785
+    notification_emails:
+      - fenix-core@mozilla.com
+    expires: "2020-09-01"
+
 top_sites:
+  open_default:
+    type: event
+    description: |
+      A user opened a default top site
+    bugs:
+      - https://github.com/mozilla-mobile/fenix/issues/8125
+    data_reviews:
+      - https://github.com/mozilla-mobile/fenix/pull/10752
+    notification_emails:
+      - fenix-core@mozilla.com
+    expires: "2020-09-01"
   open_in_new_tab:
     type: event
     description: |
@@ -1963,11 +2319,11 @@ pocket:
       - fenix-core@mozilla.com
     expires: "2020-09-01"
 
-installation:
+first_session:
   campaign:
     type: string
     send_in_pings:
-      - installation
+      - first-session
     description: |
       The name of the campaign that is responsible for this installation.
     bugs:
@@ -1980,7 +2336,7 @@ installation:
   network:
     type: string
     send_in_pings:
-      - installation
+      - first-session
     description: |
       The name of the Network that sourced this installation.
     bugs:
@@ -1993,7 +2349,7 @@ installation:
   adgroup:
     type: string
     send_in_pings:
-      - installation
+      - first-session
     description: |
       The name of the AdGroup that was used to source this installation.
     bugs:
@@ -2005,7 +2361,7 @@ installation:
     expires: "2020-09-01"
   creative:
     send_in_pings:
-      - installation
+      - first-session
     type: string
     description: |
       The identifier of the creative material that the user interacted with.
@@ -2018,10 +2374,12 @@ installation:
     expires: "2020-09-01"
   timestamp:
     send_in_pings:
-      - installation
+      - first-session
     type: datetime
     description: |
-      The date and time of the installation.
+      The Glean generated date and time of the installation. This is
+      unique per app install, though the rest of the data in this
+      ping is from Adjust and will remain static across installs.
     bugs:
       - https://github.com/mozilla-mobile/fenix/issues/7295
     data_reviews:
@@ -2102,6 +2460,10 @@ addons:
     type: event
     description: |
       A user interacted with an installed add-on in the toolbar menu
+    extra_keys:
+      addon_id:
+        description: |
+          The id of the add-on that was interacted with in the toolbar menu
     bugs:
       - https://github.com/mozilla-mobile/fenix/issues/6174
     data_reviews:
@@ -2132,6 +2494,32 @@ addons:
       - https://github.com/mozilla-mobile/fenix/issues/6174
     data_reviews:
       - https://github.com/mozilla-mobile/fenix/pull/8318
+    notification_emails:
+      - fenix-core@mozilla.com
+    expires: "2020-09-01"
+  installed_addons:
+    type: string_list
+    description: |
+      A list of all installed add-ons on the device.
+    send_in_pings:
+      - metrics
+    bugs:
+      - https://github.com/mozilla-mobile/fenix/issues/8920
+    data_reviews:
+      - https://github.com/mozilla-mobile/fenix/pull/11080
+    notification_emails:
+      - fenix-core@mozilla.com
+    expires: "2020-09-01"
+  enabled_addons:
+    type: string_list
+    description: |
+      A list of all enabled add-ons on the device.
+    send_in_pings:
+      - metrics
+    bugs:
+      - https://github.com/mozilla-mobile/fenix/issues/8920
+    data_reviews:
+      - https://github.com/mozilla-mobile/fenix/pull/11080
     notification_emails:
       - fenix-core@mozilla.com
     expires: "2020-09-01"
@@ -2172,6 +2560,22 @@ startup.timeline:
       - https://github.com/mozilla-mobile/fenix/issues/8803
     data_reviews:
       - https://github.com/mozilla-mobile/fenix/pull/9788#pullrequestreview-394228626
+    notification_emails:
+      - perf-android-fe@mozilla.com
+      - mcomella@mozilla.com
+    expires: "2020-07-15"
+  framework_start_read_error:
+    send_in_pings:
+      - startup-timeline
+    type: boolean
+    description: |
+      An error when attempting to read stats from /proc pseudo-filesystem -
+      privacy managers can block access to reading these files -
+      the application will catch a file reading exception.
+    bugs:
+      - https://github.com/mozilla-mobile/fenix/issues/10434
+    data_reviews:
+      - https://github.com/mozilla-mobile/fenix/pull/10481
     notification_emails:
       - perf-android-fe@mozilla.com
       - mcomella@mozilla.com

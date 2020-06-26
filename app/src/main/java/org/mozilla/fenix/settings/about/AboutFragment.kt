@@ -17,7 +17,9 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 import kotlinx.android.synthetic.main.fragment_about.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import org.mozilla.fenix.BrowserDirection
 import org.mozilla.fenix.BuildConfig
+import org.mozilla.fenix.HomeActivity
 import org.mozilla.fenix.R
 import org.mozilla.fenix.components.metrics.Event
 import org.mozilla.fenix.crashes.CrashListActivity
@@ -109,6 +111,7 @@ class AboutFragment : Fragment(), AboutPageListener {
         val aboutText = try {
             val packageInfo = requireContext().packageManager.getPackageInfo(requireContext().packageName, 0)
             val versionCode = PackageInfoCompat.getLongVersionCode(packageInfo).toString()
+            val componentsAbbreviation = getString(R.string.components_abbreviation)
             val componentsVersion = mozilla.components.Build.version + ", " + mozilla.components.Build.gitHash
             val maybeGecko = getString(R.string.gecko_view_abbreviation)
             val geckoVersion = GeckoViewBuildConfig.MOZ_APP_VERSION + "-" + GeckoViewBuildConfig.MOZ_APP_BUILDID
@@ -116,9 +119,10 @@ class AboutFragment : Fragment(), AboutPageListener {
             val appServicesVersion = mozilla.components.Build.applicationServicesVersion
 
             String.format(
-                "%s (Build #%s)\n%s\n%s: %s\n%s: %s",
+                "%s (Build #%s)\n%s: %s\n%s: %s\n%s: %s",
                 packageInfo.versionName,
                 versionCode,
+                componentsAbbreviation,
                 componentsVersion,
                 maybeGecko,
                 geckoVersion,
@@ -164,7 +168,7 @@ class AboutFragment : Fragment(), AboutPageListener {
             AboutPageItem.Item(
                 AboutItem.ExternalLink(
                     PRIVACY_NOTICE,
-                    SupportUtils.getPrivacyNoticeUrl()
+                    SupportUtils.getMozillaPageUrl(SupportUtils.MozillaPage.PRIVATE_NOTICE)
                 ), getString(R.string.about_privacy_notice)
             ),
             /* Ghostery Begin: Removing "Know your rights" section +/
@@ -186,11 +190,12 @@ class AboutFragment : Fragment(), AboutPageListener {
         )
     }
 
-    private fun openLinkInCustomTab(url: String) {
-        context?.let { context ->
-            val intent = SupportUtils.createCustomTabIntent(context, url)
-            startActivity(intent)
-        }
+    private fun openLinkInNormalTab(url: String) {
+        (activity as HomeActivity).openToBrowserAndLoad(
+            searchTermOrURL = url,
+            newTab = true,
+            from = BrowserDirection.FromAbout
+        )
     }
 
     private fun openLibrariesPage() {
@@ -220,7 +225,7 @@ class AboutFragment : Fragment(), AboutPageListener {
                     }
                 }
 
-                openLinkInCustomTab(item.url)
+                openLinkInNormalTab(item.url)
             }
             is AboutItem.Libraries -> {
                 requireComponents.analytics.metrics.track(Event.LibrariesThatWeUseTapped)

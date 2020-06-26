@@ -36,6 +36,7 @@
     <action android:id="@+id/action_global_deleteBrowsingDataFragment" app:destination="@id/deleteBrowsingDataFragment" />
     <action android:id="@+id/action_global_webExtensionActionPopupFragment" app:destination="@id/webExtensionActionPopupFragment" />
     <action android:id="@+id/action_global_settingsFragment" app:destination="@id/settingsFragment" />
+    <action android:id="@+id/action_global_syncedTabsFragment" app:destination="@+id/syncedTabsFragment" />
     <action android:id="@+id/action_global_privateBrowsingFragment" app:destination="@id/privateBrowsingFragment"/>
     <action android:id="@+id/action_global_bookmarkFragment" app:destination="@id/bookmarkFragment"/>
     <action android:id="@+id/action_global_historyFragment" app:destination="@id/historyFragment"/>
@@ -49,17 +50,12 @@
     <action android:id="@+id/action_global_accountSettingsFragment" app:destination="@id/accountSettingsFragment" />
     <action android:id="@+id/action_global_trackingProtectionPanelDialogFragment" app:destination="@id/trackingProtectionPanelDialogFragment" />
     <action android:id="@+id/action_global_quickSettingsSheetDialogFragment" app:destination="@id/quickSettingsSheetDialogFragment"/>
-    <action android:id="@+id/action_global_tabTrayFragment" app:destination="@id/tabTrayFragment"/>
+    <action android:id="@+id/action_global_tabTrayDialogFragment" app:destination="@id/tabTrayDialogFragment"/>
 
-    <fragment
-        android:id="@+id/tabTrayFragment"
-        android:name="org.mozilla.fenix.tabtray.TabTrayFragment">
-        <action
-            android:id="@+id/action_tabTrayFragment_to_createCollectionFragment"
-            app:destination="@+id/collectionCreationFragment"
-            app:exitAnim="@anim/fade_out"
-            app:popEnterAnim="@anim/fade_in" />
-    </fragment>
+    <dialog
+        android:id="@+id/tabTrayDialogFragment"
+        android:name="org.mozilla.fenix.tabtray.TabTrayDialogFragment"
+        tools:layout="@layout/fragment_tab_tray_dialog"/>
 
     <fragment
         android:id="@+id/homeFragment"
@@ -70,9 +66,16 @@
             app:destination="@id/browserFragment"
             app:exitAnim="@anim/zoom_in_fade"
             app:popEnterAnim="@anim/zoom_out_fade" />
-        <action
-            android:id="@+id/action_homeFragment_to_createCollectionFragment"
-            app:destination="@id/collectionCreationFragment" />
+
+        <argument
+            android:name="focusOnAddressBar"
+            android:defaultValue="false"
+            app:argType="boolean" />
+        <argument
+            android:name="session_to_delete"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="@null" />
     </fragment>
 
     <fragment
@@ -99,8 +102,8 @@
         android:name="org.mozilla.fenix.settings.sitepermissions.SitePermissionsManagePhoneFeatureFragment"
         tools:layout="@layout/fragment_manage_site_permissions_feature_phone">
         <argument
-            android:name="permission"
-            app:argType="integer" />
+            android:name="phoneFeature"
+            app:argType="org.mozilla.fenix.settings.PhoneFeature" />
     </fragment>
 
     <fragment
@@ -132,8 +135,8 @@
         android:name="org.mozilla.fenix.settings.sitepermissions.SitePermissionsManageExceptionsPhoneFeatureFragment"
         tools:layout="@layout/fragment_manage_site_permissions_feature_phone">
         <argument
-            android:name="phoneFeatureId"
-            app:argType="integer" />
+            android:name="phoneFeature"
+            app:argType="org.mozilla.fenix.settings.PhoneFeature" />
         <argument
             android:name="sitePermissions"
             app:argType="mozilla.components.feature.sitepermissions.SitePermissions" />
@@ -157,6 +160,9 @@
             android:name="shouldAnimate"
             app:argType="boolean"
             android:defaultValue="false" />
+        <action
+            android:id="@+id/action_browserFragment_to_syncedTabsFragment"
+            app:destination="@id/syncedTabsFragment" />
         <action
             android:id="@+id/action_browserFragment_to_settingsFragment"
             app:destination="@id/settingsFragment" />
@@ -304,6 +310,13 @@
     </fragment>
 
     <fragment
+        android:id="@+id/syncedTabsFragment"
+        android:name="org.mozilla.fenix.sync.SyncedTabsFragment"
+        android:label="@string/synced_tabs"
+        tools:layout="@layout/fragment_synced_tabs">
+    </fragment>
+
+    <fragment
         android:id="@+id/loginDetailFragment"
         android:name="org.mozilla.fenix.settings.logins.LoginDetailFragment"
         tools:layout="@layout/fragment_login_detail">
@@ -443,13 +456,6 @@
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right"
             app:destination="@id/deleteBrowsingDataOnQuitFragment" />
-        <action
-            android:id="@+id/action_settingsFragment_to_defaultBrowserSettingsFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"
-            app:destination="@id/defaultBrowserSettingsFragment" />
         <action
             android:id="@+id/action_settingsFragment_to_localeSettingsFragment"
             app:enterAnim="@anim/slide_in_right"
@@ -601,10 +607,6 @@
             android:defaultValue="-1L"
             app:argType="long" />
         <argument
-            android:name="previousFragmentId"
-            app:argType="reference"
-            app:nullable="false" />
-        <argument
             android:name="saveCollectionStep"
             app:argType="org.mozilla.fenix.collections.SaveCollectionStep"
             app:nullable="false" />
@@ -697,10 +699,11 @@
     </dialog>
     <fragment
         android:id="@+id/trackingProtectionBlockingFragment"
-        android:name="org.mozilla.fenix.trackingprotection.TrackingProtectionBlockingFragment">
+        android:name="org.mozilla.fenix.trackingprotection.TrackingProtectionBlockingFragment"
+        tools:layout="@layout/fragment_tracking_protection_blocking">
         <argument
             android:name="protectionMode"
-            app:argType="string" />
+            app:argType="org.mozilla.fenix.trackingprotection.TrackingProtectionMode" />
     </fragment>
     <fragment
         android:id="@+id/deleteBrowsingDataOnQuitFragment"
@@ -709,9 +712,6 @@
     <fragment
         android:id="@+id/addNewDeviceFragment"
         android:name="org.mozilla.fenix.share.AddNewDeviceFragment" />
-    <fragment
-        android:id="@+id/defaultBrowserSettingsFragment"
-        android:name="org.mozilla.fenix.settings.DefaultBrowserSettingsFragment"/>
     <fragment
         android:id="@+id/addSearchEngineFragment"
         android:name="org.mozilla.fenix.settings.search.AddSearchEngineFragment" />

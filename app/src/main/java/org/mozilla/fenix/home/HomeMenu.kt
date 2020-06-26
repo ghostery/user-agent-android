@@ -8,6 +8,9 @@ import android.content.Context
 import androidx.core.content.ContextCompat.getColor
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import mozilla.components.browser.menu.BrowserMenuBuilder
 import mozilla.components.browser.menu.BrowserMenuHighlight
 import mozilla.components.browser.menu.ext.getHighlight
@@ -18,6 +21,7 @@ import mozilla.components.concept.sync.AccountObserver
 import mozilla.components.concept.sync.AuthType
 import mozilla.components.concept.sync.OAuthAccount
 import mozilla.components.support.ktx.android.content.getColorFromAttr
+import org.mozilla.fenix.FeatureFlags
 import org.mozilla.fenix.R
 import org.mozilla.fenix.ext.components
 import org.mozilla.fenix.ext.settings
@@ -35,7 +39,9 @@ class HomeMenu(
     sealed class Item {
         object WhatsNew : Item()
         object Help : Item()
+        object AddonsManager : Item()
         object Settings : Item()
+        object SyncedTabs : Item()
         object History : Item()
         object Bookmarks : Item()
         object Quit : Item()
@@ -94,7 +100,7 @@ class HomeMenu(
         /+ Ghostery End */
         val bookmarksItem = BrowserMenuImageText(
             context.getString(R.string.library_bookmarks),
-            R.drawable.ic_bookmark_outline,
+            R.drawable.ic_bookmark_filled,
             primaryTextColor
         ) {
             onItemTapped.invoke(Item.Bookmarks)
@@ -108,6 +114,16 @@ class HomeMenu(
             onItemTapped.invoke(Item.History)
         }
 
+        /* Ghostery Begin: removing addons support +/
+        val addons = BrowserMenuImageText(
+            context.getString(R.string.browser_menu_add_ons),
+            R.drawable.mozac_ic_extensions,
+            primaryTextColor
+        ) {
+            onItemTapped.invoke(Item.AddonsManager)
+        }
+        /+ Ghostery End */
+
         val settingsItem = BrowserMenuImageText(
             context.getString(R.string.browser_menu_settings),
             R.drawable.ic_settings,
@@ -116,6 +132,17 @@ class HomeMenu(
             onItemTapped.invoke(Item.Settings)
         }
 
+        /* Ghostery Begin: Disabling synced tabs +/
+        val syncedTabsItem = BrowserMenuImageText(
+            context.getString(R.string.library_synced_tabs),
+            R.drawable.ic_synced_tabs,
+            primaryTextColor
+        ) {
+            onItemTapped.invoke(Item.SyncedTabs)
+        }
+        /+ Ghostery End */
+
+        /* Ghostery Begin: removing help menu entry and account auth +/
         val helpItem = BrowserMenuImageText(
             context.getString(R.string.browser_menu_help),
             R.drawable.ic_help,
@@ -131,17 +158,21 @@ class HomeMenu(
         } else {
             null
         }
+        /+ Ghostery End */
 
         if (shouldUseBottomToolbar) {
             listOfNotNull(
-                accountAuthItem,
-                // Ghostery: Removing "what's new" - whatsNewItem,
+                // Ghostery - accountAuthItem,
+                // Ghostery - helpItem,
+                // Ghostery - whatsNewItem,
+                // Ghostery - BrowserMenuDivider(),
+                // Ghostery - addons,
                 BrowserMenuDivider(),
-                bookmarksItem,
                 historyItem,
+                bookmarksItem,
+                // Ghostery - if (FeatureFlags.syncedTabs) syncedTabsItem else null,
                 BrowserMenuDivider(),
                 settingsItem,
-                helpItem,
                 if (Settings.getInstance(context).shouldDeleteBrowsingDataOnQuit) quitItem else null
             ).also { items ->
                 items.getHighlight()?.let { onHighlightPresent(it) }
@@ -149,14 +180,17 @@ class HomeMenu(
         } else {
             listOfNotNull(
                 if (Settings.getInstance(context).shouldDeleteBrowsingDataOnQuit) quitItem else null,
-                helpItem,
                 settingsItem,
-                accountAuthItem,
                 BrowserMenuDivider(),
+                // Ghostery - if (FeatureFlags.syncedTabs) syncedTabsItem else null,
                 bookmarksItem,
-                historyItem,
-                BrowserMenuDivider() //,
-                // Ghostery: Removing "what's new" - whatsNewItem
+                historyItem //,
+                // Ghostery - BrowserMenuDivider(),
+                // Ghostery - addons,
+                // Ghostery - BrowserMenuDivider(),
+                // Ghostery - whatsNewItem,
+                // Ghostery - helpItem,
+                // Ghostery - accountAuthItem
             ).also { items ->
                 items.getHighlight()?.let { onHighlightPresent(it) }
             }
@@ -175,21 +209,31 @@ class HomeMenu(
             }
             context.components.backgroundServices.accountManager.register(object : AccountObserver {
                 override fun onAuthenticationProblems() {
-                    onMenuBuilderChanged(BrowserMenuBuilder(
-                        listOf(reconnectToSyncItem) + coreMenuItems
-                    ))
+                    lifecycleOwner.lifecycleScope.launch(Dispatchers.Main) {
+                        onMenuBuilderChanged(BrowserMenuBuilder(
+                            listOf(reconnectToSyncItem) + coreMenuItems
+                        ))
+                    }
                 }
 
                 override fun onAuthenticated(account: OAuthAccount, authType: AuthType) {
-                    onMenuBuilderChanged(BrowserMenuBuilder(
-                        coreMenuItems
-                    ))
+                    lifecycleOwner.lifecycleScope.launch(Dispatchers.Main) {
+                        onMenuBuilderChanged(
+                            BrowserMenuBuilder(
+                                coreMenuItems
+                            )
+                        )
+                    }
                 }
 
                 override fun onLoggedOut() {
-                    onMenuBuilderChanged(BrowserMenuBuilder(
-                        coreMenuItems
-                    ))
+                    lifecycleOwner.lifecycleScope.launch(Dispatchers.Main) {
+                        onMenuBuilderChanged(
+                            BrowserMenuBuilder(
+                                coreMenuItems
+                            )
+                        )
+                    }
                 }
             }, lifecycleOwner)
         }

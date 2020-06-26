@@ -9,6 +9,8 @@ import android.app.Application
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
+import android.content.pm.ShortcutManager
+import android.os.Build
 import android.view.accessibility.AccessibilityManager
 import androidx.annotation.VisibleForTesting
 import androidx.annotation.VisibleForTesting.PRIVATE
@@ -24,7 +26,6 @@ import mozilla.components.support.ktx.android.content.longPreference
 import mozilla.components.support.ktx.android.content.stringPreference
 import org.mozilla.fenix.BuildConfig
 import org.mozilla.fenix.Config
-import org.mozilla.fenix.FeatureFlags
 import org.mozilla.fenix.R
 import org.mozilla.fenix.browser.browsingmode.BrowsingMode
 import org.mozilla.fenix.components.metrics.MozillaProductDetector
@@ -54,6 +55,7 @@ class Settings private constructor(
         const val trackingProtectionOnboardingMaximumCount = 1
         const val FENIX_PREFERENCES = "fenix_preferences"
 
+        private const val showSearchWidgetCFRMaxCount = 3
         private const val BLOCKED_INT = 0
         private const val ASK_TO_ALLOW_INT = 1
         private const val ALLOWED_INT = 2
@@ -139,7 +141,7 @@ class Settings private constructor(
 
     var allowScreenshotsInPrivateMode by booleanPreference(
         appContext.getPreferenceKey(R.string.pref_key_allow_screenshots_in_private_mode),
-        default = true
+        default = false
     )
 
     // If any of the prefs have been modified, quit displaying the fenix moved tip
@@ -147,6 +149,75 @@ class Settings private constructor(
         preferences.getBoolean(appContext.getString(R.string.pref_key_migrating_from_fenix_nightly_tip), true) &&
             preferences.getBoolean(appContext.getString(R.string.pref_key_migrating_from_firefox_nightly_tip), true) &&
             preferences.getBoolean(appContext.getString(R.string.pref_key_migrating_from_fenix_tip), true)
+
+    private val activeSearchCount by intPreference(
+        appContext.getPreferenceKey(R.string.pref_key_search_count),
+        default = 0
+    )
+
+    fun incrementActiveSearchCount() {
+        preferences.edit().putInt(
+            appContext.getPreferenceKey(R.string.pref_key_search_count),
+            activeSearchCount + 1
+        ).apply()
+    }
+
+    private val isActiveSearcher: Boolean
+        get() = activeSearchCount > 2
+
+    fun shouldDisplaySearchWidgetCFR(): Boolean =
+        isActiveSearcher &&
+        searchWidgetCFRDismissCount < showSearchWidgetCFRMaxCount &&
+        !searchWidgetInstalled &&
+        !searchWidgetCFRManuallyDismissed
+
+    private val searchWidgetCFRDisplayCount by intPreference(
+        appContext.getPreferenceKey(R.string.pref_key_search_widget_cfr_display_count),
+        default = 0
+    )
+
+    fun incrementSearchWidgetCFRDisplayed() {
+        preferences.edit().putInt(
+            appContext.getPreferenceKey(R.string.pref_key_search_widget_cfr_display_count),
+            searchWidgetCFRDisplayCount + 1
+        ).apply()
+    }
+
+    private val searchWidgetCFRManuallyDismissed by booleanPreference(
+        appContext.getPreferenceKey(R.string.pref_key_search_widget_cfr_manually_dismissed),
+        default = false
+    )
+
+    fun manuallyDismissSearchWidgetCFR() {
+        preferences.edit().putBoolean(
+            appContext.getPreferenceKey(R.string.pref_key_search_widget_cfr_manually_dismissed),
+            true
+        ).apply()
+    }
+
+    private val searchWidgetCFRDismissCount by intPreference(
+        appContext.getPreferenceKey(R.string.pref_key_search_widget_cfr_dismiss_count),
+        default = 0
+    )
+
+    fun incrementSearchWidgetCFRDismissed() {
+        preferences.edit().putInt(
+            appContext.getPreferenceKey(R.string.pref_key_search_widget_cfr_dismiss_count),
+            searchWidgetCFRDismissCount + 1
+        ).apply()
+    }
+
+    val isInSearchWidgetExperiment by booleanPreference(
+        appContext.getPreferenceKey(R.string.pref_key_is_in_search_widget_experiment),
+        default = false
+    )
+
+    fun setSearchWidgetExperiment(value: Boolean) {
+        preferences.edit().putBoolean(
+            appContext.getPreferenceKey(R.string.pref_key_is_in_search_widget_experiment),
+            value
+        ).apply()
+    }
 
     var defaultSearchEngineName by stringPreference(
         appContext.getPreferenceKey(R.string.pref_key_search_engine),
@@ -271,6 +342,11 @@ class Settings private constructor(
         default = false
     )
 
+    val useStandardTrackingProtection by booleanPreference(
+        appContext.getPreferenceKey(R.string.pref_key_tracking_protection_standard_option),
+        true
+    )
+
     val useStrictTrackingProtection by booleanPreference(
         appContext.getPreferenceKey(R.string.pref_key_tracking_protection_strict_default),
         false
@@ -375,7 +451,7 @@ class Settings private constructor(
      * Check each active accessibility service to see if it can perform gestures, if any can,
      * then it is *likely* a switch service is enabled. We are assuming this to be the case based on #7486
      */
-    private val switchServiceIsEnabled: Boolean
+    val switchServiceIsEnabled: Boolean
         get() {
             val accessibilityManager =
                 appContext.getSystemService(Context.ACCESSIBILITY_SERVICE) as? AccessibilityManager
@@ -391,7 +467,7 @@ class Settings private constructor(
             return false
         }
 
-    private val touchExplorationIsEnabled: Boolean
+    val touchExplorationIsEnabled: Boolean
         get() {
             val accessibilityManager =
                 appContext.getSystemService(Context.ACCESSIBILITY_SERVICE) as? AccessibilityManager
@@ -473,9 +549,24 @@ class Settings private constructor(
         default = false
     )
 
-    var shouldShowFirstTimePwaFragment by booleanPreference(
-        appContext.getPreferenceKey(R.string.pref_key_show_first_time_pwa),
-        default = true
+    val shouldShowFirstTimePwaFragment: Boolean
+        get() {
+            // ShortcutManager::pinnedShortcuts is only available on Oreo+
+            if (!userKnowsAboutPWAs && Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                val alreadyHavePWaInstalled =
+                    appContext.getSystemService(ShortcutManager::class.java)
+                        .pinnedShortcuts.size > 0
+
+                // Users know about PWAs onboarding if they already have PWAs installed.
+                userKnowsAboutPWAs = alreadyHavePWaInstalled
+            }
+            // Show dialog only if user does not know abut PWAs
+            return !userKnowsAboutPWAs
+        }
+
+    var userKnowsAboutPWAs by booleanPreference(
+        appContext.getPreferenceKey(R.string.pref_key_user_knows_about_pwa),
+        default = false
     )
 
     @VisibleForTesting(otherwise = PRIVATE)
@@ -578,6 +669,11 @@ class Settings private constructor(
     ) */
     /* Ghostery End */
 
+    var shouldShowVoiceSearch by booleanPreference(
+        appContext.getPreferenceKey(R.string.pref_key_show_voice_search),
+        default = true
+    )
+
     var fxaSignedIn by booleanPreference(
         appContext.getPreferenceKey(R.string.pref_key_fxa_signed_in),
         default = false
@@ -662,17 +758,6 @@ class Settings private constructor(
         appContext.getPreferenceKey(R.string.pref_key_top_sites_size),
         default = 0
     )
-
-    var useNewTabTray: Boolean
-        get() = preferences.let {
-            val prefKey = appContext.getPreferenceKey(R.string.pref_key_enable_new_tab_tray)
-            val useNewTabTray = it.getBoolean(prefKey, false)
-            FeatureFlags.tabTray && useNewTabTray }
-        set(value) {
-            preferences.edit()
-                .putBoolean(appContext.getPreferenceKey(R.string.pref_key_enable_new_tab_tray), value)
-                .apply()
-        }
 
     private var savedLoginsSortingStrategyString by stringPreference(
         appContext.getPreferenceKey(R.string.pref_key_saved_logins_sorting_strategy),

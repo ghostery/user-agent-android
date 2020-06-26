@@ -12,6 +12,10 @@ open class BrowserInteractor(
         browserToolbarController.handleTabCounterClick()
     }
 
+    override fun onTabCounterMenuItemTapped(item: TabCounterMenuItem) {
+        browserToolbarController.handleTabCounterItemInteraction(item)
+    }
+
     override fun onBrowserToolbarPaste(text: String) {
         browserToolbarController.handleToolbarPaste(text)
     }
@@ -34,5 +38,9 @@ open class BrowserInteractor(
 
     override fun onScrolled(offset: Int) {
         browserToolbarController.handleScroll(offset)
+    }
+
+    override fun onReaderModePressed(enabled: Boolean) {
+        browserToolbarController.handleReaderModePressed(enabled)
     }
 }

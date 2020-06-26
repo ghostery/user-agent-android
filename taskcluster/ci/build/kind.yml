@@ -104,6 +104,18 @@ jobs:
         treeherder:
             symbol: nightly(B)
 
+    nightly-simulation:
+        attributes:
+            nightly: false
+        run-on-tasks-for: [github-push]
+        include-nightly-version: true
+        include-shippable-secrets: true
+        run:
+            geckoview-engine: geckoNightly
+            gradle-build-type: fennecNightly
+        treeherder:
+            symbol: nightlySim(B)
+
     beta:
         attributes:
             release-type: beta
@@ -155,13 +167,10 @@ jobs:
 
     fennec-production:
         attributes:
-            # TODO replace `nightly: true` by `release-type: production` once the data migration
-            # testing is over
-            # TODO when making the above change, uncomment `filter-incomplete-translations: true`
-            nightly: true
+            release-type: production
         include-release-version: true
         include-shippable-secrets: true
-#        filter-incomplete-translations: true
+        filter-incomplete-translations: true
         run:
             geckoview-engine: geckoBeta
             gradle-build-type: fennecProduction

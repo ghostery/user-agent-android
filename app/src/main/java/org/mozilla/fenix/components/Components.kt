@@ -37,7 +37,8 @@ class Components(private val context: Context) {
             analytics.crashReporter,
             core.lazyHistoryStorage,
             core.lazyBookmarksStorage,
-            core.lazyPasswordsStorage
+            core.lazyPasswordsStorage,
+            core.lazyRemoteTabsStorage
         )
     }
     val services by lazy { Services(context, backgroundServices.accountManager) }
@@ -46,11 +47,12 @@ class Components(private val context: Context) {
     val useCases by lazy {
         UseCases(
             context,
+            core.engine,
             core.sessionManager,
             core.store,
-            core.engine.settings,
             search.searchEngineManager,
-            core.webAppShortcutManager
+            core.webAppShortcutManager,
+            core.thumbnailStorage
         )
     }
     val intentProcessors by lazy {
@@ -86,7 +88,7 @@ class Components(private val context: Context) {
 
     @Suppress("MagicNumber")
     val supportedAddonsChecker by lazy {
-        DefaultSupportedAddonsChecker(context, SupportedAddonsChecker.Frequency(16, TimeUnit.MINUTES),
+        DefaultSupportedAddonsChecker(context, SupportedAddonsChecker.Frequency(12, TimeUnit.HOURS),
             onNotificationClickIntent = Intent(context, HomeActivity::class.java).apply {
                 action = Intent.ACTION_VIEW
                 flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK

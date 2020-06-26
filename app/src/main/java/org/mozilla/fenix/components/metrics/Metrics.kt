@@ -13,9 +13,9 @@ import mozilla.components.browser.toolbar.facts.ToolbarFacts
 import mozilla.components.concept.awesomebar.AwesomeBar
 import mozilla.components.feature.awesomebar.provider.BookmarksStorageSuggestionProvider
 import mozilla.components.feature.awesomebar.provider.ClipboardSuggestionProvider
+import mozilla.components.feature.awesomebar.provider.HistoryStorageSuggestionProvider
 import mozilla.components.feature.awesomebar.provider.SearchSuggestionProvider
 import mozilla.components.feature.awesomebar.provider.SessionSuggestionProvider
-import mozilla.components.feature.awesomebar.provider.HistoryStorageSuggestionProvider
 import mozilla.components.feature.contextmenu.facts.ContextMenuFacts
 import mozilla.components.feature.customtabs.CustomTabsFacts
 import mozilla.components.feature.downloads.facts.DownloadsFacts
@@ -99,6 +99,7 @@ sealed class Event {
     object HistoryAllItemsRemoved : Event()
     object ReaderModeAvailable : Event()
     object ReaderModeOpened : Event()
+    object ReaderModeClosed : Event()
     object ReaderModeAppearanceOpened : Event()
     object CollectionRenamed : Event()
     object CollectionTabRestored : Event()
@@ -140,6 +141,7 @@ sealed class Event {
     object NotificationDownloadTryAgain : Event()
     object NotificationMediaPlay : Event()
     object NotificationMediaPause : Event()
+    object TopSiteOpenDefault : Event()
     object TopSiteOpenInNewTab : Event()
     object TopSiteOpenInPrivateTab : Event()
     object TopSiteRemoved : Event()
@@ -165,7 +167,11 @@ sealed class Event {
     object PocketTopSiteRemoved : Event()
     object FennecToFenixMigrated : Event()
     object AddonsOpenInSettings : Event()
-    object AddonsOpenInToolbarMenu : Event()
+    object VoiceSearchTapped : Event()
+    object SearchWidgetCFRDisplayed : Event()
+    object SearchWidgetCFRCanceled : Event()
+    object SearchWidgetCFRNotNowPressed : Event()
+    object SearchWidgetCFRAddWidgetPressed : Event()
 
     // Interaction events with extras
 
@@ -187,6 +193,7 @@ sealed class Event {
             context.getString(R.string.pref_key_sync_logins),
             context.getString(R.string.pref_key_sync_bookmarks),
             context.getString(R.string.pref_key_sync_history),
+            context.getString(R.string.pref_key_show_voice_search),
             context.getString(R.string.pref_key_show_search_suggestions_in_private)
         )
 
@@ -200,6 +207,11 @@ sealed class Event {
             // If the event is not in the allow list, we don't want to track it
             require(booleanPreferenceTelemetryAllowList.contains(preferenceKey))
         }
+    }
+
+    data class AddonsOpenInToolbarMenu(val addonId: String) : Event() {
+        override val extras: Map<Addons.openAddonInToolbarMenuKeys, String>?
+            get() = hashMapOf(Addons.openAddonInToolbarMenuKeys.addonId to addonId)
     }
 
     data class TipDisplayed(val identifier: String) : Event() {
@@ -232,7 +244,7 @@ sealed class Event {
     }
 
     data class TrackingProtectionSettingChanged(val setting: Setting) : Event() {
-        enum class Setting { STRICT, STANDARD }
+        enum class Setting { STRICT, STANDARD, CUSTOM }
 
         override val extras: Map<TrackingProtection.etpSettingChangedKeys, String>?
             get() = hashMapOf(TrackingProtection.etpSettingChangedKeys.etpSetting to setting.name)
@@ -409,14 +421,23 @@ sealed class Event {
     data class BrowserMenuItemTapped(val item: Item) : Event() {
         enum class Item {
             SETTINGS, HELP, DESKTOP_VIEW_ON, DESKTOP_VIEW_OFF, FIND_IN_PAGE, NEW_TAB,
-            NEW_PRIVATE_TAB, SHARE, REPORT_SITE_ISSUE, BACK, FORWARD, RELOAD, STOP, OPEN_IN_FENIX,
+            NEW_PRIVATE_TAB, SHARE, BACK, FORWARD, RELOAD, STOP, OPEN_IN_FENIX,
             SAVE_TO_COLLECTION, ADD_TO_TOP_SITES, ADD_TO_HOMESCREEN, QUIT, READER_MODE_ON,
             READER_MODE_OFF, OPEN_IN_APP, BOOKMARK, READER_MODE_APPEARANCE, ADDONS_MANAGER,
-            BOOKMARKS, HISTORY
+            BOOKMARKS, HISTORY, SYNC_TABS
         }
 
         override val extras: Map<Events.browserMenuActionKeys, String>?
             get() = mapOf(Events.browserMenuActionKeys.item to item.toString().toLowerCase(Locale.ROOT))
+    }
+
+    data class TabCounterMenuItemTapped(val item: Item) : Event() {
+        enum class Item {
+            NEW_TAB, NEW_PRIVATE_TAB, CLOSE_TAB
+        }
+
+        override val extras: Map<Events.tabCounterMenuActionKeys, String>?
+            get() = mapOf(Events.tabCounterMenuActionKeys.item to item.toString().toLowerCase(Locale.ROOT))
     }
 
     sealed class Search
@@ -435,7 +456,9 @@ private fun Fact.toEvent(): Event? = when (Pair(component, item)) {
     Component.BROWSER_TOOLBAR to ToolbarFacts.Items.MENU -> {
         metadata?.get("customTab")?.let { Event.CustomTabsMenuOpened }
     }
-    Component.BROWSER_MENU to BrowserMenuFacts.Items.WEB_EXTENSION_MENU_ITEM -> Event.AddonsOpenInToolbarMenu
+    Component.BROWSER_MENU to BrowserMenuFacts.Items.WEB_EXTENSION_MENU_ITEM -> {
+        metadata?.get("id")?.let { Event.AddonsOpenInToolbarMenu(it.toString()) }
+    }
     Component.FEATURE_CUSTOMTABS to CustomTabsFacts.Items.CLOSE -> Event.CustomTabsClosed
     Component.FEATURE_CUSTOMTABS to CustomTabsFacts.Items.ACTION_BUTTON -> Event.CustomTabsActionTapped
 
@@ -468,12 +491,14 @@ private fun Fact.toEvent(): Event? = when (Pair(component, item)) {
     Component.SUPPORT_WEBEXTENSIONS to WebExtensionFacts.Items.WEB_EXTENSIONS_INITIALIZED -> {
         metadata?.get("installed")?.let { installedAddons ->
             if (installedAddons is List<*>) {
+                Addons.installedAddons.set(installedAddons.map { it.toString() })
                 Addons.hasInstalledAddons.set(installedAddons.size > 0)
             }
         }
 
         metadata?.get("enabled")?.let { enabledAddons ->
             if (enabledAddons is List<*>) {
+                Addons.enabledAddons.set(enabledAddons.map { it.toString() })
                 Addons.hasEnabledAddons.set(enabledAddons.size > 0)
             }
         }

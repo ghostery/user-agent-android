@@ -9,14 +9,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.appcompat.content.res.AppCompatResources
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.android.synthetic.main.fragment_browser.*
 import kotlinx.android.synthetic.main.fragment_browser.view.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import mozilla.components.browser.session.Session
+import mozilla.components.browser.state.selector.findTab
+import mozilla.components.browser.toolbar.BrowserToolbar
 import mozilla.components.feature.app.links.AppLinksUseCases
 import mozilla.components.feature.contextmenu.ContextMenuCandidate
 import mozilla.components.feature.readerview.ReaderViewFeature
@@ -27,7 +29,6 @@ import mozilla.components.feature.tab.collections.TabCollection
 import mozilla.components.feature.tabs.WindowFeature
 import mozilla.components.support.base.feature.UserInteractionHandler
 import mozilla.components.support.base.feature.ViewBoundFeatureWrapper
-import org.mozilla.fenix.FeatureFlags
 import org.mozilla.fenix.HomeActivity
 import org.mozilla.fenix.R
 import org.mozilla.fenix.addons.runIfFragmentIsAttached
@@ -52,6 +53,8 @@ class BrowserFragment : BaseBrowserFragment(), UserInteractionHandler {
     private val windowFeature = ViewBoundFeatureWrapper<WindowFeature>()
     private val searchFeature = ViewBoundFeatureWrapper<SearchFeature>()
 
+    private var readerModeAvailable = false
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -68,17 +71,40 @@ class BrowserFragment : BaseBrowserFragment(), UserInteractionHandler {
         val components = context.components
 
         return super.initializeUI(view)?.also {
+            val readerModeAction =
+                BrowserToolbar.ToggleButton(
+                    image = ContextCompat.getDrawable(requireContext(), R.drawable.ic_readermode)!!,
+                    imageSelected =
+                        AppCompatResources.getDrawable(requireContext(), R.drawable.ic_readermode_selected)!!,
+                    contentDescription = requireContext().getString(R.string.browser_menu_read),
+                    contentDescriptionSelected = requireContext().getString(R.string.browser_menu_read_close),
+                    visible = {
+                        readerModeAvailable
+                    },
+                    selected = getSessionById()?.let {
+                            activity?.components?.core?.store?.state?.findTab(it.id)?.readerState?.active
+                        } ?: false,
+                    listener = browserInteractor::onReaderModePressed
+                )
+
+            browserToolbarView.view.addPageAction(readerModeAction)
+
             readerViewFeature.set(
                 feature = ReaderViewFeature(
                     context,
                     components.core.engine,
                     components.core.store,
                     view.readerViewControlsBar
-                ) { available, _ ->
+                ) { available, active ->
                     if (available) {
                         components.analytics.metrics.track(Event.ReaderModeAvailable)
                     }
+
+                    readerModeAvailable = available
+                    readerModeAction.setSelected(active)
+
                     runIfFragmentIsAttached {
+                        browserToolbarView.view.invalidateActions()
                         browserToolbarView.toolbarIntegration.invalidateMenu()
                     }
                 },
@@ -120,8 +146,7 @@ class BrowserFragment : BaseBrowserFragment(), UserInteractionHandler {
         ) {
             browserToolbarView.view
         }
-        session?.register(toolbarSessionObserver, this, autoPause = true)
-        updateEngineBottomMargin()
+        session?.register(toolbarSessionObserver, viewLifecycleOwner, autoPause = true)
 
         if (settings.shouldShowFirstTimePwaFragment) {
             session?.register(
@@ -145,26 +170,6 @@ class BrowserFragment : BaseBrowserFragment(), UserInteractionHandler {
             requireComponents.core.tabCollectionStorage.getCollections()
                 .observe(viewLifecycleOwner, observer)
         }
-    }
-
-    private fun updateEngineBottomMargin() {
-        if (!FeatureFlags.dynamicBottomToolbar) {
-            val browserEngine = swipeRefresh.layoutParams as CoordinatorLayout.LayoutParams
-
-            browserEngine.bottomMargin = if (requireContext().settings().shouldUseBottomToolbar) {
-                requireContext().resources.getDimensionPixelSize(R.dimen.browser_toolbar_height)
-            } else {
-                0
-            }
-        }
-
-        val toolbarSessionObserver = TrackingProtectionOverlay(
-            context = requireContext(),
-            settings = requireContext().settings()
-        ) {
-            browserToolbarView.view
-        }
-        getSessionById()?.register(toolbarSessionObserver, this, autoPause = true)
     }
 
     override fun onResume() {
@@ -257,7 +262,5 @@ class BrowserFragment : BaseBrowserFragment(), UserInteractionHandler {
     companion object {
         private const val SHARED_TRANSITION_MS = 200L
         private const val TAB_ITEM_TRANSITION_NAME = "tab_item"
-        const val REPORT_SITE_ISSUE_URL =
-            "https://webcompat.com/issues/new?url=%s&label=browser-fenix"
     }
 }

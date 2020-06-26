@@ -5,7 +5,6 @@
 package org.mozilla.fenix.components
 
 import GeckoProvider
-import android.app.Application
 import android.content.Context
 import android.content.res.Configuration
 import android.util.Log
@@ -23,11 +22,15 @@ import mozilla.components.browser.state.state.BrowserState
 import mozilla.components.browser.state.store.BrowserStore
 import mozilla.components.browser.storage.sync.PlacesBookmarksStorage
 import mozilla.components.browser.storage.sync.PlacesHistoryStorage
+import mozilla.components.browser.storage.sync.RemoteTabsStorage
+import mozilla.components.browser.thumbnails.ThumbnailsMiddleware
+import mozilla.components.browser.thumbnails.storage.ThumbnailStorage
 import mozilla.components.concept.engine.DefaultSettings
 import mozilla.components.concept.engine.Engine
 import mozilla.components.concept.engine.mediaquery.PreferredColorScheme
 import mozilla.components.concept.fetch.Client
 import mozilla.components.feature.customtabs.store.CustomTabsServiceStore
+import mozilla.components.feature.downloads.DownloadMiddleware
 import mozilla.components.feature.media.RecordingDevicesNotificationFeature
 import mozilla.components.feature.media.middleware.MediaMiddleware
 import mozilla.components.feature.pwa.ManifestStorage
@@ -35,6 +38,7 @@ import mozilla.components.feature.pwa.WebAppShortcutManager
 import mozilla.components.feature.readerview.ReaderViewMiddleware
 import mozilla.components.feature.session.HistoryDelegate
 import mozilla.components.feature.webcompat.WebCompatFeature
+import mozilla.components.feature.webcompat.reporter.WebCompatReporterFeature
 import mozilla.components.feature.webnotifications.WebNotificationFeature
 import mozilla.components.lib.dataprotect.SecureAbove22Preferences
 import mozilla.components.lib.dataprotect.generateEncryptionKey
@@ -43,6 +47,8 @@ import org.mozilla.fenix.AppRequestInterceptor
 import org.mozilla.fenix.Config
 import org.mozilla.fenix.HomeActivity
 import org.mozilla.fenix.R
+import org.mozilla.fenix.ReleaseChannel
+import org.mozilla.fenix.downloads.DownloadService
 import org.mozilla.fenix.ext.components
 import org.mozilla.fenix.ext.settings
 import org.mozilla.fenix.media.MediaService
@@ -71,7 +77,8 @@ class Core(private val context: Context) {
             automaticFontSizeAdjustment = context.settings().shouldUseAutoSize,
             fontInflationEnabled = context.settings().shouldUseAutoSize,
             suspendMediaWhenInactive = false,
-            forceUserScalableContent = context.settings().forceEnableZoom
+            forceUserScalableContent = context.settings().forceEnableZoom,
+            loginAutofillEnabled = context.settings().shouldAutofillLogins
         )
 
         GeckoEngine(
@@ -80,6 +87,21 @@ class Core(private val context: Context) {
             GeckoProvider.getOrCreateRuntime(context, lazyPasswordsStorage)
         ).also {
             WebCompatFeature.install(it)
+
+            /**
+             * There are some issues around localization to be resolved, as well as questions around
+             * the capacity of the WebCompat team, so the "Report site issue" feature should stay
+             * disabled in Fenix Release builds for now.
+             * This is consistent with both Fennec and Firefox Desktop.
+             */
+            val shouldEnableWebcompatReporter = Config.channel !in setOf(
+                ReleaseChannel.FenixProduction,
+                ReleaseChannel.FennecProduction
+            )
+            if (shouldEnableWebcompatReporter) {
+                WebCompatReporterFeature.install(it)
+            }
+
             it.installWebExtension("Ghostery", "resource://android/assets/extensions/ghostery/",
                 true, supportActions = true,
                 onSuccess = {
@@ -112,7 +134,9 @@ class Core(private val context: Context) {
         BrowserStore(
             middleware = listOf(
                 MediaMiddleware(context, MediaService::class.java),
-                ReaderViewMiddleware()
+                DownloadMiddleware(context, DownloadService::class.java),
+                ReaderViewMiddleware(),
+                ThumbnailsMiddleware(thumbnailStorage)
             )
         )
     }
@@ -121,11 +145,6 @@ class Core(private val context: Context) {
      * The [CustomTabsServiceStore] holds global custom tabs related data.
      */
     val customTabsStore by lazy { CustomTabsServiceStore() }
-
-    /**
-     * The [PendingSessionDeletionManager] maintains a set of sessionIds that are marked for deletion
-     */
-    val pendingSessionDeletionManager by lazy { PendingSessionDeletionManager(context as Application) }
 
     /**
      * The session manager component provides access to a centralized registry of
@@ -157,12 +176,6 @@ class Core(private val context: Context) {
                         snapshot,
                         updateSelection = (sessionManager.selectedSession == null)
                     )
-                }
-
-                pendingSessionDeletionManager.getSessionsToDelete(context).forEach {
-                    sessionManager.findSessionById(it)?.let { session ->
-                        sessionManager.remove(session)
-                    }
                 }
 
                 // Now that we have restored our previous state (if there's one) let's setup auto saving the state while
@@ -215,12 +228,22 @@ class Core(private val context: Context) {
     val lazyBookmarksStorage = lazy { PlacesBookmarksStorage(context) }
     val lazyPasswordsStorage = lazy { SyncableLoginsStorage(context, passwordsEncryptionKey) }
 
+    /**
+     * The storage component to sync and persist tabs in a Firefox Sync account.
+     */
+    val lazyRemoteTabsStorage = lazy { RemoteTabsStorage() }
+
     // For most other application code (non-startup), these wrappers are perfectly fine and more ergonomic.
     val historyStorage by lazy { lazyHistoryStorage.value }
     val bookmarksStorage by lazy { lazyBookmarksStorage.value }
     val passwordsStorage by lazy { lazyPasswordsStorage.value }
 
     val tabCollectionStorage by lazy { TabCollectionStorage(context, sessionManager) }
+
+    /**
+     * A storage component for persisting thumbnail images of tabs.
+     */
+    val thumbnailStorage by lazy { ThumbnailStorage(context) }
 
     val topSiteStorage by lazy { TopSiteStorage(context) }
 

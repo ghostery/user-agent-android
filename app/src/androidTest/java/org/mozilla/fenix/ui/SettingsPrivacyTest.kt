@@ -169,6 +169,7 @@ class SettingsPrivacyTest {
         }.openLoginsAndPasswordSubMenu {
             verifyDefaultView()
             verifyDefaultValueSyncLogins()
+            verifyDefaultValueAutofillLogins()
         }.openSavedLogins {
             verifySavedLoginsView()
             tapSetupLater()
@@ -191,6 +192,7 @@ class SettingsPrivacyTest {
             verifySaveLoginPromptIsShown()
             // Click save to save the login
             saveLoginFromPrompt("Save")
+        }.openTabDrawer {
         }.openHomeScreen {
         }.openThreeDotMenu {
         }.openSettings {
@@ -215,6 +217,7 @@ class SettingsPrivacyTest {
             verifySaveLoginPromptIsShown()
             // Don't save the login
             saveLoginFromPrompt("Don’t save")
+        }.openTabDrawer {
         }.openHomeScreen {
         }.openThreeDotMenu {
         }.openSettings {
@@ -255,6 +258,7 @@ class SettingsPrivacyTest {
     }
 
     @Test
+    @Ignore("See: https://github.com/mozilla-mobile/fenix/issues/10915")
     fun openExternalLinksInPrivateTest() {
         val defaultWebPage = TestAssetHelper.getGenericAsset(mockWebServer, 1)
 
@@ -263,21 +267,22 @@ class SettingsPrivacyTest {
         openAppFromExternalLink(defaultWebPage.url.toString())
 
         browserScreen {
-        }.openHomeScreen {
-            verifyPrivateSessionHeader()
-        }
+        }.openTabDrawer {
+            verifyPrivateModeSelected()
+        }.openHomeScreen { }
 
         setOpenLinksInPrivateOff()
 
         openAppFromExternalLink(defaultWebPage.url.toString())
 
         browserScreen {
-        }.openHomeScreen {
-            verifyOpenTabsHeader()
+        }.openTabDrawer {
+            verifyNormalModeSelected()
         }
     }
 
     @Test
+    @Ignore("See: https://github.com/mozilla-mobile/fenix/issues/10915")
     fun launchPageShortcutInPrivateModeTest() {
         val defaultWebPage = TestAssetHelper.getGenericAsset(mockWebServer, 1)
 
@@ -291,8 +296,8 @@ class SettingsPrivacyTest {
             clickAddShortcutButton()
             clickAddAutomaticallyButton()
         }.openHomeScreenShortcut(pageShortcutName) {
-        }.openHomeScreen {
-            verifyPrivateSessionHeader()
+        }.openTabDrawer {
+            verifyPrivateModeSelected()
         }
     }
 
@@ -310,7 +315,8 @@ class SettingsPrivacyTest {
             clickAddShortcutButton()
             clickAddAutomaticallyButton()
         }.openHomeScreenShortcut(pageShortcutName) {
-        }.openHomeScreen {}
+        }.openTabDrawer {
+        }.openHomeScreen { }
 
         setOpenLinksInPrivateOff()
         restartApp(activityTestRule)
@@ -318,14 +324,14 @@ class SettingsPrivacyTest {
 
         addToHomeScreen {
         }.searchAndOpenHomeScreenShortcut(pageShortcutName) {
+        }.openTabDrawer {
+            verifyNormalModeSelected()
         }.openHomeScreen {
-            verifyOpenTabsHeader()
         }.openThreeDotMenu {
         }.openSettings {
         }.openPrivateBrowsingSubMenu {
             verifyOpenLinksInPrivateTabOff()
         }
-
     }
 
     @Test
@@ -339,8 +345,8 @@ class SettingsPrivacyTest {
         }.openPrivateBrowsingShortcut {
             verifySearchView()
         }.openBrowser {
-        }.openHomeScreen {
-            verifyPrivateSessionHeader()
+        }.openTabDrawer {
+            verifyPrivateModeSelected()
         }
     }
 

@@ -5,7 +5,7 @@
 package org.mozilla.fenix.home.sessioncontrol.viewholders.onboarding
 
 import android.view.View
-import android.widget.Switch
+import androidx.appcompat.widget.SwitchCompat
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.onboarding_tracking_protection.view.*
 import org.mozilla.fenix.R
@@ -17,7 +17,7 @@ class OnboardingTrackingProtectionViewHolder(view: View) : RecyclerView.ViewHold
 
     private var standardTrackingProtection: OnboardingRadioButton
     private var strictTrackingProtection: OnboardingRadioButton
-    private var trackingProtectionToggle: Switch
+    private var trackingProtectionToggle: SwitchCompat
 
     init {
         view.header_text.setOnboardingIcon(R.drawable.ic_onboarding_tracking_protection)
@@ -26,10 +26,8 @@ class OnboardingTrackingProtectionViewHolder(view: View) : RecyclerView.ViewHold
         standardTrackingProtection = view.tracking_protection_standard_option
         strictTrackingProtection = view.tracking_protection_strict_default
 
-        val appName = view.context.getString(R.string.app_name)
         view.description_text.text = view.context.getString(
-            R.string.onboarding_tracking_protection_description1,
-            appName
+            R.string.onboarding_tracking_protection_description_2
         )
 
         trackingProtectionToggle.apply {
@@ -65,10 +63,10 @@ class OnboardingTrackingProtectionViewHolder(view: View) : RecyclerView.ViewHold
                 standardTrackingProtection.performClick()
             }
             val standardTitle = view.context.getString(
-                R.string.onboarding_tracking_protection_standard_button
+                R.string.onboarding_tracking_protection_standard_button_2
             )
             val standardSummary = view.context.getString(
-                R.string.onboarding_tracking_protection_standard_button_description
+                R.string.onboarding_tracking_protection_standard_button_description_2
             )
             contentDescription = "$standardTitle. $standardSummary"
         }
@@ -82,9 +80,9 @@ class OnboardingTrackingProtectionViewHolder(view: View) : RecyclerView.ViewHold
                 strictTrackingProtection.performClick()
             }
             val strictTitle =
-                view.context.getString(R.string.onboarding_tracking_protection_strict_button)
+                view.context.getString(R.string.onboarding_tracking_protection_strict_option)
             val strictSummary =
-                view.context.getString(R.string.onboarding_tracking_protection_strict_button_description)
+                view.context.getString(R.string.onboarding_tracking_protection_strict_button_description_2)
             contentDescription = "$strictTitle. $strictSummary"
         }
     }

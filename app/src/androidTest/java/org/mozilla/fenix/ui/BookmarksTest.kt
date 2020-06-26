@@ -12,6 +12,7 @@ import mozilla.appservices.places.BookmarkRoot
 import okhttp3.mockwebserver.MockWebServer
 import org.junit.After
 import org.junit.Before
+import org.junit.Ignore
 import org.junit.Rule
 import org.junit.Test
 import org.mozilla.fenix.R
@@ -151,6 +152,7 @@ class BookmarksTest {
         }
     }
 
+    @Ignore("Flaky test, temp disabled: https://github.com/mozilla-mobile/fenix/issues/10690")
     @Test
     fun editBookmarkTest() {
         val defaultWebPage = TestAssetHelper.getGenericAsset(mockWebServer, 1)
@@ -232,8 +234,8 @@ class BookmarksTest {
         }.openThreeDotMenu(defaultWebPage.url) {
         }.clickOpenInNewTab {
             verifyPageContent(defaultWebPage.content)
-        }.openHomeScreen {
-            verifyOpenTabsHeader()
+        }.openTabDrawer {
+            verifyNormalModeSelected()
         }
     }
 
@@ -251,8 +253,8 @@ class BookmarksTest {
         }.openThreeDotMenu(defaultWebPage.url) {
         }.clickOpenInPrivateTab {
             verifyPageContent(defaultWebPage.content)
-        }.openHomeScreen {
-            verifyPrivateSessionHeader()
+        }.openTabDrawer {
+            verifyPrivateModeSelected()
         }
     }
 
@@ -325,9 +327,9 @@ class BookmarksTest {
 
         browserScreen {
             createBookmark(defaultWebPage.url)
-        }.openHomeScreen {
+        }.openTabDrawer {
             closeTab()
-        }.openThreeDotMenu {
+        }.openHomeScreen { }.openThreeDotMenu {
         }.openBookmarks {
             bookmarksListIdlingResource =
                 RecyclerViewIdlingResource(activityTestRule.activity.findViewById(R.id.bookmark_list))
@@ -338,9 +340,9 @@ class BookmarksTest {
         }
 
         multipleSelectionToolbar {
-        }.clickOpenNewTab {
+        }.clickOpenNewTab { }.openTabDrawer {
+            verifyNormalModeSelected()
             verifyExistingTabList()
-            verifyOpenTabsHeader()
         }
     }
 
@@ -361,9 +363,9 @@ class BookmarksTest {
         }
 
         multipleSelectionToolbar {
-        }.clickOpenPrivateTab {
+        }.clickOpenPrivateTab { }.openTabDrawer {
+            verifyPrivateModeSelected()
             verifyExistingTabList()
-            verifyPrivateSessionHeader()
         }
     }
 

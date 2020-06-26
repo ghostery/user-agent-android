@@ -5,7 +5,9 @@
 package org.mozilla.fenix.components
 
 import android.content.Context
+import android.os.StrictMode
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.asLiveData
 import androidx.paging.DataSource
 import mozilla.components.browser.session.Session
 import mozilla.components.browser.session.SessionManager
@@ -15,6 +17,7 @@ import mozilla.components.feature.tab.collections.TabCollectionStorage
 import mozilla.components.support.base.observer.Observable
 import mozilla.components.support.base.observer.ObserverRegistry
 import org.mozilla.fenix.ext.components
+import org.mozilla.fenix.ext.resetPoliciesAfter
 import org.mozilla.fenix.ext.toShortUrl
 import org.mozilla.fenix.home.sessioncontrol.viewholders.CollectionViewHolder
 import org.mozilla.fenix.utils.Mockable
@@ -49,7 +52,9 @@ class TabCollectionStorage(
     var cachedTabCollections = listOf<TabCollection>()
 
     private val collectionStorage by lazy {
-        TabCollectionStorage(context, sessionManager)
+        StrictMode.allowThreadDiskReads().resetPoliciesAfter {
+            TabCollectionStorage(context, sessionManager)
+        }
     }
 
     fun createCollection(title: String, sessions: List<Session>) {
@@ -67,7 +72,7 @@ class TabCollectionStorage(
     }
 
     fun getCollections(limit: Int = 20): LiveData<List<TabCollection>> {
-        return collectionStorage.getCollections(limit)
+        return collectionStorage.getCollections(limit).asLiveData()
     }
 
     fun getCollectionsPaged(): DataSource.Factory<Int, TabCollection> {

@@ -11,12 +11,19 @@ import android.os.StrictMode
 import androidx.annotation.CallSuper
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.getSystemService
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import mozilla.appservices.Megazord
 import mozilla.components.browser.session.Session
 import mozilla.components.concept.push.PushProcessor
 import mozilla.components.feature.addons.update.GlobalAddonDependencyProvider
 import mozilla.components.lib.crash.CrashReporter
+import mozilla.components.service.experiments.Experiments
 import mozilla.components.service.glean.Glean
 import mozilla.components.support.base.log.Log
 import mozilla.components.support.base.log.logger.Logger
@@ -40,13 +47,14 @@ import org.mozilla.fenix.session.PerformanceActivityLifecycleCallbacks
 import org.mozilla.fenix.session.VisibilityLifecycleCallback
 import org.mozilla.fenix.utils.BrowsersCache
 import org.mozilla.fenix.utils.Settings
+import org.mozilla.fenix.StrictModeManager.enableStrictMode
+import org.mozilla.fenix.ext.resetPoliciesAfter
 
 /**
  *The main application class for Fenix. Records data to measure initialization performance.
  *  Installs [CrashReporter], initializes [Glean]  in fenix builds and setup Megazord in the main process.
  */
-@SuppressLint("Registered")
-@Suppress("TooManyFunctions", "LargeClass")
+@Suppress("Registered", "TooManyFunctions", "LargeClass")
 open class FenixApplication : LocaleAwareApplication() {
     init {
         recordOnInit() // DO NOT MOVE ANYTHING ABOVE HERE: the timing of this measurement is critical.
@@ -59,6 +67,7 @@ open class FenixApplication : LocaleAwareApplication() {
     var visibilityLifecycleCallback: VisibilityLifecycleCallback? = null
         private set
 
+    @ExperimentalCoroutinesApi
     override fun onCreate() {
         super.onCreate()
 
@@ -111,6 +120,7 @@ open class FenixApplication : LocaleAwareApplication() {
         Log.addSink(AndroidLogSink())
     }
 
+    @ExperimentalCoroutinesApi
     @CallSuper
     open fun setupInMainProcessOnly() {
         run {
@@ -118,12 +128,13 @@ open class FenixApplication : LocaleAwareApplication() {
             val megazordSetup = setupMegazord()
 
             setDayNightTheme()
-            enableStrictMode()
+            enableStrictMode(true)
             warmBrowsersCache()
 
             // Make sure the engine is initialized and ready to use.
-            components.core.engine.warmUp()
-
+            StrictMode.allowThreadDiskReads().resetPoliciesAfter {
+                components.core.engine.warmUp()
+            }
             initializeWebExtensionSupport()
 
             // Just to make sure it is impossible for any application-services pieces
@@ -148,7 +159,8 @@ open class FenixApplication : LocaleAwareApplication() {
         visibilityLifecycleCallback = VisibilityLifecycleCallback(getSystemService())
         registerActivityLifecycleCallbacks(visibilityLifecycleCallback)
 
-        components.core.sessionManager.register(NotificationSessionObserver(this))
+        val privateNotificationObserver = NotificationSessionObserver(this)
+        privateNotificationObserver.start()
 
         // Storage maintenance disabled, for now, as it was interfering with background migrations.
         // See https://github.com/mozilla-mobile/fenix/issues/7227 for context.
@@ -156,9 +168,29 @@ open class FenixApplication : LocaleAwareApplication() {
         //    runStorageMaintenance()
         // }
 
+        val taskQueue = components.performance.visualCompletenessQueue
         registerActivityLifecycleCallbacks(
-            PerformanceActivityLifecycleCallbacks(components.performance.visualCompletenessQueue)
+            PerformanceActivityLifecycleCallbacks(taskQueue)
         )
+
+        // Enable the service-experiments component to be initialized after visual completeness
+        // for performance wins.
+        if (settings().isExperimentationEnabled && Config.channel.isReleaseOrBeta) {
+            taskQueue.runIfReadyOrQueue {
+                Experiments.initialize(
+                    applicationContext = applicationContext,
+                    configuration = mozilla.components.service.experiments.Configuration(
+                        httpClient = components.core.client,
+                        kintoEndpoint = KINTO_ENDPOINT_PROD
+                    )
+                )
+                ExperimentsManager.initSearchWidgetExperiment(this)
+            }
+        } else {
+            // We should make a better way to opt out for when we have more experiments
+            // See https://github.com/mozilla-mobile/fenix/issues/6278
+            ExperimentsManager.optOutSearchWidgetExperiment(this)
+        }
 
         components.performance.visualCompletenessQueue.runIfReadyOrQueue {
             GlobalScope.launch(Dispatchers.IO) {
@@ -248,7 +280,7 @@ open class FenixApplication : LocaleAwareApplication() {
         return GlobalScope.async(Dispatchers.IO) {
             // ... but RustHttpConfig.setClient() and RustLog.enable() can be called later.
             RustHttpConfig.setClient(lazy { components.core.client })
-            RustLog.enable()
+            RustLog.enable(components.analytics.crashReporter)
         }
     }
 
@@ -311,28 +343,6 @@ open class FenixApplication : LocaleAwareApplication() {
         }
     }
 
-    private fun enableStrictMode() {
-        if (Config.channel.isDebug) {
-            StrictMode.setThreadPolicy(
-                StrictMode.ThreadPolicy.Builder()
-                    .detectAll()
-                    .penaltyLog()
-                    .build()
-            )
-            var builder = StrictMode.VmPolicy.Builder()
-                .detectLeakedSqlLiteObjects()
-                .detectLeakedClosableObjects()
-                .detectLeakedRegistrationObjects()
-                .detectActivityLeaks()
-                .detectFileUriExposure()
-                .penaltyLog()
-            if (SDK_INT >= Build.VERSION_CODES.O) builder =
-                builder.detectContentUriWithoutPermission()
-            if (SDK_INT >= Build.VERSION_CODES.P) builder = builder.detectNonSdkApiUsage()
-            StrictMode.setVmPolicy(builder.build())
-        }
-    }
-
     private fun initializeWebExtensionSupport() {
         try {
             GlobalAddonDependencyProvider.initialize(
@@ -389,5 +399,9 @@ open class FenixApplication : LocaleAwareApplication() {
         // https://issuetracker.google.com/issues/143570309#comment3
         applicationContext.resources.configuration.uiMode = config.uiMode
         super.onConfigurationChanged(config)
+    }
+
+    companion object {
+        private const val KINTO_ENDPOINT_PROD = "https://firefox.settings.services.mozilla.com/v1"
     }
 }

@@ -5,18 +5,24 @@
 package org.mozilla.fenix.search
 
 import android.Manifest
+import android.app.Activity.RESULT_OK
 import android.content.Context
 import android.content.DialogInterface
+import android.content.Intent
 import android.graphics.Typeface.BOLD
 import android.graphics.Typeface.ITALIC
 import android.os.Bundle
+import android.speech.RecognizerIntent
+import android.speech.RecognizerIntent.EXTRA_RESULTS
 import android.text.style.StyleSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewStub
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
+import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -25,6 +31,7 @@ import kotlinx.android.synthetic.main.fragment_search.*
 import kotlinx.android.synthetic.main.fragment_search.view.*
 import kotlinx.android.synthetic.main.search_suggestions_onboarding.view.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import mozilla.components.browser.toolbar.BrowserToolbar
 import mozilla.components.concept.storage.HistoryStorage
 import mozilla.components.feature.qr.QrFeature
 import mozilla.components.lib.state.ext.consumeFrom
@@ -33,6 +40,7 @@ import mozilla.components.support.base.feature.ViewBoundFeatureWrapper
 import mozilla.components.support.ktx.android.content.getColorFromAttr
 import mozilla.components.support.ktx.android.content.hasCamera
 import mozilla.components.support.ktx.android.content.isPermissionGranted
+import mozilla.components.support.ktx.android.view.hideKeyboard
 import mozilla.components.ui.autocomplete.InlineAutocompleteEditText
 import org.mozilla.fenix.BrowserDirection
 import org.mozilla.fenix.HomeActivity
@@ -47,6 +55,7 @@ import org.mozilla.fenix.ext.settings
 import org.mozilla.fenix.search.awesomebar.AwesomeBarView
 import org.mozilla.fenix.search.toolbar.ToolbarView
 import org.mozilla.fenix.settings.SupportUtils
+import org.mozilla.fenix.widget.VoiceSearchActivity.Companion.SPEECH_REQUEST_CODE
 
 @Suppress("TooManyFunctions", "LargeClass")
 class SearchFragment : Fragment(), UserInteractionHandler {
@@ -57,16 +66,26 @@ class SearchFragment : Fragment(), UserInteractionHandler {
     private lateinit var searchStore: SearchFragmentStore
     private lateinit var searchInteractor: SearchInteractor
 
+    private val speechIntent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
+
+    private fun shouldShowSearchSuggestions(isPrivate: Boolean): Boolean =
+        if (isPrivate) {
+            requireContext().settings().shouldShowSearchSuggestions &&
+                requireContext().settings().shouldShowSearchSuggestionsInPrivate
+        } else {
+            requireContext().settings().shouldShowSearchSuggestions
+        }
+
+    @Suppress("LongMethod")
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val args = arguments?.let { navArgs<SearchFragmentArgs>().value }
-        val session = args?.sessionId
+        val activity = activity as HomeActivity
+        val args by navArgs<SearchFragmentArgs>()
+        val session = args.sessionId
             ?.let(requireComponents.core.sessionManager::findSessionById)
-        val pastedText = args?.pastedText
-        val searchAccessPoint = args?.searchAccessPoint
 
         val view = inflater.inflate(R.layout.fragment_search, container, false)
         val url = session?.url.orEmpty()
@@ -74,17 +93,9 @@ class SearchFragment : Fragment(), UserInteractionHandler {
             requireComponents.search.provider.getDefaultEngine(requireContext())
         )
 
-        val isPrivate = (activity as HomeActivity).browsingModeManager.mode.isPrivate
+        val isPrivate = activity.browsingModeManager.mode.isPrivate
 
         requireComponents.analytics.metrics.track(Event.InteractWithSearchURLArea)
-
-        val showSearchSuggestions =
-            if (isPrivate) {
-                requireContext().settings().shouldShowSearchSuggestions &&
-                        requireContext().settings().shouldShowSearchSuggestionsInPrivate
-            } else {
-                requireContext().settings().shouldShowSearchSuggestions
-            }
 
         searchStore = StoreProvider.get(this) {
             SearchFragmentStore(
@@ -92,21 +103,21 @@ class SearchFragment : Fragment(), UserInteractionHandler {
                     query = url,
                     searchEngineSource = currentSearchEngine,
                     defaultEngineSource = currentSearchEngine,
-                    showSearchSuggestions = showSearchSuggestions,
+                    showSearchSuggestions = shouldShowSearchSuggestions(isPrivate),
                     showSearchSuggestionsHint = false,
                     showSearchShortcuts = requireContext().settings().shouldShowSearchShortcuts && url.isEmpty(),
                     showClipboardSuggestions = requireContext().settings().shouldShowClipboardSuggestions,
                     showHistorySuggestions = requireContext().settings().shouldShowHistorySuggestions,
                     showBookmarkSuggestions = requireContext().settings().shouldShowBookmarkSuggestions,
                     session = session,
-                    pastedText = pastedText,
-                    searchAccessPoint = searchAccessPoint
+                    pastedText = args.pastedText,
+                    searchAccessPoint = args.searchAccessPoint
                 )
             )
         }
 
         val searchController = DefaultSearchController(
-            context = activity as HomeActivity,
+            activity = activity,
             store = searchStore,
             navController = findNavController(),
             viewLifecycleScope = viewLifecycleOwner.lifecycleScope,
@@ -119,12 +130,26 @@ class SearchFragment : Fragment(), UserInteractionHandler {
 
         awesomeBarView = AwesomeBarView(view.scrollable_area, searchInteractor)
 
+        view.scrollView.setOnScrollChangeListener {
+                _: NestedScrollView, _: Int, _: Int, _: Int, _: Int ->
+            view.hideKeyboard()
+        }
+
         toolbarView = ToolbarView(
             view.toolbar_component_wrapper,
             searchInteractor,
             historyStorageProvider(),
             isPrivate,
             requireComponents.core.engine
+        )
+
+        toolbarView.view.addEditAction(
+            BrowserToolbar.Button(
+                ContextCompat.getDrawable(requireContext(), R.drawable.ic_microphone)!!,
+                requireContext().getString(R.string.voice_search_content_description),
+                visible = { requireContext().settings().shouldShowVoiceSearch && speechIsAvailable() },
+                listener = ::launchVoiceSearch
+            )
         )
 
         val urlView = toolbarView.view
@@ -134,6 +159,25 @@ class SearchFragment : Fragment(), UserInteractionHandler {
         requireComponents.core.engine.speculativeCreateSession(isPrivate)
         startPostponedEnterTransition()
         return view
+    }
+
+    private fun speechIsAvailable(): Boolean {
+        return (speechIntent.resolveActivity(requireContext().packageManager) != null)
+    }
+
+    private fun launchVoiceSearch() {
+        // Note if a user disables speech while the app is on the search fragment
+        // the voice button will still be available and *will* cause a crash if tapped,
+        // since the `visible` call is only checked on create. In order to avoid extra complexity
+        // around such a small edge case, we make the button have no functionality in this case.
+        if (!speechIsAvailable()) { return }
+
+        requireComponents.analytics.metrics.track(Event.VoiceSearchTapped)
+        speechIntent.apply {
+            putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
+            putExtra(RecognizerIntent.EXTRA_PROMPT, requireContext().getString(R.string.voice_search_explainer))
+        }
+        startActivityForResult(speechIntent, SPEECH_REQUEST_CODE)
     }
 
     private fun clearToolbarFocus() {
@@ -274,7 +318,7 @@ class SearchFragment : Fragment(), UserInteractionHandler {
         }
 
         if (!permissionDidUpdate) {
-            toolbarView.view.requestFocus()
+            toolbarView.view.edit.focus()
         }
 
         updateClipboardSuggestion(
@@ -286,6 +330,16 @@ class SearchFragment : Fragment(), UserInteractionHandler {
         hideToolbar()
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
+        if (requestCode == SPEECH_REQUEST_CODE && resultCode == RESULT_OK) {
+            intent?.getStringArrayListExtra(EXTRA_RESULTS)?.first()?.also {
+                toolbarView.view.edit.updateUrl(url = it, shouldHighlight = true)
+                searchInteractor.onTextChanged(it)
+                toolbarView.view.edit.focus()
+            }
+        }
+    }
+
     override fun onPause() {
         super.onPause()
         toolbarView.view.clearFocus()
@@ -295,10 +349,11 @@ class SearchFragment : Fragment(), UserInteractionHandler {
         // Note: Actual navigation happens in `handleEditingCancelled` in SearchController
         return when {
             qrFeature.onBackPressed() -> {
+                toolbarView.view.edit.focus()
                 view?.search_scan_button?.isChecked = false
                 toolbarView.view.requestFocus()
             }
-            else -> awesomeBarView.isKeyboardDismissedProgrammatically
+            else -> true
         }
     }
 

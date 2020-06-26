@@ -44,6 +44,11 @@ object SupportUtils {
         SYNC_SETUP("how-set-firefox-sync-firefox-preview")
     }
 
+    enum class MozillaPage(internal val path: String) {
+        PRIVATE_NOTICE("about-ghostery/privacy-statements/"),
+        MANIFESTO("about/manifesto/")
+    }
+
     /**
      * Gets a support page URL for the corresponding topic.
      */
@@ -83,8 +88,10 @@ object SupportUtils {
 
     /* Ghostery Begin: Privacy Policy points to Ghostery's website */
     @Suppress("UNUSED_PARAMETER")
-    fun getPrivacyNoticeUrl(locale: Locale = Locale.getDefault()) =
-        "https://www.ghostery.com/about-ghostery/privacy-statements/"
+    fun getMozillaPageUrl(page: MozillaPage, locale: Locale = Locale.getDefault()): String {
+        val path = page.path
+        return "https://www.ghostery.com/$path"
+    }
     /* Ghostery End */
 
     fun getWhatsNewUrl(context: Context) = if (Config.channel.isFennec) {

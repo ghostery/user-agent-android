@@ -44,6 +44,9 @@
     <color name="onboarding_illustration_deselected_normal_theme">@color/onboarding_illustration_deselected_dark_theme</color>
     <color name="add_on_private_browsing_exterior_circle_background_normal_theme">@color/add_on_private_browsing_exterior_circle_background_dark_theme</color>
     <color name="add_on_private_browsing_interior_icon_background_normal_theme">@color/add_on_private_browsing_interior_icon_background_dark_theme</color>
+    <color name="prompt_login_edit_text_cursor_color_normal_theme">@color/prompt_login_edit_text_cursor_color_dark_theme</color>
+    <color name="readermode_start_gradient_normal_theme">#C689FF</color>
+    <color name="readermode_end_gradient_normal_theme">#00B3F4</color>
 
     <!-- Tab tray -->
     <color name="tab_tray_item_text_normal_theme">@color/tab_tray_item_text_dark_theme</color>
@@ -52,6 +55,14 @@
     <color name="tab_tray_item_selected_background_normal_theme">@color/tab_tray_item_selected_background_dark_theme</color>
     <color name="tab_tray_toolbar_background_normal_theme">@color/tab_tray_toolbar_background_dark_theme</color>
     <color name="tab_tray_item_divider_normal_theme">@color/tab_tray_item_divider_dark_theme</color>
+    <color name="tab_tray_item_media_background_normal_theme">@color/tab_tray_item_media_background_dark_theme</color>
+    <color name="tab_tray_heading_icon_normal_theme">@color/tab_tray_heading_icon_dark_theme</color>
+    <color name="tab_tray_heading_icon_inactive_normal_theme">@color/tab_tray_heading_icon_inactive_dark_theme</color>
+
+    <!--Top site colors -->
+    <color name="top_site_background">@color/top_site_background_dark_theme</color>
+    <color name="top_site_border">@color/top_site_border_dark_theme</color>
+    <color name="top_site_title_text">@color/top_site_title_text_dark_theme</color>
 
     <!-- Collection icons-->
     <color name="collection_icon_color_violet">@color/collection_icon_color_violet_dark_theme</color>
