@@ -21,6 +21,7 @@ import org.mozilla.fenix.components.tips.Tip
 
 // This method got a little complex with the addition of the tab tray feature flag
 // When we remove the tabs from the home screen this will get much simpler again.
+@Suppress("UNUSED_PARAMETER")
 @SuppressWarnings("LongParameterList", "ComplexMethod")
 private fun normalModeAdapterItems(
     topSites: List<TopSite>,
@@ -36,16 +37,19 @@ private fun normalModeAdapterItems(
         items.add(AdapterItem.TopSiteList(topSites))
     }
 
+    /* Ghostery Begin: do not show collections +/
     if (collections.isEmpty()) {
         items.add(AdapterItem.CollectionHeader)
         items.add(AdapterItem.NoCollectionsMessage)
     } else {
         showCollections(collections, expandedCollections, items)
     }
+    /+ Ghostery End */
 
     return items
 }
 
+/* Ghostery Begin: do not show collections +/
 private fun showCollections(
     collections: List<TabCollection>,
     expandedCollections: Set<Long>,
@@ -62,6 +66,7 @@ private fun showCollections(
         }
     }
 }
+/+ Ghostery End */
 
 private fun privateModeAdapterItems() = listOf(AdapterItem.PrivateBrowsingDescription)
 

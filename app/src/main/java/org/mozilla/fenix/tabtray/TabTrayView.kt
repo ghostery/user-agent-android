@@ -313,6 +313,7 @@ class TabTrayItemMenu(
 
     private val menuItems by lazy {
         listOf(
+            /* Ghostery Begin: removing save to collection from the tab tray menu +/
             SimpleBrowserMenuItem(
                 context.getString(R.string.tab_tray_menu_item_save),
                 textColorResource = R.color.primary_text_normal_theme
@@ -320,7 +321,7 @@ class TabTrayItemMenu(
                 context.components.analytics.metrics.track(Event.TabsTraySaveToCollectionPressed)
                 onItemTapped.invoke(Item.SaveToCollection)
             }.apply { visible = shouldShowSaveToCollection },
-
+            /+ Ghostery End */
             SimpleBrowserMenuItem(
                 context.getString(R.string.tab_tray_menu_item_share),
                 textColorResource = R.color.primary_text_normal_theme

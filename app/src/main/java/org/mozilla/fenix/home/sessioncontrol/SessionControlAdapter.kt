@@ -43,6 +43,7 @@ sealed class AdapterItem(@LayoutRes val viewType: Int) {
     object PrivateBrowsingDescription : AdapterItem(PrivateBrowsingDescriptionViewHolder.LAYOUT_ID)
     object NoCollectionsMessage : AdapterItem(NoCollectionsMessageViewHolder.LAYOUT_ID)
 
+    /* Ghostery Begin: removing collections from home +/
     object CollectionHeader : AdapterItem(CollectionHeaderViewHolder.LAYOUT_ID)
     data class CollectionItem(
         val collection: TabCollection,
@@ -50,6 +51,8 @@ sealed class AdapterItem(@LayoutRes val viewType: Int) {
     ) : AdapterItem(CollectionViewHolder.LAYOUT_ID) {
         override fun sameAs(other: AdapterItem) = other is CollectionItem && collection.id == other.collection.id
     }
+    /+ Ghostery End */
+
     data class TabInCollectionItem(
         val collection: TabCollection,
         val tab: ComponentTab,
@@ -151,10 +154,12 @@ class SessionControlAdapter(
             is TopSiteViewHolder -> {
                 holder.bind((item as AdapterItem.TopSiteList).topSites)
             }
+            /* Ghostery Begin: removing collections +/
             is CollectionViewHolder -> {
                 val (collection, expanded) = item as AdapterItem.CollectionItem
                 holder.bindSession(collection, expanded)
             }
+            /+ Ghostery End */
             is TabInCollectionViewHolder -> {
                 val (collection, tab, isLastTab) = item as AdapterItem.TabInCollectionItem
                 holder.bindSession(collection, tab, isLastTab)

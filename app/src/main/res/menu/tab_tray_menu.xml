@@ -5,11 +5,12 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <!-- Save to collection -->
+    <!-- Ghostery Begin: disabling "Save to collection" -+>
     <item
         android:id="@+id/tab_tray_select_to_save_menu_item"
         android:title="@string/tab_tray_menu_item_save"
         app:showAsAction="never" />
+    <-+ Ghostery End -->
 
     <!-- Share-->
     <item

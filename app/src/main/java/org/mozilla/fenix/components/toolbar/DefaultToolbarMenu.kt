@@ -158,15 +158,17 @@ class DefaultToolbarMenu(
 
     private val menuItems by lazy {
         // Predicates that are called once, during screen init
+        /* Ghostery Begin: remove collections +/
         val shouldShowSaveToCollection = (context.asActivity() as? HomeActivity)
             ?.browsingModeManager?.mode == BrowsingMode.Normal
+        /+ Ghostery End */
         val shouldDeleteDataOnQuit = Settings.getInstance(context)
             .shouldDeleteBrowsingDataOnQuit
 
         val menuItems = listOfNotNull(
             historyItem,
             bookmarksItem,
-            if (FeatureFlags.syncedTabs) syncedTabs else null,
+            // Ghostery - if (FeatureFlags.syncedTabs) syncedTabs else null,
             settings,
             if (shouldDeleteDataOnQuit) deleteDataOnQuit else null,
             BrowserMenuDivider(),
@@ -174,7 +176,7 @@ class DefaultToolbarMenu(
             addToTopSites,
             addToHomescreen.apply { visible = ::canAddToHomescreen },
             installToHomescreen.apply { visible = ::canInstall },
-            if (shouldShowSaveToCollection) saveToCollection else null,
+            // Ghostery: if (shouldShowSaveToCollection) saveToCollection else null,
             desktopMode,
             openInApp.apply { visible = ::shouldShowOpenInApp },
             readerAppearance.apply { visible = ::shouldShowReaderAppearance },
@@ -265,6 +267,7 @@ class DefaultToolbarMenu(
         onItemTapped.invoke(ToolbarMenu.Item.FindInPage)
     }
 
+    /* Ghostery Begin: remove collections +/
     private val saveToCollection = BrowserMenuImageText(
         label = context.getString(R.string.browser_menu_save_to_collection_2),
         imageResource = R.drawable.ic_tab_collection,
@@ -272,6 +275,7 @@ class DefaultToolbarMenu(
     ) {
         onItemTapped.invoke(ToolbarMenu.Item.SaveToCollection)
     }
+    /+ Ghostery End */
 
     private val deleteDataOnQuit = BrowserMenuImageText(
         label = context.getString(R.string.delete_browsing_data_on_quit_action),
