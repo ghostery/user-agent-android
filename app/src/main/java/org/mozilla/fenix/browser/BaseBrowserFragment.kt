@@ -296,8 +296,10 @@ abstract class BaseBrowserFragment : Fragment(), UserInteractionHandler, Session
             }
 
             browserToolbarView.view.display.setOnTrackingProtectionClickedListener {
-                context.metrics.track(Event.TrackingProtectionIconPressed)
-                showTrackingProtectionPanel()
+                val globalAction = store.state.extensions.get("Ghostery")?.browserAction
+                if (globalAction != null) {
+                    globalAction.onClick()
+                }
             }
 
             contextMenuFeature.set(
