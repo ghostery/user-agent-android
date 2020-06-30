@@ -61,7 +61,9 @@ class MigratingFenixApplication : FenixApplication() {
 
         // Now that we have migrated from Fennec whether the user wants to enable telemetry we can
         // initialize Glean
+        /* Ghostery Begin: we do not use Gleen +/
         initializeGlean()
+        /+ Ghostery End */
 
         // Fenix application initialization can happen now.
         super.setupInMainProcessOnly()

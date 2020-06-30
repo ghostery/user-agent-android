@@ -13,7 +13,10 @@ enum class ReleaseChannel {
 
     FennecProduction,
     FennecBeta,
-    FennecNightly;
+    /* Ghostery Begin: add Ghostery release channel */
+    FennecNightly,
+    Ghostery;
+    /* Ghostery End */
 
     val isReleased: Boolean
         get() = when (this) {
@@ -37,6 +40,7 @@ enum class ReleaseChannel {
             FenixBeta -> true
             FennecProduction -> true
             FennecBeta -> true
+            Ghostery -> true // Ghostery
             else -> false
         }
 
@@ -71,6 +75,7 @@ object Config {
         "fennecProduction" -> ReleaseChannel.FennecProduction
         "fennecBeta" -> ReleaseChannel.FennecBeta
         "fennecNightly" -> ReleaseChannel.FennecNightly
+        "ghostery" -> ReleaseChannel.Ghostery // Ghostery
 
         // Builds for local performance analysis, recording benchmarks, automation, etc.
         // This should be treated like a released channel because we want to test
@@ -87,5 +92,8 @@ object Config {
 private val fennecChannels: List<ReleaseChannel> = listOf(
     ReleaseChannel.FennecNightly,
     ReleaseChannel.FennecBeta,
-    ReleaseChannel.FennecProduction
+    /* Ghostery Begin: adding GHostery release channel */
+    ReleaseChannel.FennecProduction,
+    ReleaseChannel.Ghostery
+    /* Ghostery End */
 )
