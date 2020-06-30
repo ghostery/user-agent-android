@@ -7,8 +7,10 @@
                 - https://issuetracker.google.com/issues/36905922
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:tools="http://schemas.android.com/tools">
+    <!-- Ghostery Begin: Removing the user id -+>
     android:sharedUserId="${sharedUserId}">
+    <!+- Ghostery End -->
     <application
         android:name="org.mozilla.fenix.MigratingFenixApplication"
         tools:replace="android:name">
