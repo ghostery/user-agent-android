@@ -120,7 +120,7 @@ class AboutFragment : Fragment(), AboutPageListener {
 
             String.format(
                 "%s (Build #%s)\n%s: %s\n%s: %s\n%s: %s",
-                packageInfo.versionName,
+                BuildConfig.VERSION_NAME,
                 versionCode,
                 componentsAbbreviation,
                 componentsVersion,
