@@ -127,6 +127,7 @@
                 app:layout_constraintStart_toStartOf="@id/fill_link_from_clipboard"
                 app:layout_constraintTop_toBottomOf="@id/fill_link_from_clipboard" />
 
+            <!-- Ghostery Begin: we do not show the search with shortcuts -->
             <TextView
                 android:id="@+id/search_with_shortcuts"
                 style="@style/SearchShortcutsLabelStyle"
