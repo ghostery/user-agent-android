@@ -370,10 +370,14 @@ class SearchFragment : Fragment(), UserInteractionHandler {
         }
     }
 
+    /* Ghostery Begin: never show the label */
+    @Suppress("UNUSED_PARAMETER")
     private fun updateSearchWithLabel(searchState: SearchFragmentState) {
-        search_with_shortcuts.visibility =
-            if (searchState.showSearchShortcuts) View.VISIBLE else View.GONE
+        // search_with_shortcuts.visibility =
+        //     if (searchState.showSearchShortcuts) View.VISIBLE else View.GONE
+        search_with_shortcuts.visibility = View.GONE
     }
+    /* Ghostery End */
 
     private fun updateClipboardSuggestion(searchState: SearchFragmentState, clipboardUrl: String?) {
         val visibility =
