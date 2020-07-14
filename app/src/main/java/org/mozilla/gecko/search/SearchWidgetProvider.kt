@@ -11,6 +11,7 @@ import android.appwidget.AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH
 import android.appwidget.AppWidgetProvider
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.speech.RecognizerIntent
@@ -20,6 +21,7 @@ import androidx.annotation.Dimension
 import androidx.annotation.Dimension.DP
 import androidx.annotation.VisibleForTesting
 import androidx.appcompat.content.res.AppCompatResources
+import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
 import org.mozilla.fenix.HomeActivity
 import org.mozilla.fenix.IntentReceiverActivity
@@ -161,6 +163,7 @@ class SearchWidgetProvider : AppWidgetProvider() {
     }
 
     private fun RemoteViews.setIcon(context: Context) {
+        /* Ghostery Begin: tint the Icons +/
         // gradient color available for android:fillColor only on SDK 24+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             setImageViewResource(
@@ -173,7 +176,16 @@ class SearchWidgetProvider : AppWidgetProvider() {
                     context,
                     R.drawable.ic_launcher_foreground
                 )?.toBitmap())
-        }
+        } */
+        setImageViewBitmap(
+            R.id.button_search_widget_new_tab_icon,
+            AppCompatResources.getDrawable(
+                context,
+                R.drawable.ic_launcher_foreground
+            )?.mutate()?.apply {
+                setTint(Color.rgb(0x00, 0xAE, 0xF0))
+            }?.toBitmap())
+        /* Ghostery End */
     }
 
     // Cell sizes obtained from the actual dimensions listed in search widget specs
