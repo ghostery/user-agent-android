@@ -63,7 +63,6 @@
             app:layout_constraintTop_toBottomOf="@id/wordmark"
             app:layout_constraintWidth_percent="0.8"
             tools:text="1.0.x (Build #x)\nAC: 1.0.0\nGV: 69.x-x\nAS: 1.0.0" />
-        <!-- Ghostery End -->
 
         <TextView
             android:id="@+id/build_date"
