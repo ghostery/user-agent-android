@@ -15,6 +15,14 @@
     android:layout_height="match_parent"
     android:background="?homeBackground">
 
+    <!-- Ghostery Begin: home background -->
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        app:srcCompat="@drawable/home_background" />
+    <!-- Ghostery End -->
+
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/homeAppBar"
         android:layout_width="match_parent"
