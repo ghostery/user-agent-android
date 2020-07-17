@@ -14,7 +14,6 @@
         <!-- Ghostery Begin: splash screen -->
         <item name="android:statusBarColor">@color/foundation_normal_theme</item>
         <item name="android:windowBackground">@drawable/splashscreen_window_background</item>
-        <item name="libraryBackground">@color/foundation_normal_theme</item>
         <!-- Ghostery End -->
         <item name="android:colorEdgeEffect">@color/accent_normal_theme</item>
         <item name="android:colorAccent">@color/primary_text_normal_theme</item>

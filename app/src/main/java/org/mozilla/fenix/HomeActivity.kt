@@ -27,7 +27,9 @@ import androidx.navigation.ui.NavigationUI
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import mozilla.components.browser.search.SearchEngine
 import mozilla.components.browser.session.Session
 import mozilla.components.browser.session.SessionManager
@@ -61,8 +63,8 @@ import org.mozilla.fenix.ext.alreadyOnDestination
 import org.mozilla.fenix.ext.checkAndUpdateScreenshotPermission
 import org.mozilla.fenix.ext.components
 import org.mozilla.fenix.ext.nav
-import org.mozilla.fenix.ext.settings
 import org.mozilla.fenix.ext.resetPoliciesAfter
+import org.mozilla.fenix.ext.settings
 import org.mozilla.fenix.home.HomeFragmentDirections
 import org.mozilla.fenix.home.intent.CrashReporterIntentProcessor
 import org.mozilla.fenix.home.intent.DeepLinkIntentProcessor
@@ -190,6 +192,21 @@ open class HomeActivity : LocaleAwareAppCompatActivity() {
                 }
             }
         }
+
+        /* Ghostery Begin: splashscreen */
+        // Now the app is started restore the original background to avoid weird splashscreen
+        // in oder Fragments
+        lifecycleScope.launch {
+            kotlinx.coroutines.delay(300L)
+            withContext(Dispatchers.Main) {
+                val ta = theme.obtainStyledAttributes(intArrayOf(R.attr.homeBackground))
+                ta.getDrawable(0)?.let {
+                    window.setBackgroundDrawable(it)
+                }
+                ta.recycle()
+            }
+        }
+        /* Ghostery End */
     }
 
     final override fun onPause() {

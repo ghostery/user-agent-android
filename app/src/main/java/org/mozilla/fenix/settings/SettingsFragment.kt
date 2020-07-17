@@ -12,9 +12,7 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.provider.Settings
-import android.view.View
 import android.widget.Toast
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavDirections
 import androidx.navigation.findNavController
@@ -126,15 +124,6 @@ class SettingsFragment : PreferenceFragmentCompat() {
         // Consider finish of `onResume` to be the point at which we consider this fragment as 'created'.
         creatingFragment = false
     }
-
-    /* Ghostery Begin: background fixes due to the splashscreen */
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        // The background by default is transparent, showing white Ghosty on blue canvas if not
-        // set to solid color.
-        listView?.setBackgroundColor(ContextCompat.getColor(view.context, R.color.foundation_normal_theme))
-    }
-    /* Ghostery End */
 
     private fun update(shouldUpdateAccountUIState: Boolean) {
         /* Ghostery Begin: Removing tracking protection as it will be performed by Ghostery +/

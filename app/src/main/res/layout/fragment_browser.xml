@@ -9,7 +9,6 @@
     android:id="@+id/browserLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?homeBackground"
     tools:context="browser.BrowserFragment">
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
