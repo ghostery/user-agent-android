@@ -207,6 +207,22 @@ open class HomeActivity : LocaleAwareAppCompatActivity() {
             }
         }
         /* Ghostery End */
+
+        /* Ghostery Begin: on-boarding */
+        // This is an hack to force the browser to display the extension on-boarding on start-up
+        val hubPattern = """moz-extension://[^/]+/app/templates/hub\.html.*""".toRegex()
+        components.core.sessionManager.register(
+            owner = this,
+            observer = object : SessionManager.Observer {
+                override fun onSessionSelected(session: Session) {
+                    if (hubPattern.matches(session.url) &&
+                                navHost.navController.currentDestination?.id != R.id.browserFragment ) {
+                        navHost.navController.navigate(R.id.browserFragment)
+                    }
+                }
+            }
+        )
+        /* Ghostery End */
     }
 
     final override fun onPause() {
