@@ -1,6 +1,5 @@
 #!/bin/bash
-set -x
-TAG="v8.5.2-2"
+TAG="v8.5.2-3"
 EXT_DIR="app/src/main/assets/extensions/ghostery"
 DOWNLOAD_URL="https://cdncliqz.s3.amazonaws.com/update/fostery/ghostery-firefox-$TAG.zip"
 mkdir -p "$EXT_DIR"
