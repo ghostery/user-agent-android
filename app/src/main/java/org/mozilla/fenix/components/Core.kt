@@ -44,6 +44,7 @@ import mozilla.components.lib.dataprotect.SecureAbove22Preferences
 import mozilla.components.lib.dataprotect.generateEncryptionKey
 import mozilla.components.service.sync.logins.SyncableLoginsStorage
 import org.mozilla.fenix.AppRequestInterceptor
+import org.mozilla.fenix.BuildConfig
 import org.mozilla.fenix.Config
 import org.mozilla.fenix.HomeActivity
 import org.mozilla.fenix.R
@@ -55,6 +56,7 @@ import org.mozilla.fenix.media.MediaService
 import org.mozilla.fenix.search.telemetry.ads.AdsTelemetry
 import org.mozilla.fenix.search.telemetry.incontent.InContentTelemetry
 import org.mozilla.fenix.utils.Mockable
+import org.mozilla.geckoview.GeckoSession
 import java.util.concurrent.TimeUnit
 
 /**
@@ -67,6 +69,10 @@ class Core(private val context: Context) {
      * configuration (see build variants).
      */
     val engine: Engine by lazy {
+        /* Ghostery Begin: override user-agent */
+        val defaultUserAgent = GeckoSession.getDefaultUserAgent()
+        val (prefix, postfix) = defaultUserAgent.split(')')
+        val customUserAgent = "$prefix; Ghostery:3.0)$postfix"
         val defaultSettings = DefaultSettings(
             requestInterceptor = AppRequestInterceptor(context),
             remoteDebuggingEnabled = context.settings().isRemoteDebuggingEnabled,
@@ -78,8 +84,10 @@ class Core(private val context: Context) {
             fontInflationEnabled = context.settings().shouldUseAutoSize,
             suspendMediaWhenInactive = false,
             forceUserScalableContent = context.settings().forceEnableZoom,
-            loginAutofillEnabled = context.settings().shouldAutofillLogins
+            loginAutofillEnabled = context.settings().shouldAutofillLogins,
+            userAgentString = customUserAgent
         )
+        /* Ghostery End */
 
         GeckoEngine(
             context,
