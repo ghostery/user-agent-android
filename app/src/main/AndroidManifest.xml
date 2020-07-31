@@ -18,6 +18,7 @@
     <!-- Needed to prompt the user to give permission to install a downloaded apk -->
     <uses-permission-sdk-23 android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
 
+    <!-- Ghostery Begin: in order to display the splash screen, we changed the theme -->
     <application
         android:name=".FenixApplication"
         android:allowBackup="false"
@@ -25,9 +26,10 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/NormalTheme"
+        android:theme="@style/LaunchTheme"
         android:usesCleartextTraffic="true"
         tools:ignore="UnusedAttribute">
+        <!-- Ghostery End -->
 
         <!--
           We inherited this entry (${applicationId}.App) from Fennec. We need to keep this as our
