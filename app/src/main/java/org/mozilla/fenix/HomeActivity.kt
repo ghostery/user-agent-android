@@ -145,6 +145,10 @@ open class HomeActivity : LocaleAwareAppCompatActivity() {
 
         components.publicSuffixList.prefetch()
 
+        /* Ghostery Begin: Splashscreen, restore the regular theme before creating the views */
+        setTheme(R.style.NormalTheme)
+        /* Ghostery End */
+
         setupThemeAndBrowsingMode(getModeFromIntentOrLastKnown(intent))
         setContentView(R.layout.activity_home)
 
