@@ -27,7 +27,9 @@ class FenixOnboarding(context: Context) : PreferencesHolder {
         metrics.track(Event.DismissedOnboarding)
     }
 
-    fun userHasBeenOnboarded() = onboardedVersion == CURRENT_ONBOARDING_VERSION
+    /* Ghostery Begin: disable onboarding */
+    fun userHasBeenOnboarded() = true // onboardedVersion == CURRENT_ONBOARDING_VERSION
+    /* Ghostery End */
 
     companion object {
         /**
