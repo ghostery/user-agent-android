@@ -7,6 +7,7 @@ package org.mozilla.fenix.components
 import GeckoProvider
 import android.content.Context
 import android.content.res.Configuration
+import android.util.Log
 import io.sentry.Sentry
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -100,6 +101,15 @@ class Core(private val context: Context) {
             if (shouldEnableWebcompatReporter) {
                 WebCompatReporterFeature.install(it)
             }
+
+            it.installWebExtension("Ghostery", "resource://android/assets/extensions/ghostery/",
+                true, supportActions = true,
+                onSuccess = {
+                    Log.d("GHOSTERY", "Installed Ghostery webextension: ${it.id}")
+                },
+                onError = { ext, throwable ->
+                    Log.e("GHOSTERY", "Failed to install Ghostery webextension: $ext", throwable)
+                })
         }
     }
 

@@ -208,6 +208,9 @@ android {
         // GeckoView must uncompress it before it can do anything else which
         // causes a significant delay on startup.
         noCompress 'ja'
+        // default ignoreAssetsPattern list includes all files and folders starting with _
+        // that breaks webextensions i18n as traslation are located in _locales folder
+        ignoreAssetsPattern  '!.svn:!.git:!.ds_store:!*.scc:.*:!CVS:!thumbs.db:!picasa.ini:!*~'
     }
 
     testOptions {
