@@ -44,25 +44,36 @@ object SupportUtils {
     }
 
     enum class MozillaPage(internal val path: String) {
-        PRIVATE_NOTICE("privacy/firefox/"),
+        PRIVATE_NOTICE("about-ghostery/privacy-statements/"),
         MANIFESTO("about/manifesto/")
     }
 
     /**
      * Gets a support page URL for the corresponding topic.
      */
+    @Suppress("UNUSED_PARAMETER")
     fun getSumoURLForTopic(
         context: Context,
         topic: SumoTopic,
         locale: Locale = Locale.getDefault()
     ): String {
+        /* Ghostery Begin: Ghostery support url +/
         val escapedTopic = getEncodedTopicUTF8(topic.topicStr)
         // Remove the whitespace so a search is not triggered:
         val appVersion = context.appVersionName?.replace(" ", "")
         val osTarget = "Android"
         val langTag = getLanguageTag(locale)
         return "https://support.mozilla.org/1/mobile/$appVersion/$osTarget/$langTag/$escapedTopic"
+        */
+        return when (topic) {
+            SumoTopic.HELP -> "https://www.ghostery.com/support/"
+            // "What's new" is used also in the "About Ghostery" preferences entry
+            SumoTopic.WHATS_NEW -> "https://www.ghostery.com/about-ghostery/"
+            else -> "This topic is unsupported"
+        }
+        /* Ghostery End */
     }
+
 
     /**
      * Gets a support page URL for the corresponding topic.
@@ -74,11 +85,13 @@ object SupportUtils {
         return "https://support.mozilla.org/$langTag/kb/$escapedTopic"
     }
 
+    /* Ghostery Begin: Privacy Policy points to Ghostery's website */
+    @Suppress("UNUSED_PARAMETER")
     fun getMozillaPageUrl(page: MozillaPage, locale: Locale = Locale.getDefault()): String {
         val path = page.path
-        val langTag = getLanguageTag(locale)
-        return "https://www.mozilla.org/$langTag/$path"
+        return "https://www.ghostery.com/$path"
     }
+    /* Ghostery End */
 
     fun getWhatsNewUrl(context: Context) = if (Config.channel.isFennec) {
         getGenericSumoURLForTopic(SumoTopic.UPGRADE_FAQ)
