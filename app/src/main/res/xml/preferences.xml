@@ -58,10 +58,12 @@
             android:key="@string/pref_key_customize"
             android:title="@string/preferences_customize" />
 
+        <!-- Ghostery Begin: disable logins and passwords -+>
         <androidx.preference.Preference
             android:icon="@drawable/ic_login"
             android:key="@string/pref_key_passwords"
             android:title="@string/preferences_passwords_logins_and_passwords" />
+        <+- Ghostery End -->
 
         <androidx.preference.Preference
             android:icon="@drawable/ic_accessibility"

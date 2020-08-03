@@ -675,18 +675,22 @@ class Settings private constructor(
         }
     }
 
-    var shouldShowVoiceSearch by booleanPreference(
-        appContext.getPreferenceKey(R.string.pref_key_show_voice_search),
-        default = true
-    )
-
-    var shouldPromptToSaveLogins by booleanPreference(
+    /* Ghostery Begin: disable save/autofill logins */
+    var shouldPromptToSaveLogins = false
+    /* var shouldPromptToSaveLogins by booleanPreference(
         appContext.getPreferenceKey(R.string.pref_key_save_logins),
         default = true
-    )
+    ) */
 
-    var shouldAutofillLogins by booleanPreference(
+    var shouldAutofillLogins = false
+    /* var shouldAutofillLogins by booleanPreference(
         appContext.getPreferenceKey(R.string.pref_key_autofill_logins),
+        default = true
+    ) */
+    /* Ghostery End */
+
+    var shouldShowVoiceSearch by booleanPreference(
+        appContext.getPreferenceKey(R.string.pref_key_show_voice_search),
         default = true
     )
 
