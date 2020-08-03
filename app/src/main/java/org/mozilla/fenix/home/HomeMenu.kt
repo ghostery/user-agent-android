@@ -85,6 +85,7 @@ class HomeMenu(
     }
 
     private val coreMenuItems by lazy {
+        /* Ghostery Begin: Removing "What's new from the Home Menu +/
         val whatsNewItem = BrowserMenuHighlightableItem(
             context.getString(R.string.browser_menu_whats_new),
             R.drawable.ic_whats_new,
@@ -96,7 +97,7 @@ class HomeMenu(
         ) {
             onItemTapped.invoke(Item.WhatsNew)
         }
-
+        /+ Ghostery End */
         val bookmarksItem = BrowserMenuImageText(
             context.getString(R.string.library_bookmarks),
             R.drawable.ic_bookmark_filled,
@@ -113,6 +114,7 @@ class HomeMenu(
             onItemTapped.invoke(Item.History)
         }
 
+        /* Ghostery Begin: removing addons support +/
         val addons = BrowserMenuImageText(
             context.getString(R.string.browser_menu_add_ons),
             R.drawable.ic_addons_extensions,
@@ -120,6 +122,7 @@ class HomeMenu(
         ) {
             onItemTapped.invoke(Item.AddonsManager)
         }
+        /+ Ghostery End */
 
         val settingsItem = BrowserMenuImageText(
             context.getString(R.string.browser_menu_settings),
@@ -129,6 +132,7 @@ class HomeMenu(
             onItemTapped.invoke(Item.Settings)
         }
 
+        /* Ghostery Begin: Disabling synced tabs +/
         val syncedTabsItem = BrowserMenuImageText(
             context.getString(R.string.library_synced_tabs),
             R.drawable.ic_synced_tabs,
@@ -136,7 +140,9 @@ class HomeMenu(
         ) {
             onItemTapped.invoke(Item.SyncedTabs)
         }
+        /+ Ghostery End */
 
+        /* Ghostery Begin: removing help menu entry and account auth +/
         val helpItem = BrowserMenuImageText(
             context.getString(R.string.browser_menu_help),
             R.drawable.ic_help,
@@ -152,18 +158,19 @@ class HomeMenu(
         } else {
             null
         }
+        /+ Ghostery End */
 
         if (shouldUseBottomToolbar) {
             listOfNotNull(
-                accountAuthItem,
-                helpItem,
-                whatsNewItem,
-                BrowserMenuDivider(),
-                addons,
+                // Ghostery - accountAuthItem,
+                // Ghostery - helpItem,
+                // Ghostery - whatsNewItem,
+                // Ghostery - BrowserMenuDivider(),
+                // Ghostery - addons,
                 BrowserMenuDivider(),
                 historyItem,
                 bookmarksItem,
-                if (FeatureFlags.syncedTabs) syncedTabsItem else null,
+                // Ghostery - if (FeatureFlags.syncedTabs) syncedTabsItem else null,
                 BrowserMenuDivider(),
                 settingsItem,
                 if (Settings.getInstance(context).shouldDeleteBrowsingDataOnQuit) quitItem else null
@@ -175,15 +182,15 @@ class HomeMenu(
                 if (Settings.getInstance(context).shouldDeleteBrowsingDataOnQuit) quitItem else null,
                 settingsItem,
                 BrowserMenuDivider(),
-                if (FeatureFlags.syncedTabs) syncedTabsItem else null,
+                // Ghostery - if (FeatureFlags.syncedTabs) syncedTabsItem else null,
                 bookmarksItem,
-                historyItem,
-                BrowserMenuDivider(),
-                addons,
-                BrowserMenuDivider(),
-                whatsNewItem,
-                helpItem,
-                accountAuthItem
+                historyItem //,
+                // Ghostery - BrowserMenuDivider(),
+                // Ghostery - addons,
+                // Ghostery - BrowserMenuDivider(),
+                // Ghostery - whatsNewItem,
+                // Ghostery - helpItem,
+                // Ghostery - accountAuthItem
             ).also { items ->
                 items.getHighlight()?.let { onHighlightPresent(it) }
             }
