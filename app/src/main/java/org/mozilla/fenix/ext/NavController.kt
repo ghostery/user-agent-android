@@ -10,8 +10,6 @@ import androidx.navigation.NavController
 import androidx.navigation.NavDirections
 import androidx.navigation.NavOptions
 import androidx.navigation.Navigator
-import io.sentry.Sentry
-import org.mozilla.fenix.components.isSentryEnabled
 
 /**
  * Navigate from the fragment with [id] using the given [directions].
@@ -58,10 +56,13 @@ fun NavController.alreadyOnDestination(@IdRes destId: Int?): Boolean {
     return destId?.let { currentDestination?.id == it || popBackStack(it, false) } ?: false
 }
 
+@Suppress("UNUSED_PARAMETER")
 fun recordIdException(actual: Int?, expected: Int?) {
+    /* Ghostery Begin: Sentry in not enabled +/
     if (isSentryEnabled()) {
         Sentry.capture("Fragment id $actual did not match expected $expected")
     }
+    /+ Ghostery End */
 }
 
 fun NavController.navigateSafe(
