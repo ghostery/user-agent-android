@@ -133,46 +133,52 @@ class AboutFragment : Fragment(), AboutPageListener {
             ""
         }
 
-        val content = getString(R.string.about_content, appName)
+        /* Ghostery Begin: Ghostery is produced by Ghostery */
         val buildDate = BuildConfig.BUILD_DATE
 
         about_text.text = aboutText
-        about_content.text = content
         build_date.text = buildDate
+        /* Ghostery End */
     }
 
     private fun populateAboutList(): List<AboutPageItem> {
         val context = requireContext()
 
         return listOf(
+            /* Ghostery Begin: Removing "Whats'new in Ghostery" +/
             AboutPageItem.Item(
                 AboutItem.ExternalLink(
                     WHATS_NEW,
                     SupportUtils.getWhatsNewUrl(context)
                 ), getString(R.string.about_whats_new, getString(R.string.app_name))
             ),
+            /+ Ghostery End */
             AboutPageItem.Item(
                 AboutItem.ExternalLink(
                     SUPPORT,
                     SupportUtils.getSumoURLForTopic(context, SupportUtils.SumoTopic.HELP)
                 ), getString(R.string.about_support)
             ),
+            /* Ghostery Begin: Removing "Crashes" +/
             AboutPageItem.Item(
                 AboutItem.Crashes,
                 getString(R.string.about_crashes)
             ),
+            /+ Ghostery End */
             AboutPageItem.Item(
                 AboutItem.ExternalLink(
                     PRIVACY_NOTICE,
                     SupportUtils.getMozillaPageUrl(SupportUtils.MozillaPage.PRIVATE_NOTICE)
                 ), getString(R.string.about_privacy_notice)
             ),
+            /* Ghostery Begin: Removing "Know your rights" section +/
             AboutPageItem.Item(
                 AboutItem.ExternalLink(
                     RIGHTS,
                     SupportUtils.getSumoURLForTopic(context, SupportUtils.SumoTopic.YOUR_RIGHTS)
                 ), getString(R.string.about_know_your_rights)
             ),
+            /+ Ghostery End */
             AboutPageItem.Item(
                 AboutItem.ExternalLink(LICENSING_INFO, ABOUT_LICENSE_URL),
                 getString(R.string.about_licensing_information)
