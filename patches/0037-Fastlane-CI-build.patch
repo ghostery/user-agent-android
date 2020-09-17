@@ -1,4 +1,4 @@
-From a1da5e571cb49a30e632d4af36cb11406ded3a9e Mon Sep 17 00:00:00 2001
+From 39674c02ac971288d831987bbe1df4dd16e732bc Mon Sep 17 00:00:00 2001
 From: Sam Macbeth <sam@cliqz.com>
 Date: Tue, 4 Aug 2020 17:08:25 +0200
 Subject: Fastlane CI build
@@ -193,10 +193,10 @@ index 3d0874105..936392038 100644
      }
  }
 diff --git a/app/build.gradle b/app/build.gradle
-index 1500d1e64..4c838dfde 100644
+index 307f2cc3a..99a161ace 100644
 --- a/app/build.gradle
 +++ b/app/build.gradle
-@@ -43,11 +43,21 @@ android {
+@@ -41,6 +41,15 @@ android {
          ]
      }
  
@@ -212,8 +212,10 @@ index 1500d1e64..4c838dfde 100644
      def releaseTemplate = {
          shrinkResources true
          minifyEnabled true
-         proguardFiles 'proguard-android-optimize-3.5.0-modified.txt', 'proguard-rules.pro'
-         matchingFallbacks = ['release'] // Use on the "release" build type in dependencies (AARs)
+@@ -54,6 +63,7 @@ android {
+         if (gradle.hasProperty("localProperties.debuggable")) {
+             debuggable true
+         }
 +        signingConfig signingConfigs.release
      }
  

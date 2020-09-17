@@ -1,4 +1,4 @@
-From 14d02a9f2de6b3910180e29fefa9d38ccdacac58 Mon Sep 17 00:00:00 2001
+From ea495498c6a677fcdb7d423d4a99a2c9ca8a972f Mon Sep 17 00:00:00 2001
 From: Stefano Pacifici <stefano.pacifici@gmail.com>
 Date: Fri, 31 Jul 2020 11:05:48 +0200
 Subject: Replace the theme before creating views
@@ -10,7 +10,7 @@ Subject: Replace the theme before creating views
  3 files changed, 16 insertions(+), 5 deletions(-)
 
 diff --git a/app/src/main/AndroidManifest.xml b/app/src/main/AndroidManifest.xml
-index fdff101bd..764447dc9 100644
+index 2f97c3e44..9831fe0c0 100644
 --- a/app/src/main/AndroidManifest.xml
 +++ b/app/src/main/AndroidManifest.xml
 @@ -18,6 +18,7 @@
@@ -21,8 +21,8 @@ index fdff101bd..764447dc9 100644
      <application
          android:name=".FenixApplication"
          android:allowBackup="false"
-@@ -25,9 +26,10 @@
-         android:label="@string/app_name"
+@@ -26,9 +27,10 @@
+         android:requestLegacyExternalStorage="true"
          android:roundIcon="@mipmap/ic_launcher_round"
          android:supportsRtl="true"
 -        android:theme="@style/NormalTheme"
@@ -34,10 +34,10 @@ index fdff101bd..764447dc9 100644
          <!--
            We inherited this entry (${applicationId}.App) from Fennec. We need to keep this as our
 diff --git a/app/src/main/java/org/mozilla/fenix/HomeActivity.kt b/app/src/main/java/org/mozilla/fenix/HomeActivity.kt
-index 0793dee94..0abfcd41b 100644
+index 453db43c1..f8056696c 100644
 --- a/app/src/main/java/org/mozilla/fenix/HomeActivity.kt
 +++ b/app/src/main/java/org/mozilla/fenix/HomeActivity.kt
-@@ -145,6 +145,10 @@ open class HomeActivity : LocaleAwareAppCompatActivity() {
+@@ -169,6 +169,10 @@ open class HomeActivity : LocaleAwareAppCompatActivity(), NavHostActivity {
  
          components.publicSuffixList.prefetch()
  
@@ -49,7 +49,7 @@ index 0793dee94..0abfcd41b 100644
          setContentView(R.layout.activity_home)
  
 diff --git a/app/src/main/res/values/styles.xml b/app/src/main/res/values/styles.xml
-index f1cd381c7..19d2646df 100644
+index e8804a3e3..410aaf119 100644
 --- a/app/src/main/res/values/styles.xml
 +++ b/app/src/main/res/values/styles.xml
 @@ -11,10 +11,8 @@
@@ -65,7 +65,7 @@ index f1cd381c7..19d2646df 100644
          <item name="android:colorEdgeEffect">@color/accent_normal_theme</item>
          <item name="android:colorAccent">@color/primary_text_normal_theme</item>
          <item name="android:textColorPrimary">@color/state_list_text_color</item>
-@@ -101,6 +99,13 @@
+@@ -113,6 +111,13 @@
          <item name="shieldLottieFile">@raw/shield_json</item>
      </style>
  

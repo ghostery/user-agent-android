@@ -1,17 +1,25 @@
-From c1cf3e683002d5d6c635477bb778f2afa641339f Mon Sep 17 00:00:00 2001
+From 2d95770ab76cc3f3c33bd7572af9c3c63c0d4ff2 Mon Sep 17 00:00:00 2001
 From: Stefano Pacifici <stefano.pacifici@gmail.com>
 Date: Thu, 23 Jul 2020 17:00:11 +0200
 Subject: Forcing the display of the Ghostery hub at first startup
 
 ---
- .../main/java/org/mozilla/fenix/HomeActivity.kt  | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+ .../java/org/mozilla/fenix/HomeActivity.kt     | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
 
 diff --git a/app/src/main/java/org/mozilla/fenix/HomeActivity.kt b/app/src/main/java/org/mozilla/fenix/HomeActivity.kt
-index d0fd31e50..0793dee94 100644
+index 3bbdc27b7..453db43c1 100644
 --- a/app/src/main/java/org/mozilla/fenix/HomeActivity.kt
 +++ b/app/src/main/java/org/mozilla/fenix/HomeActivity.kt
-@@ -230,6 +230,22 @@ open class HomeActivity : LocaleAwareAppCompatActivity() {
+@@ -38,6 +38,7 @@ import kotlinx.coroutines.delay
+ import kotlinx.coroutines.launch
+ import kotlinx.coroutines.withContext
+ import mozilla.components.browser.search.SearchEngine
++import mozilla.components.browser.session.Session
+ import mozilla.components.browser.session.SessionManager
+ import mozilla.components.browser.state.state.SessionState
+ import mozilla.components.browser.state.state.WebExtensionState
+@@ -306,6 +307,23 @@ open class HomeActivity : LocaleAwareAppCompatActivity(), NavHostActivity {
              }
          }
          /* Ghostery End */
@@ -24,7 +32,8 @@ index d0fd31e50..0793dee94 100644
 +            observer = object : SessionManager.Observer {
 +                override fun onSessionSelected(session: Session) {
 +                    if (hubPattern.matches(session.url) &&
-+                                navHost.navController.currentDestination?.id != R.id.browserFragment ) {
++                        navHost.navController.currentDestination?.id != R.id.browserFragment
++                    ) {
 +                        navHost.navController.navigate(R.id.browserFragment)
 +                    }
 +                }
@@ -33,7 +42,7 @@ index d0fd31e50..0793dee94 100644
 +        /* Ghostery End */
      }
  
-     final override fun onPause() {
+     override fun onStart() {
 -- 
 2.25.1
 

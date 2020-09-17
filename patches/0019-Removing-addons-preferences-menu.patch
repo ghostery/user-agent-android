@@ -1,4 +1,4 @@
-From 54f4ecd25aea6488c01edbcd212cea1d87c860cb Mon Sep 17 00:00:00 2001
+From 5f1618ceef2f96363913c8ad4eb814b76f994c2e Mon Sep 17 00:00:00 2001
 From: Stefano Pacifici <stefano.pacifici@gmail.com>
 Date: Thu, 25 Jun 2020 18:02:43 +0200
 Subject: Removing addons preferences menu
@@ -8,13 +8,13 @@ Subject: Removing addons preferences menu
  1 file changed, 2 insertions(+)
 
 diff --git a/app/src/main/res/xml/preferences.xml b/app/src/main/res/xml/preferences.xml
-index 680ebc9c0..02e14adf1 100644
+index 4a24a1eed..6147cb95b 100644
 --- a/app/src/main/res/xml/preferences.xml
 +++ b/app/src/main/res/xml/preferences.xml
-@@ -127,10 +127,12 @@
+@@ -137,10 +137,12 @@
          app:iconSpaceReserved="false"
          android:key="@string/pref_key_advanced"
-         android:layout="@layout/preference_cat_style">
+         android:layout="@layout/preference_category_main_style">
 +        <!-- Ghostery Begin: removing Addons Menu access -+>
          <androidx.preference.Preference
              android:icon="@drawable/ic_addons_extensions"

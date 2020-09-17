@@ -1,4 +1,4 @@
-From cb1c475374ebad72dd1408c78ef8d9c05c2b3fc9 Mon Sep 17 00:00:00 2001
+From 66f18c6500834c1ba4e20ae57f92d86852cf5072 Mon Sep 17 00:00:00 2001
 From: Sam Macbeth <sam@cliqz.com>
 Date: Mon, 3 Aug 2020 18:24:11 +0200
 Subject: Help resources point to Ghostery domain
@@ -10,7 +10,7 @@ Subject: Help resources point to Ghostery domain
  3 files changed, 28 insertions(+), 6 deletions(-)
 
 diff --git a/app/src/main/java/org/mozilla/fenix/settings/SupportUtils.kt b/app/src/main/java/org/mozilla/fenix/settings/SupportUtils.kt
-index a49f6668a..9950e6a8c 100644
+index 3e1bae04a..7723b441e 100644
 --- a/app/src/main/java/org/mozilla/fenix/settings/SupportUtils.kt
 +++ b/app/src/main/java/org/mozilla/fenix/settings/SupportUtils.kt
 @@ -44,26 +44,37 @@ object SupportUtils {
@@ -52,8 +52,8 @@ index a49f6668a..9950e6a8c 100644
      /**
       * Gets a support page URL for the corresponding topic.
       * Used when the app version and os are not part of the URL.
-@@ -74,11 +85,13 @@ object SupportUtils {
-         return "https://support.mozilla.org/$langTag/kb/$escapedTopic"
+@@ -78,11 +89,13 @@ object SupportUtils {
+         return "https://support.mozilla.org/kb/access-mozilla-services-firefox-account"
      }
  
 +    /* Ghostery Begin: Privacy Policy points to Ghostery's website */
@@ -69,14 +69,14 @@ index a49f6668a..9950e6a8c 100644
      fun getWhatsNewUrl(context: Context) = if (Config.channel.isFennec) {
          getGenericSumoURLForTopic(SumoTopic.UPGRADE_FAQ)
 diff --git a/app/src/main/java/org/mozilla/fenix/settings/about/AboutFragment.kt b/app/src/main/java/org/mozilla/fenix/settings/about/AboutFragment.kt
-index 363bf901c..b4c64cbef 100644
+index 9f80cf5e6..b4b5516a0 100644
 --- a/app/src/main/java/org/mozilla/fenix/settings/about/AboutFragment.kt
 +++ b/app/src/main/java/org/mozilla/fenix/settings/about/AboutFragment.kt
-@@ -133,46 +133,52 @@ class AboutFragment : Fragment(), AboutPageListener {
+@@ -117,46 +117,52 @@ class AboutFragment : Fragment(), AboutPageListener {
              ""
          }
  
--        val content = getString(R.string.about_content, appName)
+-        val content = getString(R.string.about_content, headerAppName)
 +        /* Ghostery Begin: Ghostery is produced by Ghostery */
          val buildDate = BuildConfig.BUILD_DATE
  

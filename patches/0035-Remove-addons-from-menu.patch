@@ -1,4 +1,4 @@
-From 506a6bd8d12b304d4345564e82f84f173d631e95 Mon Sep 17 00:00:00 2001
+From 126f7c82564ff628d750088fbcaa28f44524e28f Mon Sep 17 00:00:00 2001
 From: Sam Macbeth <sam@macbeth.cc>
 Date: Tue, 4 Aug 2020 10:31:31 +0200
 Subject: Remove addons from menu
@@ -8,7 +8,7 @@ Subject: Remove addons from menu
  1 file changed, 8 insertions(+)
 
 diff --git a/app/src/main/java/org/mozilla/fenix/components/toolbar/DefaultToolbarMenu.kt b/app/src/main/java/org/mozilla/fenix/components/toolbar/DefaultToolbarMenu.kt
-index 9838a622c..f9488404f 100644
+index 214a20974..7b1ef61c2 100644
 --- a/app/src/main/java/org/mozilla/fenix/components/toolbar/DefaultToolbarMenu.kt
 +++ b/app/src/main/java/org/mozilla/fenix/components/toolbar/DefaultToolbarMenu.kt
 @@ -11,6 +11,7 @@ import androidx.lifecycle.LifecycleOwner
@@ -17,9 +17,9 @@ index 9838a622c..f9488404f 100644
  import kotlinx.coroutines.launch
 +import mozilla.components.browser.menu.BrowserMenuBuilder
  import mozilla.components.browser.menu.BrowserMenuHighlight
+ import mozilla.components.browser.menu.WebExtensionBrowserMenuBuilder
  import mozilla.components.browser.menu.item.BrowserMenuDivider
- import mozilla.components.browser.menu.item.BrowserMenuHighlightableItem
-@@ -61,6 +62,12 @@ class DefaultToolbarMenu(
+@@ -60,6 +61,12 @@ class DefaultToolbarMenu(
      private val session: Session? get() = sessionManager.selectedSession
  
      override val menuBuilder by lazy {
@@ -32,7 +32,7 @@ index 9838a622c..f9488404f 100644
          WebExtensionBrowserMenuBuilder(
              menuItems,
              endOfMenuAlwaysVisible = !shouldReverseItems,
-@@ -71,6 +78,7 @@ class DefaultToolbarMenu(
+@@ -70,6 +77,7 @@ class DefaultToolbarMenu(
              },
              appendExtensionSubMenuAtStart = !shouldReverseItems
          )

@@ -1,60 +1,62 @@
-From d2a541155d0ce3803f7de7d10b9c34c9e9f538f8 Mon Sep 17 00:00:00 2001
+From f28df4f32986ce983d56a2898d4f942fa321526d Mon Sep 17 00:00:00 2001
 From: Sam Macbeth <sam@cliqz.com>
 Date: Mon, 3 Aug 2020 18:31:14 +0200
 Subject: Basic ghostery extension integration
 
 ---
- .gitignore                                             |  3 +++
- app/build.gradle                                       |  3 +++
- app/src/main/java/org/mozilla/fenix/components/Core.kt | 10 ++++++++++
- bootstrap.sh                                           |  9 +++++++++
- 4 files changed, 25 insertions(+)
+ .gitignore                                             | 3 ++-
+ app/build.gradle                                       | 4 +++-
+ app/src/main/java/org/mozilla/fenix/components/Core.kt | 9 +++++++++
+ bootstrap.sh                                           | 9 +++++++++
+ 4 files changed, 23 insertions(+), 2 deletions(-)
  create mode 100644 bootstrap.sh
 
 diff --git a/.gitignore b/.gitignore
-index 24d282a79..945f572e3 100644
+index 8cce379dd..889a7974b 100644
 --- a/.gitignore
 +++ b/.gitignore
-@@ -100,3 +100,6 @@ test_artifacts/
- /build/test-tools/google-cloud-sdk/
+@@ -100,6 +100,7 @@ test_artifacts/
  /build/test-tools/*.jar
  /build/test-tools/*.gz
-+
+ 
+-
+ # Web extensions: manifest.json files are generated
+ manifest.json
 +# Ghostery extension
 +/app/src/main/assets/extensions/ghostery
 diff --git a/app/build.gradle b/app/build.gradle
-index 466f25f05..9ec0a6c58 100644
+index a3302c257..5a9f9436e 100644
 --- a/app/build.gradle
 +++ b/app/build.gradle
-@@ -192,6 +192,9 @@ android {
-         // GeckoView must uncompress it before it can do anything else which
-         // causes a significant delay on startup.
-         noCompress 'ja'
+@@ -150,7 +150,9 @@ android {
+ 
+         // manifest.template.json is converted to manifest.json at build time.
+         // No need to package the template in the APK.
+-        ignoreAssetsPattern "manifest.template.json"
 +        // default ignoreAssetsPattern list includes all files and folders starting with _
 +        // that breaks webextensions i18n as traslation are located in _locales folder
-+        ignoreAssetsPattern  '!.svn:!.git:!.ds_store:!*.scc:.*:!CVS:!thumbs.db:!picasa.ini:!*~'
++        ignoreAssetsPattern "manifest.template.json:!.svn:!.git:!.ds_store:!*.scc:.*:!CVS:!thumbs.db:!picasa.ini:!*~"
      }
  
      testOptions {
 diff --git a/app/src/main/java/org/mozilla/fenix/components/Core.kt b/app/src/main/java/org/mozilla/fenix/components/Core.kt
-index 88cbcf4fd..e41ce19a2 100644
+index 333f3f7e7..b6e0bce0c 100644
 --- a/app/src/main/java/org/mozilla/fenix/components/Core.kt
 +++ b/app/src/main/java/org/mozilla/fenix/components/Core.kt
-@@ -7,6 +7,7 @@ package org.mozilla.fenix.components
- import GeckoProvider
+@@ -8,6 +8,7 @@ import GeckoProvider
  import android.content.Context
  import android.content.res.Configuration
+ import android.os.StrictMode
 +import android.util.Log
  import io.sentry.Sentry
  import kotlinx.coroutines.Dispatchers
  import kotlinx.coroutines.GlobalScope
-@@ -103,6 +104,15 @@ class Core(private val context: Context) {
-             if (shouldEnableWebcompatReporter) {
-                 WebCompatReporterFeature.install(it)
+@@ -113,6 +114,14 @@ class Core(private val context: Context, private val crashReporter: CrashReporti
+             if (Config.channel.isNightlyOrDebug || Config.channel.isBeta) {
+                 WebCompatReporterFeature.install(it, "fenix")
              }
 +
 +            it.installWebExtension("Ghostery", "resource://android/assets/extensions/ghostery/",
-+                true, supportActions = true,
 +                onSuccess = {
 +                    Log.d("GHOSTERY", "Installed Ghostery webextension: ${it.id}")
 +                },

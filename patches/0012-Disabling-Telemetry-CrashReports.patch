@@ -1,4 +1,4 @@
-From 1b20d7d158aa75d4548eb8fb53ec569ca146c3ed Mon Sep 17 00:00:00 2001
+From 21ff24ebb5f177b029b3f0975b5a35156f84761b Mon Sep 17 00:00:00 2001
 From: Sam Macbeth <sam@cliqz.com>
 Date: Mon, 3 Aug 2020 16:46:47 +0200
 Subject: Disabling Telemetry & CrashReports
@@ -7,31 +7,31 @@ Subject: Disabling Telemetry & CrashReports
  app/build.gradle                              |  2 +-
  app/src/main/AndroidManifest.xml              |  2 +-
  .../org/mozilla/fenix/FenixApplication.kt     |  8 ++++--
- .../org/mozilla/fenix/components/Analytics.kt | 25 +++++++++++--------
- .../fenix/crashes/DummyCrashReporter.kt       | 19 ++++++++++++++
+ .../org/mozilla/fenix/components/Analytics.kt | 27 ++++++++++---------
+ .../fenix/crashes/DummyCrashReporter.kt       | 19 +++++++++++++
  .../org/mozilla/fenix/ext/NavController.kt    |  5 ++--
  app/src/main/res/xml/preferences.xml          |  2 ++
- 7 files changed, 46 insertions(+), 17 deletions(-)
+ 7 files changed, 47 insertions(+), 18 deletions(-)
  create mode 100644 app/src/main/java/org/mozilla/fenix/crashes/DummyCrashReporter.kt
 
 diff --git a/app/build.gradle b/app/build.gradle
-index ed649a8ac..466f25f05 100644
+index 34e7649ce..a3302c257 100644
 --- a/app/build.gradle
 +++ b/app/build.gradle
-@@ -52,7 +52,7 @@ android {
+@@ -58,7 +58,7 @@ android {
          debug {
              shrinkResources false
              minifyEnabled false
 -            applicationIdSuffix ".fenix.debug"
 +            applicationIdSuffix ".debug"
-             manifestPlaceholders.isRaptorEnabled = "true"
+             buildConfigField "String", "AMO_COLLECTION", "\"83a9cccfe6e24a34bd7b155ff9ee32\""
              resValue "bool", "IS_DEBUG", "true"
              pseudoLocalesEnabled true
 diff --git a/app/src/main/AndroidManifest.xml b/app/src/main/AndroidManifest.xml
-index a07c272eb..fdff101bd 100644
+index 78a517e81..2f97c3e44 100644
 --- a/app/src/main/AndroidManifest.xml
 +++ b/app/src/main/AndroidManifest.xml
-@@ -37,7 +37,7 @@
+@@ -38,7 +38,7 @@
            inside their source set.
          -->
          <activity-alias
@@ -41,10 +41,10 @@ index a07c272eb..fdff101bd 100644
              <intent-filter>
                  <action android:name="android.intent.action.MAIN" />
 diff --git a/app/src/main/java/org/mozilla/fenix/FenixApplication.kt b/app/src/main/java/org/mozilla/fenix/FenixApplication.kt
-index 0d9a3b2c0..1959aecce 100644
+index e3b7e9ed6..2c782e0ae 100644
 --- a/app/src/main/java/org/mozilla/fenix/FenixApplication.kt
 +++ b/app/src/main/java/org/mozilla/fenix/FenixApplication.kt
-@@ -25,8 +25,6 @@ import mozilla.components.feature.addons.update.GlobalAddonDependencyProvider
+@@ -28,8 +28,6 @@ import mozilla.components.feature.addons.update.GlobalAddonDependencyProvider
  import mozilla.components.lib.crash.CrashReporter
  import mozilla.components.service.experiments.Experiments
  import mozilla.components.service.glean.Glean
@@ -53,7 +53,7 @@ index 0d9a3b2c0..1959aecce 100644
  import mozilla.components.support.base.log.Log
  import mozilla.components.support.base.log.logger.Logger
  import mozilla.components.support.base.log.sink.AndroidLogSink
-@@ -81,6 +79,7 @@ open class FenixApplication : LocaleAwareApplication() {
+@@ -84,6 +82,7 @@ open class FenixApplication : LocaleAwareApplication(), Provider {
              return
          }
  
@@ -61,7 +61,7 @@ index 0d9a3b2c0..1959aecce 100644
          if (Config.channel.isFenix) {
              // We need to always initialize Glean and do it early here.
              // Note that we are only initializing Glean here for "fenix" builds. "fennec" builds
-@@ -88,10 +87,12 @@ open class FenixApplication : LocaleAwareApplication() {
+@@ -91,10 +90,12 @@ open class FenixApplication : LocaleAwareApplication(), Provider {
              // user's choice from Fennec.
              initializeGlean()
          }
@@ -71,10 +71,10 @@ index 0d9a3b2c0..1959aecce 100644
      }
  
 +    /* Ghostery Begin: do not use glean +/
-     protected fun initializeGlean() {
+     protected open fun initializeGlean() {
          val telemetryEnabled = settings().isTelemetryEnabled
  
-@@ -107,6 +108,7 @@ open class FenixApplication : LocaleAwareApplication() {
+@@ -110,6 +111,7 @@ open class FenixApplication : LocaleAwareApplication(), Provider {
              uploadEnabled = telemetryEnabled
          )
      }
@@ -82,7 +82,7 @@ index 0d9a3b2c0..1959aecce 100644
  
      @CallSuper
      open fun setupInAllProcesses() {
-@@ -256,10 +258,12 @@ open class FenixApplication : LocaleAwareApplication() {
+@@ -294,10 +296,12 @@ open class FenixApplication : LocaleAwareApplication(), Provider {
      }
  
      private fun setupCrashReporting() {
@@ -96,7 +96,7 @@ index 0d9a3b2c0..1959aecce 100644
  
      /**
 diff --git a/app/src/main/java/org/mozilla/fenix/components/Analytics.kt b/app/src/main/java/org/mozilla/fenix/components/Analytics.kt
-index 8984a76f7..28ee07163 100644
+index 120a27ac1..3407f23a5 100644
 --- a/app/src/main/java/org/mozilla/fenix/components/Analytics.kt
 +++ b/app/src/main/java/org/mozilla/fenix/components/Analytics.kt
 @@ -22,12 +22,8 @@ import org.mozilla.fenix.components.metrics.AdjustMetricsService
@@ -146,7 +146,7 @@ index 8984a76f7..28ee07163 100644
              ),
              enabled = true,
              nonFatalCrashIntent = pendingIntent
-@@ -88,17 +86,21 @@ class Analytics(
+@@ -88,19 +86,23 @@ class Analytics(
  
      val metrics: MetricController by lazy {
          MetricController.create(
@@ -166,10 +166,13 @@ index 8984a76f7..28ee07163 100644
      }
  }
  
-+/* Ghostery Begin:  we don't use Sentry +/
- fun isSentryEnabled() = !BuildConfig.SENTRY_TOKEN.isNullOrEmpty()
+-fun isSentryEnabled() = !BuildConfig.SENTRY_TOKEN.isNullOrEmpty()
++fun isSentryEnabled() = false
  
++/* Ghostery Begin:  we don't use Sentry +/
  private fun getSentryProjectUrl(): String? {
+     val baseUrl = "https://sentry.prod.mozaws.net/operations"
+     return when (Config.channel) {
 @@ -110,3 +112,4 @@ private fun getSentryProjectUrl(): String? {
          else -> null
      }
@@ -201,19 +204,19 @@ index 000000000..708910d9e
 +    override fun report(crash: Crash.UncaughtExceptionCrash): String? = null
 +}
 diff --git a/app/src/main/java/org/mozilla/fenix/ext/NavController.kt b/app/src/main/java/org/mozilla/fenix/ext/NavController.kt
-index 912fd6e16..e47808d3a 100644
+index 4034c2472..988679be1 100644
 --- a/app/src/main/java/org/mozilla/fenix/ext/NavController.kt
 +++ b/app/src/main/java/org/mozilla/fenix/ext/NavController.kt
-@@ -10,8 +10,6 @@ import androidx.navigation.NavController
+@@ -8,8 +8,6 @@ import androidx.annotation.IdRes
+ import androidx.navigation.NavController
  import androidx.navigation.NavDirections
  import androidx.navigation.NavOptions
- import androidx.navigation.Navigator
 -import io.sentry.Sentry
 -import org.mozilla.fenix.components.isSentryEnabled
  
  /**
   * Navigate from the fragment with [id] using the given [directions].
-@@ -58,10 +56,13 @@ fun NavController.alreadyOnDestination(@IdRes destId: Int?): Boolean {
+@@ -27,10 +25,13 @@ fun NavController.alreadyOnDestination(@IdRes destId: Int?): Boolean {
      return destId?.let { currentDestination?.id == it || popBackStack(it, false) } ?: false
  }
  
@@ -228,15 +231,18 @@ index 912fd6e16..e47808d3a 100644
  
  fun NavController.navigateSafe(
 diff --git a/app/src/main/res/xml/preferences.xml b/app/src/main/res/xml/preferences.xml
-index b9d8a73f4..52366fea1 100644
+index e1f18cd8c..3ced997a2 100644
 --- a/app/src/main/res/xml/preferences.xml
 +++ b/app/src/main/res/xml/preferences.xml
-@@ -109,10 +109,12 @@
+@@ -114,6 +114,7 @@
              android:key="@string/pref_key_delete_browsing_data_on_quit_preference"
              android:title="@string/preferences_delete_browsing_data_on_quit" />
  
 +        <!-- Ghostery Begin: removing data collection sub-menu as we do not collect anything -+>
          <androidx.preference.Preference
+             android:icon="@drawable/ic_notifications"
+             android:key="@string/pref_key_notifications"
+@@ -123,6 +124,7 @@
              android:icon="@drawable/ic_data_collection"
              android:key="@string/pref_key_data_choices"
              android:title="@string/preferences_data_collection" />

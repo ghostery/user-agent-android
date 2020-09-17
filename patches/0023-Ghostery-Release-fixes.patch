@@ -1,55 +1,53 @@
-From 95e36db9e215411885688789bf113cf84e464d56 Mon Sep 17 00:00:00 2001
+From 8eb0c3749225d68d0bcc29e5d6c3552829523a79 Mon Sep 17 00:00:00 2001
 From: Stefano Pacifici <stefano.pacifici@gmail.com>
 Date: Tue, 30 Jun 2020 17:59:32 +0200
 Subject: Ghostery Release fixes
 
 ---
- app/src/main/java/org/mozilla/fenix/Config.kt      | 14 ++++++++++++--
- app/src/migration/AndroidManifest.xml              |  4 +++-
- .../org/mozilla/fenix/MigratingFenixApplication.kt |  2 ++
- 3 files changed, 17 insertions(+), 3 deletions(-)
+ app/src/main/java/org/mozilla/fenix/Config.kt        | 12 ++++++++++--
+ app/src/migration/AndroidManifest.xml                |  4 +++-
+ .../org/mozilla/fenix/MigratingFenixApplication.kt   |  2 ++
+ 3 files changed, 15 insertions(+), 3 deletions(-)
 
 diff --git a/app/src/main/java/org/mozilla/fenix/Config.kt b/app/src/main/java/org/mozilla/fenix/Config.kt
-index 2d9c5dc7c..26966789c 100644
+index 5ee692e40..852aec7d6 100644
 --- a/app/src/main/java/org/mozilla/fenix/Config.kt
 +++ b/app/src/main/java/org/mozilla/fenix/Config.kt
-@@ -10,7 +10,11 @@ enum class ReleaseChannel {
-     FenixProduction,
- 
-     FennecProduction,
--    FennecBeta;
-+    FennecBeta,
+@@ -8,7 +8,10 @@ enum class ReleaseChannel {
+     Debug,
+     Nightly,
+     Beta,
+-    Release;
++    Release,
 +    /* Ghostery Begin: add Ghostery release channel */
-+    FennecNightly,
 +    Ghostery;
 +    /* Ghostery End */
  
      val isReleased: Boolean
          get() = when (this) {
-@@ -32,6 +36,7 @@ enum class ReleaseChannel {
+@@ -32,6 +35,7 @@ enum class ReleaseChannel {
+     val isRelease: Boolean
          get() = when (this) {
-             FennecProduction -> true
-             FennecBeta -> true
+             Release -> true
 +            Ghostery -> true // Ghostery
              else -> false
          }
  
-@@ -60,6 +65,8 @@ object Config {
-         "debug" -> ReleaseChannel.FenixDebug
-         "fennecProduction" -> ReleaseChannel.FennecProduction
-         "fennecBeta" -> ReleaseChannel.FennecBeta
-+        "fennecNightly" -> ReleaseChannel.FennecNightly
+@@ -60,6 +64,7 @@ object Config {
+         "nightly" -> ReleaseChannel.Nightly
+         "beta" -> ReleaseChannel.Beta
+         "release" -> ReleaseChannel.Release
 +        "ghostery" -> ReleaseChannel.Ghostery // Ghostery
- 
-         // Builds for local performance analysis, recording benchmarks, automation, etc.
-         // This should be treated like a released channel because we want to test
-@@ -75,5 +82,8 @@ object Config {
+         else -> {
+             throw IllegalStateException("Unknown build type: ${BuildConfig.BUILD_TYPE}")
+         }
+@@ -68,5 +73,8 @@ object Config {
  
  private val fennecChannels: List<ReleaseChannel> = listOf(
-     ReleaseChannel.FennecBeta,
--    ReleaseChannel.FennecProduction
+     ReleaseChannel.Beta,
+-    ReleaseChannel.Release
++    ReleaseChannel.Release,
 +    /* Ghostery Begin: adding GHostery release channel */
-+    ReleaseChannel.FennecProduction,
 +    ReleaseChannel.Ghostery
 +    /* Ghostery End */
  )
@@ -70,10 +68,10 @@ index b89be3825..5d5449063 100644
          android:name="org.mozilla.fenix.MigratingFenixApplication"
          tools:replace="android:name">
 diff --git a/app/src/migration/java/org/mozilla/fenix/MigratingFenixApplication.kt b/app/src/migration/java/org/mozilla/fenix/MigratingFenixApplication.kt
-index f6de4e521..b3c4cacdc 100644
+index b6bfec281..85c9a9071 100644
 --- a/app/src/migration/java/org/mozilla/fenix/MigratingFenixApplication.kt
 +++ b/app/src/migration/java/org/mozilla/fenix/MigratingFenixApplication.kt
-@@ -61,7 +61,9 @@ class MigratingFenixApplication : FenixApplication() {
+@@ -62,7 +62,9 @@ class MigratingFenixApplication : FenixApplication() {
  
          // Now that we have migrated from Fennec whether the user wants to enable telemetry we can
          // initialize Glean

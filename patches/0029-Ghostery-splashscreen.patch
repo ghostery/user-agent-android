@@ -1,41 +1,31 @@
-From 60c22866c54c673596b9b59970c7426b00c069e4 Mon Sep 17 00:00:00 2001
+From 72229de6d232eb7843f90db7a47946df673dede5 Mon Sep 17 00:00:00 2001
 From: Stefano Pacifici <stefano.pacifici@gmail.com>
 Date: Wed, 15 Jul 2020 16:11:33 +0200
 Subject: Ghostery splashscreen
 
 ---
- .../java/org/mozilla/fenix/HomeActivity.kt    |  18 +++++++++++++++++-
- .../main/res/drawable-xxxhdpi/big_ghosty.png  | Bin 0 -> 9705 bytes
- .../splashscreen_window_background.xml        |   9 +++++++++
- app/src/main/res/layout/fragment_about.xml    |   1 -
- app/src/main/res/values/styles.xml            |   7 +++++--
- 5 files changed, 31 insertions(+), 4 deletions(-)
+ .../main/java/org/mozilla/fenix/HomeActivity.kt |  16 ++++++++++++++++
+ .../main/res/drawable-xxxhdpi/big_ghosty.png    | Bin 0 -> 9705 bytes
+ .../drawable/splashscreen_window_background.xml |   9 +++++++++
+ app/src/main/res/layout/fragment_about.xml      |   1 -
+ app/src/main/res/values/styles.xml              |   6 ++++--
+ 5 files changed, 29 insertions(+), 3 deletions(-)
  create mode 100644 app/src/main/res/drawable-xxxhdpi/big_ghosty.png
  create mode 100644 app/src/main/res/drawable/splashscreen_window_background.xml
 
 diff --git a/app/src/main/java/org/mozilla/fenix/HomeActivity.kt b/app/src/main/java/org/mozilla/fenix/HomeActivity.kt
-index d08b0acda..d0fd31e50 100644
+index aaa99af95..3bbdc27b7 100644
 --- a/app/src/main/java/org/mozilla/fenix/HomeActivity.kt
 +++ b/app/src/main/java/org/mozilla/fenix/HomeActivity.kt
-@@ -30,6 +30,7 @@ import kotlinx.android.synthetic.main.activity_home.*
- import kotlinx.coroutines.CoroutineScope
- import kotlinx.coroutines.Dispatchers
+@@ -36,6 +36,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
+ import kotlinx.coroutines.Job
+ import kotlinx.coroutines.delay
  import kotlinx.coroutines.launch
 +import kotlinx.coroutines.withContext
  import mozilla.components.browser.search.SearchEngine
- import mozilla.components.browser.session.Session
  import mozilla.components.browser.session.SessionManager
-@@ -64,8 +65,8 @@ import org.mozilla.fenix.exceptions.ExceptionsFragmentDirections
- import org.mozilla.fenix.ext.alreadyOnDestination
- import org.mozilla.fenix.ext.components
- import org.mozilla.fenix.ext.nav
--import org.mozilla.fenix.ext.settings
- import org.mozilla.fenix.ext.resetPoliciesAfter
-+import org.mozilla.fenix.ext.settings
- import org.mozilla.fenix.home.HomeFragmentDirections
- import org.mozilla.fenix.home.intent.CrashReporterIntentProcessor
- import org.mozilla.fenix.home.intent.DeepLinkIntentProcessor
-@@ -214,6 +215,21 @@ open class HomeActivity : LocaleAwareAppCompatActivity() {
+ import mozilla.components.browser.state.state.SessionState
+@@ -290,6 +291,21 @@ open class HomeActivity : LocaleAwareAppCompatActivity(), NavHostActivity {
                  }
              }
          }
@@ -56,7 +46,7 @@ index d08b0acda..d0fd31e50 100644
 +        /* Ghostery End */
      }
  
-     final override fun onPause() {
+     override fun onStart() {
 diff --git a/app/src/main/res/drawable-xxxhdpi/big_ghosty.png b/app/src/main/res/drawable-xxxhdpi/big_ghosty.png
 new file mode 100644
 index 0000000000000000000000000000000000000000..3e85c86b6d2f11766bec67e3dbee045028be9f15
@@ -282,7 +272,7 @@ index d95f9cedd..d47834d51 100644
          <TextView
              android:id="@+id/build_date"
 diff --git a/app/src/main/res/values/styles.xml b/app/src/main/res/values/styles.xml
-index 8d8b059a3..f1cd381c7 100644
+index fe8a99e24..e8804a3e3 100644
 --- a/app/src/main/res/values/styles.xml
 +++ b/app/src/main/res/values/styles.xml
 @@ -11,8 +11,10 @@
@@ -298,12 +288,6 @@ index 8d8b059a3..f1cd381c7 100644
          <item name="android:colorEdgeEffect">@color/accent_normal_theme</item>
          <item name="android:colorAccent">@color/primary_text_normal_theme</item>
          <item name="android:textColorPrimary">@color/state_list_text_color</item>
-@@ -579,4 +581,5 @@
-         <item name="elevation">90dp</item>
-         <item name="android:stateListAnimator">@null</item>
-     </style>
-+
- </resources>
 -- 
 2.25.1
 

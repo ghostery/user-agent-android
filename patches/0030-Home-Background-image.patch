@@ -1,4 +1,4 @@
-From 09786195968030b648127b1db856c94c5512c29e Mon Sep 17 00:00:00 2001
+From ce13ab277cc492feedde498a6e621705c9831c1b Mon Sep 17 00:00:00 2001
 From: Stefano Pacifici <stefano.pacifici@gmail.com>
 Date: Thu, 16 Jul 2020 17:39:25 +0200
 Subject: Home Background image
@@ -4714,7 +4714,7 @@ literal 0
 HcmV?d00001
 
 diff --git a/app/src/main/res/layout/fragment_home.xml b/app/src/main/res/layout/fragment_home.xml
-index cb7c95c3b..9dde1bcdc 100644
+index 23d861686..e019f6ed9 100644
 --- a/app/src/main/res/layout/fragment_home.xml
 +++ b/app/src/main/res/layout/fragment_home.xml
 @@ -15,6 +15,14 @@
@@ -4733,27 +4733,27 @@ index cb7c95c3b..9dde1bcdc 100644
          android:id="@+id/homeAppBar"
          android:layout_width="match_parent"
 diff --git a/app/src/main/res/values/colors.xml b/app/src/main/res/values/colors.xml
-index 9f65b995e..85366dad5 100644
+index eeea90c36..315cc7cd6 100644
 --- a/app/src/main/res/values/colors.xml
 +++ b/app/src/main/res/values/colors.xml
-@@ -48,7 +48,9 @@
-     <color name="top_site_background_light_theme">@android:color/white</color>
-     <color name="top_site_border_light_theme">@color/light_grey_30</color>
-     <color name="synced_tabs_separator_light_theme">@color/light_grey_30</color>
--    <color name="top_site_title_text_light_theme">@color/light_grey_80</color>
+@@ -35,7 +35,9 @@
+     <color name="dark_grey_90_gradient_start">#FF15141A</color>
+     <color name="dark_grey_90_gradient_end">#0015141A</color>
+     <color name="synced_tabs_separator_light_theme">@color/photonLightGrey30</color>
+-    <color name="top_site_title_text_light_theme">@color/photonLightGrey80</color>
 +    <!-- Ghostery Begin: home background -->
 +    <color name="top_site_title_text_light_theme">@color/white_color</color>
 +    <!-- Ghostrey End -->
      <color name="collection_icon_color_violet_light_theme">#7542E5</color>
      <color name="collection_icon_color_blue_light_theme">#0250BB</color>
      <color name="collection_icon_color_pink_light_theme">#E31587</color>
-@@ -108,7 +110,9 @@
-     <color name="top_site_background_dark_theme">@color/dark_grey_50</color>
-     <color name="top_site_border_dark_theme">@color/dark_grey_10</color>
-     <color name="synced_tabs_separator_dark_theme">@color/dark_grey_10</color>
--    <color name="top_site_title_text_dark_theme">@color/light_grey_90</color>
+@@ -103,7 +105,9 @@
+     <color name="scrimStart_dark_theme">#F520123A</color>
+     <color name="scrimEnd_dark_theme">#F515141A</color>
+     <color name="synced_tabs_separator_dark_theme">@color/photonDarkGrey10</color>
+-    <color name="top_site_title_text_dark_theme">@color/photonLightGrey90</color>
 +    <!-- Ghostery Begin: home background -->
-+    <color name="top_site_title_text_dark_theme">@color/light_grey_10</color>
++    <color name="top_site_title_text_dark_theme">#F9F9FB</color>
 +    <!-- Ghostery End -->
      <color name="collection_icon_color_violet_dark_theme">#AB71FF</color>
      <color name="collection_icon_color_blue_dark_theme">#00B3F4</color>

@@ -1,22 +1,22 @@
-From a019f2f8ba61649b4798dffad9d064a05c8019cf Mon Sep 17 00:00:00 2001
+From a06717ade5b75ade7965bce878c7642009fe515a Mon Sep 17 00:00:00 2001
 From: Stefano Pacifici <stefano.pacifici@gmail.com>
 Date: Fri, 3 Jul 2020 11:53:10 +0200
 Subject: Fixing null version name in About
 
 ---
- app/build.gradle                                         | 4 +++-
- .../org/mozilla/fenix/settings/about/AboutFragment.kt    | 2 +-
- .../mozac_support_migration_notification_icon.xml        | 6 ++++++
- app/src/main/res/values/strings.xml                      | 9 ++++++++-
- buildSrc/src/main/java/Config.kt                         | 6 ++++--
- 5 files changed, 22 insertions(+), 5 deletions(-)
+ app/build.gradle                                    |  4 +++-
+ .../mozilla/fenix/settings/about/AboutFragment.kt   |  2 +-
+ .../mozac_support_migration_notification_icon.xml   |  6 ++++++
+ app/src/main/res/values/strings.xml                 | 13 ++++++++-----
+ buildSrc/src/main/java/Config.kt                    |  6 ++++--
+ 5 files changed, 22 insertions(+), 9 deletions(-)
  create mode 100644 app/src/main/res/drawable/mozac_support_migration_notification_icon.xml
 
 diff --git a/app/build.gradle b/app/build.gradle
-index 9ec0a6c58..1500d1e64 100644
+index 5a9f9436e..307f2cc3a 100644
 --- a/app/build.gradle
 +++ b/app/build.gradle
-@@ -26,7 +26,9 @@ android {
+@@ -25,7 +25,9 @@ android {
          minSdkVersion Config.minSdkVersion
          targetSdkVersion Config.targetSdkVersion
          versionCode 1
@@ -28,10 +28,10 @@ index 9ec0a6c58..1500d1e64 100644
          testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
          testInstrumentationRunnerArguments clearPackageData: 'true'
 diff --git a/app/src/main/java/org/mozilla/fenix/settings/about/AboutFragment.kt b/app/src/main/java/org/mozilla/fenix/settings/about/AboutFragment.kt
-index b4c64cbef..53964c520 100644
+index b4b5516a0..b49cb214b 100644
 --- a/app/src/main/java/org/mozilla/fenix/settings/about/AboutFragment.kt
 +++ b/app/src/main/java/org/mozilla/fenix/settings/about/AboutFragment.kt
-@@ -120,7 +120,7 @@ class AboutFragment : Fragment(), AboutPageListener {
+@@ -104,7 +104,7 @@ class AboutFragment : Fragment(), AboutPageListener {
  
              String.format(
                  "%s (Build #%s)\n%s: %s\n%s: %s\n%s: %s",
@@ -53,7 +53,7 @@ index 000000000..7834d7282
 +        android:strokeColor="#00000000" android:strokeWidth="1"/>
 +</vector>
 diff --git a/app/src/main/res/values/strings.xml b/app/src/main/res/values/strings.xml
-index 5ea444599..a329daecf 100644
+index 1d7f2d076..0dc6e5b7a 100644
 --- a/app/src/main/res/values/strings.xml
 +++ b/app/src/main/res/values/strings.xml
 @@ -1,7 +1,7 @@
@@ -65,10 +65,14 @@ index 5ea444599..a329daecf 100644
      <!-- App name for private browsing mode. The first parameter is the name of the app defined in app_name (for example: Fenix)-->
      <string name="app_name_private_5">Private %s</string>
      <!-- App name for private browsing mode. The first parameter is the name of the app defined in app_name (for example: Fenix)-->
-@@ -1420,4 +1420,11 @@
-     <string name="top_sites_max_limit_confirmation_button">OK, Got It</string>
-     <!-- Content description (not visible, for screen readers etc.) used to announce [LinkTextView]. -->
-     <string name="link_text_view_type_announcement">link</string>
+@@ -1541,8 +1541,11 @@
+     <string name="no_collections_header1">Collect the things that matter to you</string>
+     <!-- Deprecated: Label to describe what collections are to a new user without any collections -->
+     <string name="no_collections_description1">Group together similar searches, sites, and tabs for quick access later.</string>
+-    <!-- Deprecated: text for the firefox account onboarding card header when we detect you're already signed in to -->
+-    <string name="onboarding_firefox_account_auto_signin_header_2">You are signed in as %s on another Firefox browser on this phone. Would you like to sign in with this account?</string>
+-    <!-- Deprecated: Describes the add to homescreen functionality -->
+-    <string name="add_to_homescreen_description">You can easily add this website to your phone’s Home screen to have instant access and browse faster with an app-like experience.</string>
 +
 +    <!-- Ghostery Begin: overriding migration strings -->
 +    <!-- Text of the notification shown while we upgrade Fennec to Fenix. -->
@@ -78,12 +82,12 @@ index 5ea444599..a329daecf 100644
 +    <!-- Ghostery End -->
  </resources>
 diff --git a/buildSrc/src/main/java/Config.kt b/buildSrc/src/main/java/Config.kt
-index e60c69faa..24a3f457a 100644
+index b3f6ff907..3a8471e41 100644
 --- a/buildSrc/src/main/java/Config.kt
 +++ b/buildSrc/src/main/java/Config.kt
 @@ -17,15 +17,17 @@ object Config {
      const val minSdkVersion = 21
-     const val targetSdkVersion = 28
+     const val targetSdkVersion = 29
  
 +    /* Ghostery Begin: if we have a version name, do not generate one */
      @JvmStatic

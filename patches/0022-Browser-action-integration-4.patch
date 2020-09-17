@@ -1,4 +1,4 @@
-From 5ae107d4424cb7db0a09571ce38a2d7b66451ab9 Mon Sep 17 00:00:00 2001
+From d0e9e8e93011926854b669116c50159475af27ff Mon Sep 17 00:00:00 2001
 From: Sam Macbeth <sammacbeth@users.noreply.github.com>
 Date: Mon, 29 Jun 2020 16:29:21 +0200
 Subject: Browser action integration (#4)
@@ -10,40 +10,27 @@ Subject: Browser action integration (#4)
 * Open ghostery action when Ghosty icon is clicked
 ---
  .../fenix/browser/BaseBrowserFragment.kt      |  6 ++-
- .../components/toolbar/DefaultToolbarMenu.kt  |  1 -
  .../ic_tracking_protection_disabled.xml       | 38 +++++++------------
  .../ic_tracking_protection_enabled.xml        | 38 +++++++------------
- 4 files changed, 30 insertions(+), 53 deletions(-)
+ 3 files changed, 30 insertions(+), 52 deletions(-)
 
 diff --git a/app/src/main/java/org/mozilla/fenix/browser/BaseBrowserFragment.kt b/app/src/main/java/org/mozilla/fenix/browser/BaseBrowserFragment.kt
-index 9ed9985f7..652c1dc18 100644
+index 8bda407fd..4df3baafa 100644
 --- a/app/src/main/java/org/mozilla/fenix/browser/BaseBrowserFragment.kt
 +++ b/app/src/main/java/org/mozilla/fenix/browser/BaseBrowserFragment.kt
-@@ -296,8 +296,10 @@ abstract class BaseBrowserFragment : Fragment(), UserInteractionHandler, Session
+@@ -333,8 +333,10 @@ abstract class BaseBrowserFragment : Fragment(), UserInteractionHandler, Session
              }
  
              browserToolbarView.view.display.setOnTrackingProtectionClickedListener {
 -                context.metrics.track(Event.TrackingProtectionIconPressed)
 -                showTrackingProtectionPanel()
-+                val globalAction = store.state.extensions.get("Ghostery")?.browserAction
++                val globalAction = store.state.extensions.get("firefox@ghostery.com")?.browserAction
 +                if (globalAction != null) {
 +                    globalAction.onClick()
 +                }
              }
  
              contextMenuFeature.set(
-diff --git a/app/src/main/java/org/mozilla/fenix/components/toolbar/DefaultToolbarMenu.kt b/app/src/main/java/org/mozilla/fenix/components/toolbar/DefaultToolbarMenu.kt
-index e33e8d453..9838a622c 100644
---- a/app/src/main/java/org/mozilla/fenix/components/toolbar/DefaultToolbarMenu.kt
-+++ b/app/src/main/java/org/mozilla/fenix/components/toolbar/DefaultToolbarMenu.kt
-@@ -12,7 +12,6 @@ import androidx.lifecycle.lifecycleScope
- import kotlinx.coroutines.Job
- import kotlinx.coroutines.launch
- import mozilla.components.browser.menu.BrowserMenuHighlight
--import mozilla.components.browser.menu.WebExtensionBrowserMenuBuilder
- import mozilla.components.browser.menu.item.BrowserMenuDivider
- import mozilla.components.browser.menu.item.BrowserMenuHighlightableItem
- import mozilla.components.browser.menu.item.BrowserMenuImageSwitch
 diff --git a/app/src/main/res/drawable/ic_tracking_protection_disabled.xml b/app/src/main/res/drawable/ic_tracking_protection_disabled.xml
 index 0ef9a1b5c..1433eb44d 100644
 --- a/app/src/main/res/drawable/ic_tracking_protection_disabled.xml

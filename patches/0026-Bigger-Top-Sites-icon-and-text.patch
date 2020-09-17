@@ -1,69 +1,62 @@
-From 55669a7666392c20a9940c96c00fd7f56e8c27f3 Mon Sep 17 00:00:00 2001
+From 44ca7b53cc4a1deac4710cedb21988fd0ec1c976 Mon Sep 17 00:00:00 2001
 From: Stefano Pacifici <stefano.pacifici@gmail.com>
 Date: Tue, 7 Jul 2020 15:52:07 +0200
 Subject: Bigger Top Sites icon and text
 
 ---
- app/src/main/res/layout/top_site_item.xml | 21 +++++++++++++--------
- 1 file changed, 13 insertions(+), 8 deletions(-)
+ app/src/main/res/layout/top_site_item.xml | 9 ++++++---
+ app/src/main/res/values/dimens.xml        | 4 ++--
+ 2 files changed, 8 insertions(+), 5 deletions(-)
 
 diff --git a/app/src/main/res/layout/top_site_item.xml b/app/src/main/res/layout/top_site_item.xml
-index 2267ce9d1..11421785e 100644
+index 84c926480..f5cba4687 100644
 --- a/app/src/main/res/layout/top_site_item.xml
 +++ b/app/src/main/res/layout/top_site_item.xml
-@@ -2,31 +2,34 @@
- <!-- This Source Code Form is subject to the terms of the Mozilla Public
-    - License, v. 2.0. If a copy of the MPL was not distributed with this
+@@ -4,6 +4,7 @@
     - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
-+<!-- Ghostery Begin: making the icons and text bigger -->
  <LinearLayout
      xmlns:android="http://schemas.android.com/apk/res/android"
-     xmlns:app="http://schemas.android.com/apk/res-auto"
 +    xmlns:tools="http://schemas.android.com/tools"
      android:id="@+id/top_site_item"
--    android:layout_width="64dp"
-+    android:layout_width="84dp"
-     android:layout_height="wrap_content"
-     android:padding="8dp"
-     android:orientation="vertical">
- 
-     <FrameLayout
-         android:id="@+id/favicon_wrapper"
--        android:layout_width="40dp"
--        android:layout_height="40dp"
-+        android:layout_width="52dp"
-+        android:layout_height="52dp"
-         android:padding="4dp"
-         android:background="@drawable/top_sites_background"
+     android:layout_width="match_parent"
+     android:layout_height="@dimen/top_sites_item_size"
+@@ -15,7 +16,8 @@
+         android:id="@+id/favicon_image"
+         style="@style/TopSite.Favicon"
          android:layout_gravity="center"
-        >
-         <ImageView
-             android:id="@+id/favicon_image"
--            android:layout_width="24dp"
--            android:layout_height="24dp"
-+            android:layout_width="36dp"
-+            android:layout_height="36dp"
-             android:layout_gravity="center"
-             android:adjustViewBounds="true"
-             android:importantForAccessibility="no"
--            android:scaleType="fitCenter" />
-+            android:scaleType="fitCenter"
-+            tools:src="@drawable/ic_folder_icon"/>
-     </FrameLayout>
+-        android:importantForAccessibility="no" />
++        android:importantForAccessibility="no"
++        tools:src="@drawable/ic_folder_icon" />
  
      <TextView
-@@ -36,7 +39,9 @@
-         android:gravity="center"
+         android:id="@+id/top_site_title"
+@@ -25,7 +27,8 @@
          android:singleLine="true"
+         android:layout_gravity="center_horizontal"
          android:textColor="@color/top_site_title_text"
 -        android:textSize="10sp"
--        android:layout_marginTop="8dp" />
+-        android:layout_marginTop="@dimen/top_sites_text_margin_top" />
 +        android:textSize="14sp"
 +        android:layout_marginTop="8dp"
 +        tools:text="Ghostery" />
  
  </LinearLayout>
-+<!-- Ghostery End -->
+diff --git a/app/src/main/res/values/dimens.xml b/app/src/main/res/values/dimens.xml
+index 7a493a52c..5127f965a 100644
+--- a/app/src/main/res/values/dimens.xml
++++ b/app/src/main/res/values/dimens.xml
+@@ -170,9 +170,9 @@
+     <dimen name="saved_logins_item_margin_end">48dp</dimen>
+ 
+     <!-- Top sites  -->
+-    <dimen name="top_sites_favicon_size">40dp</dimen>
++    <dimen name="top_sites_favicon_size">52dp</dimen>
+     <dimen name="top_sites_favicon_padding">4dp</dimen>
+-    <dimen name="top_sites_item_size">64dp</dimen>
++    <dimen name="top_sites_item_size">84dp</dimen>
+     <dimen name="top_sites_item_margin_top">12dp</dimen>
+     <dimen name="top_sites_text_margin_top">8dp</dimen>
+ 
 -- 
 2.25.1
 

@@ -1,21 +1,21 @@
-From 290bdb4e65d0297f1f2aa9af185137b8ab6c0d55 Mon Sep 17 00:00:00 2001
+From f373c18994782c7e6d6b6961dded0513423d7b76 Mon Sep 17 00:00:00 2001
 From: Stefano Pacifici <stefano.pacifici@gmail.com>
 Date: Fri, 26 Jun 2020 16:18:32 +0200
 Subject: Removing Collections (again)
 
 ---
- .../fenix/components/toolbar/DefaultToolbarMenu.kt        | 8 ++++++--
- .../fenix/home/sessioncontrol/SessionControlAdapter.kt    | 5 +++++
- .../fenix/home/sessioncontrol/SessionControlView.kt       | 5 +++++
- .../main/java/org/mozilla/fenix/tabtray/TabTrayView.kt    | 3 ++-
- app/src/main/res/menu/tab_tray_menu.xml                   | 3 ++-
- 5 files changed, 20 insertions(+), 4 deletions(-)
+ .../fenix/components/toolbar/DefaultToolbarMenu.kt    | 11 +++++++----
+ .../home/sessioncontrol/SessionControlAdapter.kt      |  4 ++++
+ .../fenix/home/sessioncontrol/SessionControlView.kt   |  7 ++++++-
+ .../java/org/mozilla/fenix/tabtray/TabTrayView.kt     |  3 ++-
+ app/src/main/res/menu/tab_tray_menu.xml               |  3 ++-
+ 5 files changed, 21 insertions(+), 7 deletions(-)
 
 diff --git a/app/src/main/java/org/mozilla/fenix/components/toolbar/DefaultToolbarMenu.kt b/app/src/main/java/org/mozilla/fenix/components/toolbar/DefaultToolbarMenu.kt
-index 427ec0306..e33e8d453 100644
+index ed5da2094..214a20974 100644
 --- a/app/src/main/java/org/mozilla/fenix/components/toolbar/DefaultToolbarMenu.kt
 +++ b/app/src/main/java/org/mozilla/fenix/components/toolbar/DefaultToolbarMenu.kt
-@@ -158,15 +158,17 @@ class DefaultToolbarMenu(
+@@ -172,18 +172,19 @@ class DefaultToolbarMenu(
  
      private val menuItems by lazy {
          // Predicates that are called once, during screen init
@@ -23,18 +23,22 @@ index 427ec0306..e33e8d453 100644
          val shouldShowSaveToCollection = (context.asActivity() as? HomeActivity)
              ?.browsingModeManager?.mode == BrowsingMode.Normal
 +        /+ Ghostery End */
-         val shouldDeleteDataOnQuit = Settings.getInstance(context)
++
+         val shouldDeleteDataOnQuit = context.components.settings
              .shouldDeleteBrowsingDataOnQuit
+-        val syncedTabsInTabsTray = context.components.settings
+-            .syncedTabsInTabsTray
  
          val menuItems = listOfNotNull(
+             downloadsItem,
              historyItem,
              bookmarksItem,
--            if (FeatureFlags.syncedTabs) syncedTabs else null,
+-            if (syncedTabsInTabsTray) null else syncedTabs,
 +            // Ghostery - if (FeatureFlags.syncedTabs) syncedTabs else null,
              settings,
              if (shouldDeleteDataOnQuit) deleteDataOnQuit else null,
              BrowserMenuDivider(),
-@@ -174,7 +176,7 @@ class DefaultToolbarMenu(
+@@ -191,7 +192,7 @@ class DefaultToolbarMenu(
              addToTopSites,
              addToHomescreen.apply { visible = ::canAddToHomescreen },
              installToHomescreen.apply { visible = ::canInstall },
@@ -43,7 +47,7 @@ index 427ec0306..e33e8d453 100644
              desktopMode,
              openInApp.apply { visible = ::shouldShowOpenInApp },
              readerAppearance.apply { visible = ::shouldShowReaderAppearance },
-@@ -265,6 +267,7 @@ class DefaultToolbarMenu(
+@@ -282,6 +283,7 @@ class DefaultToolbarMenu(
          onItemTapped.invoke(ToolbarMenu.Item.FindInPage)
      }
  
@@ -51,7 +55,7 @@ index 427ec0306..e33e8d453 100644
      private val saveToCollection = BrowserMenuImageText(
          label = context.getString(R.string.browser_menu_save_to_collection_2),
          imageResource = R.drawable.ic_tab_collection,
-@@ -272,6 +275,7 @@ class DefaultToolbarMenu(
+@@ -289,6 +291,7 @@ class DefaultToolbarMenu(
      ) {
          onItemTapped.invoke(ToolbarMenu.Item.SaveToCollection)
      }
@@ -60,10 +64,10 @@ index 427ec0306..e33e8d453 100644
      private val deleteDataOnQuit = BrowserMenuImageText(
          label = context.getString(R.string.delete_browsing_data_on_quit_action),
 diff --git a/app/src/main/java/org/mozilla/fenix/home/sessioncontrol/SessionControlAdapter.kt b/app/src/main/java/org/mozilla/fenix/home/sessioncontrol/SessionControlAdapter.kt
-index d19f3c1af..c433ba5a3 100644
+index bde850a17..8beb270f4 100644
 --- a/app/src/main/java/org/mozilla/fenix/home/sessioncontrol/SessionControlAdapter.kt
 +++ b/app/src/main/java/org/mozilla/fenix/home/sessioncontrol/SessionControlAdapter.kt
-@@ -43,6 +43,7 @@ sealed class AdapterItem(@LayoutRes val viewType: Int) {
+@@ -60,6 +60,7 @@ sealed class AdapterItem(@LayoutRes val viewType: Int) {
      object PrivateBrowsingDescription : AdapterItem(PrivateBrowsingDescriptionViewHolder.LAYOUT_ID)
      object NoCollectionsMessage : AdapterItem(NoCollectionsMessageViewHolder.LAYOUT_ID)
  
@@ -71,18 +75,17 @@ index d19f3c1af..c433ba5a3 100644
      object CollectionHeader : AdapterItem(CollectionHeaderViewHolder.LAYOUT_ID)
      data class CollectionItem(
          val collection: TabCollection,
-@@ -50,6 +51,8 @@ sealed class AdapterItem(@LayoutRes val viewType: Int) {
-     ) : AdapterItem(CollectionViewHolder.LAYOUT_ID) {
-         override fun sameAs(other: AdapterItem) = other is CollectionItem && collection.id == other.collection.id
+@@ -74,6 +75,7 @@ sealed class AdapterItem(@LayoutRes val viewType: Int) {
+             } ?: return false
+         }
      }
 +    /+ Ghostery End */
-+
+ 
      data class TabInCollectionItem(
          val collection: TabCollection,
-         val tab: ComponentTab,
-@@ -151,10 +154,12 @@ class SessionControlAdapter(
-             is TopSiteViewHolder -> {
-                 holder.bind((item as AdapterItem.TopSiteList).topSites)
+@@ -206,10 +208,12 @@ class SessionControlAdapter(
+             is TopSitePagerViewHolder -> {
+                 holder.bind((item as AdapterItem.TopSitePager).topSites)
              }
 +            /* Ghostery Begin: removing collections +/
              is CollectionViewHolder -> {
@@ -94,25 +97,28 @@ index d19f3c1af..c433ba5a3 100644
                  val (collection, tab, isLastTab) = item as AdapterItem.TabInCollectionItem
                  holder.bindSession(collection, tab, isLastTab)
 diff --git a/app/src/main/java/org/mozilla/fenix/home/sessioncontrol/SessionControlView.kt b/app/src/main/java/org/mozilla/fenix/home/sessioncontrol/SessionControlView.kt
-index 41e4b1ad0..0679b8667 100644
+index 5aaaa3854..534d8cab9 100644
 --- a/app/src/main/java/org/mozilla/fenix/home/sessioncontrol/SessionControlView.kt
 +++ b/app/src/main/java/org/mozilla/fenix/home/sessioncontrol/SessionControlView.kt
-@@ -21,6 +21,7 @@ import org.mozilla.fenix.components.tips.Tip
+@@ -22,7 +22,8 @@ import org.mozilla.fenix.home.OnboardingState
  
  // This method got a little complex with the addition of the tab tray feature flag
  // When we remove the tabs from the home screen this will get much simpler again.
+-@Suppress("ComplexMethod")
 +@Suppress("UNUSED_PARAMETER")
- @SuppressWarnings("LongParameterList", "ComplexMethod")
++@SuppressWarnings("UNUSED_PARAMETER", "ComplexMethod")
  private fun normalModeAdapterItems(
      topSites: List<TopSite>,
-@@ -36,16 +37,19 @@ private fun normalModeAdapterItems(
-         items.add(AdapterItem.TopSiteList(topSites))
+     collections: List<TabCollection>,
+@@ -38,6 +39,7 @@ private fun normalModeAdapterItems(
+         items.add(AdapterItem.TopSitePager(topSites))
      }
  
 +    /* Ghostery Begin: do not show collections +/
      if (collections.isEmpty()) {
-         items.add(AdapterItem.CollectionHeader)
-         items.add(AdapterItem.NoCollectionsMessage)
+         if (showCollectionsPlaceholder) {
+             items.add(AdapterItem.NoCollectionsMessage)
+@@ -45,10 +47,12 @@ private fun normalModeAdapterItems(
      } else {
          showCollections(collections, expandedCollections, items)
      }
@@ -125,7 +131,7 @@ index 41e4b1ad0..0679b8667 100644
  private fun showCollections(
      collections: List<TabCollection>,
      expandedCollections: Set<Long>,
-@@ -62,6 +66,7 @@ private fun showCollections(
+@@ -65,6 +69,7 @@ private fun showCollections(
          }
      }
  }
@@ -134,10 +140,10 @@ index 41e4b1ad0..0679b8667 100644
  private fun privateModeAdapterItems() = listOf(AdapterItem.PrivateBrowsingDescription)
  
 diff --git a/app/src/main/java/org/mozilla/fenix/tabtray/TabTrayView.kt b/app/src/main/java/org/mozilla/fenix/tabtray/TabTrayView.kt
-index 0562f2fba..291857c4b 100644
+index 3a237e22a..4031213df 100644
 --- a/app/src/main/java/org/mozilla/fenix/tabtray/TabTrayView.kt
 +++ b/app/src/main/java/org/mozilla/fenix/tabtray/TabTrayView.kt
-@@ -313,6 +313,7 @@ class TabTrayItemMenu(
+@@ -602,6 +602,7 @@ class TabTrayItemMenu(
  
      private val menuItems by lazy {
          listOf(
@@ -145,7 +151,7 @@ index 0562f2fba..291857c4b 100644
              SimpleBrowserMenuItem(
                  context.getString(R.string.tab_tray_menu_item_save),
                  textColorResource = R.color.primary_text_normal_theme
-@@ -320,7 +321,7 @@ class TabTrayItemMenu(
+@@ -609,7 +610,7 @@ class TabTrayItemMenu(
                  context.components.analytics.metrics.track(Event.TabsTraySaveToCollectionPressed)
                  onItemTapped.invoke(Item.SaveToCollection)
              }.apply { visible = shouldShowSaveToCollection },

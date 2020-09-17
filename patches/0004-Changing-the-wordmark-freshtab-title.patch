@@ -1,4 +1,4 @@
-From 15e01bbddc44a08c91f444d301a285a7dac6ee3e Mon Sep 17 00:00:00 2001
+From 76a236a2030fafe9f936a6e95c45d3abdb7a5a15 Mon Sep 17 00:00:00 2001
 From: Stefano Pacifici <stefano.pacifici@gmail.com>
 Date: Fri, 5 Jun 2020 18:22:06 +0200
 Subject: Changing the wordmark (freshtab title)
@@ -9899,11 +9899,11 @@ index 2ad922ef5..d7f5874e4 100644
              app:layout_constraintStart_toStartOf="parent"
              app:layout_constraintTop_toTopOf="parent"
 diff --git a/app/src/main/res/values/styles.xml b/app/src/main/res/values/styles.xml
-index e84b80112..8d8b059a3 100644
+index 163e64e1c..fe8a99e24 100644
 --- a/app/src/main/res/values/styles.xml
 +++ b/app/src/main/res/values/styles.xml
-@@ -88,7 +88,9 @@
-         <item name="tabTrayThumbnailIcon">@color/tab_tray_item_thumbnail_icon_normal_theme</item>
+@@ -100,7 +100,9 @@
+         <item name="tabHistoryItemSelectedBackground">@color/tab_history_item_selected_background_normal_theme</item>
  
          <!-- Drawables -->
 -        <item name="fenixLogo">@drawable/ic_logo_wordmark_normal</item>
@@ -9913,8 +9913,8 @@ index e84b80112..8d8b059a3 100644
          <item name="homeBackground">@color/foundation_normal_theme</item>
          <item name="bottomBarBackground">@drawable/home_bottom_bar_background</item>
          <item name="bottomBarBackgroundTop">@drawable/home_bottom_bar_background_top</item>
-@@ -215,7 +217,9 @@
-         <item name="tabTrayThumbnailIcon">@color/tab_tray_item_thumbnail_icon_normal_theme</item>
+@@ -250,7 +252,9 @@
+         <item name="tabHistoryItemSelectedBackground">@color/tab_history_item_selected_background_private_theme</item>
  
          <!-- Drawables -->
 -        <item name="fenixLogo">@drawable/ic_logo_wordmark_private</item>

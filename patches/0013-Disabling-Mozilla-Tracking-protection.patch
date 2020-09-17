@@ -1,4 +1,4 @@
-From fd2b4ee8036be96b9a574a4fa61a649ceaa1e45c Mon Sep 17 00:00:00 2001
+From 9ed01451ceaab589b209f2466de79850b228e2e0 Mon Sep 17 00:00:00 2001
 From: Stefano Pacifici <stefano.pacifici@gmail.com>
 Date: Wed, 10 Jun 2020 15:09:45 +0200
 Subject: Disabling Mozilla Tracking protection
@@ -10,10 +10,10 @@ Subject: Disabling Mozilla Tracking protection
  3 files changed, 5 insertions(+), 1 deletion(-)
 
 diff --git a/app/src/main/java/org/mozilla/fenix/components/Core.kt b/app/src/main/java/org/mozilla/fenix/components/Core.kt
-index 9bfe78f1c..88cbcf4fd 100644
+index 997e940ca..333f3f7e7 100644
 --- a/app/src/main/java/org/mozilla/fenix/components/Core.kt
 +++ b/app/src/main/java/org/mozilla/fenix/components/Core.kt
-@@ -73,7 +73,7 @@ class Core(private val context: Context) {
+@@ -83,7 +83,7 @@ class Core(private val context: Context, private val crashReporter: CrashReporti
              requestInterceptor = AppRequestInterceptor(context),
              remoteDebuggingEnabled = context.settings().isRemoteDebuggingEnabled,
              testingModeEnabled = false,
@@ -23,10 +23,10 @@ index 9bfe78f1c..88cbcf4fd 100644
              preferredColorScheme = getPreferredColorScheme(),
              automaticFontSizeAdjustment = context.settings().shouldUseAutoSize,
 diff --git a/app/src/main/java/org/mozilla/fenix/settings/SettingsFragment.kt b/app/src/main/java/org/mozilla/fenix/settings/SettingsFragment.kt
-index 153948648..6511cc463 100644
+index 33741ff92..8295c0b93 100644
 --- a/app/src/main/java/org/mozilla/fenix/settings/SettingsFragment.kt
 +++ b/app/src/main/java/org/mozilla/fenix/settings/SettingsFragment.kt
-@@ -126,6 +126,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
+@@ -154,6 +154,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
      }
  
      private fun update(shouldUpdateAccountUIState: Boolean) {
@@ -34,7 +34,7 @@ index 153948648..6511cc463 100644
          val trackingProtectionPreference =
              requirePreference<Preference>(R.string.pref_key_tracking_protection_settings)
          trackingProtectionPreference.summary = context?.let {
-@@ -135,6 +136,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
+@@ -163,6 +164,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
                  getString(R.string.tracking_protection_off)
              }
          }
@@ -43,10 +43,10 @@ index 153948648..6511cc463 100644
          val aboutPreference = requirePreference<Preference>(R.string.pref_key_about)
          val appName = getString(R.string.app_name)
 diff --git a/app/src/main/res/xml/preferences.xml b/app/src/main/res/xml/preferences.xml
-index 52366fea1..bc25b8611 100644
+index 3ced997a2..2c7eaaea1 100644
 --- a/app/src/main/res/xml/preferences.xml
 +++ b/app/src/main/res/xml/preferences.xml
-@@ -89,10 +89,12 @@
+@@ -94,10 +94,12 @@
              android:key="@string/pref_key_private_browsing"
              android:title="@string/preferences_private_browsing_options"/>
  

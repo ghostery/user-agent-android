@@ -1,4 +1,4 @@
-From 4d11c13e0b9095f9a14db6fa2bc9d45aa3976b3a Mon Sep 17 00:00:00 2001
+From 1bb4757e04f1222a8ee0c7bd61872445f3f99fdc Mon Sep 17 00:00:00 2001
 From: Stefano Pacifici <stefano.pacifici@gmail.com>
 Date: Fri, 5 Jun 2020 18:22:29 +0200
 Subject: Changing the app_name
@@ -8,7 +8,7 @@ Subject: Changing the app_name
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/app/src/main/res/values/static_strings.xml b/app/src/main/res/values/static_strings.xml
-index fe7ea6b8f..7cdd230e4 100644
+index 2d46b333c..85fa90770 100644
 --- a/app/src/main/res/values/static_strings.xml
 +++ b/app/src/main/res/values/static_strings.xml
 @@ -4,7 +4,7 @@
