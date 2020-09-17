@@ -1,0 +1,39 @@
+From fa6cf43d8ae790888d38ef1fdd4b53a1f785ee5e Mon Sep 17 00:00:00 2001
+From: Stefano Pacifici <stefano.pacifici@gmail.com>
+Date: Tue, 9 Jun 2020 15:33:50 +0200
+Subject: Removing Pocket from the topsites
+
+---
+ .../java/org/mozilla/fenix/components/TopSiteStorage.kt  | 9 ++-------
+ 1 file changed, 2 insertions(+), 7 deletions(-)
+
+diff --git a/app/src/main/java/org/mozilla/fenix/components/TopSiteStorage.kt b/app/src/main/java/org/mozilla/fenix/components/TopSiteStorage.kt
+index c7c0347bd..efa0cb49a 100644
+--- a/app/src/main/java/org/mozilla/fenix/components/TopSiteStorage.kt
++++ b/app/src/main/java/org/mozilla/fenix/components/TopSiteStorage.kt
+@@ -56,13 +56,7 @@ class TopSiteStorage(private val context: Context) {
+     private fun addDefaultTopSites() {
+         val topSiteCandidates = mutableListOf<Pair<String, String>>()
+         if (!context.settings().defaultTopSitesAdded) {
+-            topSiteCandidates.add(
+-                Pair(
+-                    context.getString(R.string.default_top_site_google),
+-                    SupportUtils.GOOGLE_URL
+-                )
+-            )
+-
++            /* Ghostery Begin: never show Pocket +/
+             if (LocaleManager.getSelectedLocale(context).language == "en") {
+                 topSiteCandidates.add(
+                     Pair(
+@@ -71,6 +65,7 @@ class TopSiteStorage(private val context: Context) {
+                     )
+                 )
+             }
++            /+ Ghostery End */
+ 
+             topSiteCandidates.add(
+                 Pair(
+-- 
+2.25.1
+

@@ -1,0 +1,35 @@
+From 77e29b6f0a8a630b6d18c417e6239543ab068e3b Mon Sep 17 00:00:00 2001
+From: Sam Macbeth <sam@cliqz.com>
+Date: Mon, 3 Aug 2020 18:34:05 +0200
+Subject: Update Ghostery extension
+
+---
+ bootstrap.sh | 13 ++++++-------
+ 1 file changed, 6 insertions(+), 7 deletions(-)
+ mode change 100644 => 100755 bootstrap.sh
+
+diff --git a/bootstrap.sh b/bootstrap.sh
+old mode 100644
+new mode 100755
+index f2bc2e57d..f967dc344
+--- a/bootstrap.sh
++++ b/bootstrap.sh
+@@ -1,9 +1,8 @@
+ #!/bin/bash
+-
+-TAG=v8.5.2
+-EXT_DIR=app/src/main/assets/extensions/ghostery
+-DOWNLOAD_URL=https://cdncliqz.s3.amazonaws.com/update/fostery/ghostery-firefox-$TAG.zip
+-mkdir -p $EXT_DIR
+-curl -L -o ghostery.zip $DOWNLOAD_URL
+-unzip ghostery.zip -d $EXT_DIR
++TAG="v8.5.2-4"
++EXT_DIR="app/src/main/assets/extensions/ghostery"
++DOWNLOAD_URL="https://cdncliqz.s3.amazonaws.com/update/fostery/ghostery-firefox-$TAG.zip"
++mkdir -p "$EXT_DIR"
++curl -L -o ghostery.zip "$DOWNLOAD_URL"
++unzip ghostery.zip -d "$EXT_DIR"
+ rm ghostery.zip
+-- 
+2.25.1
+

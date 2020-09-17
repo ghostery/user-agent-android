@@ -1,0 +1,99 @@
+From 11fbbb6976698b88d9d40302ce9b1617779575c7 Mon Sep 17 00:00:00 2001
+From: Christopher Tino <christopher_tino@yahoo.com>
+Date: Tue, 8 Sep 2020 12:07:03 -0400
+Subject: update readme
+
+---
+ README.md | 59 ++++++-------------------------------------------------
+ 1 file changed, 6 insertions(+), 53 deletions(-)
+
+diff --git a/README.md b/README.md
+index e551ba383..b154d3b4e 100644
+--- a/README.md
++++ b/README.md
+@@ -1,54 +1,6 @@
+-# Firefox Preview
++# Ghostery Browser for Android
+ 
+-[![Task Status](https://github.taskcluster.net/v1/repository/mozilla-mobile/fenix/master/badge.svg)](https://github.taskcluster.net/v1/repository/mozilla-mobile/fenix/master/latest)
+-[![codecov](https://codecov.io/gh/mozilla-mobile/fenix/branch/master/graph/badge.svg)](https://codecov.io/gh/mozilla-mobile/fenix)
+-
+-Firefox Preview (internal code name: "Fenix") is an all-new browser for Android, based on [GeckoView](https://mozilla.github.io/geckoview/) and [Mozilla Android Components](https://mozac.org/).
+-
+-** Note: The team is currently experiencing heavy triage and review load, so when triaging issues, we will mainly be looking to identify [S1 (high severity)](https://github.com/mozilla-mobile/fenix/labels/S1) issues. See our triage process [here](https://github.com/mozilla-mobile/fenix/wiki/Triage-Process). Please be patient if you don't hear back from us immediately on your issue! **
+-
+-## I want to open a Pull Request!
+-
+-We encourage you to participate in this open source project. We love Pull Requests, Bug Reports, ideas, (security) code reviews or any other kind of positive contribution.
+-
+-Since we are a small team, however, **we do not have the bandwidth to review unsolicited PRs**. Please follow our [Pull Request guidelines](https://github.com/mozilla-mobile/shared-docs/blob/master/android/CONTRIBUTING_code.md#creating-a-pull-request), or **we may close the PR**.
+-
+-To make it easier to review, we have these PR requirements:
+-
+-* Every PR must have **exactly** one issue associated with it.
+-* Write a clear explanation of what the code is doing when opening the pull request, and optionally add comments to the PR.
+-* Make sure there are tests - or ask for help on how the code should be tested in the Issue!
+-* Keep PRs small and to the point. For extra code-health changes, either file a separate issue, or make it a separate PR that can be easily reviewed.
+-* Use micro-commits. This makes it easier and faster to review.
+-* Add a screenshot for UX changes (this is part of the PR checklist)
+-
+-As a small team, we have to prioritize our work, and reviewing PRs takes time. We receive lots of PRs every day, so if you can keep your PRs small, it helps our small team review and merge code faster, minimizing stale code.
+-
+-
+-Keep in mind that the team is very overloaded, so PRs sometimes wait
+-for a *very* long time. However this is not for lack of interest, but
+-because we find ourselves in a constant need to prioritize
+-certain issues/PRs over others. If you think your issue/PR is very important,
+-try to popularize it by getting other users to comment and share their point of view.
+-
+-## Getting Involved
+-
+-Before you attempt to make a contribution please read the [Community Participation Guidelines](https://www.mozilla.org/en-US/about/governance/policies/participation/).
+-
+-* [Guide to Contributing](https://github.com/mozilla-mobile/shared-docs/blob/master/android/CONTRIBUTING.md) (**New contributors start here!**)
+-
+-* Browse our [current Issues](https://github.com/mozilla-mobile/fenix/issues), or [file a security issue][sec issue].
+-
+-* Matrix: [#fenix:mozilla.org channel](https://chat.mozilla.org/#/room/#fenix:mozilla.org) (**We're available Monday-Friday, GMT and PST working hours**). Related channels:
+-  * [#mobile-test-eng:mozilla.org channel](https://chat.mozilla.org/#/room/#mobile-test-eng:mozilla.org): for UI test automation
+-  * [#perf-android-frontend:mozilla.org channel](https://chat.mozilla.org/#/room/#perf-android-frontend:mozilla.org): for front-end (JVM) performance of Android apps
+-  * [#android-tips:mozilla.org channel](https://chat.mozilla.org/#/room/#android-tips:mozilla.org): for tips on Android development
+-
+-* Check out the [project wiki](https://github.com/mozilla-mobile/fenix/wiki) for more information.
+-
+-* Localization happens on [Pontoon](https://pontoon.mozilla.org/projects/android-l10n/). Please get in touch with delphine (at) mozilla (dot) com directly for more information.
+-
+-**Beginners!** - Watch out for [Issues with the "Good First Issue" label](https://github.com/mozilla-mobile/fenix/issues?q=is%3Aopen+is%3Aissue+label%3A%22good+first+issue%22). These are easy bugs that have been left for first timers to have a go, get involved and make a positive contribution to the project!
++This is the next generation Ghostery Browser for Android based on Firefox Fenix.
+ 
+ ## Build Instructions
+ 
+@@ -57,13 +9,13 @@ Note: Both Android SDK and NDK are required.
+ 1. Clone or Download the repository:
+ 
+   ```shell
+-  git clone https://github.com/mozilla-mobile/fenix
++  git clone https://github.com/ghostery/user-agent-android
+   ```
+ 
+ 2. **Import** the project into Android Studio **or** build on the command line:
+ 
+   ```shell
+-  ./gradlew clean app:assembleGeckoBetaDebug
++  ./gradlew clean app:assembleGhostery
+   ```
+ 
+   Use app:assembleGeckoNightlyDebug to build with the Gecko Nightly version instead.
+@@ -76,7 +28,8 @@ Note: Both Android SDK and NDK are required.
+ We have a lot of build variants. Each variant is composed of two flavors. One flavor is the version of Gecko to use and the other describes
+ which app id and settings to use. Here is a description of what each means:
+ 
+-- **geckoBeta** (recommended) uses the Beta variant of the Gecko rendering engine, which corresponds to the next version of Gecko which will go to production
++- **geckoBetaGhostery** (recommended)
++- **geckoBeta** uses the Beta variant of the Gecko rendering engine, which corresponds to the next version of Gecko which will go to production
+ - **geckoNightly** uses the Nightly variant of the Gecko rendering engine, which is the version which will arrive after beta and is less stable
+ 
+ <br />
+-- 
+2.25.1
+

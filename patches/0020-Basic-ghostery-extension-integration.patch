@@ -1,0 +1,84 @@
+From d2a541155d0ce3803f7de7d10b9c34c9e9f538f8 Mon Sep 17 00:00:00 2001
+From: Sam Macbeth <sam@cliqz.com>
+Date: Mon, 3 Aug 2020 18:31:14 +0200
+Subject: Basic ghostery extension integration
+
+---
+ .gitignore                                             |  3 +++
+ app/build.gradle                                       |  3 +++
+ app/src/main/java/org/mozilla/fenix/components/Core.kt | 10 ++++++++++
+ bootstrap.sh                                           |  9 +++++++++
+ 4 files changed, 25 insertions(+)
+ create mode 100644 bootstrap.sh
+
+diff --git a/.gitignore b/.gitignore
+index 24d282a79..945f572e3 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -100,3 +100,6 @@ test_artifacts/
+ /build/test-tools/google-cloud-sdk/
+ /build/test-tools/*.jar
+ /build/test-tools/*.gz
++
++# Ghostery extension
++/app/src/main/assets/extensions/ghostery
+diff --git a/app/build.gradle b/app/build.gradle
+index 466f25f05..9ec0a6c58 100644
+--- a/app/build.gradle
++++ b/app/build.gradle
+@@ -192,6 +192,9 @@ android {
+         // GeckoView must uncompress it before it can do anything else which
+         // causes a significant delay on startup.
+         noCompress 'ja'
++        // default ignoreAssetsPattern list includes all files and folders starting with _
++        // that breaks webextensions i18n as traslation are located in _locales folder
++        ignoreAssetsPattern  '!.svn:!.git:!.ds_store:!*.scc:.*:!CVS:!thumbs.db:!picasa.ini:!*~'
+     }
+ 
+     testOptions {
+diff --git a/app/src/main/java/org/mozilla/fenix/components/Core.kt b/app/src/main/java/org/mozilla/fenix/components/Core.kt
+index 88cbcf4fd..e41ce19a2 100644
+--- a/app/src/main/java/org/mozilla/fenix/components/Core.kt
++++ b/app/src/main/java/org/mozilla/fenix/components/Core.kt
+@@ -7,6 +7,7 @@ package org.mozilla.fenix.components
+ import GeckoProvider
+ import android.content.Context
+ import android.content.res.Configuration
++import android.util.Log
+ import io.sentry.Sentry
+ import kotlinx.coroutines.Dispatchers
+ import kotlinx.coroutines.GlobalScope
+@@ -103,6 +104,15 @@ class Core(private val context: Context) {
+             if (shouldEnableWebcompatReporter) {
+                 WebCompatReporterFeature.install(it)
+             }
++
++            it.installWebExtension("Ghostery", "resource://android/assets/extensions/ghostery/",
++                true, supportActions = true,
++                onSuccess = {
++                    Log.d("GHOSTERY", "Installed Ghostery webextension: ${it.id}")
++                },
++                onError = { ext, throwable ->
++                    Log.e("GHOSTERY", "Failed to install Ghostery webextension: $ext", throwable)
++                })
+         }
+     }
+ 
+diff --git a/bootstrap.sh b/bootstrap.sh
+new file mode 100644
+index 000000000..f2bc2e57d
+--- /dev/null
++++ b/bootstrap.sh
+@@ -0,0 +1,9 @@
++#!/bin/bash
++
++TAG=v8.5.2
++EXT_DIR=app/src/main/assets/extensions/ghostery
++DOWNLOAD_URL=https://cdncliqz.s3.amazonaws.com/update/fostery/ghostery-firefox-$TAG.zip
++mkdir -p $EXT_DIR
++curl -L -o ghostery.zip $DOWNLOAD_URL
++unzip ghostery.zip -d $EXT_DIR
++rm ghostery.zip
+-- 
+2.25.1
+

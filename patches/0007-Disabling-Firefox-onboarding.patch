@@ -1,0 +1,27 @@
+From d20f0b86b3af2b2d5aa2d314118544af706f36e8 Mon Sep 17 00:00:00 2001
+From: Sam Macbeth <sam@cliqz.com>
+Date: Mon, 3 Aug 2020 15:07:40 +0200
+Subject: Disabling Firefox onboarding
+
+---
+ .../main/java/org/mozilla/fenix/onboarding/FenixOnboarding.kt | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/app/src/main/java/org/mozilla/fenix/onboarding/FenixOnboarding.kt b/app/src/main/java/org/mozilla/fenix/onboarding/FenixOnboarding.kt
+index 0af973195..d86efa5d9 100644
+--- a/app/src/main/java/org/mozilla/fenix/onboarding/FenixOnboarding.kt
++++ b/app/src/main/java/org/mozilla/fenix/onboarding/FenixOnboarding.kt
+@@ -27,7 +27,9 @@ class FenixOnboarding(context: Context) : PreferencesHolder {
+         metrics.track(Event.DismissedOnboarding)
+     }
+ 
+-    fun userHasBeenOnboarded() = onboardedVersion == CURRENT_ONBOARDING_VERSION
++    /* Ghostery Begin: disable onboarding */
++    fun userHasBeenOnboarded() = true // onboardedVersion == CURRENT_ONBOARDING_VERSION
++    /* Ghostery End */
+ 
+     companion object {
+         /**
+-- 
+2.25.1
+

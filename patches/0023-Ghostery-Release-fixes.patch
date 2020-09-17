@@ -1,0 +1,88 @@
+From 95e36db9e215411885688789bf113cf84e464d56 Mon Sep 17 00:00:00 2001
+From: Stefano Pacifici <stefano.pacifici@gmail.com>
+Date: Tue, 30 Jun 2020 17:59:32 +0200
+Subject: Ghostery Release fixes
+
+---
+ app/src/main/java/org/mozilla/fenix/Config.kt      | 14 ++++++++++++--
+ app/src/migration/AndroidManifest.xml              |  4 +++-
+ .../org/mozilla/fenix/MigratingFenixApplication.kt |  2 ++
+ 3 files changed, 17 insertions(+), 3 deletions(-)
+
+diff --git a/app/src/main/java/org/mozilla/fenix/Config.kt b/app/src/main/java/org/mozilla/fenix/Config.kt
+index 2d9c5dc7c..26966789c 100644
+--- a/app/src/main/java/org/mozilla/fenix/Config.kt
++++ b/app/src/main/java/org/mozilla/fenix/Config.kt
+@@ -10,7 +10,11 @@ enum class ReleaseChannel {
+     FenixProduction,
+ 
+     FennecProduction,
+-    FennecBeta;
++    FennecBeta,
++    /* Ghostery Begin: add Ghostery release channel */
++    FennecNightly,
++    Ghostery;
++    /* Ghostery End */
+ 
+     val isReleased: Boolean
+         get() = when (this) {
+@@ -32,6 +36,7 @@ enum class ReleaseChannel {
+         get() = when (this) {
+             FennecProduction -> true
+             FennecBeta -> true
++            Ghostery -> true // Ghostery
+             else -> false
+         }
+ 
+@@ -60,6 +65,8 @@ object Config {
+         "debug" -> ReleaseChannel.FenixDebug
+         "fennecProduction" -> ReleaseChannel.FennecProduction
+         "fennecBeta" -> ReleaseChannel.FennecBeta
++        "fennecNightly" -> ReleaseChannel.FennecNightly
++        "ghostery" -> ReleaseChannel.Ghostery // Ghostery
+ 
+         // Builds for local performance analysis, recording benchmarks, automation, etc.
+         // This should be treated like a released channel because we want to test
+@@ -75,5 +82,8 @@ object Config {
+ 
+ private val fennecChannels: List<ReleaseChannel> = listOf(
+     ReleaseChannel.FennecBeta,
+-    ReleaseChannel.FennecProduction
++    /* Ghostery Begin: adding GHostery release channel */
++    ReleaseChannel.FennecProduction,
++    ReleaseChannel.Ghostery
++    /* Ghostery End */
+ )
+diff --git a/app/src/migration/AndroidManifest.xml b/app/src/migration/AndroidManifest.xml
+index b89be3825..5d5449063 100644
+--- a/app/src/migration/AndroidManifest.xml
++++ b/app/src/migration/AndroidManifest.xml
+@@ -7,8 +7,10 @@
+                 - https://issuetracker.google.com/issues/36905922
+ -->
+ <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+-    xmlns:tools="http://schemas.android.com/tools"
++    xmlns:tools="http://schemas.android.com/tools">
++    <!-- Ghostery Begin: Removing the user id -+>
+     android:sharedUserId="${sharedUserId}">
++    <!+- Ghostery End -->
+     <application
+         android:name="org.mozilla.fenix.MigratingFenixApplication"
+         tools:replace="android:name">
+diff --git a/app/src/migration/java/org/mozilla/fenix/MigratingFenixApplication.kt b/app/src/migration/java/org/mozilla/fenix/MigratingFenixApplication.kt
+index f6de4e521..b3c4cacdc 100644
+--- a/app/src/migration/java/org/mozilla/fenix/MigratingFenixApplication.kt
++++ b/app/src/migration/java/org/mozilla/fenix/MigratingFenixApplication.kt
+@@ -61,7 +61,9 @@ class MigratingFenixApplication : FenixApplication() {
+ 
+         // Now that we have migrated from Fennec whether the user wants to enable telemetry we can
+         // initialize Glean
++        /* Ghostery Begin: we do not use Gleen +/
+         initializeGlean()
++        /+ Ghostery End */
+ 
+         // Fenix application initialization can happen now.
+         super.setupInMainProcessOnly()
+-- 
+2.25.1
+

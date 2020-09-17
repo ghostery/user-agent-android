@@ -1,0 +1,271 @@
+From a1da5e571cb49a30e632d4af36cb11406ded3a9e Mon Sep 17 00:00:00 2001
+From: Sam Macbeth <sam@cliqz.com>
+Date: Tue, 4 Aug 2020 17:08:25 +0200
+Subject: Fastlane CI build
+
+---
+ Dockerfile        | 86 +++++++++++++++++++++++++++++++++++++++++++++++
+ Gemfile           |  3 --
+ Jenkinsfile       | 63 ++++++++++------------------------
+ app/build.gradle  | 10 ++++++
+ fastlane/Appfile  |  4 +--
+ fastlane/Fastfile | 33 ++++++++++++++++++
+ 6 files changed, 149 insertions(+), 50 deletions(-)
+ create mode 100644 Dockerfile
+ delete mode 100644 Gemfile
+ create mode 100644 fastlane/Fastfile
+
+diff --git a/Dockerfile b/Dockerfile
+new file mode 100644
+index 000000000..2a565549b
+--- /dev/null
++++ b/Dockerfile
+@@ -0,0 +1,86 @@
++# Docker image with fastlane and android SDK
++# Based on https://github.com/cliqz-oss/browser-android/blob/master/Dockerfile
++FROM ubuntu:20.04
++ENV DEBIAN_FRONTEND noninteractive
++
++#Install the required packages. 1st Set is for Browser Project and the 2nd for Ruby and NodeJS.
++RUN dpkg --add-architecture i386 && \
++    apt-get update && \
++    apt-get upgrade -y && \
++    apt-get install -y \
++        curl \
++        git \
++        gnupg2 \
++        language-pack-en \
++        lib32z1 \
++        libc6:i386 \
++        libncurses5:i386 \
++        libstdc++6:i386 \
++        openjdk-8-jdk \
++        python3-dev \
++        python3-pip \
++        ruby-dev \
++        unzip \
++        wget \
++        xz-utils && \
++    apt-get install -y \
++        apt-transport-https \
++        autoconf \
++        automake \
++        bison \
++        build-essential \
++        ca-certificates \
++        gawk \
++        libffi-dev \
++        libgdbm-dev \
++        libgmp-dev \
++        libgmp-dev \
++        libncurses5-dev \
++        libreadline6-dev \
++        libsqlite3-dev \
++        libssl-dev \
++        libtool \
++        libyaml-dev \
++        pkg-config \
++        sqlite3 \
++        zlib1g-dev && \
++    apt-get clean -y && \
++    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
++
++# Set the locale
++RUN locale-gen en_US en_US.UTF-8
++RUN dpkg-reconfigure locales
++ENV LANG='en_US.UTF-8' LANGUAGE='en_US:en' LC_ALL='en_US.UTF-8'
++
++# Add jenkins to the user group
++ARG UID
++ARG GID
++RUN getent group $GID || groupadd jenkins --gid $GID && \
++    useradd --create-home --shell /bin/bash jenkins --uid $UID --gid $GID
++
++ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64/
++ENV ANDROID_HOME /home/jenkins/android_home
++ENV GRADLE_USER_HOME /home/jenkins/gradle_home
++ENV NVM_DIR /home/jenkins/nvm
++
++RUN gem install fastlane --version 2.154.0
++
++USER jenkins
++
++#Install Android SDK and the Required SDKs
++RUN mkdir -p $ANDROID_HOME; \
++    mkdir -p $GRADLE_USER_HOME; \
++    cd $ANDROID_HOME; \
++    wget -O sdktools.zip --quiet 'https://dl.google.com/android/repository/sdk-tools-linux-4333796.zip'; \
++    unzip sdktools.zip; \
++    rm -r sdktools.zip; \
++    while (true); do echo y; done | tools/bin/sdkmanager --licenses && \
++    tools/bin/sdkmanager \
++        "build-tools;28.0.3" \
++        "platforms;android-28" \
++        "platform-tools" \
++        "tools" \
++        "extras;google;m2repository" \
++        "extras;android;m2repository" \
++        "extras;google;google_play_services";
++
+diff --git a/Gemfile b/Gemfile
+deleted file mode 100644
+index 7a118b49b..000000000
+--- a/Gemfile
++++ /dev/null
+@@ -1,3 +0,0 @@
+-source "https://rubygems.org"
+-
+-gem "fastlane"
+diff --git a/Jenkinsfile b/Jenkinsfile
+index 3d0874105..936392038 100644
+--- a/Jenkinsfile
++++ b/Jenkinsfile
+@@ -1,53 +1,26 @@
+-pipeline {
+-    agent any
+-    triggers {
+-        cron(env.BRANCH_NAME == 'master' ? 'H 0 * * *' : '')
+-    }
+-    options {
+-        timestamps()
+-        timeout(time: 1, unit: 'HOURS')
++
++node('docker && magrathea') {
++    stage('checkout') {
++        checkout scm
+     }
+-    stages {
+-        stage('test') {
+-        when { branch 'master' }
+-            steps {
+-                dir('app/src/androidTest/java/org/mozilla/fenix/syncIntegration') {
+-                    sh 'pipenv install'
+-                    sh 'pipenv check'
+-                    sh 'pipenv run pytest'
+-                }
+-            }
+-        }
++
++    image = stage('docker build') {
++        docker.build('fostery-build', '--build-arg user=`whoami` --build-arg UID=`id -u` --build-arg GID=`id -g` .')
+     }
+-    post {
+-        always {
+-            script {
+-                 if (env.BRANCH_NAME == 'master') {
+-                 publishHTML(target: [
+-                     allowMissing: false,
+-                     alwaysLinkToLastBuild: true,
+-                     keepAll: true,
+-                     reportDir: 'app/src/androidTest/java/org/mozilla/fenix/syncintegration/results',
+-                     reportFiles: 'index.html',
+-                     reportName: 'HTML Report'])
+-                 }
+-            }
+-        }
+ 
+-        failure {
+-            script {
+-                if (env.BRANCH_NAME == 'master') {
+-                    slackSend(
+-                        color: 'danger',
+-                        message: "FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL}HTML_20Report/)")
+-                }
+-            }
++    image.inside("--env GRADLE_USER_HOME=${pwd()}/gradle_home") {
++        stage('prepare') {
++            sh './bootstrap.sh'
+         }
+ 
+-        fixed {
+-            slackSend(
+-                color: 'good',
+-                message: "FIXED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL}HTML_20Report/)")
++        withCredentials([
++            file(credentialsId: 'ef90e3e3-5563-4ac3-9e20-ae07db74db21', variable: 'PLAY_STORE_CERT'),
++            file(credentialsId: '2df3d37d-0bc9-4152-a361-7fec0a73ce69', variable: 'CERT_PATH'),
++            string(credentialsId: '	a87fff1f-8045-49e9-8038-861e7e8c58e4', variable: 'CERT_PASS'),
++        ]) {
++            stage('fastlane') {
++                sh 'fastlane internal'
++            }
+         }
+     }
+ }
+diff --git a/app/build.gradle b/app/build.gradle
+index 1500d1e64..4c838dfde 100644
+--- a/app/build.gradle
++++ b/app/build.gradle
+@@ -43,11 +43,21 @@ android {
+         ]
+     }
+ 
++    signingConfigs {
++        release {
++            storeFile file(System.getenv("CERT_PATH"))
++            storePassword System.getenv("CERT_PASS")
++            keyAlias "evidon"
++            keyPassword System.getenv("CERT_PASS")
++        }
++    }
++
+     def releaseTemplate = {
+         shrinkResources true
+         minifyEnabled true
+         proguardFiles 'proguard-android-optimize-3.5.0-modified.txt', 'proguard-rules.pro'
+         matchingFallbacks = ['release'] // Use on the "release" build type in dependencies (AARs)
++        signingConfig signingConfigs.release
+     }
+ 
+     buildTypes {
+diff --git a/fastlane/Appfile b/fastlane/Appfile
+index 564c9b80c..43ad04676 100644
+--- a/fastlane/Appfile
++++ b/fastlane/Appfile
+@@ -1,2 +1,2 @@
+-json_key_file("") # Path to the json secret file - Follow https://docs.fastlane.tools/actions/supply/#setup to get one
+-package_name("org.mozilla.fenix") # e.g. com.krausefx.app
++json_key_file(ENV["PLAY_STORE_CERT"]) # Path to the json secret file - Follow https://docs.fastlane.tools/actions/supply/#setup to get one
++package_name("com.ghostery.android.ghostery") # e.g. com.krausefx.app
+diff --git a/fastlane/Fastfile b/fastlane/Fastfile
+new file mode 100644
+index 000000000..783a454f4
+--- /dev/null
++++ b/fastlane/Fastfile
+@@ -0,0 +1,33 @@
++# This file contains the fastlane.tools configuration
++# You can find the documentation at https://docs.fastlane.tools
++#
++# For a list of all available actions, check out
++#
++#     https://docs.fastlane.tools/actions
++#
++# For a list of all available plugins, check out
++#
++#     https://docs.fastlane.tools/plugins/available-plugins
++#
++
++# Uncomment the line if you want fastlane to automatically update itself
++# update_fastlane
++
++default_platform(:android)
++
++platform :android do
++  desc "Submit a new internal testing version to the Play store"
++  lane :internal do
++    gradle(
++      task: "clean assemble",
++      build_type: "ghostery",
++      flavor: "geckoBeta"
++    )
++    upload_to_play_store(
++      apk_paths:ENV["GRADLE_ALL_APK_OUTPUT_PATHS"],
++      track: 'internal',
++      skip_upload_metadata: true,
++      skip_upload_images: true,
++      skip_upload_screenshots: true,)
++  end
++end
+-- 
+2.25.1
+

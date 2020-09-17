@@ -1,0 +1,150 @@
+From 3ec4ddca1398c12134444682de94e442f4cc361e Mon Sep 17 00:00:00 2001
+From: Stefano Pacifici <stefano.pacifici@gmail.com>
+Date: Wed, 22 Jul 2020 17:33:44 +0200
+Subject: Renamig private tab(s) to Ghost Tab(s) (#5)
+
+---
+ app/src/main/res/values/strings.xml | 36 ++++++++++++++---------------
+ 1 file changed, 18 insertions(+), 18 deletions(-)
+
+diff --git a/app/src/main/res/values/strings.xml b/app/src/main/res/values/strings.xml
+index a329daecf..89261eab7 100644
+--- a/app/src/main/res/values/strings.xml
++++ b/app/src/main/res/values/strings.xml
+@@ -18,7 +18,7 @@
+     <!-- No Open Tabs Message Description -->
+     <string name="no_open_tabs_description">Your open tabs will be shown here.</string>
+     <!-- No Private Tabs Message Description -->
+-    <string name="no_private_tabs_description">Your private tabs will be shown here.</string>
++    <string name="no_private_tabs_description">Your Ghost Tabs will be shown here.</string>
+     <!-- Message announced to the user when tab tray is selected with 1 tab -->
+     <string name="open_tab_tray_single">1 open tab. Tap to switch tabs.</string>
+     <!-- Message announced to the user when tab tray is selected with 0 or 2+ tabs -->
+@@ -33,7 +33,7 @@
+     <!-- Explanation for private browsing displayed to users on home view when they first enable private mode
+         The first parameter is the name of the app defined in app_name (for example: Fenix) -->
+     <string name="private_browsing_placeholder_description_2">
+-        %1$s clears your search and browsing history from private tabs when you close them or quit the app. While this doesn’t make you anonymous to websites or your internet service provider, it makes it easier to keep what you do online private from anyone else who uses this device.</string>
++        %1$s clears your search and browsing history from Ghost Tabs when you close them or quit the app. While this doesn’t make you anonymous to websites or your internet service provider, it makes it easier to keep what you do online private from anyone else who uses this device.</string>
+     <string name="private_browsing_common_myths">
+        Common myths about private browsing
+     </string>
+@@ -42,7 +42,7 @@
+ 
+     <!-- Private mode shortcut "contextual feature recommendation" (CFR) -->
+     <!-- Text for the main message -->
+-    <string name="cfr_message">Add a shortcut to open private tabs from your Home screen.</string>
++    <string name="cfr_message">Add a shortcut to open Ghost Tabs from your Home screen.</string>
+     <!-- Text for the positive button -->
+     <string name="cfr_pos_button_text">Add shortcut</string>
+     <!-- Text for the negative button -->
+@@ -60,7 +60,7 @@
+     <!-- Shortcut action to open new tab -->
+     <string name="home_screen_shortcut_open_new_tab_2">New tab</string>
+     <!-- Shortcut action to open new private tab -->
+-    <string name="home_screen_shortcut_open_new_private_tab_2">New private tab</string>
++    <string name="home_screen_shortcut_open_new_private_tab_2">New Ghost Tab</string>
+     <!-- Heading for the Top Sites block -->
+     <string name="home_screen_top_sites_heading">Top sites</string>
+ 
+@@ -102,7 +102,7 @@
+     <!-- Browser menu button that opens the find in page menu -->
+     <string name="browser_menu_find_in_page">Find in page</string>
+     <!-- Browser menu button that creates a private tab -->
+-    <string name="browser_menu_private_tab">Private tab</string>
++    <string name="browser_menu_private_tab">Ghost Tab</string>
+     <!-- Browser menu button that creates a new tab -->
+     <string name="browser_menu_new_tab">New tab</string>
+     <!-- Browser menu button that saves the current tab to a collection -->
+@@ -217,7 +217,7 @@
+     <!-- Preference for private browsing options -->
+     <string name="preferences_private_browsing_options">Private browsing</string>
+     <!-- Preference for opening links in a private tab-->
+-    <string name="preferences_open_links_in_a_private_tab">Open links in a private tab</string>
++    <string name="preferences_open_links_in_a_private_tab">Open links in a Ghost Tab</string>
+     <!-- Preference for allowing screenshots to be taken while in a private tab-->
+     <string name="preferences_allow_screenshots_in_private_mode">Allow screenshots in private browsing</string>
+     <!-- Preference for adding private browsing shortcut -->
+@@ -441,11 +441,11 @@
+     <!-- Title for the list of tabs in the current private session -->
+     <string name="tabs_header_private_title">Private session</string>
+     <!-- Title for the list of tabs in the current private session -->
+-    <string name="tabs_header_private_tabs_title">Private tabs</string>
++    <string name="tabs_header_private_tabs_title">Ghost Tabs</string>
+     <!-- Content description (not visible, for screen readers etc.): Add tab button. Adds a news tab when pressed -->
+     <string name="add_tab">Add tab</string>
+     <!-- Content description (not visible, for screen readers etc.): Add tab button. Adds a news tab when pressed -->
+-    <string name="add_private_tab">Add private tab</string>
++    <string name="add_private_tab">Add Ghost Tab</string>
+     <!-- Text for the new tab button to indicate adding a new private tab in the tab -->
+     <string name="tab_drawer_fab_content">Private</string>
+     <!-- Text shown as the title of the open tab tray -->
+@@ -519,7 +519,7 @@
+     <!-- History overflow menu open in new tab button -->
+     <string name="history_menu_open_in_new_tab_button">Open in new tab</string>
+     <!-- History overflow menu open in private tab button -->
+-    <string name="history_menu_open_in_private_tab_button">Open in private tab</string>
++    <string name="history_menu_open_in_private_tab_button">Open in Ghost Tab</string>
+     <!-- Text for the button to delete a single history item -->
+     <string name="history_delete_item">Delete</string>
+     <!-- History multi select title in app bar
+@@ -587,7 +587,7 @@
+     <!-- Bookmark overflow menu open in new tab button -->
+     <string name="bookmark_menu_open_in_new_tab_button">Open in new tab</string>
+     <!-- Bookmark overflow menu open in private tab button -->
+-    <string name="bookmark_menu_open_in_private_tab_button">Open in private tab</string>
++    <string name="bookmark_menu_open_in_private_tab_button">Open in Ghost Tab</string>
+     <!-- Bookmark overflow menu delete button -->
+     <string name="bookmark_menu_delete_button">Delete</string>
+     <!--Bookmark overflow menu save button -->
+@@ -771,9 +771,9 @@
+     <!-- The user visible name of the "notification channel" (Android 8+ feature) for the ongoing notification shown while a browsing session is active. -->
+     <string name="notification_pbm_channel_name">Private browsing session</string>
+     <!-- Text shown in the notification that pops up to remind the user that a private browsing session is active. -->
+-    <string name="notification_pbm_delete_text">Delete private tabs</string>
++    <string name="notification_pbm_delete_text">Delete Ghost Tabs</string>
+     <!-- Text shown in the notification that pops up to remind the user that a private browsing session is active. -->
+-    <string name="notification_pbm_delete_text_2">Close private tabs</string>
++    <string name="notification_pbm_delete_text_2">Close Ghost Tabs</string>
+     <!-- Notification action to open Fenix and resume the current browsing session. -->
+     <string name="notification_pbm_action_open">Open</string>
+     <!-- Notification action to delete all current private browsing sessions AND switch to Fenix (bring it to the foreground) -->
+@@ -795,11 +795,11 @@
+     <!-- Text shown in snackbar when user adds a site to top sites -->
+     <string name="snackbar_added_to_top_sites">Added to top sites!</string>
+     <!-- Text shown in snackbar when user closes a private tab -->
+-    <string name="snackbar_private_tab_closed">Private tab closed</string>
++    <string name="snackbar_private_tab_closed">Ghost Tab closed</string>
+     <!-- Text shown in snackbar when user closes all private tabs -->
+-    <string name="snackbar_private_tabs_closed">Private tabs closed</string>
++    <string name="snackbar_private_tabs_closed">Ghost Tabs closed</string>
+     <!-- Text shown in snackbar when user deletes all private tabs -->
+-    <string name="snackbar_private_tabs_deleted">Private tabs deleted</string>
++    <string name="snackbar_private_tabs_deleted">Ghost Tabs deleted</string>
+     <!-- Text shown in snackbar to undo deleting a tab, top site or collection -->
+     <string name="snackbar_deleted_undo">UNDO</string>
+     <!-- Text shown in snackbar when user removes a top site -->
+@@ -975,9 +975,9 @@
+     <string name="onboarding_private_browsing_header">Browse privately</string>
+     <!-- text for the private browsing onboarding card description
+     The first parameter is an icon that represents private browsing -->
+-    <string name="onboarding_private_browsing_description1">Open a private tab once: Tap the %s icon.</string>
++    <string name="onboarding_private_browsing_description1">Open a Ghost Tab once: Tap the %s icon.</string>
+     <!-- text for the private browsing onboarding card description, explaining how to always using private browsing -->
+-    <string name="onboarding_private_browsing_always_description">Open private tabs every time: Update your private browsing settings.</string>
++    <string name="onboarding_private_browsing_always_description">Open Ghost Tabs every time: Update your private browsing settings.</string>
+     <!-- text for the private browsing onbording card button, that launches settings -->
+     <string name="onboarding_private_browsing_button">Open settings</string>
+     <!-- text for the privacy notice onboarding card header -->
+@@ -1083,7 +1083,7 @@
+     <!-- Option for enhanced tracking protection for the custom protection settings for tracking content-->
+     <string name="preference_enhanced_tracking_protection_custom_tracking_content_1">In all tabs</string>
+     <!-- Option for enhanced tracking protection for the custom protection settings for tracking content-->
+-    <string name="preference_enhanced_tracking_protection_custom_tracking_content_2">Only in Private tabs</string>
++    <string name="preference_enhanced_tracking_protection_custom_tracking_content_2">Only in Ghost Tabs</string>
+     <!-- Option for enhanced tracking protection for the custom protection settings for tracking content-->
+     <string name="preference_enhanced_tracking_protection_custom_tracking_content_3">Only in Custom tabs</string>
+     <!-- Preference for enhanced tracking protection for the custom protection settings -->
+-- 
+2.25.1
+
