@@ -3,7 +3,7 @@ node('docker && magrathea') {
     stage('checkout') {
         checkout scm
         sh 'git submodule init'
-	sh 'git submodule update --remote'
+	sh 'git submodule update --remote --force'
         sh './import.sh'
     }
 
