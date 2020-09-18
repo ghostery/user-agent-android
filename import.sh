@@ -1,3 +1,5 @@
 #!/bin/bash
-cd browser
-git am --ignore-space-change --ignore-whitespace ../patches/*
+# apply patches
+(cd browser; git am --ignore-space-change --ignore-whitespace ../patches/*)
+# copy assets into browser tree
+rsync -av ./assets/ ./browser/
