@@ -19,13 +19,14 @@ platform :android do
   desc "Submit a new internal testing version to the Play store"
   lane :internal do
     gradle(
-      task: "clean assemble"
+      task: "clean assemble",
+      build_type: "release"
     )
-    #upload_to_play_store(
-    #  apk_paths:ENV["GRADLE_ALL_APK_OUTPUT_PATHS"],
-    #  track: 'internal',
-    #  skip_upload_metadata: true,
-    #  skip_upload_images: true,
-    #  skip_upload_screenshots: true,)
+    upload_to_play_store(
+      apk_paths:ENV["GRADLE_ALL_APK_OUTPUT_PATHS"],
+      track: 'internal',
+      skip_upload_metadata: true,
+      skip_upload_images: true,
+      skip_upload_screenshots: true,)
   end
 end
