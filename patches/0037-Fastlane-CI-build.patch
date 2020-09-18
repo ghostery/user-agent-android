@@ -1,4 +1,4 @@
-From 39674c02ac971288d831987bbe1df4dd16e732bc Mon Sep 17 00:00:00 2001
+From c8abea4cf2d9287b4d4874ea5c518bbcea61fbaf Mon Sep 17 00:00:00 2001
 From: Sam Macbeth <sam@cliqz.com>
 Date: Tue, 4 Aug 2020 17:08:25 +0200
 Subject: Fastlane CI build
@@ -231,7 +231,7 @@ index 564c9b80c..43ad04676 100644
 +package_name("com.ghostery.android.ghostery") # e.g. com.krausefx.app
 diff --git a/fastlane/Fastfile b/fastlane/Fastfile
 new file mode 100644
-index 000000000..783a454f4
+index 000000000..7fe4083ba
 --- /dev/null
 +++ b/fastlane/Fastfile
 @@ -0,0 +1,33 @@
@@ -258,7 +258,7 @@ index 000000000..783a454f4
 +    gradle(
 +      task: "clean assemble",
 +      build_type: "ghostery",
-+      flavor: "geckoBeta"
++      flavor: "beta"
 +    )
 +    upload_to_play_store(
 +      apk_paths:ENV["GRADLE_ALL_APK_OUTPUT_PATHS"],
@@ -269,5 +269,5 @@ index 000000000..783a454f4
 +  end
 +end
 -- 
-2.25.1
+2.28.0
 
