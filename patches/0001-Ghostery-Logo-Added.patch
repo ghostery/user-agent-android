@@ -1,4 +1,4 @@
-From 8f2f884b7e9bfd9d879252c833f45564d2751854 Mon Sep 17 00:00:00 2001
+From 74fbfc79af5df3fc3f68c0b6bbe873761270b993 Mon Sep 17 00:00:00 2001
 From: Sam Macbeth <sam@cliqz.com>
 Date: Mon, 24 Aug 2020 16:19:12 +0200
 Subject: Ghostery Logo Added
@@ -5914,5 +5914,5 @@ index 58c98a8db..eeea90c36 100644
      <!-- Button Colors -->
      <color name="grey_button_color">#E0E0E6</color>
 -- 
-2.25.1
+2.28.0
 

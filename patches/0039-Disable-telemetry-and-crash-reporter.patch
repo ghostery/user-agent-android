@@ -1,4 +1,4 @@
-From 553f63a12436f1e0db0ec37a6e92d2a21c1ddaf6 Mon Sep 17 00:00:00 2001
+From 8bc0356d546f9fd690c0382b0c18657a7e23efdc Mon Sep 17 00:00:00 2001
 From: Sam Macbeth <sam@cliqz.com>
 Date: Sat, 19 Sep 2020 12:21:20 +0200
 Subject: Disable telemetry and crash reporter

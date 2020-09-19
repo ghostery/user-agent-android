@@ -1,4 +1,4 @@
-From 358f992839a6acb17a34b6a12b57d365dfcd744c Mon Sep 17 00:00:00 2001
+From 5bd0188010ca5b83c7e2bf31d7dfa26221e4da66 Mon Sep 17 00:00:00 2001
 From: Sam Macbeth <sam@cliqz.com>
 Date: Sat, 19 Sep 2020 18:56:25 +0200
 Subject: Fix signing config

@@ -1,4 +1,4 @@
-From ea495498c6a677fcdb7d423d4a99a2c9ca8a972f Mon Sep 17 00:00:00 2001
+From 7067298c190f4cdb99c99ba1f05e90e09420564b Mon Sep 17 00:00:00 2001
 From: Stefano Pacifici <stefano.pacifici@gmail.com>
 Date: Fri, 31 Jul 2020 11:05:48 +0200
 Subject: Replace the theme before creating views
@@ -80,5 +80,5 @@ index e8804a3e3..410aaf119 100644
  
      <style name="BaseDialogStyle" parent="Theme.MaterialComponents.Dialog.Alert">
 -- 
-2.25.1
+2.28.0
 

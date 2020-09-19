@@ -1,4 +1,4 @@
-From d837641870ec6670d8451a968d0dc46a1b5b2f2c Mon Sep 17 00:00:00 2001
+From 5b586343347b872db8a683e49b269f8f5fdd84ce Mon Sep 17 00:00:00 2001
 From: Sam Macbeth <sam@cliqz.com>
 Date: Mon, 3 Aug 2020 15:07:40 +0200
 Subject: Disabling Firefox onboarding
@@ -23,5 +23,5 @@ index 0af973195..d86efa5d9 100644
      companion object {
          /**
 -- 
-2.25.1
+2.28.0
 

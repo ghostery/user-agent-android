@@ -1,4 +1,4 @@
-From 72229de6d232eb7843f90db7a47946df673dede5 Mon Sep 17 00:00:00 2001
+From 7e89e0d1288054f0b906219b2a99811f198637d5 Mon Sep 17 00:00:00 2001
 From: Stefano Pacifici <stefano.pacifici@gmail.com>
 Date: Wed, 15 Jul 2020 16:11:33 +0200
 Subject: Ghostery splashscreen
@@ -289,5 +289,5 @@ index fe8a99e24..e8804a3e3 100644
          <item name="android:colorAccent">@color/primary_text_normal_theme</item>
          <item name="android:textColorPrimary">@color/state_list_text_color</item>
 -- 
-2.25.1
+2.28.0
 

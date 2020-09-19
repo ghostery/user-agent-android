@@ -1,4 +1,4 @@
-From 76a236a2030fafe9f936a6e95c45d3abdb7a5a15 Mon Sep 17 00:00:00 2001
+From b709127bb957ef478cbc9bff3efb0d68de634310 Mon Sep 17 00:00:00 2001
 From: Stefano Pacifici <stefano.pacifici@gmail.com>
 Date: Fri, 5 Jun 2020 18:22:06 +0200
 Subject: Changing the wordmark (freshtab title)
@@ -10247,5 +10247,5 @@ index 000000000..7be352f75
 +  </g>
 +</svg>
 -- 
-2.25.1
+2.28.0
 

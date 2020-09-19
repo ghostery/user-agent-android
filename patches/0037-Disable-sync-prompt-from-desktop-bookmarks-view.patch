@@ -1,4 +1,4 @@
-From 99350f6e2f305a5e63519b0da8f2f4ef32ebf518 Mon Sep 17 00:00:00 2001
+From 017773ad93970c174c495a73e8b298fed836d7d4 Mon Sep 17 00:00:00 2001
 From: Sam Macbeth <sam@macbeth.cc>
 Date: Tue, 25 Aug 2020 11:01:43 +0200
 Subject: Disable sync prompt from desktop bookmarks view
@@ -30,5 +30,5 @@ index 18c19943e..d290d7883 100644
      }
  
 -- 
-2.25.1
+2.28.0
 

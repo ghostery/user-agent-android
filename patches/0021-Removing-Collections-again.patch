@@ -1,4 +1,4 @@
-From f373c18994782c7e6d6b6961dded0513423d7b76 Mon Sep 17 00:00:00 2001
+From 5bb2671942db45c39d402c94044a958b22fdf5cb Mon Sep 17 00:00:00 2001
 From: Stefano Pacifici <stefano.pacifici@gmail.com>
 Date: Fri, 26 Jun 2020 16:18:32 +0200
 Subject: Removing Collections (again)
@@ -179,5 +179,5 @@ index 8eda6eea4..155daadc3 100644
      <!-- Share-->
      <item
 -- 
-2.25.1
+2.28.0
 

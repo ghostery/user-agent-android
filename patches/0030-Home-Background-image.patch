@@ -1,4 +1,4 @@
-From ce13ab277cc492feedde498a6e621705c9831c1b Mon Sep 17 00:00:00 2001
+From a451904d54018eeea77389f234f9e05a998f613b Mon Sep 17 00:00:00 2001
 From: Stefano Pacifici <stefano.pacifici@gmail.com>
 Date: Thu, 16 Jul 2020 17:39:25 +0200
 Subject: Home Background image
@@ -4759,5 +4759,5 @@ index eeea90c36..315cc7cd6 100644
      <color name="collection_icon_color_blue_dark_theme">#00B3F4</color>
      <color name="collection_icon_color_pink_dark_theme">#FF6BBA</color>
 -- 
-2.25.1
+2.28.0
 

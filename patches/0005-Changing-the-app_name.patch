@@ -1,4 +1,4 @@
-From 1bb4757e04f1222a8ee0c7bd61872445f3f99fdc Mon Sep 17 00:00:00 2001
+From 14322d370a580b1b9535317e3dcb9a30e64b3e88 Mon Sep 17 00:00:00 2001
 From: Stefano Pacifici <stefano.pacifici@gmail.com>
 Date: Fri, 5 Jun 2020 18:22:29 +0200
 Subject: Changing the app_name
@@ -21,5 +21,5 @@ index 2d46b333c..85fa90770 100644
      <!-- Preference for developers -->
      <string name="preference_leakcanary" translatable="false">LeakCanary</string>
 -- 
-2.25.1
+2.28.0
 

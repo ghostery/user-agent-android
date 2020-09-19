@@ -1,4 +1,4 @@
-From d8e43b498b69c614734e9a669c80e15bdb1cb1ac Mon Sep 17 00:00:00 2001
+From 1cfacea35c40d81eba1337944d2356dbcc24894d Mon Sep 17 00:00:00 2001
 From: Stefano Pacifici <stefano.pacifici@gmail.com>
 Date: Tue, 7 Jul 2020 14:43:34 +0200
 Subject: Changing the progress bar color
@@ -28,5 +28,5 @@ index a451c6cef..286fc083c 100644
          </scale>
      </item>
 -- 
-2.25.1
+2.28.0
 

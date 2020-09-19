@@ -1,4 +1,4 @@
-From 8857e3ceb834725778be6b962e08d27f18f67853 Mon Sep 17 00:00:00 2001
+From 3a06fb54f9fecd34e83b02293db0e5e519c151a4 Mon Sep 17 00:00:00 2001
 From: Stefano Pacifici <stefano.pacifici@gmail.com>
 Date: Mon, 8 Jun 2020 15:07:04 +0200
 Subject: Default the url bar to be on top
@@ -21,5 +21,5 @@ index 095242545..9c1809691 100644
  
      val toolbarPosition: ToolbarPosition
 -- 
-2.25.1
+2.28.0
 

@@ -1,4 +1,4 @@
-From 9ed01451ceaab589b209f2466de79850b228e2e0 Mon Sep 17 00:00:00 2001
+From 3c48ed61bfe857950ca976c92344db76f9a53f03 Mon Sep 17 00:00:00 2001
 From: Stefano Pacifici <stefano.pacifici@gmail.com>
 Date: Wed, 10 Jun 2020 15:09:45 +0200
 Subject: Disabling Mozilla Tracking protection
@@ -60,5 +60,5 @@ index 3ced997a2..2c7eaaea1 100644
          <androidx.preference.Preference
              android:icon="@drawable/ic_permission"
 -- 
-2.25.1
+2.28.0
 

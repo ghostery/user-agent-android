@@ -1,4 +1,4 @@
-From 92fa3a3e2f1980c6c8eeb1337807fd622673adb6 Mon Sep 17 00:00:00 2001
+From b352fac39c3dbdd2bc96055e9f87551e77758fba Mon Sep 17 00:00:00 2001
 From: Stefano Pacifici <stefano.pacifici@gmail.com>
 Date: Tue, 9 Jun 2020 15:33:50 +0200
 Subject: Removing Pocket from the topsites
@@ -35,5 +35,5 @@ index 79fedd99f..997e940ca 100644
                  defaultTopSites.add(
                      Pair(
 -- 
-2.25.1
+2.28.0
 

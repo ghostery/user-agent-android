@@ -1,4 +1,4 @@
-From b3e19e9cc6819c3ad606a59a71949217b02e7974 Mon Sep 17 00:00:00 2001
+From 9f68e4f22141f35edfcf11031b4226e5ef23c6ff Mon Sep 17 00:00:00 2001
 From: Sam Macbeth <sam@cliqz.com>
 Date: Mon, 3 Aug 2020 18:21:01 +0200
 Subject: Removig "What's new" from the Home menu
@@ -111,5 +111,5 @@ index 3e172e8f8..9ab22dc99 100644
              items.getHighlight()?.let { onHighlightPresent(it) }
          }
 -- 
-2.25.1
+2.28.0
 

@@ -1,4 +1,4 @@
-From a191be9551264cf3b4b8e40afce77ea272333632 Mon Sep 17 00:00:00 2001
+From 989129fbe9b4e101388d39e9411c1573d6025c2b Mon Sep 17 00:00:00 2001
 From: Stefano Pacifici <stefano.pacifici@gmail.com>
 Date: Wed, 8 Jul 2020 18:49:05 +0200
 Subject: Frecency history suggestions provider
@@ -165,5 +165,5 @@ index 6a7e8be88..5e180c89e 100644
                  android:id="@+id/search_engine_shortcut"
                  style="@style/SearchEngineShortcutsLabelStyle"
 -- 
-2.25.1
+2.28.0
 

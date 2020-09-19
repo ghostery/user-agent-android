@@ -1,4 +1,4 @@
-From 2d95770ab76cc3f3c33bd7572af9c3c63c0d4ff2 Mon Sep 17 00:00:00 2001
+From 0c5266c4e786299f129fdf64a6a53753c9cb8df0 Mon Sep 17 00:00:00 2001
 From: Stefano Pacifici <stefano.pacifici@gmail.com>
 Date: Thu, 23 Jul 2020 17:00:11 +0200
 Subject: Forcing the display of the Ghostery hub at first startup
@@ -44,5 +44,5 @@ index 3bbdc27b7..453db43c1 100644
  
      override fun onStart() {
 -- 
-2.25.1
+2.28.0
 

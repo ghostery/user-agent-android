@@ -1,4 +1,4 @@
-From 44ca7b53cc4a1deac4710cedb21988fd0ec1c976 Mon Sep 17 00:00:00 2001
+From eff9ff4d8f19d205dfd726348e2b16a4be740204 Mon Sep 17 00:00:00 2001
 From: Stefano Pacifici <stefano.pacifici@gmail.com>
 Date: Tue, 7 Jul 2020 15:52:07 +0200
 Subject: Bigger Top Sites icon and text
@@ -58,5 +58,5 @@ index 7a493a52c..5127f965a 100644
      <dimen name="top_sites_text_margin_top">8dp</dimen>
  
 -- 
-2.25.1
+2.28.0
 

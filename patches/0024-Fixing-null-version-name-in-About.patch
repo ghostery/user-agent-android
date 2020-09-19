@@ -1,4 +1,4 @@
-From a06717ade5b75ade7965bce878c7642009fe515a Mon Sep 17 00:00:00 2001
+From ab8e2c2f16dd238e0393eaf610e6bdcf932db318 Mon Sep 17 00:00:00 2001
 From: Stefano Pacifici <stefano.pacifici@gmail.com>
 Date: Fri, 3 Jul 2020 11:53:10 +0200
 Subject: Fixing null version name in About
@@ -106,5 +106,5 @@ index b3f6ff907..3a8471e41 100644
      @JvmStatic
      fun releaseVersionName(project: Project): String {
 -- 
-2.25.1
+2.28.0
 

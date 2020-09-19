@@ -1,4 +1,4 @@
-From 8eb0c3749225d68d0bcc29e5d6c3552829523a79 Mon Sep 17 00:00:00 2001
+From 81328481c945f32c8255d1277f9f6fca042e1d42 Mon Sep 17 00:00:00 2001
 From: Stefano Pacifici <stefano.pacifici@gmail.com>
 Date: Tue, 30 Jun 2020 17:59:32 +0200
 Subject: Ghostery Release fixes
@@ -82,5 +82,5 @@ index b6bfec281..85c9a9071 100644
          // Fenix application initialization can happen now.
          super.setupInMainProcessOnly()
 -- 
-2.25.1
+2.28.0
 

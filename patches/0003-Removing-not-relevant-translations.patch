@@ -1,4 +1,4 @@
-From a002bee3b4141e344627e625d2b7c674969d0ad8 Mon Sep 17 00:00:00 2001
+From 9d85f46e46b7238efbbaeee030c4cb14452477a7 Mon Sep 17 00:00:00 2001
 From: Sam Macbeth <sam@cliqz.com>
 Date: Mon, 24 Aug 2020 16:23:29 +0200
 Subject: Removing not relevant translations
@@ -20410,5 +20410,5 @@ index 5248f1682..000000000
 -    <string name="no_collections_description1">Nhóm các tìm kiếm, trang web và thẻ tương tự để truy cập nhanh sau này.</string>
 -</resources>
 -- 
-2.25.1
+2.28.0
 

@@ -1,4 +1,4 @@
-From 66f18c6500834c1ba4e20ae57f92d86852cf5072 Mon Sep 17 00:00:00 2001
+From 044e9f55f9a469c962b406f09a9a0fba15ef0a60 Mon Sep 17 00:00:00 2001
 From: Sam Macbeth <sam@cliqz.com>
 Date: Mon, 3 Aug 2020 18:24:11 +0200
 Subject: Help resources point to Ghostery domain
@@ -160,5 +160,5 @@ index d7f5874e4..d95f9cedd 100644
          <TextView
              android:id="@+id/build_date"
 -- 
-2.25.1
+2.28.0
 

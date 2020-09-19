@@ -1,4 +1,4 @@
-From 126f7c82564ff628d750088fbcaa28f44524e28f Mon Sep 17 00:00:00 2001
+From 1ad2022cfd8ea22f9b01df6e3f889d37ef457aa2 Mon Sep 17 00:00:00 2001
 From: Sam Macbeth <sam@macbeth.cc>
 Date: Tue, 4 Aug 2020 10:31:31 +0200
 Subject: Remove addons from menu
@@ -41,5 +41,5 @@ index 214a20974..7b1ef61c2 100644
  
      override val menuToolbar by lazy {
 -- 
-2.25.1
+2.28.0
 

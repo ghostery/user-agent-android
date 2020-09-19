@@ -1,4 +1,4 @@
-From 21ff24ebb5f177b029b3f0975b5a35156f84761b Mon Sep 17 00:00:00 2001
+From 1b635f07158cad8cd9ec9b41399b9da3add5c092 Mon Sep 17 00:00:00 2001
 From: Sam Macbeth <sam@cliqz.com>
 Date: Mon, 3 Aug 2020 16:46:47 +0200
 Subject: Disabling Telemetry & CrashReports
@@ -251,5 +251,5 @@ index e1f18cd8c..3ced997a2 100644
      </androidx.preference.PreferenceCategory>
  
 -- 
-2.25.1
+2.28.0
 
