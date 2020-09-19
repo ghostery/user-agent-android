@@ -20,7 +20,7 @@ platform :android do
   lane :internal do
     gradle(
       task: "clean assemble",
-      build_type: "release"
+      build_type: "ghostery"
     )
     upload_to_play_store(
       apk_paths:ENV["GRADLE_ALL_APK_OUTPUT_PATHS"],
