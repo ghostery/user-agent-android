@@ -1,0 +1,69 @@
+From 9a25d2f796642ef2d40cb51282337a02540ebaf3 Mon Sep 17 00:00:00 2001
+From: Sam Macbeth <sam@cliqz.com>
+Date: Mon, 3 Aug 2020 18:31:14 +0200
+Subject: Basic ghostery extension integration
+
+---
+ .gitignore                                             | 3 ++-
+ app/build.gradle                                       | 4 +++-
+ app/src/main/java/org/mozilla/fenix/components/Core.kt | 9 +++++++++
+ 3 files changed, 14 insertions(+), 2 deletions(-)
+
+diff --git a/.gitignore b/.gitignore
+index 8cce379dd..889a7974b 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -100,6 +100,7 @@ test_artifacts/
+ /build/test-tools/*.jar
+ /build/test-tools/*.gz
+ 
+-
+ # Web extensions: manifest.json files are generated
+ manifest.json
++# Ghostery extension
++/app/src/main/assets/extensions/ghostery
+diff --git a/app/build.gradle b/app/build.gradle
+index a3302c257..5a9f9436e 100644
+--- a/app/build.gradle
++++ b/app/build.gradle
+@@ -150,7 +150,9 @@ android {
+ 
+         // manifest.template.json is converted to manifest.json at build time.
+         // No need to package the template in the APK.
+-        ignoreAssetsPattern "manifest.template.json"
++        // default ignoreAssetsPattern list includes all files and folders starting with _
++        // that breaks webextensions i18n as traslation are located in _locales folder
++        ignoreAssetsPattern "manifest.template.json:!.svn:!.git:!.ds_store:!*.scc:.*:!CVS:!thumbs.db:!picasa.ini:!*~"
+     }
+ 
+     testOptions {
+diff --git a/app/src/main/java/org/mozilla/fenix/components/Core.kt b/app/src/main/java/org/mozilla/fenix/components/Core.kt
+index 333f3f7e7..b6e0bce0c 100644
+--- a/app/src/main/java/org/mozilla/fenix/components/Core.kt
++++ b/app/src/main/java/org/mozilla/fenix/components/Core.kt
+@@ -8,6 +8,7 @@ import GeckoProvider
+ import android.content.Context
+ import android.content.res.Configuration
+ import android.os.StrictMode
++import android.util.Log
+ import io.sentry.Sentry
+ import kotlinx.coroutines.Dispatchers
+ import kotlinx.coroutines.GlobalScope
+@@ -113,6 +114,14 @@ class Core(private val context: Context, private val crashReporter: CrashReporti
+             if (Config.channel.isNightlyOrDebug || Config.channel.isBeta) {
+                 WebCompatReporterFeature.install(it, "fenix")
+             }
++
++            it.installWebExtension("Ghostery", "resource://android/assets/extensions/ghostery/",
++                onSuccess = {
++                    Log.d("GHOSTERY", "Installed Ghostery webextension: ${it.id}")
++                },
++                onError = { ext, throwable ->
++                    Log.e("GHOSTERY", "Failed to install Ghostery webextension: $ext", throwable)
++                })
+         }
+     }
+ 
+-- 
+2.28.0
+

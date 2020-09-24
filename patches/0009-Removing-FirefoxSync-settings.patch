@@ -1,0 +1,25 @@
+From b56515adbace39065c0102d5927aa06f05c98061 Mon Sep 17 00:00:00 2001
+From: Stefano Pacifici <stefano.pacifici@gmail.com>
+Date: Tue, 9 Jun 2020 10:56:17 +0200
+Subject: Removing FirefoxSync settings
+
+---
+ .../java/org/mozilla/fenix/settings/account/AccountUiView.kt    | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/app/src/main/java/org/mozilla/fenix/settings/account/AccountUiView.kt b/app/src/main/java/org/mozilla/fenix/settings/account/AccountUiView.kt
+index 965ff46cf..4f25c5853 100644
+--- a/app/src/main/java/org/mozilla/fenix/settings/account/AccountUiView.kt
++++ b/app/src/main/java/org/mozilla/fenix/settings/account/AccountUiView.kt
+@@ -86,7 +86,7 @@ class AccountUiView(
+ 
+             // Signed-out.
+         } else {
+-            preferenceSignIn.isVisible = true
++            preferenceSignIn.isVisible = false
+             preferenceFirefoxAccount.isVisible = false
+             preferenceFirefoxAccountAuthError.isVisible = false
+             accountPreferenceCategory.isVisible = false
+-- 
+2.28.0
+

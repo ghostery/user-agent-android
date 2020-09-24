@@ -1,0 +1,110 @@
+From b7e37afde3dfaf9da6e18a654c4e6b854ac51289 Mon Sep 17 00:00:00 2001
+From: Stefano Pacifici <stefano.pacifici@gmail.com>
+Date: Fri, 3 Jul 2020 11:53:10 +0200
+Subject: Fixing null version name in About
+
+---
+ app/build.gradle                                    |  4 +++-
+ .../mozilla/fenix/settings/about/AboutFragment.kt   |  2 +-
+ .../mozac_support_migration_notification_icon.xml   |  6 ++++++
+ app/src/main/res/values/strings.xml                 | 13 ++++++++-----
+ buildSrc/src/main/java/Config.kt                    |  6 ++++--
+ 5 files changed, 22 insertions(+), 9 deletions(-)
+ create mode 100644 app/src/main/res/drawable/mozac_support_migration_notification_icon.xml
+
+diff --git a/app/build.gradle b/app/build.gradle
+index 5a9f9436e..307f2cc3a 100644
+--- a/app/build.gradle
++++ b/app/build.gradle
+@@ -25,7 +25,9 @@ android {
+         minSdkVersion Config.minSdkVersion
+         targetSdkVersion Config.targetSdkVersion
+         versionCode 1
+-        versionName Config.generateDebugVersionName()
++        /* Ghostery Begin: fixing version name in BuildConfig */
++        versionName Config.generateDebugVersionName(project)
++        /* Ghostery End */
+         vectorDrawables.useSupportLibrary = true
+         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+         testInstrumentationRunnerArguments clearPackageData: 'true'
+diff --git a/app/src/main/java/org/mozilla/fenix/settings/about/AboutFragment.kt b/app/src/main/java/org/mozilla/fenix/settings/about/AboutFragment.kt
+index b4b5516a0..b49cb214b 100644
+--- a/app/src/main/java/org/mozilla/fenix/settings/about/AboutFragment.kt
++++ b/app/src/main/java/org/mozilla/fenix/settings/about/AboutFragment.kt
+@@ -104,7 +104,7 @@ class AboutFragment : Fragment(), AboutPageListener {
+ 
+             String.format(
+                 "%s (Build #%s)\n%s: %s\n%s: %s\n%s: %s",
+-                packageInfo.versionName,
++                BuildConfig.VERSION_NAME,
+                 versionCode,
+                 componentsAbbreviation,
+                 componentsVersion,
+diff --git a/app/src/main/res/drawable/mozac_support_migration_notification_icon.xml b/app/src/main/res/drawable/mozac_support_migration_notification_icon.xml
+new file mode 100644
+index 000000000..7834d7282
+--- /dev/null
++++ b/app/src/main/res/drawable/mozac_support_migration_notification_icon.xml
+@@ -0,0 +1,6 @@
++<vector android:height="24dp" android:viewportHeight="5.291667"
++    android:viewportWidth="5.2916665" android:width="24dp" xmlns:android="http://schemas.android.com/apk/res/android">
++    <path android:fillColor="#ffffff" android:fillType="evenOdd"
++        android:pathData="m4.39319,4.04453c0.22683,0.52146 0.21727,0.49737 -0.66217,0.30819 -0.38094,0.38585 -0.17148,0.57769 -1.11174,0.21716 -0.92895,0.3318 -0.55432,0.25641 -1.08578,-0.20037C0.69316,4.54444 0.67164,4.56599 0.89849,4.04453 1.22711,3.30949 1.07421,2.75093 1.10836,2.05868c0.08524,-2.09875 2.98141,-1.99832 3.07434,0 -0.00522,0.68425 -0.05323,1.31879 0.21049,1.98585zM3.41007,2.49524c-0.4438,0.5651 -1.05548,0.56653 -1.52909,0 0.26914,0.95784 1.26878,0.99545 1.52909,0zM3.14122,2.29675c0.51149,-0.11758 0.39446,-1.00901 0,-1.10056 -0.43931,0.04804 -0.46827,1.04849 0,1.10056zM2.17061,1.19618c-0.48309,0.09701 -0.35904,1.05366 0,1.10056 0.50417,-0.06401 0.37927,-1.0755 0,-1.10056z"
++        android:strokeColor="#00000000" android:strokeWidth="1"/>
++</vector>
+diff --git a/app/src/main/res/values/strings.xml b/app/src/main/res/values/strings.xml
+index 1d7f2d076..0dc6e5b7a 100644
+--- a/app/src/main/res/values/strings.xml
++++ b/app/src/main/res/values/strings.xml
+@@ -1,7 +1,7 @@
+ <?xml version="1.0" encoding="utf-8" standalone="yes"?><!-- This Source Code Form is subject to the terms of the Mozilla Public
+    - License, v. 2.0. If a copy of the MPL was not distributed with this
+    - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
+-<resources>
++<resources xmlns:tools="http://schemas.android.com/tools">
+     <!-- App name for private browsing mode. The first parameter is the name of the app defined in app_name (for example: Fenix)-->
+     <string name="app_name_private_5">Private %s</string>
+     <!-- App name for private browsing mode. The first parameter is the name of the app defined in app_name (for example: Fenix)-->
+@@ -1541,8 +1541,11 @@
+     <string name="no_collections_header1">Collect the things that matter to you</string>
+     <!-- Deprecated: Label to describe what collections are to a new user without any collections -->
+     <string name="no_collections_description1">Group together similar searches, sites, and tabs for quick access later.</string>
+-    <!-- Deprecated: text for the firefox account onboarding card header when we detect you're already signed in to -->
+-    <string name="onboarding_firefox_account_auto_signin_header_2">You are signed in as %s on another Firefox browser on this phone. Would you like to sign in with this account?</string>
+-    <!-- Deprecated: Describes the add to homescreen functionality -->
+-    <string name="add_to_homescreen_description">You can easily add this website to your phone’s Home screen to have instant access and browse faster with an app-like experience.</string>
++
++    <!-- Ghostery Begin: overriding migration strings -->
++    <!-- Text of the notification shown while we upgrade Fennec to Fenix. -->
++    <string name="mozac_support_migration_ongoing_notification_text" tools:override="true">Ghostery will be ready in a moment…</string>
++    <!-- Text of the notification shown the upgrade from Fennec to Fenix is complete. -->
++    <string name="mozac_support_migration_complete_notification_text" tools:override="true">Ghostery is updated - and improved!</string>
++    <!-- Ghostery End -->
+ </resources>
+diff --git a/buildSrc/src/main/java/Config.kt b/buildSrc/src/main/java/Config.kt
+index b3f6ff907..3a8471e41 100644
+--- a/buildSrc/src/main/java/Config.kt
++++ b/buildSrc/src/main/java/Config.kt
+@@ -17,15 +17,17 @@ object Config {
+     const val minSdkVersion = 21
+     const val targetSdkVersion = 29
+ 
++    /* Ghostery Begin: if we have a version name, do not generate one */
+     @JvmStatic
+-    private fun generateDebugVersionName(): String {
++    private fun generateDebugVersionName(project: Project): String {
+         val today = Date()
+         // Append the year (2 digits) and week in year (2 digits). This will make it easier to distinguish versions and
+         // identify ancient versions when debugging issues. However this will still keep the same version number during
+         // the week so that we do not end up with a lot of versions in tools like Sentry. As an extra this matches the
+         // sections we use in the changelog (weeks).
+-        return SimpleDateFormat("1.0.yyww", Locale.US).format(today)
++        return if (project.hasProperty("versionName")) project.property("versionName") as String else SimpleDateFormat("1.0.yyww", Locale.US).format(today)
+     }
++    /* Ghostery End */
+ 
+     @JvmStatic
+     fun releaseVersionName(project: Project): String {
+-- 
+2.28.0
+
