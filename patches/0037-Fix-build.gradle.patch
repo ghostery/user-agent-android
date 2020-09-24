@@ -1,0 +1,113 @@
+From 620568b004c8d2cc1461cfeb5d48de7396dd1e01 Mon Sep 17 00:00:00 2001
+From: Sam Macbeth <sam@cliqz.com>
+Date: Fri, 18 Sep 2020 16:28:50 +0200
+Subject: Fix build.gradle
+
+---
+ app/build.gradle | 49 ++++--------------------------------------------
+ 1 file changed, 4 insertions(+), 45 deletions(-)
+
+diff --git a/app/build.gradle b/app/build.gradle
+index 99a161ace..e726e0371 100644
+--- a/app/build.gradle
++++ b/app/build.gradle
+@@ -25,9 +25,7 @@ android {
+         minSdkVersion Config.minSdkVersion
+         targetSdkVersion Config.targetSdkVersion
+         versionCode 1
+-        /* Ghostery Begin: fixing version name in BuildConfig */
+         versionName Config.generateDebugVersionName(project)
+-        /* Ghostery End */
+         vectorDrawables.useSupportLibrary = true
+         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+         testInstrumentationRunnerArguments clearPackageData: 'true'
+@@ -58,12 +56,13 @@ android {
+ 
+         if (gradle.hasProperty("localProperties.autosignReleaseWithDebugKey")) {
+             signingConfig signingConfigs.debug
++        } else {
++            signingConfig signingConfigs.release
+         }
+ 
+         if (gradle.hasProperty("localProperties.debuggable")) {
+             debuggable true
+         }
+-        signingConfig signingConfigs.release
+     }
+ 
+     buildTypes {
+@@ -101,40 +100,6 @@ android {
+             ]
+         }
+         release releaseTemplate >> {
+-            buildConfigField "boolean", "USE_RELEASE_VERSIONING", "true"
+-            applicationIdSuffix ".firefox"
+-            def deepLinkSchemeValue = "fenix"
+-            buildConfigField "String", "DEEP_LINK_SCHEME", "\"$deepLinkSchemeValue\""
+-            manifestPlaceholders = [
+-                    // This release type is meant to replace Firefox (Release channel) and therefore needs to inherit
+-                    // its sharedUserId for all eternity. See:
+-                    // https://searchfox.org/mozilla-central/search?q=moz_android_shared_id&case=false&regexp=false&path=
+-                    // Shipping an app update without sharedUserId can have
+-                    // fatal consequences. For example see:
+-                    //  - https://issuetracker.google.com/issues/36924841
+-                    //  - https://issuetracker.google.com/issues/36905922
+-                    "sharedUserId": "org.mozilla.firefox.sharedID",
+-                    "deepLinkScheme": deepLinkSchemeValue
+-            ]
+-        }
+-        fennecNightly releaseTemplate >> {
+-            buildConfigField "boolean", "USE_RELEASE_VERSIONING", "true"
+-            applicationIdSuffix ".fennec_aurora"
+-            def deepLinkSchemeValue = "fenix-nightly"
+-            buildConfigField "String", "DEEP_LINK_SCHEME", "\"$deepLinkSchemeValue\""
+-            manifestPlaceholders = [
+-                    // This release type is meant to replace Firefox (Release channel) and therefore needs to inherit
+-                    // its sharedUserId for all eternity. See:
+-                    // https://searchfox.org/mozilla-central/search?q=moz_android_shared_id&case=false&regexp=false&path=
+-                    // Shipping an app update without sharedUserId can have
+-                    // fatal consequences. For example see:
+-                    //  - https://issuetracker.google.com/issues/36924841
+-                    //  - https://issuetracker.google.com/issues/36905922
+-                    "sharedUserId": "org.mozilla.fennec.sharedID",
+-                    "deepLinkScheme": deepLinkSchemeValue
+-            ]
+-        }
+-        ghostery releaseTemplate >> {
+             buildConfigField "boolean", "USE_RELEASE_VERSIONING", "true"
+             applicationIdSuffix ".ghostery"
+             def deepLinkSchemeValue = "ghostery"
+@@ -147,7 +112,7 @@ android {
+                     // fatal consequences. For example see:
+                     //  - https://issuetracker.google.com/issues/36924841
+                     //  - https://issuetracker.google.com/issues/36905922
+-                    "sharedUserId": "com.ghostery.android.ghostery.sharedID",
++                    "sharedUserId": "org.mozilla.firefox.sharedID",
+                     "deepLinkScheme": deepLinkSchemeValue
+             ]
+         }
+@@ -162,9 +127,7 @@ android {
+ 
+         // manifest.template.json is converted to manifest.json at build time.
+         // No need to package the template in the APK.
+-        // default ignoreAssetsPattern list includes all files and folders starting with _
+-        // that breaks webextensions i18n as traslation are located in _locales folder
+-        ignoreAssetsPattern "manifest.template.json:!.svn:!.git:!.ds_store:!*.scc:.*:!CVS:!thumbs.db:!picasa.ini:!*~"
++        ignoreAssetsPattern "manifest.template.json"
+     }
+ 
+     testOptions {
+@@ -193,10 +156,6 @@ android {
+             java.srcDirs = ['src/migration/java', 'src/geckoRelease/java']
+             manifest.srcFile "src/migration/AndroidManifest.xml"
+         }
+-        ghostery {
+-            java.srcDirs = ['src/migration/java']
+-            manifest.srcFile "src/migration/AndroidManifest.xml"
+-        }
+     }
+ 
+     splits {
+-- 
+2.28.0
+

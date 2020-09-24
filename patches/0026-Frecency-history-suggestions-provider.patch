@@ -1,0 +1,169 @@
+From 2e99f0d49c4ac632f5f310c9399560106a033bc9 Mon Sep 17 00:00:00 2001
+From: Stefano Pacifici <stefano.pacifici@gmail.com>
+Date: Wed, 8 Jul 2020 18:49:05 +0200
+Subject: Frecency history suggestions provider
+
+---
+ .../mozilla/fenix/search/SearchFragment.kt    |  5 +-
+ .../fenix/search/awesomebar/AwesomeBarView.kt | 26 ++++++++--
+ .../awesomebar/FrecencySuggestionProvider.kt  | 52 +++++++++++++++++++
+ app/src/main/res/layout/fragment_search.xml   |  1 +
+ 4 files changed, 78 insertions(+), 6 deletions(-)
+ create mode 100644 app/src/main/java/org/mozilla/fenix/search/awesomebar/FrecencySuggestionProvider.kt
+
+diff --git a/app/src/main/java/org/mozilla/fenix/search/SearchFragment.kt b/app/src/main/java/org/mozilla/fenix/search/SearchFragment.kt
+index 01877979e..1eef7fb11 100644
+--- a/app/src/main/java/org/mozilla/fenix/search/SearchFragment.kt
++++ b/app/src/main/java/org/mozilla/fenix/search/SearchFragment.kt
+@@ -377,9 +377,10 @@ class SearchFragment : Fragment(), UserInteractionHandler {
+         }
+     }
+ 
++    /* Ghostery Begin: never show the label */
++    @Suppress("UNUSED_PARAMETER")
+     private fun updateSearchWithLabel(searchState: SearchFragmentState) {
+-        search_engine_shortcut.visibility =
+-            if (searchState.showSearchShortcuts) View.VISIBLE else View.GONE
++        search_engine_shortcut.visibility = View.GONE
+     }
+ 
+     private fun updateClipboardSuggestion(searchState: SearchFragmentState, clipboardUrl: String?) {
+diff --git a/app/src/main/java/org/mozilla/fenix/search/awesomebar/AwesomeBarView.kt b/app/src/main/java/org/mozilla/fenix/search/awesomebar/AwesomeBarView.kt
+index d95323aa2..29fa0731d 100644
+--- a/app/src/main/java/org/mozilla/fenix/search/awesomebar/AwesomeBarView.kt
++++ b/app/src/main/java/org/mozilla/fenix/search/awesomebar/AwesomeBarView.kt
+@@ -39,7 +39,10 @@ class AwesomeBarView(
+ ) {
+     private val sessionProvider: SessionSuggestionProvider
+     private val historyStorageProvider: HistoryStorageSuggestionProvider
+-    private val shortcutsEnginePickerProvider: ShortcutsSuggestionProvider
++    /* Ghostery Begin: frecency suggestions */
++    // private val shortcutsEnginePickerProvider: ShortcutsSuggestionProvider
++    private val frecencySuggestionProvider: FrecencySuggestionProvider
++    /* Ghostery End */
+     private val bookmarksStorageSuggestionProvider: BookmarksStorageSuggestionProvider
+     private val defaultSearchSuggestionProvider: SearchSuggestionProvider
+     private val defaultSearchActionProvider: SearchActionProvider
+@@ -151,13 +154,21 @@ class AwesomeBarView(
+                 showDescription = false
+             )
+ 
++        /* Ghostery Begin: frecency suggestions provider +/
+         shortcutsEnginePickerProvider =
+             ShortcutsSuggestionProvider(
+                 searchEngineProvider = components.search.provider,
+                 context = activity,
+                 selectShortcutEngine = interactor::onSearchShortcutEngineSelected,
+                 selectShortcutEngineSettings = interactor::onClickSearchEngineSettings
++            ) */
++        frecencySuggestionProvider =
++            FrecencySuggestionProvider(
++                historyStorage = components.core.historyStorage,
++                loadUrlUseCase = loadUrlUseCase,
++                browserIcons = components.core.icons
+             )
++        /* Ghostery End */
+ 
+         searchSuggestionProviderMap = HashMap()
+     }
+@@ -229,7 +240,10 @@ class AwesomeBarView(
+     private fun getProvidersToRemove(state: SearchFragmentState): MutableSet<AwesomeBar.SuggestionProvider> {
+         val providersToRemove = mutableSetOf<AwesomeBar.SuggestionProvider>()
+ 
+-        providersToRemove.add(shortcutsEnginePickerProvider)
++        /* Ghostery Begin: frecency suggestions provider */
++        // providersToRemove.add(shortcutsEnginePickerProvider)
++        providersToRemove.add(frecencySuggestionProvider)
++        /* Ghostery End */
+ 
+         if (!state.showHistorySuggestions) {
+             providersToRemove.add(historyStorageProvider)
+@@ -265,8 +279,12 @@ class AwesomeBarView(
+     private fun handleDisplayShortcutsProviders() {
+         view.removeAllProviders()
+         providersInUse.clear()
+-        providersInUse.add(shortcutsEnginePickerProvider)
+-        view.addProviders(shortcutsEnginePickerProvider)
++        /* Ghostery Begin: frecency suggestions provider */
++        // providersInUse.add(shortcutsEnginePickerProvider)
++        // view.addProviders(shortcutsEnginePickerProvider)
++        providersInUse.add(frecencySuggestionProvider)
++        view.addProviders(frecencySuggestionProvider)
++        /* Ghostery End */
+     }
+ 
+     private fun getSuggestionProviderForEngine(engine: SearchEngine): List<AwesomeBar.SuggestionProvider> {
+diff --git a/app/src/main/java/org/mozilla/fenix/search/awesomebar/FrecencySuggestionProvider.kt b/app/src/main/java/org/mozilla/fenix/search/awesomebar/FrecencySuggestionProvider.kt
+new file mode 100644
+index 000000000..f9a8fb9ac
+--- /dev/null
++++ b/app/src/main/java/org/mozilla/fenix/search/awesomebar/FrecencySuggestionProvider.kt
+@@ -0,0 +1,52 @@
++/* This Source Code Form is subject to the terms of the Mozilla Public
++ * License, v. 2.0. If a copy of the MPL was not distributed with this
++ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
++
++package org.mozilla.fenix.search.awesomebar
++
++import mozilla.components.browser.icons.BrowserIcons
++import mozilla.components.browser.icons.IconRequest
++import mozilla.components.concept.awesomebar.AwesomeBar
++import mozilla.components.concept.awesomebar.AwesomeBar.Suggestion
++import mozilla.components.concept.storage.HistoryStorage
++import mozilla.components.feature.session.SessionUseCases
++import mozilla.components.support.utils.URLStringUtils
++import java.util.UUID
++
++internal const val FRECENCY_SUGGESTION_LIMIT = 20
++
++/**
++ * Ghostery specific History frecency provider.
++ *
++ * @property historyStorage used to fetch the urls by frecency
++ * @property loadUrlUseCase what to do when the user click on the suggestion
++ * @property browserIcons used to load the website icon
++ */
++class FrecencySuggestionProvider(
++    private val historyStorage: HistoryStorage,
++    private val loadUrlUseCase: SessionUseCases.LoadUrlUseCase,
++    private val browserIcons: BrowserIcons? = null
++): AwesomeBar.SuggestionProvider {
++
++    override val id: String = UUID.randomUUID().toString()
++
++    override suspend fun onInputChanged(text: String): List<Suggestion> {
++        return historyStorage.getTopFrecentSites(FRECENCY_SUGGESTION_LIMIT)
++            .mapIndexed { index, info ->
++                val displayUrl = URLStringUtils.toDisplayUrl(info.url).toString()
++                val title = if (info.title.isNullOrEmpty())
++                        displayUrl
++                    else
++                        info.title!!
++                Suggestion(
++                    provider = this@FrecencySuggestionProvider,
++                    title = title,
++                    description = displayUrl,
++                    icon = browserIcons?.loadIcon(IconRequest(info.url))?.await()?.bitmap,
++                    score = FRECENCY_SUGGESTION_LIMIT - index,
++                    onSuggestionClicked = { loadUrlUseCase.invoke(info.url) }
++                )
++            }
++            .distinctBy { it.description }
++    }
++}
+\ No newline at end of file
+diff --git a/app/src/main/res/layout/fragment_search.xml b/app/src/main/res/layout/fragment_search.xml
+index 6a7e8be88..5e180c89e 100644
+--- a/app/src/main/res/layout/fragment_search.xml
++++ b/app/src/main/res/layout/fragment_search.xml
+@@ -139,6 +139,7 @@
+                 app:layout_constraintStart_toStartOf="@id/fill_link_from_clipboard"
+                 app:layout_constraintTop_toBottomOf="@id/fill_link_from_clipboard" />
+ 
++            <!-- Ghostery Begin: we do not show the search with shortcuts -->
+             <TextView
+                 android:id="@+id/search_engine_shortcut"
+                 style="@style/SearchEngineShortcutsLabelStyle"
+-- 
+2.28.0
+

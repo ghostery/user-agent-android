@@ -1,0 +1,183 @@
+From 7b3dab5470ef89bf474bf0038671ac618fab8333 Mon Sep 17 00:00:00 2001
+From: Stefano Pacifici <stefano.pacifici@gmail.com>
+Date: Fri, 26 Jun 2020 16:18:32 +0200
+Subject: Removing Collections (again)
+
+---
+ .../fenix/components/toolbar/DefaultToolbarMenu.kt    | 11 +++++++----
+ .../home/sessioncontrol/SessionControlAdapter.kt      |  4 ++++
+ .../fenix/home/sessioncontrol/SessionControlView.kt   |  7 ++++++-
+ .../java/org/mozilla/fenix/tabtray/TabTrayView.kt     |  3 ++-
+ app/src/main/res/menu/tab_tray_menu.xml               |  3 ++-
+ 5 files changed, 21 insertions(+), 7 deletions(-)
+
+diff --git a/app/src/main/java/org/mozilla/fenix/components/toolbar/DefaultToolbarMenu.kt b/app/src/main/java/org/mozilla/fenix/components/toolbar/DefaultToolbarMenu.kt
+index ed5da2094..214a20974 100644
+--- a/app/src/main/java/org/mozilla/fenix/components/toolbar/DefaultToolbarMenu.kt
++++ b/app/src/main/java/org/mozilla/fenix/components/toolbar/DefaultToolbarMenu.kt
+@@ -172,18 +172,19 @@ class DefaultToolbarMenu(
+ 
+     private val menuItems by lazy {
+         // Predicates that are called once, during screen init
++        /* Ghostery Begin: remove collections +/
+         val shouldShowSaveToCollection = (context.asActivity() as? HomeActivity)
+             ?.browsingModeManager?.mode == BrowsingMode.Normal
++        /+ Ghostery End */
++
+         val shouldDeleteDataOnQuit = context.components.settings
+             .shouldDeleteBrowsingDataOnQuit
+-        val syncedTabsInTabsTray = context.components.settings
+-            .syncedTabsInTabsTray
+ 
+         val menuItems = listOfNotNull(
+             downloadsItem,
+             historyItem,
+             bookmarksItem,
+-            if (syncedTabsInTabsTray) null else syncedTabs,
++            // Ghostery - if (FeatureFlags.syncedTabs) syncedTabs else null,
+             settings,
+             if (shouldDeleteDataOnQuit) deleteDataOnQuit else null,
+             BrowserMenuDivider(),
+@@ -191,7 +192,7 @@ class DefaultToolbarMenu(
+             addToTopSites,
+             addToHomescreen.apply { visible = ::canAddToHomescreen },
+             installToHomescreen.apply { visible = ::canInstall },
+-            if (shouldShowSaveToCollection) saveToCollection else null,
++            // Ghostery: if (shouldShowSaveToCollection) saveToCollection else null,
+             desktopMode,
+             openInApp.apply { visible = ::shouldShowOpenInApp },
+             readerAppearance.apply { visible = ::shouldShowReaderAppearance },
+@@ -282,6 +283,7 @@ class DefaultToolbarMenu(
+         onItemTapped.invoke(ToolbarMenu.Item.FindInPage)
+     }
+ 
++    /* Ghostery Begin: remove collections +/
+     private val saveToCollection = BrowserMenuImageText(
+         label = context.getString(R.string.browser_menu_save_to_collection_2),
+         imageResource = R.drawable.ic_tab_collection,
+@@ -289,6 +291,7 @@ class DefaultToolbarMenu(
+     ) {
+         onItemTapped.invoke(ToolbarMenu.Item.SaveToCollection)
+     }
++    /+ Ghostery End */
+ 
+     private val deleteDataOnQuit = BrowserMenuImageText(
+         label = context.getString(R.string.delete_browsing_data_on_quit_action),
+diff --git a/app/src/main/java/org/mozilla/fenix/home/sessioncontrol/SessionControlAdapter.kt b/app/src/main/java/org/mozilla/fenix/home/sessioncontrol/SessionControlAdapter.kt
+index bde850a17..8beb270f4 100644
+--- a/app/src/main/java/org/mozilla/fenix/home/sessioncontrol/SessionControlAdapter.kt
++++ b/app/src/main/java/org/mozilla/fenix/home/sessioncontrol/SessionControlAdapter.kt
+@@ -60,6 +60,7 @@ sealed class AdapterItem(@LayoutRes val viewType: Int) {
+     object PrivateBrowsingDescription : AdapterItem(PrivateBrowsingDescriptionViewHolder.LAYOUT_ID)
+     object NoCollectionsMessage : AdapterItem(NoCollectionsMessageViewHolder.LAYOUT_ID)
+ 
++    /* Ghostery Begin: removing collections from home +/
+     object CollectionHeader : AdapterItem(CollectionHeaderViewHolder.LAYOUT_ID)
+     data class CollectionItem(
+         val collection: TabCollection,
+@@ -74,6 +75,7 @@ sealed class AdapterItem(@LayoutRes val viewType: Int) {
+             } ?: return false
+         }
+     }
++    /+ Ghostery End */
+ 
+     data class TabInCollectionItem(
+         val collection: TabCollection,
+@@ -206,10 +208,12 @@ class SessionControlAdapter(
+             is TopSitePagerViewHolder -> {
+                 holder.bind((item as AdapterItem.TopSitePager).topSites)
+             }
++            /* Ghostery Begin: removing collections +/
+             is CollectionViewHolder -> {
+                 val (collection, expanded) = item as AdapterItem.CollectionItem
+                 holder.bindSession(collection, expanded)
+             }
++            /+ Ghostery End */
+             is TabInCollectionViewHolder -> {
+                 val (collection, tab, isLastTab) = item as AdapterItem.TabInCollectionItem
+                 holder.bindSession(collection, tab, isLastTab)
+diff --git a/app/src/main/java/org/mozilla/fenix/home/sessioncontrol/SessionControlView.kt b/app/src/main/java/org/mozilla/fenix/home/sessioncontrol/SessionControlView.kt
+index 5aaaa3854..534d8cab9 100644
+--- a/app/src/main/java/org/mozilla/fenix/home/sessioncontrol/SessionControlView.kt
++++ b/app/src/main/java/org/mozilla/fenix/home/sessioncontrol/SessionControlView.kt
+@@ -22,7 +22,8 @@ import org.mozilla.fenix.home.OnboardingState
+ 
+ // This method got a little complex with the addition of the tab tray feature flag
+ // When we remove the tabs from the home screen this will get much simpler again.
+-@Suppress("ComplexMethod")
++@Suppress("UNUSED_PARAMETER")
++@SuppressWarnings("UNUSED_PARAMETER", "ComplexMethod")
+ private fun normalModeAdapterItems(
+     topSites: List<TopSite>,
+     collections: List<TabCollection>,
+@@ -38,6 +39,7 @@ private fun normalModeAdapterItems(
+         items.add(AdapterItem.TopSitePager(topSites))
+     }
+ 
++    /* Ghostery Begin: do not show collections +/
+     if (collections.isEmpty()) {
+         if (showCollectionsPlaceholder) {
+             items.add(AdapterItem.NoCollectionsMessage)
+@@ -45,10 +47,12 @@ private fun normalModeAdapterItems(
+     } else {
+         showCollections(collections, expandedCollections, items)
+     }
++    /+ Ghostery End */
+ 
+     return items
+ }
+ 
++/* Ghostery Begin: do not show collections +/
+ private fun showCollections(
+     collections: List<TabCollection>,
+     expandedCollections: Set<Long>,
+@@ -65,6 +69,7 @@ private fun showCollections(
+         }
+     }
+ }
++/+ Ghostery End */
+ 
+ private fun privateModeAdapterItems() = listOf(AdapterItem.PrivateBrowsingDescription)
+ 
+diff --git a/app/src/main/java/org/mozilla/fenix/tabtray/TabTrayView.kt b/app/src/main/java/org/mozilla/fenix/tabtray/TabTrayView.kt
+index 3a237e22a..4031213df 100644
+--- a/app/src/main/java/org/mozilla/fenix/tabtray/TabTrayView.kt
++++ b/app/src/main/java/org/mozilla/fenix/tabtray/TabTrayView.kt
+@@ -602,6 +602,7 @@ class TabTrayItemMenu(
+ 
+     private val menuItems by lazy {
+         listOf(
++            /* Ghostery Begin: removing save to collection from the tab tray menu +/
+             SimpleBrowserMenuItem(
+                 context.getString(R.string.tab_tray_menu_item_save),
+                 textColorResource = R.color.primary_text_normal_theme
+@@ -609,7 +610,7 @@ class TabTrayItemMenu(
+                 context.components.analytics.metrics.track(Event.TabsTraySaveToCollectionPressed)
+                 onItemTapped.invoke(Item.SaveToCollection)
+             }.apply { visible = shouldShowSaveToCollection },
+-
++            /+ Ghostery End */
+             SimpleBrowserMenuItem(
+                 context.getString(R.string.tab_tray_menu_item_share),
+                 textColorResource = R.color.primary_text_normal_theme
+diff --git a/app/src/main/res/menu/tab_tray_menu.xml b/app/src/main/res/menu/tab_tray_menu.xml
+index 8eda6eea4..155daadc3 100644
+--- a/app/src/main/res/menu/tab_tray_menu.xml
++++ b/app/src/main/res/menu/tab_tray_menu.xml
+@@ -5,11 +5,12 @@
+ <menu xmlns:android="http://schemas.android.com/apk/res/android"
+     xmlns:app="http://schemas.android.com/apk/res-auto">
+ 
+-    <!-- Save to collection -->
++    <!-- Ghostery Begin: disabling "Save to collection" -+>
+     <item
+         android:id="@+id/tab_tray_select_to_save_menu_item"
+         android:title="@string/tab_tray_menu_item_save"
+         app:showAsAction="never" />
++    <-+ Ghostery End -->
+ 
+     <!-- Share-->
+     <item
+-- 
+2.28.0
+

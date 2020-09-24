@@ -1,3 +1,5 @@
 #!/bin/bash
+source ./config.sh
+rm patches/*
 cd browser
-git format-patch v79.0.5 --minimal --no-numbered --keep-subject --output-directory ../patches/
+git format-patch $FENIX_TAG-start --minimal --no-numbered --keep-subject --output-directory ../patches/

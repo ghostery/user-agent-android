@@ -1,0 +1,25 @@
+From 1734902714280e22bd2825cee636961321e5bbb8 Mon Sep 17 00:00:00 2001
+From: Stefano Pacifici <stefano.pacifici@gmail.com>
+Date: Mon, 8 Jun 2020 15:07:04 +0200
+Subject: Default the url bar to be on top
+
+---
+ app/src/main/java/org/mozilla/fenix/utils/Settings.kt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/app/src/main/java/org/mozilla/fenix/utils/Settings.kt b/app/src/main/java/org/mozilla/fenix/utils/Settings.kt
+index 095242545..9c1809691 100644
+--- a/app/src/main/java/org/mozilla/fenix/utils/Settings.kt
++++ b/app/src/main/java/org/mozilla/fenix/utils/Settings.kt
+@@ -536,7 +536,7 @@ class Settings(private val appContext: Context) : PreferencesHolder {
+     var shouldUseBottomToolbar by booleanPreference(
+         appContext.getPreferenceKey(R.string.pref_key_toolbar_bottom),
+         // Default accessibility users to top toolbar
+-        default = !touchExplorationIsEnabled && !switchServiceIsEnabled
++        default = false // !touchExplorationIsEnabled && !switchServiceIsEnabled
+     )
+ 
+     val toolbarPosition: ToolbarPosition
+-- 
+2.28.0
+

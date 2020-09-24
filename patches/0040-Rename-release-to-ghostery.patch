@@ -1,0 +1,43 @@
+From c60274479bd22d05e16096532f72ea9af0d4f34a Mon Sep 17 00:00:00 2001
+From: Sam Macbeth <sam@cliqz.com>
+Date: Sat, 19 Sep 2020 21:12:16 +0200
+Subject: Rename release to ghostery
+
+---
+ app/build.gradle | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/app/build.gradle b/app/build.gradle
+index ab66fc0b4..2f7eec04a 100644
+--- a/app/build.gradle
++++ b/app/build.gradle
+@@ -98,7 +98,7 @@ android {
+                     "deepLinkScheme": deepLinkSchemeValue
+             ]
+         }
+-        release releaseTemplate >> {
++        ghostery releaseTemplate >> {
+             buildConfigField "boolean", "USE_RELEASE_VERSIONING", "true"
+             applicationIdSuffix ".ghostery"
+             def deepLinkSchemeValue = "ghostery"
+@@ -151,7 +151,7 @@ android {
+             java.srcDirs = ['src/migration/java', 'src/geckoBeta/java']
+             manifest.srcFile "src/migration/AndroidManifest.xml"
+         }
+-        release {
++        ghostery {
+             java.srcDirs = ['src/migration/java', 'src/geckoRelease/java']
+             manifest.srcFile "src/migration/AndroidManifest.xml"
+         }
+@@ -318,7 +318,7 @@ dependencies {
+ 
+     nightlyImplementation Deps.mozilla_browser_engine_gecko_nightly
+     betaImplementation Deps.mozilla_browser_engine_gecko_beta
+-    releaseImplementation Deps.mozilla_browser_engine_gecko_release
++    ghosteryImplementation Deps.mozilla_browser_engine_gecko_release
+ 
+     implementation Deps.kotlin_stdlib
+     implementation Deps.kotlin_coroutines
+-- 
+2.28.0
+

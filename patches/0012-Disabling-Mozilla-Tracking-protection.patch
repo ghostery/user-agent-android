@@ -1,0 +1,64 @@
+From f0137dcd9fedc47784009553efbbeb90734ef42d Mon Sep 17 00:00:00 2001
+From: Stefano Pacifici <stefano.pacifici@gmail.com>
+Date: Wed, 10 Jun 2020 15:09:45 +0200
+Subject: Disabling Mozilla Tracking protection
+
+---
+ app/src/main/java/org/mozilla/fenix/components/Core.kt          | 2 +-
+ .../main/java/org/mozilla/fenix/settings/SettingsFragment.kt    | 2 ++
+ app/src/main/res/xml/preferences.xml                            | 2 ++
+ 3 files changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/app/src/main/java/org/mozilla/fenix/components/Core.kt b/app/src/main/java/org/mozilla/fenix/components/Core.kt
+index 997e940ca..333f3f7e7 100644
+--- a/app/src/main/java/org/mozilla/fenix/components/Core.kt
++++ b/app/src/main/java/org/mozilla/fenix/components/Core.kt
+@@ -83,7 +83,7 @@ class Core(private val context: Context, private val crashReporter: CrashReporti
+             requestInterceptor = AppRequestInterceptor(context),
+             remoteDebuggingEnabled = context.settings().isRemoteDebuggingEnabled,
+             testingModeEnabled = false,
+-            trackingProtectionPolicy = trackingProtectionPolicyFactory.createTrackingProtectionPolicy(),
++            trackingProtectionPolicy = null, // Ghostery: trackingProtectionPolicyFactory.createTrackingProtectionPolicy(),
+             historyTrackingDelegate = HistoryDelegate(lazyHistoryStorage),
+             preferredColorScheme = getPreferredColorScheme(),
+             automaticFontSizeAdjustment = context.settings().shouldUseAutoSize,
+diff --git a/app/src/main/java/org/mozilla/fenix/settings/SettingsFragment.kt b/app/src/main/java/org/mozilla/fenix/settings/SettingsFragment.kt
+index 33741ff92..8295c0b93 100644
+--- a/app/src/main/java/org/mozilla/fenix/settings/SettingsFragment.kt
++++ b/app/src/main/java/org/mozilla/fenix/settings/SettingsFragment.kt
+@@ -154,6 +154,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
+     }
+ 
+     private fun update(shouldUpdateAccountUIState: Boolean) {
++        /* Ghostery Begin: Removing tracking protection as it will be performed by Ghostery +/
+         val trackingProtectionPreference =
+             requirePreference<Preference>(R.string.pref_key_tracking_protection_settings)
+         trackingProtectionPreference.summary = context?.let {
+@@ -163,6 +164,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
+                 getString(R.string.tracking_protection_off)
+             }
+         }
++        /+ Ghostery End */
+ 
+         val aboutPreference = requirePreference<Preference>(R.string.pref_key_about)
+         val appName = getString(R.string.app_name)
+diff --git a/app/src/main/res/xml/preferences.xml b/app/src/main/res/xml/preferences.xml
+index 3ced997a2..2c7eaaea1 100644
+--- a/app/src/main/res/xml/preferences.xml
++++ b/app/src/main/res/xml/preferences.xml
+@@ -94,10 +94,12 @@
+             android:key="@string/pref_key_private_browsing"
+             android:title="@string/preferences_private_browsing_options"/>
+ 
++        <!-- Ghostery Begin: tracking protection is a Ghostery thing -+>
+         <androidx.preference.Preference
+             android:icon="@drawable/ic_tracking_protection_enabled"
+             android:key="@string/pref_key_tracking_protection_settings"
+             android:title="@string/preference_enhanced_tracking_protection" />
++        <!- Ghostery End -->
+ 
+         <androidx.preference.Preference
+             android:icon="@drawable/ic_permission"
+-- 
+2.28.0
+

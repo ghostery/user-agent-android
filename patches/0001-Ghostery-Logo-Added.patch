@@ -1,18 +1,18 @@
-From 706e4cd6ee9e1829c7b67bc8f3cf3456cd48cb62 Mon Sep 17 00:00:00 2001
+From 5eba3975c0f1d626dd8d54df7026a2789ca8a0a7 Mon Sep 17 00:00:00 2001
 From: Sam Macbeth <sam@cliqz.com>
 Date: Mon, 24 Aug 2020 16:19:12 +0200
 Subject: Ghostery Logo Added
 
 ---
- app/build.gradle                              |  46 +++++++++++++++++-
+ app/build.gradle                              |  40 +++++++++++++++++-
  app/src/main/ic_launcher-playstore.png        | Bin 0 -> 16726 bytes
  .../main/ic_launcher_private-playstore.png    | Bin 0 -> 24285 bytes
- .../res/drawable/ic_launcher_foreground.xml   |  32 ++++--------
- .../ic_launcher_private_foreground.xml        |  39 +++++++++++++++
- .../res/mipmap-anydpi-v26/ic_launcher.xml     |   5 +-
+ .../res/drawable/ic_launcher_foreground.xml   |  32 +++++---------
+ .../ic_launcher_private_foreground.xml        |  39 +++++++++++++++++
+ .../res/mipmap-anydpi-v26/ic_launcher.xml     |   5 +--
  .../mipmap-anydpi-v26/ic_launcher_private.xml |   6 +--
  .../ic_launcher_private_round.xml             |   6 +--
- .../mipmap-anydpi-v26/ic_launcher_round.xml   |   5 +-
+ .../mipmap-anydpi-v26/ic_launcher_round.xml   |   5 +--
  app/src/main/res/mipmap-hdpi/ic_launcher.png  | Bin 3745 -> 1728 bytes
  .../res/mipmap-hdpi/ic_launcher_private.png   | Bin 2516 -> 2228 bytes
  .../mipmap-hdpi/ic_launcher_private_round.png | Bin 4680 -> 4218 bytes
@@ -34,25 +34,25 @@ Subject: Ghostery Logo Added
  .../ic_launcher_private_round.png             | Bin 13554 -> 13459 bytes
  .../res/mipmap-xxxhdpi/ic_launcher_round.png  | Bin 21151 -> 11654 bytes
  app/src/main/res/values/colors.xml            |   3 +-
- 30 files changed, 100 insertions(+), 42 deletions(-)
+ 30 files changed, 94 insertions(+), 42 deletions(-)
  create mode 100644 app/src/main/ic_launcher-playstore.png
  create mode 100644 app/src/main/ic_launcher_private-playstore.png
  create mode 100644 app/src/main/res/drawable/ic_launcher_private_foreground.xml
 
 diff --git a/app/build.gradle b/app/build.gradle
-index 115baec97..ed649a8ac 100644
+index 3cf6ad855..34e7649ce 100644
 --- a/app/build.gradle
 +++ b/app/build.gradle
-@@ -22,7 +22,7 @@ import static org.gradle.api.tasks.testing.TestResult.ResultType
+@@ -21,7 +21,7 @@ import static org.gradle.api.tasks.testing.TestResult.ResultType
  android {
-     compileSdkVersion 28
+     compileSdkVersion Config.compileSdkVersion
      defaultConfig {
 -        applicationId "org.mozilla"
 +        applicationId "com.ghostery.android"
          minSdkVersion Config.minSdkVersion
          targetSdkVersion Config.targetSdkVersion
          versionCode 1
-@@ -110,6 +110,40 @@ android {
+@@ -105,6 +105,40 @@ android {
                      "deepLinkScheme": deepLinkSchemeValue
              ]
          }
@@ -92,38 +92,18 @@ index 115baec97..ed649a8ac 100644
 +        }
      }
  
-     variantFilter { // There's a "release" build type that exists by default that we don't use (it's replaced by "nightly" and "beta")
-@@ -126,6 +160,8 @@ android {
-         // | fenixProduction    | ✅            | ❌       | Fenix Production (to be renamed `Nightly`) ships with GV Nightly
-         // | fennecProduction   | ❌            | ✅       | Fenix build to replace production Firefox builds
-         // | fennecBeta         | ❌            | ✅       | Fenix build to replace beta Firefox builds
-+        // | fennecNightly      | ✅            | ❌       | Fenix build to replace Nightly Firefox builds
-+        // | ghostery           | ❌            | ✅       | Ghostery build to replace production Ghostery builds
- 
-         def flavors = flavors*.name.toString().toLowerCase()
- 
-@@ -144,6 +180,10 @@ android {
-         if ((buildType.name == 'fennecProduction' || buildType.name == 'fennecBeta') && flavors.contains("geckonightly")) {
-             setIgnore true
-         }
-+
-+        if (buildType.name == 'ghostery' && flavors.contains('geckonightly')) {
-+            setIgnore true
-+        }
-     }
- 
      aaptOptions {
-@@ -174,6 +214,10 @@ android {
-             java.srcDirs = ['src/migration/java']
+@@ -145,6 +179,10 @@ android {
+             java.srcDirs = ['src/migration/java', 'src/geckoRelease/java']
              manifest.srcFile "src/migration/AndroidManifest.xml"
          }
 +        ghostery {
 +            java.srcDirs = ['src/migration/java']
 +            manifest.srcFile "src/migration/AndroidManifest.xml"
 +        }
-         forPerformanceTest {
-             // We want our performance test builds to use the same code as our "fennec" flavor builds
-             // since those builds will ship to our large user base.
+     }
+ 
+     splits {
 diff --git a/app/src/main/ic_launcher-playstore.png b/app/src/main/ic_launcher-playstore.png
 new file mode 100644
 index 0000000000000000000000000000000000000000..fa134d07554fad2dbed3596a304cbecd7e1300a4
@@ -5917,10 +5897,10 @@ z&Wz4o@jkNOJ#jz}*uP|iAzX7f`fv5fXZ`%Ij)-eX7~{z8S#MMT0000<MNUMnLSTZQ
 C=2#y9
 
 diff --git a/app/src/main/res/values/colors.xml b/app/src/main/res/values/colors.xml
-index 2efbf79d8..9f65b995e 100644
+index 58c98a8db..eeea90c36 100644
 --- a/app/src/main/res/values/colors.xml
 +++ b/app/src/main/res/values/colors.xml
-@@ -357,10 +357,11 @@
+@@ -378,10 +378,11 @@
      <color name="device_foreground">#20123A</color>
  
      <!-- Launcher Icon colors -->
@@ -5934,5 +5914,5 @@ index 2efbf79d8..9f65b995e 100644
      <!-- Button Colors -->
      <color name="grey_button_color">#E0E0E6</color>
 -- 
-2.25.1
+2.28.0
 
