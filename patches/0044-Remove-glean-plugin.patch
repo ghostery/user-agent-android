@@ -1,14 +1,14 @@
-From 4b3784482fc46eee2e430b87d1a5725789aab984 Mon Sep 17 00:00:00 2001
+From a7d320424c83710dca45af19939efdfa5c541d6f Mon Sep 17 00:00:00 2001
 From: Sam Macbeth <sam@cliqz.com>
 Date: Fri, 13 Nov 2020 17:52:35 +0100
 Subject: Remove glean plugin
 
 ---
- app/build.gradle | 5 -----
- 1 file changed, 5 deletions(-)
+ app/build.gradle | 7 +------
+ 1 file changed, 1 insertion(+), 6 deletions(-)
 
 diff --git a/app/build.gradle b/app/build.gradle
-index bd7360878..e42248931 100644
+index bd7360878..09f143d14 100644
 --- a/app/build.gradle
 +++ b/app/build.gradle
 @@ -319,11 +319,6 @@ androidExtensions {
@@ -23,6 +23,15 @@ index bd7360878..e42248931 100644
  dependencies {
      debugImplementation Deps.mozilla_browser_engine_gecko_nightly
  
+@@ -497,7 +492,7 @@ dependencies {
+ 
+     // For the initial release of Glean 19, we require consumer applications to
+     // depend on a separate library for unit tests. This will be removed in future releases.
+-    testImplementation "org.mozilla.telemetry:glean-forUnitTests:${project.ext.glean_version}"
++    // testImplementation "org.mozilla.telemetry:glean-forUnitTests:${project.ext.glean_version}"
+ 
+     lintChecks project(":mozilla-lint-rules")
+ }
 -- 
 2.29.2
 
