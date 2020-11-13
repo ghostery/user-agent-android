@@ -13,7 +13,7 @@ do
   git rm -r app/src/main/res/values-$LANG
 done
 git commit -m "Remove unsupported translations"
-git tag $FENIX_TAG-start
+git tag -f $FENIX_TAG-start
 # apply patches
 git am --ignore-space-change --ignore-whitespace ../patches/*
 # copy assets into browser tree
