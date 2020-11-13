@@ -2,8 +2,9 @@
 node('docker && magrathea') {
     stage('checkout') {
         checkout scm
+        sh 'rm -rf browser'
         sh 'git submodule init'
-	sh 'git submodule update --remote --force'
+        sh 'git submodule update --remote --force'
         sh './import.sh'
     }
 
