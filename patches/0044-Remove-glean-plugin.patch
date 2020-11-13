@@ -1,0 +1,28 @@
+From 4b3784482fc46eee2e430b87d1a5725789aab984 Mon Sep 17 00:00:00 2001
+From: Sam Macbeth <sam@cliqz.com>
+Date: Fri, 13 Nov 2020 17:52:35 +0100
+Subject: Remove glean plugin
+
+---
+ app/build.gradle | 5 -----
+ 1 file changed, 5 deletions(-)
+
+diff --git a/app/build.gradle b/app/build.gradle
+index bd7360878..e42248931 100644
+--- a/app/build.gradle
++++ b/app/build.gradle
+@@ -319,11 +319,6 @@ androidExtensions {
+     experimental = true
+ }
+ 
+-// Generate Kotlin code and markdown docs for the Fenix Glean metrics.
+-ext.gleanGenerateMarkdownDocs = true
+-ext.gleanDocsDirectory = "$rootDir/docs"
+-apply plugin: "org.mozilla.telemetry.glean-gradle-plugin"
+-
+ dependencies {
+     debugImplementation Deps.mozilla_browser_engine_gecko_nightly
+ 
+-- 
+2.29.2
+
