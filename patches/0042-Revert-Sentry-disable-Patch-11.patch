@@ -1,0 +1,102 @@
+From b4d5336b8ff489d48b7d1b747c5d5abe980e7e44 Mon Sep 17 00:00:00 2001
+From: Sam Macbeth <sam@cliqz.com>
+Date: Fri, 13 Nov 2020 15:47:37 +0100
+Subject: Revert Sentry disable (Patch 11)
+
+---
+ .../java/org/mozilla/fenix/components/Analytics.kt  | 13 +++++++------
+ .../java/org/mozilla/fenix/ext/NavController.kt     |  5 ++---
+ 2 files changed, 9 insertions(+), 9 deletions(-)
+
+diff --git a/app/src/main/java/org/mozilla/fenix/components/Analytics.kt b/app/src/main/java/org/mozilla/fenix/components/Analytics.kt
+index 3407f23a5..c47f80cde 100644
+--- a/app/src/main/java/org/mozilla/fenix/components/Analytics.kt
++++ b/app/src/main/java/org/mozilla/fenix/components/Analytics.kt
+@@ -22,8 +22,9 @@ import org.mozilla.fenix.components.metrics.AdjustMetricsService
+ import org.mozilla.fenix.components.metrics.GleanMetricsService
+ import org.mozilla.fenix.components.metrics.LeanplumMetricsService
+ import org.mozilla.fenix.components.metrics.MetricController
+-import org.mozilla.fenix.crashes.DummyCrashReporter
+ import org.mozilla.fenix.utils.Mockable
++import org.mozilla.geckoview.BuildConfig.MOZ_APP_BUILDID
++import org.mozilla.geckoview.BuildConfig.MOZ_APP_VERSION
+ 
+ /**
+  * Component group for all functionality related to analytics e.g. crash reporting and telemetry.
+@@ -33,7 +34,6 @@ class Analytics(
+     private val context: Context
+ ) {
+     val crashReporter: CrashReporter by lazy {
+-        /* Ghostery Begin: disabling the CrashReporter +/
+         val services = mutableListOf<CrashReporterService>()
+ 
+         if (isSentryEnabled()) {
+@@ -43,11 +43,12 @@ class Analytics(
+                 tags = mapOf("geckoview" to "$MOZ_APP_VERSION-$MOZ_APP_BUILDID"),
+                 environment = BuildConfig.BUILD_TYPE,
+                 sendEventForNativeCrashes = false, // Do not send native crashes to Sentry
+-                sentryProjectUrl = getSentryProjectUrl()
++                sentryProjectUrl = null
+             )
+ 
+             services.add(sentryService)
+         }
++        /* Ghostery Begin: disabling the CrashReporter +/
+ 
+         // The name "Fenix" here matches the product name on Socorro and is unrelated to the actual app name:
+         // https://bugzilla.mozilla.org/show_bug.cgi?id=1523284
+@@ -70,7 +71,7 @@ class Analytics(
+ 
+         CrashReporter(
+             context = context,
+-            services = listOf(DummyCrashReporter()), // Ghostery: services,
++            services = services,
+             telemetryServices = listOf(), // Ghostery: listOf(GleanCrashReporterService(context)),
+             shouldPrompt = CrashReporter.Prompt.NEVER, // Ghostery: CrashReporter.Prompt.ALWAYS,
+             promptConfiguration = CrashReporter.PromptConfiguration(
+@@ -94,13 +95,13 @@ class Analytics(
+                 AdjustMetricsService(context as Application)
+             ),
+             /+ Ghostery End */
+-            isDataTelemetryEnabled = { false }, // Ghostery { context.settings().isTelemetryEnabled },
++            isDataTelemetryEnabled = { true },
+             isMarketingDataTelemetryEnabled = { false } // Ghostery { context.settings().isMarketingTelemetryEnabled }
+         )
+     }
+ }
+ 
+-fun isSentryEnabled() = false
++fun isSentryEnabled() = !BuildConfig.SENTRY_TOKEN.isNullOrEmpty()
+ 
+ /* Ghostery Begin:  we don't use Sentry +/
+ private fun getSentryProjectUrl(): String? {
+diff --git a/app/src/main/java/org/mozilla/fenix/ext/NavController.kt b/app/src/main/java/org/mozilla/fenix/ext/NavController.kt
+index 988679be1..4034c2472 100644
+--- a/app/src/main/java/org/mozilla/fenix/ext/NavController.kt
++++ b/app/src/main/java/org/mozilla/fenix/ext/NavController.kt
+@@ -8,6 +8,8 @@ import androidx.annotation.IdRes
+ import androidx.navigation.NavController
+ import androidx.navigation.NavDirections
+ import androidx.navigation.NavOptions
++import io.sentry.Sentry
++import org.mozilla.fenix.components.isSentryEnabled
+ 
+ /**
+  * Navigate from the fragment with [id] using the given [directions].
+@@ -25,13 +27,10 @@ fun NavController.alreadyOnDestination(@IdRes destId: Int?): Boolean {
+     return destId?.let { currentDestination?.id == it || popBackStack(it, false) } ?: false
+ }
+ 
+-@Suppress("UNUSED_PARAMETER")
+ fun recordIdException(actual: Int?, expected: Int?) {
+-    /* Ghostery Begin: Sentry in not enabled +/
+     if (isSentryEnabled()) {
+         Sentry.capture("Fragment id $actual did not match expected $expected")
+     }
+-    /+ Ghostery End */
+ }
+ 
+ fun NavController.navigateSafe(
+-- 
+2.29.2
+
