@@ -12,8 +12,8 @@ Note: Both Android SDK and NDK are required.
   # Checkout the repo
   git clone https://github.com/ghostery/user-agent-android
   # Pull Fenix code
-  git submodules init
-  git submodules update
+  git submodule init
+  git submodule update
   # Apply patches
   ./import.sh
   # the browser directory contains the app project
