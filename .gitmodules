@@ -1,4 +1,4 @@
 [submodule "browser"]
 	path = browser
 	url = https://github.com/mozilla-mobile/fenix.git
-	branch = releases/v81.1.1
+	branch = v97.1.1
