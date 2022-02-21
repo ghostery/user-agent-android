@@ -18,6 +18,8 @@ git commit -m "Remove unsupported translations"
 rsync -av ../assets/ ../browser/
 git add . && git commit -a -m "Copy static assets"
 
+# Install Ghostery Browser Extension
+./bootstrap.sh
 
 git tag -f $FENIX_TAG-start
 # apply patches

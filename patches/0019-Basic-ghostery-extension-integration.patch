@@ -1,33 +1,32 @@
-From 9a25d2f796642ef2d40cb51282337a02540ebaf3 Mon Sep 17 00:00:00 2001
+From 42abf77cde72388b3f2d0c7e36ae5f3b42ff0061 Mon Sep 17 00:00:00 2001
 From: Sam Macbeth <sam@cliqz.com>
 Date: Mon, 3 Aug 2020 18:31:14 +0200
 Subject: Basic ghostery extension integration
 
 ---
- .gitignore                                             | 3 ++-
+ .gitignore                                             | 3 +++
  app/build.gradle                                       | 4 +++-
  app/src/main/java/org/mozilla/fenix/components/Core.kt | 9 +++++++++
- 3 files changed, 14 insertions(+), 2 deletions(-)
+ 3 files changed, 15 insertions(+), 1 deletion(-)
 
 diff --git a/.gitignore b/.gitignore
-index 8cce379dd..889a7974b 100644
+index cd0e1c137..3991b83f3 100644
 --- a/.gitignore
 +++ b/.gitignore
-@@ -100,6 +100,7 @@ test_artifacts/
- /build/test-tools/*.jar
- /build/test-tools/*.gz
- 
--
+@@ -102,3 +102,6 @@ test_artifacts/
+
  # Web extensions: manifest.json files are generated
  manifest.json
++
 +# Ghostery extension
 +/app/src/main/assets/extensions/ghostery
+\ No newline at end of file
 diff --git a/app/build.gradle b/app/build.gradle
-index a3302c257..5a9f9436e 100644
+index ba6c4155c..78a1c97a9 100644
 --- a/app/build.gradle
 +++ b/app/build.gradle
-@@ -150,7 +150,9 @@ android {
- 
+@@ -162,7 +162,9 @@ android {
+
          // manifest.template.json is converted to manifest.json at build time.
          // No need to package the template in the APK.
 -        ignoreAssetsPattern "manifest.template.json"
@@ -35,21 +34,21 @@ index a3302c257..5a9f9436e 100644
 +        // that breaks webextensions i18n as traslation are located in _locales folder
 +        ignoreAssetsPattern "manifest.template.json:!.svn:!.git:!.ds_store:!*.scc:.*:!CVS:!thumbs.db:!picasa.ini:!*~"
      }
- 
+
      testOptions {
 diff --git a/app/src/main/java/org/mozilla/fenix/components/Core.kt b/app/src/main/java/org/mozilla/fenix/components/Core.kt
-index 333f3f7e7..b6e0bce0c 100644
+index 136da1ee0..f35088c8b 100644
 --- a/app/src/main/java/org/mozilla/fenix/components/Core.kt
 +++ b/app/src/main/java/org/mozilla/fenix/components/Core.kt
-@@ -8,6 +8,7 @@ import GeckoProvider
- import android.content.Context
+@@ -8,6 +8,7 @@ import android.content.Context
  import android.content.res.Configuration
+ import android.os.Build
  import android.os.StrictMode
 +import android.util.Log
- import io.sentry.Sentry
- import kotlinx.coroutines.Dispatchers
- import kotlinx.coroutines.GlobalScope
-@@ -113,6 +114,14 @@ class Core(private val context: Context, private val crashReporter: CrashReporti
+ import androidx.core.content.ContextCompat
+ import mozilla.components.browser.engine.gecko.GeckoEngine
+ import mozilla.components.browser.engine.gecko.fetch.GeckoViewFetchClient
+@@ -137,6 +138,14 @@ class Core(
              if (Config.channel.isNightlyOrDebug || Config.channel.isBeta) {
                  WebCompatReporterFeature.install(it, "fenix")
              }
@@ -63,7 +62,6 @@ index 333f3f7e7..b6e0bce0c 100644
 +                })
          }
      }
- 
--- 
-2.28.0
 
+--
+2.34.1
