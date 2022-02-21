@@ -1,27 +1,28 @@
-From 5837b1051d6c7f7f0bca59030b7fe205b32bcb62 Mon Sep 17 00:00:00 2001
+From 9046f185d9af388c27a05d592484dd7ac06450e9 Mon Sep 17 00:00:00 2001
 From: Sam Macbeth <sam@cliqz.com>
 Date: Mon, 3 Aug 2020 18:24:11 +0200
-Subject: Help resources point to Ghostery domain
+Subject: [PATCH] Help resources point to Ghostery domain
 
 ---
- .../mozilla/fenix/settings/SupportUtils.kt    | 19 ++++++++++++++++---
- .../fenix/settings/about/AboutFragment.kt     | 10 ++++++++--
- app/src/main/res/layout/fragment_about.xml    |  5 ++++-
- 3 files changed, 28 insertions(+), 6 deletions(-)
+ .../mozilla/fenix/settings/SupportUtils.kt    | 21 ++++++++++---------
+ .../fenix/settings/about/AboutFragment.kt     | 17 +--------------
+ app/src/main/res/layout/fragment_about.xml    | 17 +--------------
+ 3 files changed, 13 insertions(+), 42 deletions(-)
 
 diff --git a/app/src/main/java/org/mozilla/fenix/settings/SupportUtils.kt b/app/src/main/java/org/mozilla/fenix/settings/SupportUtils.kt
-index 3e1bae04a..7723b441e 100644
+index 225cee814..9babe8726 100644
 --- a/app/src/main/java/org/mozilla/fenix/settings/SupportUtils.kt
 +++ b/app/src/main/java/org/mozilla/fenix/settings/SupportUtils.kt
-@@ -44,26 +44,37 @@ object SupportUtils {
+@@ -57,24 +57,25 @@ object SupportUtils {
      }
- 
+
      enum class MozillaPage(internal val path: String) {
 -        PRIVATE_NOTICE("privacy/firefox/"),
-+        PRIVATE_NOTICE("about-ghostery/privacy-statements/"),
-         MANIFESTO("about/manifesto/")
+-        MANIFESTO("about/manifesto/")
++        PRIVATE_NOTICE("privacy/privacy/"),
++        MANIFESTO("ghostery-manifesto/")
      }
- 
+
      /**
       * Gets a support page URL for the corresponding topic.
       */
@@ -31,32 +32,25 @@ index 3e1bae04a..7723b441e 100644
          topic: SumoTopic,
          locale: Locale = Locale.getDefault()
      ): String {
-+        /* Ghostery Begin: Ghostery support url +/
-         val escapedTopic = getEncodedTopicUTF8(topic.topicStr)
-         // Remove the whitespace so a search is not triggered:
-         val appVersion = context.appVersionName?.replace(" ", "")
-         val osTarget = "Android"
-         val langTag = getLanguageTag(locale)
-         return "https://support.mozilla.org/1/mobile/$appVersion/$osTarget/$langTag/$escapedTopic"
-+        */
+-        val escapedTopic = getEncodedTopicUTF8(topic.topicStr)
+-        // Remove the whitespace so a search is not triggered:
+-        val appVersion = context.appVersionName?.replace(" ", "")
+-        val osTarget = "Android"
+-        val langTag = getLanguageTag(locale)
+-        return "https://support.mozilla.org/1/mobile/$appVersion/$osTarget/$langTag/$escapedTopic"
 +        return when (topic) {
 +            SumoTopic.HELP -> "https://www.ghostery.com/support/"
 +            // "What's new" is used also in the "About Ghostery" preferences entry
-+            SumoTopic.WHATS_NEW -> "https://www.ghostery.com/about-ghostery/"
++            SumoTopic.WHATS_NEW -> "https://github.com/ghostery/user-agent-android/releases"
 +            else -> "This topic is unsupported"
 +        }
-+        /* Ghostery End */
      }
- 
-+
+
      /**
-      * Gets a support page URL for the corresponding topic.
-      * Used when the app version and os are not part of the URL.
-@@ -78,11 +89,13 @@ object SupportUtils {
+@@ -91,10 +92,10 @@ object SupportUtils {
          return "https://support.mozilla.org/kb/access-mozilla-services-firefox-account"
      }
- 
-+    /* Ghostery Begin: Privacy Policy points to Ghostery's website */
+
 +    @Suppress("UNUSED_PARAMETER")
      fun getMozillaPageUrl(page: MozillaPage, locale: Locale = Locale.getDefault()): String {
          val path = page.path
@@ -64,101 +58,87 @@ index 3e1bae04a..7723b441e 100644
 -        return "https://www.mozilla.org/$langTag/$path"
 +        return "https://www.ghostery.com/$path"
      }
-+    /* Ghostery End */
- 
-     fun getWhatsNewUrl(context: Context) = if (Config.channel.isFennec) {
-         getGenericSumoURLForTopic(SumoTopic.UPGRADE_FAQ)
+
+     fun getWhatsNewUrl(context: Context) = getSumoURLForTopic(context, SumoTopic.WHATS_NEW)
 diff --git a/app/src/main/java/org/mozilla/fenix/settings/about/AboutFragment.kt b/app/src/main/java/org/mozilla/fenix/settings/about/AboutFragment.kt
-index 9f80cf5e6..b4b5516a0 100644
+index e3799b3cc..3097fd718 100644
 --- a/app/src/main/java/org/mozilla/fenix/settings/about/AboutFragment.kt
 +++ b/app/src/main/java/org/mozilla/fenix/settings/about/AboutFragment.kt
-@@ -117,46 +117,52 @@ class AboutFragment : Fragment(), AboutPageListener {
+@@ -128,11 +128,9 @@ class AboutFragment : Fragment(), AboutPageListener {
              ""
          }
- 
+
 -        val content = getString(R.string.about_content, headerAppName)
-+        /* Ghostery Begin: Ghostery is produced by Ghostery */
          val buildDate = BuildConfig.BUILD_DATE
- 
-         about_text.text = aboutText
--        about_content.text = content
-         build_date.text = buildDate
-+        /* Ghostery End */
+
+         binding.aboutText.text = aboutText
+-        binding.aboutContent.text = content
+         binding.buildDate.text = buildDate
      }
- 
-     private fun populateAboutList(): List<AboutPageItem> {
+
+@@ -140,13 +138,7 @@ class AboutFragment : Fragment(), AboutPageListener {
          val context = requireContext()
- 
+
          return listOf(
-+            /* Ghostery Begin: Removing "Whats'new in Ghostery" +/
-             AboutPageItem(
-                 AboutItem.ExternalLink(
-                     WHATS_NEW,
-                     SupportUtils.getWhatsNewUrl(context)
-                 ), getString(R.string.about_whats_new, getString(R.string.app_name))
-             ),
-+            /+ Ghostery End */
+-            AboutPageItem(
+-                AboutItem.ExternalLink(
+-                    WHATS_NEW,
+-                    SupportUtils.getWhatsNewUrl(context)
+-                ),
+-                getString(R.string.about_whats_new, getString(R.string.app_name))
+-            ),
++
              AboutPageItem(
                  AboutItem.ExternalLink(
                      SUPPORT,
-                     SupportUtils.getSumoURLForTopic(context, SupportUtils.SumoTopic.HELP)
-                 ), getString(R.string.about_support)
+@@ -165,13 +157,6 @@ class AboutFragment : Fragment(), AboutPageListener {
+                 ),
+                 getString(R.string.about_privacy_notice)
              ),
-+            /* Ghostery Begin: Removing "Crashes" +/
-             AboutPageItem(
-                 AboutItem.Crashes,
-                 getString(R.string.about_crashes)
-             ),
-+            /+ Ghostery End */
-             AboutPageItem(
-                 AboutItem.ExternalLink(
-                     PRIVACY_NOTICE,
-                     SupportUtils.getMozillaPageUrl(SupportUtils.MozillaPage.PRIVATE_NOTICE)
-                 ), getString(R.string.about_privacy_notice)
-             ),
-+            /* Ghostery Begin: Removing "Know your rights" section +/
-             AboutPageItem(
-                 AboutItem.ExternalLink(
-                     RIGHTS,
-                     SupportUtils.getSumoURLForTopic(context, SupportUtils.SumoTopic.YOUR_RIGHTS)
-                 ), getString(R.string.about_know_your_rights)
-             ),
-+            /+ Ghostery End */
+-            AboutPageItem(
+-                AboutItem.ExternalLink(
+-                    RIGHTS,
+-                    SupportUtils.getSumoURLForTopic(context, SupportUtils.SumoTopic.YOUR_RIGHTS)
+-                ),
+-                getString(R.string.about_know_your_rights)
+-            ),
              AboutPageItem(
                  AboutItem.ExternalLink(LICENSING_INFO, ABOUT_LICENSE_URL),
                  getString(R.string.about_licensing_information)
 diff --git a/app/src/main/res/layout/fragment_about.xml b/app/src/main/res/layout/fragment_about.xml
-index d7f5874e4..d95f9cedd 100644
+index 7e9b03ff0..d266d4f8a 100644
 --- a/app/src/main/res/layout/fragment_about.xml
 +++ b/app/src/main/res/layout/fragment_about.xml
-@@ -33,6 +33,7 @@
+@@ -33,21 +33,6 @@
              app:layout_constraintTop_toTopOf="parent"
              app:layout_constraintWidth_percent="0.75" />
- 
-+        <!-- Ghostery Begin: Ghostery is produced by Ghostery -+>
-         <TextView
-             android:id="@+id/about_content"
-             style="@style/Header16TextStyle"
-@@ -47,6 +48,7 @@
-             app:layout_constraintTop_toBottomOf="@id/wordmark"
-             app:layout_constraintWidth_percent="0.8"
-             tools:text="@string/about_content" />
-+        -->
- 
+
+-        <TextView
+-            android:id="@+id/about_content"
+-            style="@style/Header16TextStyle"
+-            android:layout_width="wrap_content"
+-            android:layout_height="wrap_content"
+-            android:layout_marginTop="@dimen/about_header_title_margin_top"
+-            android:paddingStart="@dimen/about_header_title_padding_start_end"
+-            android:paddingEnd="@dimen/about_header_title_padding_start_end"
+-            android:textAlignment="center"
+-            app:layout_constraintEnd_toEndOf="parent"
+-            app:layout_constraintStart_toStartOf="parent"
+-            app:layout_constraintTop_toBottomOf="@id/wordmark"
+-            app:layout_constraintWidth_percent="0.8"
+-            tools:text="@string/about_content" />
+-
          <TextView
              android:id="@+id/about_text"
-@@ -58,9 +60,10 @@
+             style="@style/AboutHeaderContentText"
+@@ -58,7 +43,7 @@
              android:textIsSelectable="true"
              app:layout_constraintEnd_toEndOf="parent"
              app:layout_constraintStart_toStartOf="parent"
 -            app:layout_constraintTop_toBottomOf="@id/about_content"
 +            app:layout_constraintTop_toBottomOf="@id/wordmark"
              app:layout_constraintWidth_percent="0.8"
-             tools:text="1.0.x (Build #x)\nAC: 1.0.0\nGV: 69.x-x\nAS: 1.0.0" />
-+        <!-- Ghostery End -->
- 
-         <TextView
-             android:id="@+id/build_date"
--- 
-2.28.0
+             tools:text="1.0.x (Build #x), 0d7383fd2\nAC: 1.0.0, 96ae23b628\nGV: 69.x-x\nAS: 1.0.0" />
 
+--
+2.34.1
