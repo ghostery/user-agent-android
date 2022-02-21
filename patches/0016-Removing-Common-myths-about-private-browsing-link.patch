@@ -1,51 +1,53 @@
-From 014bfa8742bcba54989c17884ffea32654f3c456 Mon Sep 17 00:00:00 2001
+From 7a167ddd591ad2f28519dda808b7082be69ce9f8 Mon Sep 17 00:00:00 2001
 From: Stefano Pacifici <stefano.pacifici@gmail.com>
 Date: Tue, 23 Jun 2020 16:53:36 +0200
 Subject: Removing "Common myths about private browsing" link
 
 ---
- .../viewholders/PrivateBrowsingDescriptionViewHolder.kt         | 2 ++
- app/src/main/res/layout/private_browsing_description.xml        | 2 ++
- 2 files changed, 4 insertions(+)
+ .../PrivateBrowsingDescriptionViewHolder.kt        |  7 -------
+ .../res/layout/private_browsing_description.xml    | 14 --------------
+ 2 files changed, 21 deletions(-)
 
 diff --git a/app/src/main/java/org/mozilla/fenix/home/sessioncontrol/viewholders/PrivateBrowsingDescriptionViewHolder.kt b/app/src/main/java/org/mozilla/fenix/home/sessioncontrol/viewholders/PrivateBrowsingDescriptionViewHolder.kt
-index 4cc6a0d85..fcd435fd3 100644
+index 45aeb054d..efbba87a1 100644
 --- a/app/src/main/java/org/mozilla/fenix/home/sessioncontrol/viewholders/PrivateBrowsingDescriptionViewHolder.kt
 +++ b/app/src/main/java/org/mozilla/fenix/home/sessioncontrol/viewholders/PrivateBrowsingDescriptionViewHolder.kt
-@@ -23,6 +23,7 @@ class PrivateBrowsingDescriptionViewHolder(
-         view.private_session_description.text = resources.getString(
+@@ -24,13 +24,6 @@ class PrivateBrowsingDescriptionViewHolder(
+         binding.privateSessionDescription.text = resources.getString(
              R.string.private_browsing_placeholder_description_2, appName
          )
-+        /* Ghostery Begin: removing common myths about private tabs +/
-         with(view.private_session_common_myths) {
-             movementMethod = LinkMovementMethod.getInstance()
-             addUnderline()
-@@ -30,6 +31,7 @@ class PrivateBrowsingDescriptionViewHolder(
-                 interactor.onPrivateBrowsingLearnMoreClicked()
-             }
-         }
-+        /+ Ghostery End */
+-        with(binding.privateSessionCommonMyths) {
+-            movementMethod = LinkMovementMethod.getInstance()
+-            addUnderline()
+-            setOnClickListener {
+-                interactor.onPrivateBrowsingLearnMoreClicked()
+-            }
+-        }
      }
- 
+
      companion object {
 diff --git a/app/src/main/res/layout/private_browsing_description.xml b/app/src/main/res/layout/private_browsing_description.xml
-index d964945a0..672a67878 100644
+index cd0795e0d..076183905 100644
 --- a/app/src/main/res/layout/private_browsing_description.xml
 +++ b/app/src/main/res/layout/private_browsing_description.xml
-@@ -26,6 +26,7 @@
+@@ -26,18 +26,4 @@
          android:textSize="14sp"
          tools:text="@string/private_browsing_placeholder_description_2" />
- 
-+    <!-- Ghostery Begin: removing common myths about private tabs -+>
-     <org.mozilla.fenix.utils.LinkTextView
-         android:id="@+id/private_session_common_myths"
-         android:layout_width="match_parent"
-@@ -40,4 +41,5 @@
-         android:text="@string/private_browsing_common_myths"
-         android:textColor="?primaryText"
-         android:textSize="14sp" />
-+    <!+- Ghostery End -->
- </LinearLayout>
--- 
-2.28.0
 
+-    <org.mozilla.fenix.utils.LinkTextView
+-        android:id="@+id/private_session_common_myths"
+-        android:layout_width="match_parent"
+-        android:layout_height="wrap_content"
+-        android:ellipsize="none"
+-        android:gravity="center_vertical"
+-        android:lineSpacingExtra="6dp"
+-        android:paddingHorizontal="4dp"
+-        android:paddingTop="10dp"
+-        android:paddingBottom="19dp"
+-        android:scrollHorizontally="false"
+-        android:text="@string/private_browsing_common_myths"
+-        android:textColor="?primaryText"
+-        android:textSize="14sp" />
+ </LinearLayout>
+--
+2.34.1
