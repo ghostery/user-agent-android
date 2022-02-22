@@ -1,22 +1,22 @@
-From e8165e65f3938e33d076dd2cae6640eb827b9638 Mon Sep 17 00:00:00 2001
+From 4e5fa41481012f4c5b0e1892a73a5b244e0ffe4b Mon Sep 17 00:00:00 2001
 From: Stefano Pacifici <stefano.pacifici@gmail.com>
 Date: Fri, 5 Jun 2020 18:22:06 +0200
 Subject: Changing the wordmark (freshtab title)
 
 White wordmark
 ---
- app/src/main/res/layout/fragment_about.xml    |   3 +-
- app/src/main/res/values/styles.xml            |   8 +-
- ghostery_res/wordmark.svg                     | 103 ++++++++++++++++++
- ghostery_res/wordmark_private.svg             | 103 ++++++++++++++++++
- ghostery_res/wordmark_white.svg               |  98 +++++++++++++++++
- 20 files changed, 312 insertions(+), 3 deletions(-)
+ app/src/main/res/layout/fragment_about.xml |   3 +-
+ app/src/main/res/values/styles.xml         |   8 +-
+ ghostery_res/wordmark.svg                  | 103 +++++++++++++++++++++
+ ghostery_res/wordmark_private.svg          | 103 +++++++++++++++++++++
+ ghostery_res/wordmark_white.svg            |  98 ++++++++++++++++++++
+ 5 files changed, 312 insertions(+), 3 deletions(-)
  create mode 100644 ghostery_res/wordmark.svg
  create mode 100644 ghostery_res/wordmark_private.svg
  create mode 100644 ghostery_res/wordmark_white.svg
 
 diff --git a/app/src/main/res/layout/fragment_about.xml b/app/src/main/res/layout/fragment_about.xml
-index 2ad922ef5..d7f5874e4 100644
+index 53d86a98e..7e9b03ff0 100644
 --- a/app/src/main/res/layout/fragment_about.xml
 +++ b/app/src/main/res/layout/fragment_about.xml
 @@ -11,6 +11,7 @@
@@ -25,7 +25,7 @@ index 2ad922ef5..d7f5874e4 100644
      android:fillViewport="true"
 +    android:background="?homeBackground"
      tools:context="org.mozilla.fenix.settings.about.AboutFragment">
-
+ 
      <androidx.constraintlayout.widget.ConstraintLayout
 @@ -26,7 +27,7 @@
              android:layout_marginEnd="@dimen/about_header_icon_margin_start_end"
@@ -37,12 +37,12 @@ index 2ad922ef5..d7f5874e4 100644
              app:layout_constraintStart_toStartOf="parent"
              app:layout_constraintTop_toTopOf="parent"
 diff --git a/app/src/main/res/values/styles.xml b/app/src/main/res/values/styles.xml
-index 163e64e1c..fe8a99e24 100644
+index 58c6e0288..2b0dd93ad 100644
 --- a/app/src/main/res/values/styles.xml
 +++ b/app/src/main/res/values/styles.xml
 @@ -100,7 +100,9 @@
          <item name="tabHistoryItemSelectedBackground">@color/tab_history_item_selected_background_normal_theme</item>
-
+ 
          <!-- Drawables -->
 -        <item name="fenixLogo">@drawable/ic_logo_wordmark_normal</item>
 +        <!-- Ghostery Begin: white woodmark -->
@@ -51,9 +51,9 @@ index 163e64e1c..fe8a99e24 100644
          <item name="homeBackground">@color/fx_mobile_layer_color_1</item>
          <item name="bottomBarBackground">@drawable/home_bottom_bar_background</item>
          <item name="bottomBarBackgroundTop">@drawable/home_bottom_bar_background_top</item>
-@@ -250,7 +252,9 @@
+@@ -283,7 +285,9 @@
          <item name="tabHistoryItemSelectedBackground">@color/tab_history_item_selected_background_private_theme</item>
-
+ 
          <!-- Drawables -->
 -        <item name="fenixLogo">@drawable/ic_logo_wordmark_private</item>
 +        <!-- Ghostery Begin: white wordmark -->
@@ -384,6 +384,6 @@ index 000000000..7be352f75
 +    </g>
 +  </g>
 +</svg>
---
-2.28.0
+-- 
+2.34.1
 

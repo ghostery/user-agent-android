@@ -1,4 +1,4 @@
-From a41811c7cd7be80eb450e3d6f465047476ead532 Mon Sep 17 00:00:00 2001
+From 2638c626dd18d2a2bba98de82c4a1567925642e6 Mon Sep 17 00:00:00 2001
 From: Sam Macbeth <sam@cliqz.com>
 Date: Mon, 3 Aug 2020 16:46:47 +0200
 Subject: Disabling Telemetry & CrashReports
@@ -49,7 +49,7 @@ index 8fa482e91..e28fd89f3 100644
 @@ -118,45 +115,12 @@ open class FenixApplication : LocaleAwareApplication(), Provider {
              return
          }
-
+ 
 -        if (Config.channel.isFenix) {
 -            // We need to always initialize Glean and do it early here.
 -            // Note that we are only initializing Glean here for "fenix" builds. "fennec" builds
@@ -59,11 +59,11 @@ index 8fa482e91..e28fd89f3 100644
 -        }
 -
          setupInMainProcessOnly()
-
+ 
          // DO NOT MOVE ANYTHING BELOW THIS stop CALL.
          PerfStartup.applicationOnCreate.stopAndAccumulate(completeMethodDurationTimerId)
      }
-
+ 
 -    @OptIn(DelicateCoroutinesApi::class) // GlobalScope usage
 -    protected open fun initializeGlean() {
 -        val telemetryEnabled = settings().isTelemetryEnabled
@@ -94,7 +94,7 @@ index 8fa482e91..e28fd89f3 100644
          setupCrashReporting()
 @@ -375,10 +339,7 @@ open class FenixApplication : LocaleAwareApplication(), Provider {
      }
-
+ 
      private fun setupCrashReporting() {
 -        components
 -            .analytics
@@ -102,7 +102,7 @@ index 8fa482e91..e28fd89f3 100644
 -            .install(this)
 +
      }
-
+ 
      /**
 diff --git a/app/src/main/java/org/mozilla/fenix/components/Analytics.kt b/app/src/main/java/org/mozilla/fenix/components/Analytics.kt
 index 2bb3655af..bd967b625 100644
@@ -132,17 +132,17 @@ index 2bb3655af..bd967b625 100644
 -            true -> "MozillaOnline"
 -            false -> "Mozilla"
 -        }
-
+ 
          if (isSentryEnabled()) {
              val sentryService = SentryService(
 @@ -55,17 +51,10 @@ class Analytics(
              )
-
+ 
              services.add(sentryService)
 +        } else {
 +            services.add(DummyCrashReporter())
          }
-
+ 
 -        // The name "Fenix" here matches the product name on Socorro and is unrelated to the actual app name:
 -        // https://bugzilla.mozilla.org/show_bug.cgi?id=1523284
 -        val socorroService = MozillaSocorroService(
@@ -171,7 +171,7 @@ index 2bb3655af..bd967b625 100644
              enabled = true,
              nonFatalCrashIntent = pendingIntent
 @@ -93,12 +82,9 @@ class Analytics(
-
+ 
      val metrics: MetricController by lazyMonitored {
          MetricController.create(
 -            listOf(
@@ -219,7 +219,7 @@ index e1e9be315..9308df8be 100644
 @@ -125,16 +125,6 @@
              app:iconSpaceReserved="false"
              android:title="@string/preferences_delete_browsing_data_on_quit" />
-
+ 
 -        <androidx.preference.Preference
 -            android:key="@string/pref_key_notifications"
 -            app:iconSpaceReserved="false"
@@ -231,7 +231,8 @@ index e1e9be315..9308df8be 100644
 -            android:title="@string/preferences_data_collection" />
 -
      </androidx.preference.PreferenceCategory>
-
+ 
      <PreferenceCategory
---
+-- 
 2.34.1
+

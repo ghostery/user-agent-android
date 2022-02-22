@@ -1,7 +1,7 @@
-From 2c7cf7b8bba37c63e7de977e1a88b4c3d35afcbf Mon Sep 17 00:00:00 2001
+From c03707fd793cb29b0ba32d38d1fca79b4f4eb169 Mon Sep 17 00:00:00 2001
 From: Sam Macbeth <sam@cliqz.com>
 Date: Mon, 3 Aug 2020 15:07:40 +0200
-Subject: [PATCH] Disabling Firefox onboarding
+Subject: Disabling Firefox onboarding
 
 ---
  .../main/java/org/mozilla/fenix/onboarding/FenixOnboarding.kt | 4 +---
@@ -13,14 +13,15 @@ index c9cfff8d9..583b947eb 100644
 +++ b/app/src/main/java/org/mozilla/fenix/onboarding/FenixOnboarding.kt
 @@ -32,9 +32,7 @@ class FenixOnboarding(context: Context) : PreferencesHolder {
      }
-
+ 
      fun userHasBeenOnboarded(): Boolean {
 -        return strictMode.resetAfter(StrictMode.allowThreadDiskReads()) {
 -            onboardedVersion == CURRENT_ONBOARDING_VERSION
 -        }
 +        return true
      }
-
+ 
      companion object {
---
+-- 
 2.34.1
+

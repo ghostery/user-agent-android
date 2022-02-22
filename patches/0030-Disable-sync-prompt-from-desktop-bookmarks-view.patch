@@ -1,7 +1,7 @@
-From 3dcd784ed146b0e02d1b4489682028dd20f5079d Mon Sep 17 00:00:00 2001
+From ea615589e04722c807084fd806dd47217b96eef4 Mon Sep 17 00:00:00 2001
 From: Sam Macbeth <sam@macbeth.cc>
 Date: Tue, 25 Aug 2020 11:01:43 +0200
-Subject: [PATCH] Disable sync prompt from desktop bookmarks view
+Subject: Disable sync prompt from desktop bookmarks view
 
 ---
  .../org/mozilla/fenix/library/bookmarks/BookmarkFragment.kt   | 4 +---

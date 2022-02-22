@@ -1,4 +1,4 @@
-From f7684aeaaafdf58f7d43f97c73d350176658d308 Mon Sep 17 00:00:00 2001
+From f9d654d5b44175d0654892bcd0bef69f61404ccb Mon Sep 17 00:00:00 2001
 From: Stefano Pacifici <stefano.pacifici@gmail.com>
 Date: Thu, 25 Jun 2020 18:02:43 +0200
 Subject: Removing addons preferences menu
@@ -24,8 +24,9 @@ index 09eec7f7d..bdfd249f0 100644
 -            android:key="@string/pref_key_override_amo_collection"
 -            app:iconSpaceReserved="false"
 -            android:title="@string/preferences_customize_amo_collection" />
-
+ 
          <androidx.preference.SwitchPreference
              android:defaultValue="false"
---
+-- 
 2.34.1
+

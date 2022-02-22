@@ -1,11 +1,11 @@
-From 3006f023bb646bf77c2f1b9309e922e6e3dfcbe3 Mon Sep 17 00:00:00 2001
+From b8c635e166f5102ef460ada3470cfb752d7d246a Mon Sep 17 00:00:00 2001
 From: Sam Macbeth <sam@cliqz.com>
 Date: Mon, 3 Aug 2020 18:21:01 +0200
-Subject: [PATCH] Removig "What's new" from the Home menu
+Subject: Removig "What's new" from the Home menu
 
 ---
  .../java/org/mozilla/fenix/home/HomeMenu.kt   | 52 -------------------
- 1 files changed, 0 insertions(+), 53 deletions(-)
+ 1 file changed, 52 deletions(-)
 
 diff --git a/app/src/main/java/org/mozilla/fenix/home/HomeMenu.kt b/app/src/main/java/org/mozilla/fenix/home/HomeMenu.kt
 index 126e0df77..113566a67 100644
@@ -14,7 +14,7 @@ index 126e0df77..113566a67 100644
 @@ -94,14 +94,6 @@ class HomeMenu(
      private fun getSyncItemTitle(): String =
          accountManager.accountProfileEmail ?: context.getString(R.string.sync_menu_sign_in)
-
+ 
 -    private val syncSignInMenuItem = BrowserMenuImageText(
 -        getSyncItemTitle(),
 -        R.drawable.ic_synced_tabs,
@@ -29,7 +29,7 @@ index 126e0df77..113566a67 100644
 @@ -139,34 +131,6 @@ class HomeMenu(
              onItemTapped.invoke(Item.Downloads)
          }
-
+ 
 -        val extensionsItem = BrowserMenuImageText(
 -            context.getString(R.string.browser_menu_add_ons),
 -            R.drawable.ic_addons_extensions,
@@ -64,7 +64,7 @@ index 126e0df77..113566a67 100644
 @@ -185,29 +149,13 @@ class HomeMenu(
              onItemTapped.invoke(Item.Settings)
          }
-
+ 
 -        // Only query account manager if it has been initialized.
 -        // We don't want to cause its initialization just for this check.
 -        val accountAuthItem =
@@ -91,5 +91,6 @@ index 126e0df77..113566a67 100644
              customizeHomeItem,
              settingsItem,
              if (settings.shouldDeleteBrowsingDataOnQuit) quitItem else null
---
+-- 
 2.34.1
+

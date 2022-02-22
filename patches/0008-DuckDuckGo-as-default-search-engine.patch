@@ -1,4 +1,4 @@
-From 03f729c4149b1a4e283f07257da69c81320d0107 Mon Sep 17 00:00:00 2001
+From f7a5d4dc93464922862269eb24587c6b2c8cbb01 Mon Sep 17 00:00:00 2001
 From: Stefano Pacifici <stefano.pacifici@gmail.com>
 Date: Mon, 8 Jun 2020 16:28:41 +0200
 Subject: DuckDuckGo as default search engine
@@ -26,5 +26,5 @@ index 000000000..5bc434ec2
 +  "locales": {}
 +}
 -- 
-2.28.0
+2.34.1
 

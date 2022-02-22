@@ -1,7 +1,7 @@
-From 28b338a07a99a1f9d2fd880680bad609bcfbc3fb Mon Sep 17 00:00:00 2001
+From 7757f7d8831361e477f123b19cbbc9a09fb7851c Mon Sep 17 00:00:00 2001
 From: Sam Macbeth <sam@cliqz.com>
 Date: Tue, 4 Aug 2020 17:08:25 +0200
-Subject: [PATCH] Fastlane CI build
+Subject: Fastlane CI build
 
 ---
  Gemfile          |  3 ---

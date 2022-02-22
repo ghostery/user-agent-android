@@ -1,4 +1,4 @@
-From 42abf77cde72388b3f2d0c7e36ae5f3b42ff0061 Mon Sep 17 00:00:00 2001
+From 6524a339a377b905bef1de88969b68a2b200a0a2 Mon Sep 17 00:00:00 2001
 From: Sam Macbeth <sam@cliqz.com>
 Date: Mon, 3 Aug 2020 18:31:14 +0200
 Subject: Basic ghostery extension integration
@@ -14,7 +14,7 @@ index cd0e1c137..3991b83f3 100644
 --- a/.gitignore
 +++ b/.gitignore
 @@ -102,3 +102,6 @@ test_artifacts/
-
+ 
  # Web extensions: manifest.json files are generated
  manifest.json
 +
@@ -22,11 +22,11 @@ index cd0e1c137..3991b83f3 100644
 +/app/src/main/assets/extensions/ghostery
 \ No newline at end of file
 diff --git a/app/build.gradle b/app/build.gradle
-index ba6c4155c..78a1c97a9 100644
+index 260ba122d..13af364ab 100644
 --- a/app/build.gradle
 +++ b/app/build.gradle
-@@ -162,7 +162,9 @@ android {
-
+@@ -179,7 +179,9 @@ android {
+ 
          // manifest.template.json is converted to manifest.json at build time.
          // No need to package the template in the APK.
 -        ignoreAssetsPattern "manifest.template.json"
@@ -34,10 +34,10 @@ index ba6c4155c..78a1c97a9 100644
 +        // that breaks webextensions i18n as traslation are located in _locales folder
 +        ignoreAssetsPattern "manifest.template.json:!.svn:!.git:!.ds_store:!*.scc:.*:!CVS:!thumbs.db:!picasa.ini:!*~"
      }
-
+ 
      testOptions {
 diff --git a/app/src/main/java/org/mozilla/fenix/components/Core.kt b/app/src/main/java/org/mozilla/fenix/components/Core.kt
-index 136da1ee0..f35088c8b 100644
+index a8f5199c3..954066494 100644
 --- a/app/src/main/java/org/mozilla/fenix/components/Core.kt
 +++ b/app/src/main/java/org/mozilla/fenix/components/Core.kt
 @@ -8,6 +8,7 @@ import android.content.Context
@@ -62,6 +62,7 @@ index 136da1ee0..f35088c8b 100644
 +                })
          }
      }
-
---
+ 
+-- 
 2.34.1
+

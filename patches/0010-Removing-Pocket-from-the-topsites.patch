@@ -1,4 +1,4 @@
-From 6d973bebd554ca75c4f5dbc17c660e4dfe8c6312 Mon Sep 17 00:00:00 2001
+From 3b690cc18aaad27e4c3bf93efda4dd621fd731ff Mon Sep 17 00:00:00 2001
 From: Stefano Pacifici <stefano.pacifici@gmail.com>
 Date: Tue, 9 Jun 2020 15:33:50 +0200
 Subject: Removing Pocket from the topsites
@@ -34,5 +34,6 @@ index 136da1ee0..2f0f2c673 100644
                      defaultTopSites.add(
                          Pair(
                              context.getString(R.string.default_top_site_wikipedia),
---
+-- 
 2.34.1
+

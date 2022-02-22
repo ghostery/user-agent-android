@@ -1,7 +1,7 @@
-From 34aae1d29b94dd4b83df303915a65478001e2ded Mon Sep 17 00:00:00 2001
+From 604996e7b56bda46d41a80badffb9bb7b03f4188 Mon Sep 17 00:00:00 2001
 From: Sam Macbeth <sam@macbeth.cc>
 Date: Tue, 4 Aug 2020 10:31:31 +0200
-Subject: [PATCH] Remove addons from menu
+Subject: Remove addons from menu
 
 ---
  .../components/toolbar/DefaultToolbarMenu.kt   | 18 +++++-------------

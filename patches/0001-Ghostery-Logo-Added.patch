@@ -1,18 +1,18 @@
-From 5eba3975c0f1d626dd8d54df7026a2789ca8a0a7 Mon Sep 17 00:00:00 2001
+From da16b5aadfaac547717c0ecffa46d15cc6eb8894 Mon Sep 17 00:00:00 2001
 From: Sam Macbeth <sam@cliqz.com>
 Date: Mon, 24 Aug 2020 16:19:12 +0200
 Subject: Ghostery Logo Added
 
 ---
- app/build.gradle                              |  40 +++++++++++++++++-
- app/src/main/res/drawable/ic_launcher_foreground.xml   |  32 +++++---------
- .../ic_launcher_private_foreground.xml        |  39 +++++++++++++++++
- .../res/mipmap-anydpi-v26/ic_launcher.xml     |   5 +--
- .../mipmap-anydpi-v26/ic_launcher_private.xml |   6 +--
- .../ic_launcher_private_round.xml             |   6 +--
- .../mipmap-anydpi-v26/ic_launcher_round.xml   |   5 +--
- app/src/main/res/values/colors.xml            |   3 +-
- 9 files changed, 94 insertions(+), 42 deletions(-)
+ app/build.gradle                              | 23 ++++++++++-
+ .../res/drawable/ic_launcher_foreground.xml   | 32 +++++----------
+ .../ic_launcher_private_foreground.xml        | 39 +++++++++++++++++++
+ .../res/mipmap-anydpi-v26/ic_launcher.xml     |  5 +--
+ .../mipmap-anydpi-v26/ic_launcher_private.xml |  8 +---
+ .../ic_launcher_private_round.xml             |  8 +---
+ .../mipmap-anydpi-v26/ic_launcher_round.xml   |  5 +--
+ app/src/main/res/values/colors.xml            |  3 +-
+ 8 files changed, 79 insertions(+), 44 deletions(-)
  create mode 100644 app/src/main/res/drawable/ic_launcher_private_foreground.xml
 
 diff --git a/app/build.gradle b/app/build.gradle
@@ -21,7 +21,7 @@ index ba6c4155c..4f61efd53 100644
 +++ b/app/build.gradle
 @@ -34,7 +34,7 @@ android {
      }
-
+ 
      defaultConfig {
 -        applicationId "org.mozilla"
 +        applicationId "com.ghostery.android"
@@ -50,7 +50,7 @@ index ba6c4155c..4f61efd53 100644
 +            ]
 +        }
      }
-
+ 
      buildFeatures {
 @@ -185,6 +202,10 @@ android {
              java.srcDirs = ['src/migration/java']
@@ -61,9 +61,8 @@ index ba6c4155c..4f61efd53 100644
 +            manifest.srcFile "src/migration/AndroidManifest.xml"
 +        }
      }
-
+ 
      splits {
-
 diff --git a/app/src/main/res/drawable/ic_launcher_foreground.xml b/app/src/main/res/drawable/ic_launcher_foreground.xml
 index 8c5623c66..9dbbd159f 100644
 --- a/app/src/main/res/drawable/ic_launcher_foreground.xml
@@ -167,7 +166,7 @@ index be0fd11ac..7353dbd1f 100644
 +</adaptive-icon>
 \ No newline at end of file
 diff --git a/app/src/main/res/mipmap-anydpi-v26/ic_launcher_private.xml b/app/src/main/res/mipmap-anydpi-v26/ic_launcher_private.xml
-index a527ca92e..e6e7d570e 100644
+index 66196fc1d..e6e7d570e 100644
 --- a/app/src/main/res/mipmap-anydpi-v26/ic_launcher_private.xml
 +++ b/app/src/main/res/mipmap-anydpi-v26/ic_launcher_private.xml
 @@ -1,9 +1,5 @@
@@ -180,10 +179,11 @@ index a527ca92e..e6e7d570e 100644
 -    <background android:drawable="@drawable/ic_launcher_private_background"/>
 +    <background android:drawable="@color/ic_launcher_private_background"/>
      <foreground android:drawable="@drawable/ic_launcher_private_foreground"/>
- </adaptive-icon>
+-</adaptive-icon>
++</adaptive-icon>
 \ No newline at end of file
 diff --git a/app/src/main/res/mipmap-anydpi-v26/ic_launcher_private_round.xml b/app/src/main/res/mipmap-anydpi-v26/ic_launcher_private_round.xml
-index a527ca92e..e6e7d570e 100644
+index 66196fc1d..e6e7d570e 100644
 --- a/app/src/main/res/mipmap-anydpi-v26/ic_launcher_private_round.xml
 +++ b/app/src/main/res/mipmap-anydpi-v26/ic_launcher_private_round.xml
 @@ -1,9 +1,5 @@
@@ -196,7 +196,8 @@ index a527ca92e..e6e7d570e 100644
 -    <background android:drawable="@drawable/ic_launcher_private_background"/>
 +    <background android:drawable="@color/ic_launcher_private_background"/>
      <foreground android:drawable="@drawable/ic_launcher_private_foreground"/>
- </adaptive-icon>
+-</adaptive-icon>
++</adaptive-icon>
 \ No newline at end of file
 diff --git a/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml b/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml
 index be0fd11ac..7353dbd1f 100644
@@ -213,14 +214,13 @@ index be0fd11ac..7353dbd1f 100644
 -</adaptive-icon>
 +</adaptive-icon>
 \ No newline at end of file
-
 diff --git a/app/src/main/res/values/colors.xml b/app/src/main/res/values/colors.xml
-index 58c98a8db..eeea90c36 100644
+index 6fd4bb383..bc0794e2e 100644
 --- a/app/src/main/res/values/colors.xml
 +++ b/app/src/main/res/values/colors.xml
 @@ -306,10 +306,11 @@
      <color name="device_foreground">@color/photonInk80</color>
-
+ 
      <!-- Launcher Icon colors -->
 -    <color name="default_launcher_background">#FDFDFD</color>
 +    <color name="default_launcher_background">#00AEF0</color>
@@ -228,9 +228,9 @@ index 58c98a8db..eeea90c36 100644
      <color name="debug_launcher_background">@color/photonInk20</color>
      <color name="ic_launcher_background">@color/default_launcher_background</color>
 +    <color name="ic_launcher_private_background">@color/default_launcher_background</color>
-
+ 
      <!-- Button Colors -->
      <color name="grey_button_color">@color/photonLightGrey30</color>
---
-2.28.0
+-- 
+2.34.1
 

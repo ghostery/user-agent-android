@@ -1,7 +1,7 @@
-From 7ff1dc1108c5b33ba028957543c97cb06420dca7 Mon Sep 17 00:00:00 2001
+From 881b3c7b81b7630bb67c2378b4064eda38f4ea86 Mon Sep 17 00:00:00 2001
 From: Sam Macbeth <sammacbeth@users.noreply.github.com>
 Date: Mon, 29 Jun 2020 16:29:21 +0200
-Subject: [PATCH] Browser action integration (#4)
+Subject: Browser action integration (#4)
 
 * Replace tracking protection logo with Ghosty
 

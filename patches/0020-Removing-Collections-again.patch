@@ -1,4 +1,4 @@
-From ba7bb358ed38d4183757016d14807de5d7537138 Mon Sep 17 00:00:00 2001
+From c4a717f46f996c2f314903f06765e789b49a935d Mon Sep 17 00:00:00 2001
 From: Stefano Pacifici <stefano.pacifici@gmail.com>
 Date: Fri, 26 Jun 2020 16:18:32 +0200
 Subject: Removing Collections (again)
@@ -20,7 +20,7 @@ index 0630e8fe2..6dfe58dca 100644
 @@ -214,10 +214,6 @@ open class DefaultToolbarMenu(
          onItemTapped.invoke(ToolbarMenu.Item.Downloads)
      }
-
+ 
 -    val extensionsItem = WebExtensionPlaceholderMenuItem(
 -        id = WebExtensionPlaceholderMenuItem.MAIN_EXTENSIONS_MENU_ID
 -    )
@@ -31,7 +31,7 @@ index 0630e8fe2..6dfe58dca 100644
 @@ -279,14 +275,6 @@ open class DefaultToolbarMenu(
          onItemTapped.invoke(ToolbarMenu.Item.AddToTopSites)
      }
-
+ 
 -    val saveToCollectionItem = BrowserMenuImageText(
 -        label = context.getString(R.string.browser_menu_save_to_collection_2),
 -        imageResource = R.drawable.ic_tab_collection,
@@ -46,7 +46,7 @@ index 0630e8fe2..6dfe58dca 100644
 @@ -331,19 +319,6 @@ open class DefaultToolbarMenu(
          onItemTapped.invoke(ToolbarMenu.Item.Quit)
      }
-
+ 
 -    private fun getSyncItemTitle() =
 -        accountManager.accountProfileEmail ?: context.getString(R.string.sync_menu_sign_in)
 -
@@ -87,7 +87,7 @@ index b321e2cce..a20e69a88 100644
 @@ -110,21 +110,6 @@ sealed class AdapterItem(@LayoutRes val viewType: Int) {
      object PrivateBrowsingDescription : AdapterItem(PrivateBrowsingDescriptionViewHolder.LAYOUT_ID)
      object NoCollectionsMessage : AdapterItem(NoCollectionsMessageViewHolder.LAYOUT_ID)
-
+ 
 -    object CollectionHeader : AdapterItem(CollectionHeaderViewHolder.LAYOUT_ID)
 -    data class CollectionItem(
 -        val collection: TabCollection,
@@ -122,7 +122,7 @@ index 59020b097..d255abd9e 100644
 --- a/app/src/main/java/org/mozilla/fenix/home/sessioncontrol/SessionControlView.kt
 +++ b/app/src/main/java/org/mozilla/fenix/home/sessioncontrol/SessionControlView.kt
 @@ -28,7 +28,8 @@ import org.mozilla.fenix.utils.Settings
-
+ 
  // This method got a little complex with the addition of the tab tray feature flag
  // When we remove the tabs from the home screen this will get much simpler again.
 -@Suppress("ComplexMethod", "LongParameterList")
@@ -134,7 +134,7 @@ index 59020b097..d255abd9e 100644
 @@ -76,14 +77,6 @@ internal fun normalModeAdapterItems(
          items.add(AdapterItem.RecentVisitsItems)
      }
-
+ 
 -    if (collections.isEmpty()) {
 -        if (showCollectionsPlaceholder) {
 -            items.add(AdapterItem.NoCollectionsMessage)
@@ -149,7 +149,7 @@ index 59020b097..d255abd9e 100644
 @@ -98,23 +91,6 @@ internal fun normalModeAdapterItems(
      return items
  }
-
+ 
 -private fun showCollections(
 -    collections: List<TabCollection>,
 -    expandedCollections: Set<Long>,
@@ -168,7 +168,7 @@ index 59020b097..d255abd9e 100644
 -}
 -
  private fun privateModeAdapterItems() = listOf(AdapterItem.PrivateBrowsingDescription)
-
+ 
  private fun onboardingAdapterItems(onboardingState: OnboardingState): List<AdapterItem> {
 diff --git a/app/src/main/java/org/mozilla/fenix/tabstray/TabsTrayFragment.kt b/app/src/main/java/org/mozilla/fenix/tabstray/TabsTrayFragment.kt
 index 4987d8fbc..a5bc62e02 100644
@@ -189,7 +189,7 @@ index 93495b992..6a63e38af 100644
 @@ -96,10 +96,6 @@ class SelectionBannerBinding(
              navInteractor.onShareTabs(store.state.mode.selectedTabs)
          }
-
+ 
 -        tabsTrayMultiselectItemsBinding.collectMultiSelect.setOnClickListener {
 -            navInteractor.onSaveToCollections(store.state.mode.selectedTabs)
 -        }
@@ -217,7 +217,7 @@ index 22d325a1a..1c395f65e 100644
 @@ -9,19 +9,6 @@
      android:layout_height="wrap_content"
      tools:parentTag="androidx.constraintlayout.widget.ConstraintLayout">
-
+ 
 -    <ImageButton
 -        android:id="@+id/collect_multi_select"
 -        android:layout_width="48dp"
@@ -234,6 +234,6 @@ index 22d325a1a..1c395f65e 100644
      <ImageButton
          android:id="@+id/share_multi_select"
          android:layout_width="48dp"
---
+-- 
 2.34.1
 

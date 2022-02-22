@@ -1,4 +1,4 @@
-From 09c19bee8a7b92f66b6ee42e5b7e6d4d49dd5b24 Mon Sep 17 00:00:00 2001
+From 061a48650351bbcb35ca64e33f32ad42acfac16d Mon Sep 17 00:00:00 2001
 From: Stefano Pacifici <stefano.pacifici@gmail.com>
 Date: Fri, 5 Jun 2020 18:22:29 +0200
 Subject: Changing the app_name
@@ -8,7 +8,7 @@ Subject: Changing the app_name
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/app/src/main/res/values/static_strings.xml b/app/src/main/res/values/static_strings.xml
-index 2d46b333c..85fa90770 100644
+index 3920c2fcb..840f3e2ff 100644
 --- a/app/src/main/res/values/static_strings.xml
 +++ b/app/src/main/res/values/static_strings.xml
 @@ -4,7 +4,7 @@
@@ -21,5 +21,5 @@ index 2d46b333c..85fa90770 100644
      <!-- Preference for developers -->
      <string name="preference_leakcanary" translatable="false">LeakCanary</string>
 -- 
-2.28.0
+2.34.1
 

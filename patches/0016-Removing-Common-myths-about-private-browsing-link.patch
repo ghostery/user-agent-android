@@ -1,4 +1,4 @@
-From 7a167ddd591ad2f28519dda808b7082be69ce9f8 Mon Sep 17 00:00:00 2001
+From 4db705bf1773fbd718c049b61bbd6ca1a5708e3a Mon Sep 17 00:00:00 2001
 From: Stefano Pacifici <stefano.pacifici@gmail.com>
 Date: Tue, 23 Jun 2020 16:53:36 +0200
 Subject: Removing "Common myths about private browsing" link
@@ -24,7 +24,7 @@ index 45aeb054d..efbba87a1 100644
 -            }
 -        }
      }
-
+ 
      companion object {
 diff --git a/app/src/main/res/layout/private_browsing_description.xml b/app/src/main/res/layout/private_browsing_description.xml
 index cd0795e0d..076183905 100644
@@ -33,7 +33,7 @@ index cd0795e0d..076183905 100644
 @@ -26,18 +26,4 @@
          android:textSize="14sp"
          tools:text="@string/private_browsing_placeholder_description_2" />
-
+ 
 -    <org.mozilla.fenix.utils.LinkTextView
 -        android:id="@+id/private_session_common_myths"
 -        android:layout_width="match_parent"
@@ -49,5 +49,6 @@ index cd0795e0d..076183905 100644
 -        android:textColor="?primaryText"
 -        android:textSize="14sp" />
  </LinearLayout>
---
+-- 
 2.34.1
+

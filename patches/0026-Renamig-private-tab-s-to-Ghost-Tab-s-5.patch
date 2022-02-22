@@ -1,7 +1,7 @@
-From d57f03567b1e5f6240c312c99b5404b9fe0ba0f2 Mon Sep 17 00:00:00 2001
+From c358b89f08cf4f10897eb362921a4a2052f439b3 Mon Sep 17 00:00:00 2001
 From: Stefano Pacifici <stefano.pacifici@gmail.com>
 Date: Wed, 22 Jul 2020 17:33:44 +0200
-Subject: [PATCH] Renamig private tab(s) to Ghost Tab(s) (#5)
+Subject: Renamig private tab(s) to Ghost Tab(s) (#5)
 
 ---
  app/src/main/res/values/strings.xml | 74 ++++++++++++++---------------

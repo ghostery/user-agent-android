@@ -1,7 +1,7 @@
-From 5f20eed5cebb5037e6be34f30e6fe1bd80c8915b Mon Sep 17 00:00:00 2001
+From fd67e74b5b392dbbb397202061c8ef572eda1c8f Mon Sep 17 00:00:00 2001
 From: Stefano Pacifici <stefano.pacifici@gmail.com>
 Date: Wed, 15 Jul 2020 16:11:33 +0200
-Subject: [PATCH] Ghostery splashscreen
+Subject: Ghostery splashscreen
 
 ---
  app/src/main/AndroidManifest.xml              |  2 +-

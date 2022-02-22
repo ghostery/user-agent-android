@@ -1,7 +1,7 @@
-From 838d34e55be3d386189ab88c19a5528900f109c4 Mon Sep 17 00:00:00 2001
+From ec622ea3e7f10078fc30569524b0843c7cdd8440 Mon Sep 17 00:00:00 2001
 From: Stefano Pacifici <stefano.pacifici@gmail.com>
 Date: Wed, 29 Jul 2020 19:08:26 +0200
-Subject: [PATCH] Ghostery custom user agent
+Subject: Ghostery custom user agent
 
 ---
  app/src/main/java/org/mozilla/fenix/components/Core.kt | 8 ++++++++
