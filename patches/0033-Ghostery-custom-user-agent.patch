@@ -1,47 +1,45 @@
-From ea1418a348090e4a1d30ba2f5662908f0221b700 Mon Sep 17 00:00:00 2001
+From 838d34e55be3d386189ab88c19a5528900f109c4 Mon Sep 17 00:00:00 2001
 From: Stefano Pacifici <stefano.pacifici@gmail.com>
 Date: Wed, 29 Jul 2020 19:08:26 +0200
-Subject: Ghostery custom user agent
+Subject: [PATCH] Ghostery custom user agent
 
 ---
- app/src/main/java/org/mozilla/fenix/components/Core.kt | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+ app/src/main/java/org/mozilla/fenix/components/Core.kt | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
 diff --git a/app/src/main/java/org/mozilla/fenix/components/Core.kt b/app/src/main/java/org/mozilla/fenix/components/Core.kt
-index b6e0bce0c..4665cbb69 100644
+index 954066494..412e48dc7 100644
 --- a/app/src/main/java/org/mozilla/fenix/components/Core.kt
 +++ b/app/src/main/java/org/mozilla/fenix/components/Core.kt
-@@ -68,6 +68,7 @@ import org.mozilla.fenix.search.telemetry.incontent.InContentTelemetry
- import org.mozilla.fenix.settings.SupportUtils
- import org.mozilla.fenix.settings.advanced.getSelectedLocale
- import org.mozilla.fenix.utils.Mockable
+@@ -86,6 +86,7 @@ import org.mozilla.fenix.settings.advanced.getSelectedLocale
+ import org.mozilla.fenix.telemetry.TelemetryMiddleware
+ import org.mozilla.fenix.utils.getUndoDelay
+ import org.mozilla.geckoview.GeckoRuntime
 +import org.mozilla.geckoview.GeckoSession
  import java.util.concurrent.TimeUnit
  
  /**
-@@ -80,6 +81,10 @@ class Core(private val context: Context, private val crashReporter: CrashReporti
-      * configuration (see build variants).
+@@ -103,6 +104,7 @@ class Core(
       */
-     val engine: Engine by lazy {
-+        /* Ghostery Begin: override user-agent */
+     val engine: Engine by lazyMonitored {
+         val defaultSettings = DefaultSettings(
++            userAgentString = customUserAgent,
+             requestInterceptor = requestInterceptor,
+             remoteDebuggingEnabled = context.settings().isRemoteDebuggingEnabled &&
+                 Build.VERSION.SDK_INT >= Build.VERSION_CODES.M,
+@@ -149,6 +151,12 @@ class Core(
+         }
+     }
+ 
++    val customUserAgent by lazyMonitored {
 +        val defaultUserAgent = GeckoSession.getDefaultUserAgent()
 +        val (prefix, postfix) = defaultUserAgent.split(')')
-+        val customUserAgent = "$prefix; Ghostery:3.0)$postfix"
-         val defaultSettings = DefaultSettings(
-             requestInterceptor = AppRequestInterceptor(context),
-             remoteDebuggingEnabled = context.settings().isRemoteDebuggingEnabled,
-@@ -91,8 +96,10 @@ class Core(private val context: Context, private val crashReporter: CrashReporti
-             fontInflationEnabled = context.settings().shouldUseAutoSize,
-             suspendMediaWhenInactive = false,
-             forceUserScalableContent = context.settings().forceEnableZoom,
--            loginAutofillEnabled = context.settings().shouldAutofillLogins
-+            loginAutofillEnabled = context.settings().shouldAutofillLogins,
-+            userAgentString = customUserAgent
-         )
-+        /* Ghostery End */
- 
-         GeckoEngine(
-             context,
++        "$prefix; Ghostery:3.0)$postfix"
++    }
++
+     /**
+      * Passed to [engine] to intercept requests for app links,
+      * and various features triggered by page load requests.
 -- 
-2.28.0
+2.34.1
 
