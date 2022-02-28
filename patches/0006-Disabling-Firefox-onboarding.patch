@@ -1,11 +1,12 @@
-From c03707fd793cb29b0ba32d38d1fca79b4f4eb169 Mon Sep 17 00:00:00 2001
+From cd317a6628e8f6e3fd7b6f44ec547ac859cd0f74 Mon Sep 17 00:00:00 2001
 From: Sam Macbeth <sam@cliqz.com>
 Date: Mon, 3 Aug 2020 15:07:40 +0200
 Subject: Disabling Firefox onboarding
 
 ---
- .../main/java/org/mozilla/fenix/onboarding/FenixOnboarding.kt | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ .../org/mozilla/fenix/onboarding/FenixOnboarding.kt    |  4 +---
+ app/src/main/java/org/mozilla/fenix/utils/Settings.kt  | 10 ++--------
+ 2 files changed, 3 insertions(+), 11 deletions(-)
 
 diff --git a/app/src/main/java/org/mozilla/fenix/onboarding/FenixOnboarding.kt b/app/src/main/java/org/mozilla/fenix/onboarding/FenixOnboarding.kt
 index c9cfff8d9..583b947eb 100644
@@ -22,6 +23,34 @@ index c9cfff8d9..583b947eb 100644
      }
  
      companion object {
+diff --git a/app/src/main/java/org/mozilla/fenix/utils/Settings.kt b/app/src/main/java/org/mozilla/fenix/utils/Settings.kt
+index e828cabc9..02c9cfd55 100644
+--- a/app/src/main/java/org/mozilla/fenix/utils/Settings.kt
++++ b/app/src/main/java/org/mozilla/fenix/utils/Settings.kt
+@@ -827,10 +827,7 @@ class Settings(private val appContext: Context) : PreferencesHolder {
+         default = false
+     )
+ 
+-    var shouldShowOpenInAppBanner by booleanPreference(
+-        appContext.getPreferenceKey(R.string.pref_key_should_show_open_in_app_banner),
+-        default = true
+-    )
++    var shouldShowOpenInAppBanner = false
+ 
+     val shouldShowOpenInAppCfr: Boolean
+         get() = canShowCfr && shouldShowOpenInAppBanner
+@@ -868,10 +865,7 @@ class Settings(private val appContext: Context) : PreferencesHolder {
+     /**
+      * Indicates if the jump back in CRF should be shown.
+      */
+-    var shouldShowJumpBackInCFR by booleanPreference(
+-        appContext.getPreferenceKey(R.string.pref_key_should_show_jump_back_in_tabs_popup),
+-        default = true
+-    )
++    var shouldShowJumpBackInCFR = false
+ 
+     /**
+      * Should we display a feedback request to the user when he turns off the Inactive Tabs feature
 -- 
 2.34.1
 
