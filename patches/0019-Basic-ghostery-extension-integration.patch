@@ -1,26 +1,25 @@
-From 6524a339a377b905bef1de88969b68a2b200a0a2 Mon Sep 17 00:00:00 2001
+From 297cd29740b035df54c23177b5c5c54bbcaff219 Mon Sep 17 00:00:00 2001
 From: Sam Macbeth <sam@cliqz.com>
 Date: Mon, 3 Aug 2020 18:31:14 +0200
 Subject: Basic ghostery extension integration
 
 ---
- .gitignore                                             | 3 +++
+ .gitignore                                             | 2 ++
  app/build.gradle                                       | 4 +++-
  app/src/main/java/org/mozilla/fenix/components/Core.kt | 9 +++++++++
- 3 files changed, 15 insertions(+), 1 deletion(-)
+ 3 files changed, 14 insertions(+), 1 deletion(-)
 
 diff --git a/.gitignore b/.gitignore
-index cd0e1c137..3991b83f3 100644
+index e297438d2..144c99ae4 100644
 --- a/.gitignore
 +++ b/.gitignore
-@@ -102,3 +102,6 @@ test_artifacts/
- 
+@@ -103,4 +103,6 @@ test_artifacts/
  # Web extensions: manifest.json files are generated
  manifest.json
-+
+ 
 +# Ghostery extension
 +/app/src/main/assets/extensions/ghostery
-\ No newline at end of file
+ /app/src/main/assets/extensions/ghostery-search
 diff --git a/app/build.gradle b/app/build.gradle
 index 260ba122d..13af364ab 100644
 --- a/app/build.gradle
@@ -37,7 +36,7 @@ index 260ba122d..13af364ab 100644
  
      testOptions {
 diff --git a/app/src/main/java/org/mozilla/fenix/components/Core.kt b/app/src/main/java/org/mozilla/fenix/components/Core.kt
-index a8f5199c3..954066494 100644
+index e7d94c6ee..cf0d4cc5c 100644
 --- a/app/src/main/java/org/mozilla/fenix/components/Core.kt
 +++ b/app/src/main/java/org/mozilla/fenix/components/Core.kt
 @@ -8,6 +8,7 @@ import android.content.Context
@@ -48,10 +47,10 @@ index a8f5199c3..954066494 100644
  import androidx.core.content.ContextCompat
  import mozilla.components.browser.engine.gecko.GeckoEngine
  import mozilla.components.browser.engine.gecko.fetch.GeckoViewFetchClient
-@@ -137,6 +138,14 @@ class Core(
-             if (Config.channel.isNightlyOrDebug || Config.channel.isBeta) {
-                 WebCompatReporterFeature.install(it, "fenix")
-             }
+@@ -145,6 +146,14 @@ class Core(
+                 onError = { ext, throwable ->
+                     Log.e("GHOSTERY", "Failed to install Ghostery Search webextension: $ext", throwable)
+                 })
 +
 +            it.installWebExtension("Ghostery", "resource://android/assets/extensions/ghostery/",
 +                onSuccess = {
