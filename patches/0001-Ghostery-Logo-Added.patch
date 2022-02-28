@@ -1,4 +1,4 @@
-From da16b5aadfaac547717c0ecffa46d15cc6eb8894 Mon Sep 17 00:00:00 2001
+From 020b4cee8251bb616f66cedc992072b482e295ab Mon Sep 17 00:00:00 2001
 From: Sam Macbeth <sam@cliqz.com>
 Date: Mon, 24 Aug 2020 16:19:12 +0200
 Subject: Ghostery Logo Added
@@ -7,12 +7,14 @@ Subject: Ghostery Logo Added
  app/build.gradle                              | 23 ++++++++++-
  .../res/drawable/ic_launcher_foreground.xml   | 32 +++++----------
  .../ic_launcher_private_foreground.xml        | 39 +++++++++++++++++++
+ app/src/main/res/layout/fragment_home.xml     | 10 ++---
  .../res/mipmap-anydpi-v26/ic_launcher.xml     |  5 +--
  .../mipmap-anydpi-v26/ic_launcher_private.xml |  8 +---
  .../ic_launcher_private_round.xml             |  8 +---
  .../mipmap-anydpi-v26/ic_launcher_round.xml   |  5 +--
- app/src/main/res/values/colors.xml            |  3 +-
- 8 files changed, 79 insertions(+), 44 deletions(-)
+ app/src/main/res/values-night/colors.xml      |  2 +-
+ app/src/main/res/values/colors.xml            |  5 ++-
+ 10 files changed, 86 insertions(+), 51 deletions(-)
  create mode 100644 app/src/main/res/drawable/ic_launcher_private_foreground.xml
 
 diff --git a/app/build.gradle b/app/build.gradle
@@ -150,6 +152,40 @@ index 000000000..85b0f1a86
 +        android:fillType="evenOdd"/>
 +  </group>
 +</vector>
+diff --git a/app/src/main/res/layout/fragment_home.xml b/app/src/main/res/layout/fragment_home.xml
+index ea60d2cd3..608271aff 100644
+--- a/app/src/main/res/layout/fragment_home.xml
++++ b/app/src/main/res/layout/fragment_home.xml
+@@ -32,14 +32,14 @@
+                 android:id="@+id/privateBrowsingButton"
+                 android:layout_width="@dimen/glyph_button_height"
+                 android:layout_height="@dimen/glyph_button_height"
++                android:layout_gravity="end"
+                 android:layout_marginTop="14dp"
+                 android:layout_marginEnd="12dp"
+-                android:layout_gravity="end"
+                 android:background="?android:attr/selectableItemBackgroundBorderless"
+                 android:contentDescription="@string/content_description_private_browsing_button"
+-                app:srcCompat="@drawable/private_browsing_button"
+                 app:layout_collapseMode="parallax"
+-                app:layout_collapseParallaxMultiplier=".167"/>
++                app:layout_collapseParallaxMultiplier=".167"
++                app:srcCompat="@drawable/private_browsing_button" />
+             <!-- This value needs to be 1.67 * the wordmark parallax value as its 24dp vs 40 -->
+ 
+             <ImageView
+@@ -54,9 +54,9 @@
+                 android:contentDescription="@string/app_name"
+                 android:focusable="false"
+                 android:importantForAccessibility="no"
+-                app:srcCompat="?fenixLogo"
+                 app:layout_collapseMode="parallax"
+-                app:layout_collapseParallaxMultiplier=".1"/>
++                app:layout_collapseParallaxMultiplier=".1"
++                app:srcCompat="?fenixLogo" />
+ 
+         </com.google.android.material.appbar.CollapsingToolbarLayout>
+ 
 diff --git a/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml b/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml
 index be0fd11ac..7353dbd1f 100644
 --- a/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml
@@ -214,10 +250,32 @@ index be0fd11ac..7353dbd1f 100644
 -</adaptive-icon>
 +</adaptive-icon>
 \ No newline at end of file
+diff --git a/app/src/main/res/values-night/colors.xml b/app/src/main/res/values-night/colors.xml
+index 15f82c3b4..38c629851 100644
+--- a/app/src/main/res/values-night/colors.xml
++++ b/app/src/main/res/values-night/colors.xml
+@@ -56,7 +56,7 @@
+     <!-- Warning text -->
+     <color name="fx_mobile_text_color_warning" tools:ignore="UnusedResources">@color/photonRed40</color>
+     <!-- Small heading, Text link -->
+-    <color name="fx_mobile_text_color_accent">@color/photonViolet40</color>
++    <color name="fx_mobile_text_color_accent">@color/photonWhite</color>
+     <!-- Text Inverted/On Color -->
+     <color name="fx_mobile_text_color_inverted" tools:ignore="UnusedResources">@color/photonWhite</color>
+ 
 diff --git a/app/src/main/res/values/colors.xml b/app/src/main/res/values/colors.xml
-index 6fd4bb383..bc0794e2e 100644
+index 6fd4bb383..7fac8170d 100644
 --- a/app/src/main/res/values/colors.xml
 +++ b/app/src/main/res/values/colors.xml
+@@ -56,7 +56,7 @@
+     <!-- Warning text -->
+     <color name="fx_mobile_text_color_warning" tools:ignore="UnusedResources">@color/photonRed80</color>
+     <!-- Small heading, Text link -->
+-    <color name="fx_mobile_text_color_accent">@color/photonViolet70</color>
++    <color name="fx_mobile_text_color_accent">@color/photonWhite</color>
+     <!-- Text Inverted/On Color -->
+     <color name="fx_mobile_text_color_inverted" tools:ignore="UnusedResources">@color/photonWhite</color>
+ 
 @@ -306,10 +306,11 @@
      <color name="device_foreground">@color/photonInk80</color>
  
