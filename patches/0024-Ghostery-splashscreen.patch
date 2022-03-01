@@ -1,4 +1,4 @@
-From fd67e74b5b392dbbb397202061c8ef572eda1c8f Mon Sep 17 00:00:00 2001
+From dd091ca7114c3b02858f69458f58ce9782ac9bb6 Mon Sep 17 00:00:00 2001
 From: Stefano Pacifici <stefano.pacifici@gmail.com>
 Date: Wed, 15 Jul 2020 16:11:33 +0200
 Subject: Ghostery splashscreen
@@ -6,9 +6,9 @@ Subject: Ghostery splashscreen
 ---
  app/src/main/AndroidManifest.xml              |  2 +-
  .../java/org/mozilla/fenix/HomeActivity.kt    | 21 ++++++++++++++-----
- .../splashscreen_window_background.xml        |  9 ++++++++
+ .../splashscreen_window_background.xml        | 15 +++++++++++++
  app/src/main/res/values/styles.xml            |  5 +++++
- 4 files changed, 31 insertions(+), 6 deletions(-)
+ 4 files changed, 37 insertions(+), 6 deletions(-)
  create mode 100644 app/src/main/res/drawable/splashscreen_window_background.xml
 
 diff --git a/app/src/main/AndroidManifest.xml b/app/src/main/AndroidManifest.xml
@@ -73,14 +73,20 @@ index b19757dc6..f9ace5e71 100644
      override fun onStart() {
 diff --git a/app/src/main/res/drawable/splashscreen_window_background.xml b/app/src/main/res/drawable/splashscreen_window_background.xml
 new file mode 100644
-index 000000000..6fcd9de28
+index 000000000..f6d689820
 --- /dev/null
 +++ b/app/src/main/res/drawable/splashscreen_window_background.xml
-@@ -0,0 +1,9 @@
+@@ -0,0 +1,15 @@
 +<?xml version="1.0" encoding="utf-8"?>
 +<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
 +    <item>
-+        <color android:color="@color/default_launcher_background"/>
++        <shape xmlns:android="http://schemas.android.com/apk/res/android"
++            android:shape="rectangle">
++            <gradient
++                android:startColor="@color/default_launcher_background"
++                android:endColor="#fd7e75"
++                android:angle="-90"/>
++        </shape>
 +    </item>
 +
 +    <item android:drawable="@drawable/big_ghosty"
