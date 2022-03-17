@@ -1,4 +1,4 @@
-From 779768401f2d9ae2c071b180b7a44e02975c4285 Mon Sep 17 00:00:00 2001
+From 358f91091080cd7094001891fc135a81e715ef63 Mon Sep 17 00:00:00 2001
 From: Sam Macbeth <sam@cliqz.com>
 Date: Mon, 24 Aug 2020 16:19:12 +0200
 Subject: Ghostery Logo Added
@@ -18,7 +18,7 @@ Subject: Ghostery Logo Added
  create mode 100644 app/src/main/res/drawable/ic_launcher_private_foreground.xml
 
 diff --git a/app/build.gradle b/app/build.gradle
-index ba6c4155c..4f61efd53 100644
+index ba6c4155c..f9e5abb06 100644
 --- a/app/build.gradle
 +++ b/app/build.gradle
 @@ -34,7 +34,7 @@ android {
@@ -58,7 +58,7 @@ index ba6c4155c..4f61efd53 100644
              java.srcDirs = ['src/migration/java']
              manifest.srcFile "src/migration/AndroidManifest.xml"
          }
-+        release {
++        ghostery {
 +            java.srcDirs = ['src/migration/java']
 +            manifest.srcFile "src/migration/AndroidManifest.xml"
 +        }
