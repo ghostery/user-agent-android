@@ -1,4 +1,4 @@
-From 020b4cee8251bb616f66cedc992072b482e295ab Mon Sep 17 00:00:00 2001
+From 779768401f2d9ae2c071b180b7a44e02975c4285 Mon Sep 17 00:00:00 2001
 From: Sam Macbeth <sam@cliqz.com>
 Date: Mon, 24 Aug 2020 16:19:12 +0200
 Subject: Ghostery Logo Added
@@ -264,7 +264,7 @@ index 15f82c3b4..38c629851 100644
      <color name="fx_mobile_text_color_inverted" tools:ignore="UnusedResources">@color/photonWhite</color>
  
 diff --git a/app/src/main/res/values/colors.xml b/app/src/main/res/values/colors.xml
-index 6fd4bb383..7fac8170d 100644
+index 6fd4bb383..ae0263f5b 100644
 --- a/app/src/main/res/values/colors.xml
 +++ b/app/src/main/res/values/colors.xml
 @@ -56,7 +56,7 @@
@@ -272,7 +272,7 @@ index 6fd4bb383..7fac8170d 100644
      <color name="fx_mobile_text_color_warning" tools:ignore="UnusedResources">@color/photonRed80</color>
      <!-- Small heading, Text link -->
 -    <color name="fx_mobile_text_color_accent">@color/photonViolet70</color>
-+    <color name="fx_mobile_text_color_accent">@color/photonWhite</color>
++    <color name="fx_mobile_text_color_accent">@color/photonBlack</color>
      <!-- Text Inverted/On Color -->
      <color name="fx_mobile_text_color_inverted" tools:ignore="UnusedResources">@color/photonWhite</color>
  
