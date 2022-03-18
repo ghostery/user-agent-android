@@ -12,8 +12,8 @@ Note: Both Android SDK and NDK are required.
   # Checkout the repo
   git clone https://github.com/ghostery/user-agent-android
   # Pull Fenix code
-  git submodules init
-  git submodules update
+  git submodule init
+  git submodule update
   # Apply patches
   ./import.sh
   # the browser directory contains the app project
@@ -37,3 +37,9 @@ to match your git commit history.
 ### Merging upstream
 
 To update the browser to a newer version of Fenix, first update the Fenix submodule branch, then apply and fix the patches.
+
+To update Fenix version:
+1. change `.gitmodule` to specify new version
+2. `git submodule sync --recursive`
+3. `git submodule foreach --recursive git fetch`
+4. `git submodule update --init --recursive`

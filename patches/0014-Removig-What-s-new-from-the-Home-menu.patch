@@ -1,115 +1,96 @@
-From 005deb340db9a063da0bfcfc89892b596b83fda0 Mon Sep 17 00:00:00 2001
+From b8c635e166f5102ef460ada3470cfb752d7d246a Mon Sep 17 00:00:00 2001
 From: Sam Macbeth <sam@cliqz.com>
 Date: Mon, 3 Aug 2020 18:21:01 +0200
 Subject: Removig "What's new" from the Home menu
 
 ---
- .../java/org/mozilla/fenix/home/HomeMenu.kt   | 25 +++++++++++++------
- 1 file changed, 17 insertions(+), 8 deletions(-)
+ .../java/org/mozilla/fenix/home/HomeMenu.kt   | 52 -------------------
+ 1 file changed, 52 deletions(-)
 
 diff --git a/app/src/main/java/org/mozilla/fenix/home/HomeMenu.kt b/app/src/main/java/org/mozilla/fenix/home/HomeMenu.kt
-index 3e172e8f8..9ab22dc99 100644
+index 126e0df77..113566a67 100644
 --- a/app/src/main/java/org/mozilla/fenix/home/HomeMenu.kt
 +++ b/app/src/main/java/org/mozilla/fenix/home/HomeMenu.kt
-@@ -84,6 +84,7 @@ class HomeMenu(
-     }
+@@ -94,14 +94,6 @@ class HomeMenu(
+     private fun getSyncItemTitle(): String =
+         accountManager.accountProfileEmail ?: context.getString(R.string.sync_menu_sign_in)
  
-     private val coreMenuItems by lazy {
-+        /* Ghostery Begin: Removing "What's new from the Home Menu +/
-         val whatsNewItem = BrowserMenuHighlightableItem(
-             context.getString(R.string.browser_menu_whats_new),
-             R.drawable.ic_whats_new,
-@@ -95,7 +96,7 @@ class HomeMenu(
-         ) {
-             onItemTapped.invoke(Item.WhatsNew)
-         }
+-    private val syncSignInMenuItem = BrowserMenuImageText(
+-        getSyncItemTitle(),
+-        R.drawable.ic_synced_tabs,
+-        primaryTextColor
+-    ) {
+-        onItemTapped.invoke(Item.SyncAccount(accountManager.accountState))
+-    }
 -
-+        /+ Ghostery End */
-         val bookmarksItem = BrowserMenuImageText(
-             context.getString(R.string.library_bookmarks),
-             R.drawable.ic_bookmark_filled,
-@@ -112,6 +113,7 @@ class HomeMenu(
-             onItemTapped.invoke(Item.History)
-         }
- 
-+        /* Ghostery Begin: removing addons support +/
-         val addons = BrowserMenuImageText(
-             context.getString(R.string.browser_menu_add_ons),
-             R.drawable.ic_addons_extensions,
-@@ -119,6 +121,7 @@ class HomeMenu(
-         ) {
-             onItemTapped.invoke(Item.AddonsManager)
-         }
-+        /+ Ghostery End */
- 
-         val settingsItem = BrowserMenuImageText(
-             context.getString(R.string.browser_menu_settings),
-@@ -128,6 +131,7 @@ class HomeMenu(
-             onItemTapped.invoke(Item.Settings)
-         }
- 
-+        /* Ghostery Begin: Disabling synced tabs +/
-         val syncedTabsItem = BrowserMenuImageText(
-             context.getString(R.string.library_synced_tabs),
-             R.drawable.ic_synced_tabs,
-@@ -135,7 +139,9 @@ class HomeMenu(
-         ) {
-             onItemTapped.invoke(Item.SyncedTabs)
-         }
-+        /+ Ghostery End */
- 
-+        /* Ghostery Begin: removing help menu entry +/
-         val helpItem = BrowserMenuImageText(
-             context.getString(R.string.browser_menu_help),
-             R.drawable.ic_help,
-@@ -143,6 +149,7 @@ class HomeMenu(
-         ) {
-             onItemTapped.invoke(Item.Help)
-         }
-+        /+ Ghostery End */
- 
-         val downloadsItem = BrowserMenuImageText(
-             context.getString(R.string.library_downloads),
-@@ -152,6 +159,7 @@ class HomeMenu(
+     val desktopItem = BrowserMenuImageSwitch(
+         imageResource = R.drawable.ic_desktop,
+         label = context.getString(R.string.browser_menu_desktop_site),
+@@ -139,34 +131,6 @@ class HomeMenu(
              onItemTapped.invoke(Item.Downloads)
          }
  
-+        /* Ghostery Begin: removing account auth +/
-         // Only query account manager if it has been initialized.
-         // We don't want to cause its initialization just for this check.
-         val accountAuthItem = if (context.components.backgroundServices.accountManagerAvailableQueue.isReady()) {
-@@ -159,6 +167,7 @@ class HomeMenu(
-         } else {
-             null
+-        val extensionsItem = BrowserMenuImageText(
+-            context.getString(R.string.browser_menu_add_ons),
+-            R.drawable.ic_addons_extensions,
+-            primaryTextColor
+-        ) {
+-            onItemTapped.invoke(Item.Extensions)
+-        }
+-
+-        val whatsNewItem = BrowserMenuHighlightableItem(
+-            context.getString(R.string.browser_menu_whats_new),
+-            R.drawable.ic_whats_new,
+-            iconTintColorResource = primaryTextColor,
+-            highlight = BrowserMenuHighlight.LowPriority(
+-                notificationTint = getColor(context, R.color.fx_mobile_icon_color_information)
+-            ),
+-            isHighlighted = { WhatsNew.shouldHighlightWhatsNew(context) }
+-        ) {
+-            onItemTapped.invoke(Item.WhatsNew)
+-        }
+-
+-        val helpItem = BrowserMenuImageText(
+-            context.getString(R.string.browser_menu_help),
+-            R.drawable.mozac_ic_help,
+-            primaryTextColor
+-        ) {
+-            onItemTapped.invoke(Item.Help)
+-        }
+-
+         val customizeHomeItem = BrowserMenuImageText(
+             context.getString(R.string.browser_menu_customize_home),
+             R.drawable.ic_customize,
+@@ -185,29 +149,13 @@ class HomeMenu(
+             onItemTapped.invoke(Item.Settings)
          }
-+        /+ Ghostery End */
  
-         val settings = context.components.settings
- 
-@@ -166,16 +175,16 @@ class HomeMenu(
-             if (settings.shouldDeleteBrowsingDataOnQuit) quitItem else null,
-             settingsItem,
-             BrowserMenuDivider(),
--            if (settings.syncedTabsInTabsTray) null else syncedTabsItem,
-+            // Ghostery - if (settings.syncedTabsInTabsTray) null else syncedTabsItem,
+-        // Only query account manager if it has been initialized.
+-        // We don't want to cause its initialization just for this check.
+-        val accountAuthItem =
+-            if (context.components.backgroundServices.accountManagerAvailableQueue.isReady() &&
+-                context.components.backgroundServices.accountManager.accountNeedsReauth()
+-            ) {
+-                reconnectToSyncItem
+-            } else {
+-                null
+-            }
+-
+         val menuItems = listOfNotNull(
              bookmarksItem,
              historyItem,
              downloadsItem,
--            BrowserMenuDivider(),
--            addons,
--            BrowserMenuDivider(),
+-            extensionsItem,
+-            syncSignInMenuItem,
+-            accountAuthItem,
+             BrowserMenuDivider(),
+             desktopItem,
+             BrowserMenuDivider(),
 -            whatsNewItem,
 -            helpItem,
--            accountAuthItem
-+            BrowserMenuDivider()
-+            // Ghostery - addons,
-+            // Ghostery - BrowserMenuDivider(),
-+            // Ghostery - whatsNewItem,
-+            // Ghostery - helpItem,
-+            // Ghostery - accountAuthItem
-         ).also { items ->
-             items.getHighlight()?.let { onHighlightPresent(it) }
-         }
+             customizeHomeItem,
+             settingsItem,
+             if (settings.shouldDeleteBrowsingDataOnQuit) quitItem else null
 -- 
-2.28.0
+2.34.1
 

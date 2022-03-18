@@ -1,186 +1,194 @@
-From 82b270079e15eac1f510ab219728aaa865a10023 Mon Sep 17 00:00:00 2001
+From 2638c626dd18d2a2bba98de82c4a1567925642e6 Mon Sep 17 00:00:00 2001
 From: Sam Macbeth <sam@cliqz.com>
 Date: Mon, 3 Aug 2020 16:46:47 +0200
 Subject: Disabling Telemetry & CrashReports
 
 ---
  app/build.gradle                              |  2 +-
- app/src/main/AndroidManifest.xml              |  2 +-
- .../org/mozilla/fenix/FenixApplication.kt     |  8 ++++--
- .../org/mozilla/fenix/components/Analytics.kt | 27 ++++++++++---------
- .../fenix/crashes/DummyCrashReporter.kt       | 19 +++++++++++++
- .../org/mozilla/fenix/ext/NavController.kt    |  5 ++--
- app/src/main/res/xml/preferences.xml          |  2 ++
- 7 files changed, 47 insertions(+), 18 deletions(-)
+ .../org/mozilla/fenix/FenixApplication.kt     | 41 +------------------
+ .../org/mozilla/fenix/components/Analytics.kt | 32 ++++-----------
+ .../fenix/crashes/DummyCrashReporter.kt       | 19 +++++++++
+ app/src/main/res/xml/preferences.xml          | 10 -----
+ 5 files changed, 30 insertions(+), 74 deletions(-)
  create mode 100644 app/src/main/java/org/mozilla/fenix/crashes/DummyCrashReporter.kt
 
 diff --git a/app/build.gradle b/app/build.gradle
-index 34e7649ce..a3302c257 100644
+index 4f61efd53..260ba122d 100644
 --- a/app/build.gradle
 +++ b/app/build.gradle
-@@ -58,7 +58,7 @@ android {
+@@ -102,7 +102,7 @@ android {
          debug {
              shrinkResources false
              minifyEnabled false
 -            applicationIdSuffix ".fenix.debug"
 +            applicationIdSuffix ".debug"
-             buildConfigField "String", "AMO_COLLECTION", "\"83a9cccfe6e24a34bd7b155ff9ee32\""
              resValue "bool", "IS_DEBUG", "true"
              pseudoLocalesEnabled true
-diff --git a/app/src/main/AndroidManifest.xml b/app/src/main/AndroidManifest.xml
-index 78a517e81..2f97c3e44 100644
---- a/app/src/main/AndroidManifest.xml
-+++ b/app/src/main/AndroidManifest.xml
-@@ -38,7 +38,7 @@
-           inside their source set.
-         -->
-         <activity-alias
--            android:name="${applicationId}.App"
-+            android:name="org.mozilla.fenix.App"
-             android:targetActivity=".HomeActivity">
-             <intent-filter>
-                 <action android:name="android.intent.action.MAIN" />
+         }
 diff --git a/app/src/main/java/org/mozilla/fenix/FenixApplication.kt b/app/src/main/java/org/mozilla/fenix/FenixApplication.kt
-index e3b7e9ed6..2c782e0ae 100644
+index 8fa482e91..e28fd89f3 100644
 --- a/app/src/main/java/org/mozilla/fenix/FenixApplication.kt
 +++ b/app/src/main/java/org/mozilla/fenix/FenixApplication.kt
-@@ -28,8 +28,6 @@ import mozilla.components.feature.addons.update.GlobalAddonDependencyProvider
+@@ -33,8 +33,6 @@ import mozilla.components.feature.addons.migration.DefaultSupportedAddonsChecker
+ import mozilla.components.feature.addons.update.GlobalAddonDependencyProvider
  import mozilla.components.lib.crash.CrashReporter
- import mozilla.components.service.experiments.Experiments
  import mozilla.components.service.glean.Glean
 -import mozilla.components.service.glean.config.Configuration
 -import mozilla.components.service.glean.net.ConceptFetchHttpUploader
+ import mozilla.components.support.base.facts.register
  import mozilla.components.support.base.log.Log
  import mozilla.components.support.base.log.logger.Logger
- import mozilla.components.support.base.log.sink.AndroidLogSink
-@@ -84,6 +82,7 @@ open class FenixApplication : LocaleAwareApplication(), Provider {
+@@ -45,7 +43,6 @@ import mozilla.components.support.rusthttp.RustHttpConfig
+ import mozilla.components.support.rustlog.RustLog
+ import mozilla.components.support.utils.logElapsedTime
+ import mozilla.components.support.webextensions.WebExtensionSupport
+-import org.mozilla.fenix.GleanMetrics.GleanBuildInfo
+ import org.mozilla.fenix.GleanMetrics.Metrics
+ import org.mozilla.fenix.GleanMetrics.PerfStartup
+ import org.mozilla.fenix.components.Components
+@@ -118,45 +115,12 @@ open class FenixApplication : LocaleAwareApplication(), Provider {
              return
          }
  
-+        /* Ghostery Begin: do not initialise Glean +/
-         if (Config.channel.isFenix) {
-             // We need to always initialize Glean and do it early here.
-             // Note that we are only initializing Glean here for "fenix" builds. "fennec" builds
-@@ -91,10 +90,12 @@ open class FenixApplication : LocaleAwareApplication(), Provider {
-             // user's choice from Fennec.
-             initializeGlean()
-         }
-+        /+ Ghostery End */
- 
+-        if (Config.channel.isFenix) {
+-            // We need to always initialize Glean and do it early here.
+-            // Note that we are only initializing Glean here for "fenix" builds. "fennec" builds
+-            // will initialize in MigratingFenixApplication because we first need to migrate the
+-            // user's choice from Fennec.
+-            initializeGlean()
+-        }
+-
          setupInMainProcessOnly()
+ 
+         // DO NOT MOVE ANYTHING BELOW THIS stop CALL.
+         PerfStartup.applicationOnCreate.stopAndAccumulate(completeMethodDurationTimerId)
      }
  
-+    /* Ghostery Begin: do not use glean +/
-     protected open fun initializeGlean() {
-         val telemetryEnabled = settings().isTelemetryEnabled
- 
-@@ -110,6 +111,7 @@ open class FenixApplication : LocaleAwareApplication(), Provider {
-             uploadEnabled = telemetryEnabled
-         )
-     }
-+    /+ Ghostery End */
- 
+-    @OptIn(DelicateCoroutinesApi::class) // GlobalScope usage
+-    protected open fun initializeGlean() {
+-        val telemetryEnabled = settings().isTelemetryEnabled
+-
+-        logger.debug("Initializing Glean (uploadEnabled=$telemetryEnabled, isFennec=${Config.channel.isFennec})")
+-
+-        Glean.initialize(
+-            applicationContext = this,
+-            configuration = Configuration(
+-                channel = BuildConfig.BUILD_TYPE,
+-                httpClient = ConceptFetchHttpUploader(
+-                    lazy(LazyThreadSafetyMode.NONE) { components.core.client }
+-                )
+-            ),
+-            uploadEnabled = telemetryEnabled,
+-            buildInfo = GleanBuildInfo.buildInfo
+-        )
+-
+-        // We avoid blocking the main thread on startup by setting startup metrics on the background thread.
+-        val store = components.core.store
+-        GlobalScope.launch(Dispatchers.IO) {
+-            setStartupMetrics(store, settings())
+-        }
+-    }
+-
      @CallSuper
      open fun setupInAllProcesses() {
-@@ -294,10 +296,12 @@ open class FenixApplication : LocaleAwareApplication(), Provider {
+         setupCrashReporting()
+@@ -375,10 +339,7 @@ open class FenixApplication : LocaleAwareApplication(), Provider {
      }
  
      private fun setupCrashReporting() {
-+        /* Ghostery Begin: do not report crashes to Mozilla +/
-         components
-             .analytics
-             .crashReporter
-             .install(this)
-+        /+ Ghostery End */
+-        components
+-            .analytics
+-            .crashReporter
+-            .install(this)
++
      }
  
      /**
 diff --git a/app/src/main/java/org/mozilla/fenix/components/Analytics.kt b/app/src/main/java/org/mozilla/fenix/components/Analytics.kt
-index 120a27ac1..3407f23a5 100644
+index 2bb3655af..bd967b625 100644
 --- a/app/src/main/java/org/mozilla/fenix/components/Analytics.kt
 +++ b/app/src/main/java/org/mozilla/fenix/components/Analytics.kt
-@@ -22,12 +22,8 @@ import org.mozilla.fenix.components.metrics.AdjustMetricsService
+@@ -11,7 +11,6 @@ import android.content.Intent
+ import mozilla.components.lib.crash.CrashReporter
+ import mozilla.components.lib.crash.service.CrashReporterService
+ import mozilla.components.lib.crash.service.GleanCrashReporterService
+-import mozilla.components.lib.crash.service.MozillaSocorroService
+ import mozilla.components.lib.crash.service.SentryService
+ import mozilla.components.service.nimbus.NimbusApi
+ import org.mozilla.fenix.BuildConfig
+@@ -22,6 +21,7 @@ import org.mozilla.fenix.ReleaseChannel
+ import org.mozilla.fenix.components.metrics.AdjustMetricsService
  import org.mozilla.fenix.components.metrics.GleanMetricsService
- import org.mozilla.fenix.components.metrics.LeanplumMetricsService
  import org.mozilla.fenix.components.metrics.MetricController
--import org.mozilla.fenix.ext.settings
 +import org.mozilla.fenix.crashes.DummyCrashReporter
- import org.mozilla.fenix.utils.Mockable
--import org.mozilla.geckoview.BuildConfig.MOZ_APP_BUILDID
--import org.mozilla.geckoview.BuildConfig.MOZ_APP_VENDOR
--import org.mozilla.geckoview.BuildConfig.MOZ_APP_VERSION
--import org.mozilla.geckoview.BuildConfig.MOZ_UPDATE_CHANNEL
- 
- /**
-  * Component group for all functionality related to analytics e.g. crash reporting and telemetry.
-@@ -37,6 +33,7 @@ class Analytics(
-     private val context: Context
+ import org.mozilla.fenix.experiments.NimbusFeatures
+ import org.mozilla.fenix.experiments.createNimbus
+ import org.mozilla.fenix.ext.settings
+@@ -39,10 +39,6 @@ class Analytics(
  ) {
-     val crashReporter: CrashReporter by lazy {
-+        /* Ghostery Begin: disabling the CrashReporter +/
+     val crashReporter: CrashReporter by lazyMonitored {
          val services = mutableListOf<CrashReporterService>()
+-        val distributionId = when (Config.channel.isMozillaOnline) {
+-            true -> "MozillaOnline"
+-            false -> "Mozilla"
+-        }
  
          if (isSentryEnabled()) {
-@@ -58,6 +55,7 @@ class Analytics(
-             version = MOZ_APP_VERSION, buildId = MOZ_APP_BUILDID, vendor = MOZ_APP_VENDOR,
-             releaseChannel = MOZ_UPDATE_CHANNEL)
-         services.add(socorroService)
-+        /+ Ghostery End */
+             val sentryService = SentryService(
+@@ -55,17 +51,10 @@ class Analytics(
+             )
  
+             services.add(sentryService)
++        } else {
++            services.add(DummyCrashReporter())
+         }
+ 
+-        // The name "Fenix" here matches the product name on Socorro and is unrelated to the actual app name:
+-        // https://bugzilla.mozilla.org/show_bug.cgi?id=1523284
+-        val socorroService = MozillaSocorroService(
+-            context, appName = "Fenix",
+-            version = MOZ_APP_VERSION, buildId = MOZ_APP_BUILDID, vendor = MOZ_APP_VENDOR,
+-            releaseChannel = MOZ_UPDATE_CHANNEL, distributionId = distributionId
+-        )
+-        services.add(socorroService)
+-
          val intent = Intent(context, HomeActivity::class.java).apply {
              flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
-@@ -72,12 +70,12 @@ class Analytics(
- 
+         }
+@@ -80,11 +69,11 @@ class Analytics(
          CrashReporter(
              context = context,
--            services = services,
+             services = services,
 -            telemetryServices = listOf(GleanCrashReporterService(context)),
 -            shouldPrompt = CrashReporter.Prompt.ALWAYS,
-+            services = listOf(DummyCrashReporter()), // Ghostery: services,
-+            telemetryServices = listOf(), // Ghostery: listOf(GleanCrashReporterService(context)),
-+            shouldPrompt = CrashReporter.Prompt.NEVER, // Ghostery: CrashReporter.Prompt.ALWAYS,
++            telemetryServices = listOf(),
++            shouldPrompt = CrashReporter.Prompt.NEVER,
              promptConfiguration = CrashReporter.PromptConfiguration(
                  appName = context.getString(R.string.app_name),
 -                organizationName = "Mozilla"
-+                organizationName = "Ghostery" // Ghostery: "Mozilla"
++                organizationName = "Ghostery"
              ),
              enabled = true,
              nonFatalCrashIntent = pendingIntent
-@@ -88,19 +86,23 @@ class Analytics(
+@@ -93,12 +82,9 @@ class Analytics(
  
-     val metrics: MetricController by lazy {
+     val metrics: MetricController by lazyMonitored {
          MetricController.create(
-+            listOf(),
-+            /* Ghostery Begin: removing all the Metrics +/
-             listOf(
-                 GleanMetricsService(context),
-                 leanplumMetricsService,
-                 AdjustMetricsService(context as Application)
-             ),
+-            listOf(
+-                GleanMetricsService(context),
+-                AdjustMetricsService(context as Application)
+-            ),
 -            isDataTelemetryEnabled = { context.settings().isTelemetryEnabled },
--            isMarketingDataTelemetryEnabled = { context.settings().isMarketingTelemetryEnabled }
-+            /+ Ghostery End */
-+            isDataTelemetryEnabled = { false }, // Ghostery { context.settings().isTelemetryEnabled },
-+            isMarketingDataTelemetryEnabled = { false } // Ghostery { context.settings().isMarketingTelemetryEnabled }
+-            isMarketingDataTelemetryEnabled = { context.settings().isMarketingTelemetryEnabled },
++            listOf(),
++            isDataTelemetryEnabled = { false },
++            isMarketingDataTelemetryEnabled = { false },
+             context.settings()
          )
      }
- }
- 
--fun isSentryEnabled() = !BuildConfig.SENTRY_TOKEN.isNullOrEmpty()
-+fun isSentryEnabled() = false
- 
-+/* Ghostery Begin:  we don't use Sentry +/
- private fun getSentryProjectUrl(): String? {
-     val baseUrl = "https://sentry.prod.mozaws.net/operations"
-     return when (Config.channel) {
-@@ -110,3 +112,4 @@ private fun getSentryProjectUrl(): String? {
-         else -> null
-     }
- }
-+/+ Ghostery End */
 diff --git a/app/src/main/java/org/mozilla/fenix/crashes/DummyCrashReporter.kt b/app/src/main/java/org/mozilla/fenix/crashes/DummyCrashReporter.kt
 new file mode 100644
-index 000000000..708910d9e
+index 000000000..de5b53ff5
 --- /dev/null
 +++ b/app/src/main/java/org/mozilla/fenix/crashes/DummyCrashReporter.kt
 @@ -0,0 +1,19 @@
@@ -188,7 +196,7 @@ index 000000000..708910d9e
 +
 +import mozilla.components.lib.crash.Crash
 +import mozilla.components.lib.crash.service.CrashReporterService
-+import mozilla.components.support.base.crash.Breadcrumb
++import mozilla.components.concept.base.crash.Breadcrumb
 +
 +class DummyCrashReporter : CrashReporterService {
 +    override val id: String = "dummy"
@@ -203,53 +211,28 @@ index 000000000..708910d9e
 +
 +    override fun report(crash: Crash.UncaughtExceptionCrash): String? = null
 +}
-diff --git a/app/src/main/java/org/mozilla/fenix/ext/NavController.kt b/app/src/main/java/org/mozilla/fenix/ext/NavController.kt
-index 4034c2472..988679be1 100644
---- a/app/src/main/java/org/mozilla/fenix/ext/NavController.kt
-+++ b/app/src/main/java/org/mozilla/fenix/ext/NavController.kt
-@@ -8,8 +8,6 @@ import androidx.annotation.IdRes
- import androidx.navigation.NavController
- import androidx.navigation.NavDirections
- import androidx.navigation.NavOptions
--import io.sentry.Sentry
--import org.mozilla.fenix.components.isSentryEnabled
- 
- /**
-  * Navigate from the fragment with [id] using the given [directions].
-@@ -27,10 +25,13 @@ fun NavController.alreadyOnDestination(@IdRes destId: Int?): Boolean {
-     return destId?.let { currentDestination?.id == it || popBackStack(it, false) } ?: false
- }
- 
-+@Suppress("UNUSED_PARAMETER")
- fun recordIdException(actual: Int?, expected: Int?) {
-+    /* Ghostery Begin: Sentry in not enabled +/
-     if (isSentryEnabled()) {
-         Sentry.capture("Fragment id $actual did not match expected $expected")
-     }
-+    /+ Ghostery End */
- }
- 
- fun NavController.navigateSafe(
+\ No newline at end of file
 diff --git a/app/src/main/res/xml/preferences.xml b/app/src/main/res/xml/preferences.xml
-index e1f18cd8c..3ced997a2 100644
+index e1e9be315..9308df8be 100644
 --- a/app/src/main/res/xml/preferences.xml
 +++ b/app/src/main/res/xml/preferences.xml
-@@ -114,6 +114,7 @@
-             android:key="@string/pref_key_delete_browsing_data_on_quit_preference"
+@@ -125,16 +125,6 @@
+             app:iconSpaceReserved="false"
              android:title="@string/preferences_delete_browsing_data_on_quit" />
  
-+        <!-- Ghostery Begin: removing data collection sub-menu as we do not collect anything -+>
-         <androidx.preference.Preference
-             android:icon="@drawable/ic_notifications"
-             android:key="@string/pref_key_notifications"
-@@ -123,6 +124,7 @@
-             android:icon="@drawable/ic_data_collection"
-             android:key="@string/pref_key_data_choices"
-             android:title="@string/preferences_data_collection" />
-+        <+- Ghostery End -->
- 
+-        <androidx.preference.Preference
+-            android:key="@string/pref_key_notifications"
+-            app:iconSpaceReserved="false"
+-            android:title="@string/preferences_notifications" />
+-
+-        <androidx.preference.Preference
+-            android:key="@string/pref_key_data_choices"
+-            app:iconSpaceReserved="false"
+-            android:title="@string/preferences_data_collection" />
+-
      </androidx.preference.PreferenceCategory>
  
+     <PreferenceCategory
 -- 
-2.28.0
+2.34.1
 

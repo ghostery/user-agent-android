@@ -1,0 +1,29 @@
+From 5524e2100f4037625016a8d63609306615a408aa Mon Sep 17 00:00:00 2001
+From: Krzysztof Modras <chrmod@chrmod.net>
+Date: Fri, 25 Feb 2022 16:01:33 +0100
+Subject: Disable Pocket
+
+---
+ app/src/main/java/org/mozilla/fenix/FeatureFlags.kt | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
+
+diff --git a/app/src/main/java/org/mozilla/fenix/FeatureFlags.kt b/app/src/main/java/org/mozilla/fenix/FeatureFlags.kt
+index b4cac70a9..3d01c6b41 100644
+--- a/app/src/main/java/org/mozilla/fenix/FeatureFlags.kt
++++ b/app/src/main/java/org/mozilla/fenix/FeatureFlags.kt
+@@ -71,10 +71,9 @@ object FeatureFlags {
+     /**
+      * Show Pocket recommended stories on home.
+      */
++    @Suppress("UNUSED_PARAMETER")
+     fun isPocketRecommendationsFeatureEnabled(context: Context): Boolean {
+-        val langTag = LocaleManager.getCurrentLocale(context)
+-            ?.toLanguageTag() ?: getSystemDefault().toLanguageTag()
+-        return listOf("en-US", "en-CA").contains(langTag)
++        return false
+     }
+ 
+     /**
+-- 
+2.34.1
+

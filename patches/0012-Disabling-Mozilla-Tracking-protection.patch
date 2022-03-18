@@ -1,64 +1,64 @@
-From f0137dcd9fedc47784009553efbbeb90734ef42d Mon Sep 17 00:00:00 2001
+From 802411ca0de5a3564f465d515466ff8f4ed3d9f6 Mon Sep 17 00:00:00 2001
 From: Stefano Pacifici <stefano.pacifici@gmail.com>
 Date: Wed, 10 Jun 2020 15:09:45 +0200
 Subject: Disabling Mozilla Tracking protection
 
 ---
- app/src/main/java/org/mozilla/fenix/components/Core.kt          | 2 +-
- .../main/java/org/mozilla/fenix/settings/SettingsFragment.kt    | 2 ++
- app/src/main/res/xml/preferences.xml                            | 2 ++
- 3 files changed, 5 insertions(+), 1 deletion(-)
+ app/src/main/java/org/mozilla/fenix/components/Core.kt |  2 +-
+ .../org/mozilla/fenix/settings/SettingsFragment.kt     | 10 ----------
+ app/src/main/res/xml/preferences.xml                   |  5 -----
+ 3 files changed, 1 insertion(+), 16 deletions(-)
 
 diff --git a/app/src/main/java/org/mozilla/fenix/components/Core.kt b/app/src/main/java/org/mozilla/fenix/components/Core.kt
-index 997e940ca..333f3f7e7 100644
+index 2f0f2c673..a8f5199c3 100644
 --- a/app/src/main/java/org/mozilla/fenix/components/Core.kt
 +++ b/app/src/main/java/org/mozilla/fenix/components/Core.kt
-@@ -83,7 +83,7 @@ class Core(private val context: Context, private val crashReporter: CrashReporti
-             requestInterceptor = AppRequestInterceptor(context),
-             remoteDebuggingEnabled = context.settings().isRemoteDebuggingEnabled,
+@@ -106,7 +106,7 @@ class Core(
+             remoteDebuggingEnabled = context.settings().isRemoteDebuggingEnabled &&
+                 Build.VERSION.SDK_INT >= Build.VERSION_CODES.M,
              testingModeEnabled = false,
 -            trackingProtectionPolicy = trackingProtectionPolicyFactory.createTrackingProtectionPolicy(),
-+            trackingProtectionPolicy = null, // Ghostery: trackingProtectionPolicyFactory.createTrackingProtectionPolicy(),
++            trackingProtectionPolicy = null,
              historyTrackingDelegate = HistoryDelegate(lazyHistoryStorage),
              preferredColorScheme = getPreferredColorScheme(),
              automaticFontSizeAdjustment = context.settings().shouldUseAutoSize,
 diff --git a/app/src/main/java/org/mozilla/fenix/settings/SettingsFragment.kt b/app/src/main/java/org/mozilla/fenix/settings/SettingsFragment.kt
-index 33741ff92..8295c0b93 100644
+index 220d0f187..6a9adbd76 100644
 --- a/app/src/main/java/org/mozilla/fenix/settings/SettingsFragment.kt
 +++ b/app/src/main/java/org/mozilla/fenix/settings/SettingsFragment.kt
-@@ -154,6 +154,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
+@@ -189,16 +189,6 @@ class SettingsFragment : PreferenceFragmentCompat() {
      }
  
      private fun update(shouldUpdateAccountUIState: Boolean) {
-+        /* Ghostery Begin: Removing tracking protection as it will be performed by Ghostery +/
-         val trackingProtectionPreference =
-             requirePreference<Preference>(R.string.pref_key_tracking_protection_settings)
-         trackingProtectionPreference.summary = context?.let {
-@@ -163,6 +164,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
-                 getString(R.string.tracking_protection_off)
-             }
-         }
-+        /+ Ghostery End */
- 
+-        val trackingProtectionPreference =
+-            requirePreference<Preference>(R.string.pref_key_tracking_protection_settings)
+-        trackingProtectionPreference.summary = context?.let {
+-            if (it.settings().shouldUseTrackingProtection) {
+-                getString(R.string.tracking_protection_on)
+-            } else {
+-                getString(R.string.tracking_protection_off)
+-            }
+-        }
+-
          val aboutPreference = requirePreference<Preference>(R.string.pref_key_about)
          val appName = getString(R.string.app_name)
+         aboutPreference.title = getString(R.string.preferences_about, appName)
 diff --git a/app/src/main/res/xml/preferences.xml b/app/src/main/res/xml/preferences.xml
-index 3ced997a2..2c7eaaea1 100644
+index 9308df8be..86e99ce13 100644
 --- a/app/src/main/res/xml/preferences.xml
 +++ b/app/src/main/res/xml/preferences.xml
-@@ -94,10 +94,12 @@
-             android:key="@string/pref_key_private_browsing"
-             android:title="@string/preferences_private_browsing_options"/>
+@@ -105,11 +105,6 @@
+             app:iconSpaceReserved="false"
+             android:title="@string/preferences_private_browsing_options" />
  
-+        <!-- Ghostery Begin: tracking protection is a Ghostery thing -+>
+-        <androidx.preference.Preference
+-            android:key="@string/pref_key_tracking_protection_settings"
+-            app:iconSpaceReserved="false"
+-            android:title="@string/preference_enhanced_tracking_protection" />
+-
          <androidx.preference.Preference
-             android:icon="@drawable/ic_tracking_protection_enabled"
-             android:key="@string/pref_key_tracking_protection_settings"
-             android:title="@string/preference_enhanced_tracking_protection" />
-+        <!- Ghostery End -->
- 
-         <androidx.preference.Preference
-             android:icon="@drawable/ic_permission"
+             android:key="@string/pref_key_site_permissions"
+             app:iconSpaceReserved="false"
 -- 
-2.28.0
+2.34.1
 

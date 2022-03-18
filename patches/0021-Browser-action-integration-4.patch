@@ -1,4 +1,4 @@
-From 547a50c6b12f980202b93e1d0751637c57bdadd1 Mon Sep 17 00:00:00 2001
+From 881b3c7b81b7630bb67c2378b4064eda38f4ea86 Mon Sep 17 00:00:00 2001
 From: Sam Macbeth <sammacbeth@users.noreply.github.com>
 Date: Mon, 29 Jun 2020 16:29:21 +0200
 Subject: Browser action integration (#4)
@@ -9,59 +9,77 @@ Subject: Browser action integration (#4)
 
 * Open ghostery action when Ghosty icon is clicked
 ---
- .../fenix/browser/BaseBrowserFragment.kt      |  6 ++-
- .../ic_tracking_protection_disabled.xml       | 38 +++++++------------
- .../ic_tracking_protection_enabled.xml        | 38 +++++++------------
- 3 files changed, 30 insertions(+), 52 deletions(-)
+ .../mozilla/fenix/browser/BrowserFragment.kt  | 17 +++++++++++++++++
+ .../QuickSettingsSheetDialogFragment.kt       |  4 ----
+ app/src/main/res/drawable/ic_ghostery.xml     | 19 +++++++++++++++++++
+ .../fragment_quick_settings_dialog_sheet.xml  | 17 +----------------
+ 4 files changed, 37 insertions(+), 20 deletions(-)
+ create mode 100644 app/src/main/res/drawable/ic_ghostery.xml
 
-diff --git a/app/src/main/java/org/mozilla/fenix/browser/BaseBrowserFragment.kt b/app/src/main/java/org/mozilla/fenix/browser/BaseBrowserFragment.kt
-index 8bda407fd..4df3baafa 100644
---- a/app/src/main/java/org/mozilla/fenix/browser/BaseBrowserFragment.kt
-+++ b/app/src/main/java/org/mozilla/fenix/browser/BaseBrowserFragment.kt
-@@ -333,8 +333,10 @@ abstract class BaseBrowserFragment : Fragment(), UserInteractionHandler, Session
-             }
+diff --git a/app/src/main/java/org/mozilla/fenix/browser/BrowserFragment.kt b/app/src/main/java/org/mozilla/fenix/browser/BrowserFragment.kt
+index da88c5939..0e9049b1c 100644
+--- a/app/src/main/java/org/mozilla/fenix/browser/BrowserFragment.kt
++++ b/app/src/main/java/org/mozilla/fenix/browser/BrowserFragment.kt
+@@ -71,6 +71,23 @@ class BrowserFragment : BaseBrowserFragment(), UserInteractionHandler {
+             )
+         }
  
-             browserToolbarView.view.display.setOnTrackingProtectionClickedListener {
--                context.metrics.track(Event.TrackingProtectionIconPressed)
--                showTrackingProtectionPanel()
-+                val globalAction = store.state.extensions.get("firefox@ghostery.com")?.browserAction
++        val ghosteryAction = BrowserToolbar.Button(
++            imageDrawable = AppCompatResources.getDrawable(
++                context,
++                R.drawable.ic_ghostery
++            )!!,
++            contentDescription = "Ghostery",
++            iconTintColorResource = ThemeManager.resolveAttribute(R.attr.primaryText, context),
++            listener = {
++                val globalAction = requireComponents.core.store.state.extensions.get("firefox@ghostery.com")?.browserAction
 +                if (globalAction != null) {
 +                    globalAction.onClick()
 +                }
-             }
++            }
++        )
++
++        browserToolbarView.view.addPageAction(ghosteryAction)
++
+         val homeAction = BrowserToolbar.Button(
+             imageDrawable = AppCompatResources.getDrawable(
+                 context,
+diff --git a/app/src/main/java/org/mozilla/fenix/settings/quicksettings/QuickSettingsSheetDialogFragment.kt b/app/src/main/java/org/mozilla/fenix/settings/quicksettings/QuickSettingsSheetDialogFragment.kt
+index 65ee453dc..b97742aa5 100644
+--- a/app/src/main/java/org/mozilla/fenix/settings/quicksettings/QuickSettingsSheetDialogFragment.kt
++++ b/app/src/main/java/org/mozilla/fenix/settings/quicksettings/QuickSettingsSheetDialogFragment.kt
+@@ -115,8 +115,6 @@ class QuickSettingsSheetDialogFragment : FenixDialogFragment() {
+         websiteInfoView = WebsiteInfoView(binding.websiteInfoLayout, interactor = interactor)
+         websitePermissionsView =
+             WebsitePermissionsView(binding.websitePermissionsLayout, interactor)
+-        trackingProtectionView =
+-            TrackingProtectionView(binding.trackingProtectionLayout, interactor, context.settings())
+         clearSiteDataView = ClearSiteDataView(
+             context = context,
+             ioScope = viewLifecycleOwner.lifecycleScope + Dispatchers.IO,
+@@ -130,11 +128,9 @@ class QuickSettingsSheetDialogFragment : FenixDialogFragment() {
  
-             contextMenuFeature.set(
-diff --git a/app/src/main/res/drawable/ic_tracking_protection_disabled.xml b/app/src/main/res/drawable/ic_tracking_protection_disabled.xml
-index 0ef9a1b5c..1433eb44d 100644
---- a/app/src/main/res/drawable/ic_tracking_protection_disabled.xml
-+++ b/app/src/main/res/drawable/ic_tracking_protection_disabled.xml
-@@ -1,27 +1,15 @@
--<?xml version="1.0" encoding="utf-8"?>
--<!-- This Source Code Form is subject to the terms of the Mozilla Public
--   - License, v. 2.0. If a copy of the MPL was not distributed with this
--   - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
- <vector xmlns:android="http://schemas.android.com/apk/res/android"
--    android:width="24dp"
--    android:height="24dp"
--    android:viewportWidth="24"
--    android:viewportHeight="24">
--    <group>
--        <clip-path android:pathData="M 18.8 2.8 C 19.8 1.8 21.1 3.3 20.2 4.2 L 3.4 21 L 2 19.6 L 18.8 2.8 Z" />
--        <path
--            android:name="strike_thru_path"
--            android:fillColor="@color/disabled_text"
--            android:pathData="M 20 1.6 L 21.4 3 L 5.2 19.2 C 4.2 20.2 2.8 18.8 3.8 17.8 L 20 1.6 Z"
--            android:strokeWidth="1" />
--    </group>
--    <group>
--        <clip-path
--            android:name="strike_thru_mask"
--            android:pathData="M 0 0 L 0 24 L 24 24 L 24 0 L 0 0 Z M 21 2 L 23 4 L 6 21 L 4 19 L 21 2 Z" />
--        <path
--            android:name="icon"
--            android:fillColor="@color/disabled_text"
--            android:pathData="M20 6c0-1-0.8-1.9-1.8-2L12 3 5.8 4C4.8 4 4 5 4 6l0.1 5c0.3 3.2 1 5 2.5 7a8.4 8.4 0 0 0 5.3 3h0.2c2.1-0.3 4-1.4 5.3-3 1.6-2 2.2-3.8 2.5-7l0.1-5zm-2.1 4.8a10 10 0 0 1-2 6c-1 1.1-2.4 2-3.9 2.3a6.5 6.5 0 0 1-3.9-2.4 9.9 9.9 0 0 1-2-5.9 67.3 67.3 0 0 1 0-4.9L12 5l5.9 1 0.1 0.2-0.1 4.7zM8 7.6v3c0.3 2.7 0.8 3.7 1.7 5 0.6 0.6 1.4 1.2 2.3 1.4V7l-4 0.6z" />
--    </group>
+     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+         super.onViewCreated(view, savedInstanceState)
+-        observeTrackersChange(requireComponents.core.store)
+         consumeFrom(quickSettingsStore) {
+             websiteInfoView.update(it.webInfoState)
+             websitePermissionsView.update(it.websitePermissionsState)
+-            trackingProtectionView.update(it.trackingProtectionState)
+             clearSiteDataView.update(it.webInfoState)
+         }
+     }
+diff --git a/app/src/main/res/drawable/ic_ghostery.xml b/app/src/main/res/drawable/ic_ghostery.xml
+new file mode 100644
+index 000000000..7770c4093
+--- /dev/null
++++ b/app/src/main/res/drawable/ic_ghostery.xml
+@@ -0,0 +1,19 @@
++<?xml version="1.0" encoding="utf-8"?>
++<!-- This Source Code Form is subject to the terms of the Mozilla Public
++   - License, v. 2.0. If a copy of the MPL was not distributed with this
++   - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
++<vector xmlns:android="http://schemas.android.com/apk/res/android"
 +    android:width="48dp"
 +    android:height="48dp"
 +    android:viewportWidth="9.283626"
@@ -75,52 +93,43 @@ index 0ef9a1b5c..1433eb44d 100644
 +        android:strokeColor="#00000000"
 +        android:fillType="evenOdd"/>
 +  </group>
- </vector>
-diff --git a/app/src/main/res/drawable/ic_tracking_protection_enabled.xml b/app/src/main/res/drawable/ic_tracking_protection_enabled.xml
-index 633271b15..1433eb44d 100644
---- a/app/src/main/res/drawable/ic_tracking_protection_enabled.xml
-+++ b/app/src/main/res/drawable/ic_tracking_protection_enabled.xml
-@@ -1,27 +1,15 @@
--<?xml version="1.0" encoding="utf-8"?>
--<!-- This Source Code Form is subject to the terms of the Mozilla Public
--   - License, v. 2.0. If a copy of the MPL was not distributed with this
--   - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
- <vector xmlns:android="http://schemas.android.com/apk/res/android"
--        android:width="24dp"
--        android:height="24dp"
--        android:viewportWidth="24"
--        android:viewportHeight="24">
--    <group>
--        <clip-path android:pathData="M 18.8 2.8 C 19.8 1.8 21.1 3.3 20.2 4.2 L 3.4 21 L 2 19.6 L 18.8 2.8 Z"/>
--        <path
--                android:name="strike_thru_path"
--                android:pathData="M 20 1.6 L 21.4 3 L 21.9 2.5 C 20.9 3.5 19.5 2 20.5 1.1 L 20 1.6 Z"
--                android:fillColor="?primaryText"
--                android:strokeWidth="1"/>
--    </group>
--    <group>
--        <clip-path
--                android:name="strike_thru_mask"
--                android:pathData="M 0 0 L 0 24 L 24 24 L 24 0 L 0 0 Z M 21 2 L 23 4 L 23 4 L 21 2 L 21 2 Z"/>
--        <path
--                android:name="icon"
--                android:fillColor="?primaryText"
--                android:pathData="M20 6c0-1-0.8-1.9-1.8-2L12 3 5.8 4C4.8 4 4 5 4 6l0.1 5c0.3 3.2 1 5 2.5 7a8.4 8.4 0 0 0 5.3 3h0.2c2.1-0.3 4-1.4 5.3-3 1.6-2 2.2-3.8 2.5-7l0.1-5zm-2.1 4.8a10 10 0 0 1-2 6c-1 1.1-2.4 2-3.9 2.3a6.5 6.5 0 0 1-3.9-2.4 9.9 9.9 0 0 1-2-5.9 67.3 67.3 0 0 1 0-4.9L12 5l5.9 1 0.1 0.2-0.1 4.7zM8 7.6v3c0.3 2.7 0.8 3.7 1.7 5 0.6 0.6 1.4 1.2 2.3 1.4V7l-4 0.6z" />
--    </group>
-+    android:width="48dp"
-+    android:height="48dp"
-+    android:viewportWidth="9.283626"
-+    android:viewportHeight="9.283627">
-+  <group android:translateX="1.9959794"
-+      android:translateY="1.9959797">
-+    <path
-+        android:pathData="m4.39319,4.04453c0.22683,0.52146 0.03911,0.45919 -0.12906,0.41638 -0.16817,-0.0428 -0.54361,-0.21014 -0.66094,-0.00389 -0.11733,0.20624 -0.2151,0.38525 -0.48887,0.2685 -0.27376,-0.11674 -0.40282,-0.15566 -0.44193,-0.15566l-0.05312,0c-0.03911,0 -0.16817,0.03891 -0.44193,0.15566 -0.27376,0.11674 -0.37154,-0.06226 -0.48887,-0.2685 -0.11732,-0.20625 -0.49277,-0.03891 -0.66094,0.00389 -0.16817,0.04281 -0.35589,0.10507 -0.12905,-0.41638 0.16875,-0.38794 0.20324,-0.71953 0.20987,-0.86408L1.10836,2.05868C1.10836,1.21395 1.79657,0.52917 2.64553,0.52917 3.49448,0.52917 4.18269,1.21395 4.18269,2.05868l0,1.10576c0.00473,0.13437 0.0349,0.47644 0.21049,0.8801zM2.64553,3.25012c0.36483,0 0.67193,-0.35732 0.76455,-0.75488 -0.17879,0.24464 -0.4547,0.40171 -0.76455,0.40171 -0.30984,0 -0.58576,-0.15707 -0.76454,-0.40171 0.0926,0.39757 0.39971,0.75488 0.76454,0.75488zM3.14122,2.29675c0.19032,0 0.3446,-0.24637 0.3446,-0.55028 0,-0.30392 -0.15428,-0.55029 -0.3446,-0.55029 -0.19032,0 -0.34461,0.24637 -0.34461,0.55029 0,0.30391 0.15429,0.55028 0.34461,0.55028zM2.17061,1.19618c-0.19031,0 -0.34459,0.24637 -0.34459,0.55029 0,0.30391 0.15428,0.55028 0.34459,0.55028 0.19032,0 0.34461,-0.24637 0.34461,-0.55028 0,-0.30392 -0.15429,-0.55029 -0.34461,-0.55029z"
-+        android:strokeWidth="1"
-+        android:fillColor="#ffffff"
-+        android:strokeColor="#00000000"
-+        android:fillType="evenOdd"/>
-+  </group>
- </vector>
++</vector>
+\ No newline at end of file
+diff --git a/app/src/main/res/layout/fragment_quick_settings_dialog_sheet.xml b/app/src/main/res/layout/fragment_quick_settings_dialog_sheet.xml
+index e447f5f99..a1189eeb5 100644
+--- a/app/src/main/res/layout/fragment_quick_settings_dialog_sheet.xml
++++ b/app/src/main/res/layout/fragment_quick_settings_dialog_sheet.xml
+@@ -26,7 +26,7 @@
+             android:id="@+id/websitePermissionsLayout"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+-            app:layout_constraintBottom_toTopOf="@id/trackingProtectionDivider" />
++            app:layout_constraintBottom_toTopOf="@id/clearSiteDataLayout" />
+ 
+         <View
+             android:id="@+id/webSitePermissionsDivider"
+@@ -37,21 +37,6 @@
+             android:background="?neutralFaded"
+             app:layout_constraintBottom_toTopOf="@id/websitePermissionsLayout" />
+ 
+-        <FrameLayout
+-            android:id="@+id/trackingProtectionLayout"
+-            android:layout_width="match_parent"
+-            android:layout_height="wrap_content"
+-            app:layout_constraintBottom_toTopOf="@+id/clearSiteDataLayout" />
+-
+-        <View
+-            android:id="@+id/trackingProtectionDivider"
+-            android:layout_width="match_parent"
+-            android:layout_height="1dp"
+-            android:layout_marginTop="8dp"
+-            android:layout_marginBottom="8dp"
+-            android:background="?neutralFaded"
+-            app:layout_constraintBottom_toTopOf="@id/trackingProtectionLayout" />
+-
+         <FrameLayout
+             android:id="@+id/clearSiteDataLayout"
+             android:layout_width="match_parent"
 -- 
-2.28.0
+2.34.1
 

@@ -1,27 +1,56 @@
-From 76a1f1116a0a080a3f59785075c951a9f69ea7a2 Mon Sep 17 00:00:00 2001
+From cd317a6628e8f6e3fd7b6f44ec547ac859cd0f74 Mon Sep 17 00:00:00 2001
 From: Sam Macbeth <sam@cliqz.com>
 Date: Mon, 3 Aug 2020 15:07:40 +0200
 Subject: Disabling Firefox onboarding
 
 ---
- .../main/java/org/mozilla/fenix/onboarding/FenixOnboarding.kt | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ .../org/mozilla/fenix/onboarding/FenixOnboarding.kt    |  4 +---
+ app/src/main/java/org/mozilla/fenix/utils/Settings.kt  | 10 ++--------
+ 2 files changed, 3 insertions(+), 11 deletions(-)
 
 diff --git a/app/src/main/java/org/mozilla/fenix/onboarding/FenixOnboarding.kt b/app/src/main/java/org/mozilla/fenix/onboarding/FenixOnboarding.kt
-index 0af973195..d86efa5d9 100644
+index c9cfff8d9..583b947eb 100644
 --- a/app/src/main/java/org/mozilla/fenix/onboarding/FenixOnboarding.kt
 +++ b/app/src/main/java/org/mozilla/fenix/onboarding/FenixOnboarding.kt
-@@ -27,7 +27,9 @@ class FenixOnboarding(context: Context) : PreferencesHolder {
-         metrics.track(Event.DismissedOnboarding)
+@@ -32,9 +32,7 @@ class FenixOnboarding(context: Context) : PreferencesHolder {
      }
  
--    fun userHasBeenOnboarded() = onboardedVersion == CURRENT_ONBOARDING_VERSION
-+    /* Ghostery Begin: disable onboarding */
-+    fun userHasBeenOnboarded() = true // onboardedVersion == CURRENT_ONBOARDING_VERSION
-+    /* Ghostery End */
+     fun userHasBeenOnboarded(): Boolean {
+-        return strictMode.resetAfter(StrictMode.allowThreadDiskReads()) {
+-            onboardedVersion == CURRENT_ONBOARDING_VERSION
+-        }
++        return true
+     }
  
      companion object {
-         /**
+diff --git a/app/src/main/java/org/mozilla/fenix/utils/Settings.kt b/app/src/main/java/org/mozilla/fenix/utils/Settings.kt
+index e828cabc9..02c9cfd55 100644
+--- a/app/src/main/java/org/mozilla/fenix/utils/Settings.kt
++++ b/app/src/main/java/org/mozilla/fenix/utils/Settings.kt
+@@ -827,10 +827,7 @@ class Settings(private val appContext: Context) : PreferencesHolder {
+         default = false
+     )
+ 
+-    var shouldShowOpenInAppBanner by booleanPreference(
+-        appContext.getPreferenceKey(R.string.pref_key_should_show_open_in_app_banner),
+-        default = true
+-    )
++    var shouldShowOpenInAppBanner = false
+ 
+     val shouldShowOpenInAppCfr: Boolean
+         get() = canShowCfr && shouldShowOpenInAppBanner
+@@ -868,10 +865,7 @@ class Settings(private val appContext: Context) : PreferencesHolder {
+     /**
+      * Indicates if the jump back in CRF should be shown.
+      */
+-    var shouldShowJumpBackInCFR by booleanPreference(
+-        appContext.getPreferenceKey(R.string.pref_key_should_show_jump_back_in_tabs_popup),
+-        default = true
+-    )
++    var shouldShowJumpBackInCFR = false
+ 
+     /**
+      * Should we display a feedback request to the user when he turns off the Inactive Tabs feature
 -- 
-2.28.0
+2.34.1
 

@@ -1,0 +1,113 @@
+From dd091ca7114c3b02858f69458f58ce9782ac9bb6 Mon Sep 17 00:00:00 2001
+From: Stefano Pacifici <stefano.pacifici@gmail.com>
+Date: Wed, 15 Jul 2020 16:11:33 +0200
+Subject: Ghostery splashscreen
+
+---
+ app/src/main/AndroidManifest.xml              |  2 +-
+ .../java/org/mozilla/fenix/HomeActivity.kt    | 21 ++++++++++++++-----
+ .../splashscreen_window_background.xml        | 15 +++++++++++++
+ app/src/main/res/values/styles.xml            |  5 +++++
+ 4 files changed, 37 insertions(+), 6 deletions(-)
+ create mode 100644 app/src/main/res/drawable/splashscreen_window_background.xml
+
+diff --git a/app/src/main/AndroidManifest.xml b/app/src/main/AndroidManifest.xml
+index 05ef03653..6f253d09a 100644
+--- a/app/src/main/AndroidManifest.xml
++++ b/app/src/main/AndroidManifest.xml
+@@ -30,7 +30,7 @@
+         android:label="@string/app_name"
+         android:roundIcon="@mipmap/ic_launcher_round"
+         android:supportsRtl="true"
+-        android:theme="@style/NormalTheme"
++        android:theme="@style/LaunchTheme"
+         android:usesCleartextTraffic="true"
+         tools:ignore="UnusedAttribute">
+ 
+diff --git a/app/src/main/java/org/mozilla/fenix/HomeActivity.kt b/app/src/main/java/org/mozilla/fenix/HomeActivity.kt
+index b19757dc6..f9ace5e71 100644
+--- a/app/src/main/java/org/mozilla/fenix/HomeActivity.kt
++++ b/app/src/main/java/org/mozilla/fenix/HomeActivity.kt
+@@ -34,12 +34,8 @@ import androidx.navigation.NavDirections
+ import androidx.navigation.fragment.NavHostFragment
+ import androidx.navigation.ui.AppBarConfiguration
+ import androidx.navigation.ui.NavigationUI
+-import kotlinx.coroutines.CoroutineScope
++import kotlinx.coroutines.*
+ import kotlinx.coroutines.Dispatchers.IO
+-import kotlinx.coroutines.ExperimentalCoroutinesApi
+-import kotlinx.coroutines.Job
+-import kotlinx.coroutines.delay
+-import kotlinx.coroutines.launch
+ import mozilla.appservices.places.BookmarkRoot
+ import mozilla.components.browser.state.action.ContentAction
+ import mozilla.components.browser.state.search.SearchEngine
+@@ -211,6 +207,8 @@ open class HomeActivity : LocaleAwareAppCompatActivity(), NavHostActivity {
+ 
+         components.publicSuffixList.prefetch()
+ 
++        setTheme(R.style.NormalTheme)
++
+         binding = ActivityHomeBinding.inflate(layoutInflater)
+         setContentView(binding.root)
+         ProfilerMarkers.addListenerForOnGlobalLayout(components.core.engine, this, binding.root)
+@@ -331,6 +329,19 @@ open class HomeActivity : LocaleAwareAppCompatActivity(), NavHostActivity {
+         }
+ 
+         isFenixTheDefaultBrowser()
++
++        // Now the app is started restore the original background to avoid weird splashscreen
++        // in oder Fragments
++        lifecycleScope.launch {
++            kotlinx.coroutines.delay(300L)
++            withContext(Dispatchers.Main) {
++                val ta = theme.obtainStyledAttributes(intArrayOf(R.attr.homeBackground))
++                ta.getDrawable(0)?.let {
++                    window.setBackgroundDrawable(it)
++                }
++                ta.recycle()
++            }
++        }
+     }
+ 
+     override fun onStart() {
+diff --git a/app/src/main/res/drawable/splashscreen_window_background.xml b/app/src/main/res/drawable/splashscreen_window_background.xml
+new file mode 100644
+index 000000000..f6d689820
+--- /dev/null
++++ b/app/src/main/res/drawable/splashscreen_window_background.xml
+@@ -0,0 +1,15 @@
++<?xml version="1.0" encoding="utf-8"?>
++<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
++    <item>
++        <shape xmlns:android="http://schemas.android.com/apk/res/android"
++            android:shape="rectangle">
++            <gradient
++                android:startColor="@color/default_launcher_background"
++                android:endColor="#fd7e75"
++                android:angle="-90"/>
++        </shape>
++    </item>
++
++    <item android:drawable="@drawable/big_ghosty"
++        android:gravity="center" />
++</layer-list>
+diff --git a/app/src/main/res/values/styles.xml b/app/src/main/res/values/styles.xml
+index 2b0dd93ad..56272b8e6 100644
+--- a/app/src/main/res/values/styles.xml
++++ b/app/src/main/res/values/styles.xml
+@@ -112,6 +112,11 @@
+         <item name="tabCounterTintColor">?primaryText</item>
+     </style>
+ 
++    <style name="LaunchTheme" parent="NormalThemeBase">
++        <item name="android:statusBarColor">@android:color/transparent</item>
++        <item name="android:windowBackground">@drawable/splashscreen_window_background</item>
++    </style>
++
+     <!-- A theme derived from the normal activity theme, but to look and behave like a dialog -->
+     <style name="DialogActivityTheme" parent="NormalTheme">
+         <item name="android:windowElevation">16dp</item>
+-- 
+2.34.1
+

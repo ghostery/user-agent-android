@@ -1,0 +1,45 @@
+From ec622ea3e7f10078fc30569524b0843c7cdd8440 Mon Sep 17 00:00:00 2001
+From: Stefano Pacifici <stefano.pacifici@gmail.com>
+Date: Wed, 29 Jul 2020 19:08:26 +0200
+Subject: Ghostery custom user agent
+
+---
+ app/src/main/java/org/mozilla/fenix/components/Core.kt | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+diff --git a/app/src/main/java/org/mozilla/fenix/components/Core.kt b/app/src/main/java/org/mozilla/fenix/components/Core.kt
+index 954066494..412e48dc7 100644
+--- a/app/src/main/java/org/mozilla/fenix/components/Core.kt
++++ b/app/src/main/java/org/mozilla/fenix/components/Core.kt
+@@ -86,6 +86,7 @@ import org.mozilla.fenix.settings.advanced.getSelectedLocale
+ import org.mozilla.fenix.telemetry.TelemetryMiddleware
+ import org.mozilla.fenix.utils.getUndoDelay
+ import org.mozilla.geckoview.GeckoRuntime
++import org.mozilla.geckoview.GeckoSession
+ import java.util.concurrent.TimeUnit
+ 
+ /**
+@@ -103,6 +104,7 @@ class Core(
+      */
+     val engine: Engine by lazyMonitored {
+         val defaultSettings = DefaultSettings(
++            userAgentString = customUserAgent,
+             requestInterceptor = requestInterceptor,
+             remoteDebuggingEnabled = context.settings().isRemoteDebuggingEnabled &&
+                 Build.VERSION.SDK_INT >= Build.VERSION_CODES.M,
+@@ -149,6 +151,12 @@ class Core(
+         }
+     }
+ 
++    val customUserAgent by lazyMonitored {
++        val defaultUserAgent = GeckoSession.getDefaultUserAgent()
++        val (prefix, postfix) = defaultUserAgent.split(')')
++        "$prefix; Ghostery:3.0)$postfix"
++    }
++
+     /**
+      * Passed to [engine] to intercept requests for app links,
+      * and various features triggered by page load requests.
+-- 
+2.34.1
+

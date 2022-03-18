@@ -1,4 +1,4 @@
-From 4e79bcae17d67ce98308c7cc51fbe4249bbe0f07 Mon Sep 17 00:00:00 2001
+From 7068865ec0dde488ed561ccfa7df72fc857b340c Mon Sep 17 00:00:00 2001
 From: Stefano Pacifici <stefano.pacifici@gmail.com>
 Date: Tue, 30 Jun 2020 17:59:32 +0200
 Subject: Ghostery Release fixes
@@ -10,7 +10,7 @@ Subject: Ghostery Release fixes
  3 files changed, 15 insertions(+), 3 deletions(-)
 
 diff --git a/app/src/main/java/org/mozilla/fenix/Config.kt b/app/src/main/java/org/mozilla/fenix/Config.kt
-index 5ee692e40..852aec7d6 100644
+index 702bb532a..2c0b17310 100644
 --- a/app/src/main/java/org/mozilla/fenix/Config.kt
 +++ b/app/src/main/java/org/mozilla/fenix/Config.kt
 @@ -8,7 +8,10 @@ enum class ReleaseChannel {
@@ -33,7 +33,7 @@ index 5ee692e40..852aec7d6 100644
              else -> false
          }
  
-@@ -60,6 +64,7 @@ object Config {
+@@ -67,6 +71,7 @@ object Config {
          "nightly" -> ReleaseChannel.Nightly
          "beta" -> ReleaseChannel.Beta
          "release" -> ReleaseChannel.Release
@@ -41,7 +41,7 @@ index 5ee692e40..852aec7d6 100644
          else -> {
              throw IllegalStateException("Unknown build type: ${BuildConfig.BUILD_TYPE}")
          }
-@@ -68,5 +73,8 @@ object Config {
+@@ -75,5 +80,8 @@ object Config {
  
  private val fennecChannels: List<ReleaseChannel> = listOf(
      ReleaseChannel.Beta,
@@ -52,7 +52,7 @@ index 5ee692e40..852aec7d6 100644
 +    /* Ghostery End */
  )
 diff --git a/app/src/migration/AndroidManifest.xml b/app/src/migration/AndroidManifest.xml
-index b89be3825..5d5449063 100644
+index a90db330d..787d48949 100644
 --- a/app/src/migration/AndroidManifest.xml
 +++ b/app/src/migration/AndroidManifest.xml
 @@ -7,8 +7,10 @@
@@ -68,10 +68,10 @@ index b89be3825..5d5449063 100644
          android:name="org.mozilla.fenix.MigratingFenixApplication"
          tools:replace="android:name">
 diff --git a/app/src/migration/java/org/mozilla/fenix/MigratingFenixApplication.kt b/app/src/migration/java/org/mozilla/fenix/MigratingFenixApplication.kt
-index b6bfec281..85c9a9071 100644
+index 777bee33e..b00ae71a8 100644
 --- a/app/src/migration/java/org/mozilla/fenix/MigratingFenixApplication.kt
 +++ b/app/src/migration/java/org/mozilla/fenix/MigratingFenixApplication.kt
-@@ -62,7 +62,9 @@ class MigratingFenixApplication : FenixApplication() {
+@@ -63,7 +63,9 @@ class MigratingFenixApplication : FenixApplication() {
  
          // Now that we have migrated from Fennec whether the user wants to enable telemetry we can
          // initialize Glean
@@ -82,5 +82,5 @@ index b6bfec281..85c9a9071 100644
          // Fenix application initialization can happen now.
          super.setupInMainProcessOnly()
 -- 
-2.28.0
+2.34.1
 

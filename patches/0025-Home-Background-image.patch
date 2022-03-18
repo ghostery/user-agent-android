@@ -1,0 +1,31 @@
+From 2065186531f6d70eb3d767240bb0bf179db494ff Mon Sep 17 00:00:00 2001
+From: Stefano Pacifici <stefano.pacifici@gmail.com>
+Date: Thu, 16 Jul 2020 17:39:25 +0200
+Subject: Home Background image
+
+---
+ app/src/main/res/layout/fragment_home.xml | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+diff --git a/app/src/main/res/layout/fragment_home.xml b/app/src/main/res/layout/fragment_home.xml
+index ea60d2cd3..b16e9635c 100644
+--- a/app/src/main/res/layout/fragment_home.xml
++++ b/app/src/main/res/layout/fragment_home.xml
+@@ -15,6 +15,14 @@
+     android:layout_height="match_parent"
+     android:background="?homeBackground">
+ 
++    <!-- Ghostery Begin: home background -->
++    <ImageView
++        android:layout_width="match_parent"
++        android:layout_height="match_parent"
++        android:scaleType="centerCrop"
++        app:srcCompat="@drawable/home_background" />
++    <!-- Ghostery End -->
++
+     <com.google.android.material.appbar.AppBarLayout
+         android:id="@+id/homeAppBar"
+         android:layout_width="match_parent"
+-- 
+2.34.1
+
