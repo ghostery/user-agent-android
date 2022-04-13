@@ -3,7 +3,7 @@ node('browser-builder') {
         checkout scm
         sh 'rm -rf browser'
         sh 'git submodule init'
-        sh 'git submodule update --remote --force'
+        sh 'git submodule update --force'
         sh './import.sh'
     }
 
