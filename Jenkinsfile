@@ -1,5 +1,4 @@
-
-node('docker && magrathea') {
+node('browser-builder') {
     stage('checkout') {
         checkout scm
         sh 'rm -rf browser'
