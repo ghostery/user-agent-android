@@ -16,7 +16,7 @@ RUN dpkg --add-architecture i386 && \
         libc6:i386 \
         libncurses5:i386 \
         libstdc++6:i386 \
-        openjdk-8-jdk \
+        openjdk-11-jdk \
         python3-dev \
         python3-pip \
         ruby-dev \
@@ -58,7 +58,7 @@ ARG GID
 RUN getent group $GID || groupadd jenkins --gid $GID && \
     useradd --create-home --shell /bin/bash jenkins --uid $UID --gid $GID
 
-ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64/
+ENV JAVA_HOME /usr/lib/jvm/java-11-openjdk-amd64/
 ENV ANDROID_HOME /home/jenkins/android_home
 ENV GRADLE_USER_HOME /home/jenkins/gradle_home
 ENV NVM_DIR /home/jenkins/nvm
