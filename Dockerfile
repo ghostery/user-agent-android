@@ -48,6 +48,14 @@ RUN dpkg --add-architecture i386 && \
     apt-get clean -y && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
+RUN gem install fastlane --version 2.154.0
+
+ENV JAVA_HOME /usr/lib/jvm/java-11-openjdk-amd64/
+ENV ANDROID_HOME /home/jenkins/android_home
+ENV GRADLE_USER_HOME /home/jenkins/gradle_home
+ENV NVM_DIR /home/jenkins/nvm
+ENV JAVA8PATH "/usr/lib/jvm/java-8-openjdk-amd64/jre/bin/:$PATH"
+
 # Set the locale
 RUN locale-gen en_US en_US.UTF-8
 RUN dpkg-reconfigure locales
@@ -58,14 +66,6 @@ ARG UID
 ARG GID
 RUN getent group $GID || groupadd jenkins --gid $GID && \
     useradd --create-home --shell /bin/bash jenkins --uid $UID --gid $GID
-
-ENV JAVA_HOME /usr/lib/jvm/java-11-openjdk-amd64/
-ENV ANDROID_HOME /home/jenkins/android_home
-ENV GRADLE_USER_HOME /home/jenkins/gradle_home
-ENV NVM_DIR /home/jenkins/nvm
-ENV JAVA8PATH "/usr/lib/jvm/java-8-openjdk-amd64/jre/bin/:$PATH"
-
-RUN gem install fastlane --version 2.154.0
 
 USER jenkins
 
