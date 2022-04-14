@@ -63,6 +63,7 @@ ENV JAVA_HOME /usr/lib/jvm/java-11-openjdk-amd64/
 ENV ANDROID_HOME /home/jenkins/android_home
 ENV GRADLE_USER_HOME /home/jenkins/gradle_home
 ENV NVM_DIR /home/jenkins/nvm
+ENV JAVA8PATH "/usr/lib/jvm/java-8-openjdk-amd64/jre/bin/:$PATH"
 
 RUN gem install fastlane --version 2.154.0
 
@@ -78,8 +79,10 @@ RUN cd $ANDROID_HOME; \
     rm -r sdktools.zip;
 
 RUN cd $ANDROID_HOME; \
-    while (true); do echo y; done | tools/bin/sdkmanager --licenses && \
-    tools/bin/sdkmanager \
+    while (true); do echo y; done | PATH=$JAVA8PATH tools/bin/sdkmanager --licenses
+
+RUN cd $ANDROID_HOME; \
+    PATH=$JAVA8PATH tools/bin/sdkmanager \
         "build-tools;28.0.3" \
         "platforms;android-28" \
         "platforms;android-29" \
