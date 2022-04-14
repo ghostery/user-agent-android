@@ -69,11 +69,14 @@ USER jenkins
 
 #Install Android SDK and the Required SDKs
 RUN mkdir -p $ANDROID_HOME; \
-    mkdir -p $GRADLE_USER_HOME; \
-    cd $ANDROID_HOME; \
-    wget -O sdktools.zip --quiet 'https://dl.google.com/android/repository/sdk-tools-linux-4333796.zip'; \
+    mkdir -p $GRADLE_USER_HOME;
+
+RUN cd $ANDROID_HOME; \
+    wget -O sdktools.zip --quiet 'https://dl.google.com/android/repository/sdk-tools-linux-3859397.zip'; \
     unzip sdktools.zip; \
-    rm -r sdktools.zip; \
+    rm -r sdktools.zip;
+
+RUN cd $ANDROID_HOME; \
     while (true); do echo y; done | tools/bin/sdkmanager --licenses && \
     tools/bin/sdkmanager \
         "build-tools;28.0.3" \
