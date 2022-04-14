@@ -84,9 +84,8 @@ RUN cd $ANDROID_HOME; \
 
 RUN cd $ANDROID_HOME; \
     PATH=$JAVA8PATH:$PATH tools/bin/sdkmanager \
-        "build-tools;28.0.3" \
-        "platforms;android-28" \
-        "platforms;android-29" \
+        "build-tools;30.0.2" \
+        "platforms;android-31" \
         "platform-tools" \
         "tools" \
         "extras;google;m2repository" \
