@@ -16,6 +16,7 @@ RUN dpkg --add-architecture i386 && \
         libc6:i386 \
         libncurses5:i386 \
         libstdc++6:i386 \
+        openjdk-8-jdk \
         openjdk-11-jdk \
         python3-dev \
         python3-pip \
