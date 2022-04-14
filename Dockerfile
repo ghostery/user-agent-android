@@ -50,16 +50,15 @@ RUN dpkg --add-architecture i386 && \
 
 RUN gem install fastlane --version 2.154.0
 
-ENV JAVA_HOME /usr/lib/jvm/java-11-openjdk-amd64/
-ENV ANDROID_HOME /home/jenkins/android_home
-ENV GRADLE_USER_HOME /home/jenkins/gradle_home
-ENV NVM_DIR /home/jenkins/nvm
-ENV JAVA8PATH /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/
-
 # Set the locale
 RUN locale-gen en_US en_US.UTF-8
 RUN dpkg-reconfigure locales
 ENV LANG='en_US.UTF-8' LANGUAGE='en_US:en' LC_ALL='en_US.UTF-8'
+
+ENV ANDROID_HOME /home/jenkins/android_home
+ENV GRADLE_USER_HOME /home/jenkins/gradle_home
+ENV NVM_DIR /home/jenkins/nvm
+ENV JAVA8PATH /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/
 
 # Add jenkins to the user group
 ARG UID
@@ -78,6 +77,8 @@ RUN cd $ANDROID_HOME; \
     unzip sdktools.zip; \
     rm -r sdktools.zip;
 
+ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64/
+
 RUN cd $ANDROID_HOME; \
     while (true); do echo y; done | PATH=$JAVA8PATH:$PATH tools/bin/sdkmanager --licenses
 
@@ -91,3 +92,5 @@ RUN cd $ANDROID_HOME; \
         "extras;google;m2repository" \
         "extras;android;m2repository" \
         "extras;google;google_play_services";
+
+ENV JAVA_HOME /usr/lib/jvm/java-11-openjdk-amd64/
