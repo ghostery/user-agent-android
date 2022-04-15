@@ -1,4 +1,4 @@
-From cd317a6628e8f6e3fd7b6f44ec547ac859cd0f74 Mon Sep 17 00:00:00 2001
+From 1a6878d217f9968dd2003989e0707fff7690ce7f Mon Sep 17 00:00:00 2001
 From: Sam Macbeth <sam@cliqz.com>
 Date: Mon, 3 Aug 2020 15:07:40 +0200
 Subject: Disabling Firefox onboarding
@@ -24,10 +24,10 @@ index c9cfff8d9..583b947eb 100644
  
      companion object {
 diff --git a/app/src/main/java/org/mozilla/fenix/utils/Settings.kt b/app/src/main/java/org/mozilla/fenix/utils/Settings.kt
-index e828cabc9..02c9cfd55 100644
+index 700cc838b..879c69955 100644
 --- a/app/src/main/java/org/mozilla/fenix/utils/Settings.kt
 +++ b/app/src/main/java/org/mozilla/fenix/utils/Settings.kt
-@@ -827,10 +827,7 @@ class Settings(private val appContext: Context) : PreferencesHolder {
+@@ -871,10 +871,7 @@ class Settings(private val appContext: Context) : PreferencesHolder {
          default = false
      )
  
@@ -39,7 +39,7 @@ index e828cabc9..02c9cfd55 100644
  
      val shouldShowOpenInAppCfr: Boolean
          get() = canShowCfr && shouldShowOpenInAppBanner
-@@ -868,10 +865,7 @@ class Settings(private val appContext: Context) : PreferencesHolder {
+@@ -912,10 +909,7 @@ class Settings(private val appContext: Context) : PreferencesHolder {
      /**
       * Indicates if the jump back in CRF should be shown.
       */
@@ -49,8 +49,8 @@ index e828cabc9..02c9cfd55 100644
 -    )
 +    var shouldShowJumpBackInCFR = false
  
-     /**
-      * Should we display a feedback request to the user when he turns off the Inactive Tabs feature
+     fun getSitePermissionsPhoneFeatureAction(
+         feature: PhoneFeature,
 -- 
-2.34.1
+2.35.1
 

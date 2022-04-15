@@ -1,4 +1,4 @@
-From 5a5c79f5a7d03dc5f21439ba16adab32e1ac5a4d Mon Sep 17 00:00:00 2001
+From a8f1d2db3c70707c33fa6655e4404159aba67473 Mon Sep 17 00:00:00 2001
 From: Stefano Pacifici <stefano.pacifici@gmail.com>
 Date: Tue, 9 Jun 2020 10:56:17 +0200
 Subject: Remove Firefox Sync
@@ -32,7 +32,7 @@ index c4a09deba..d6f6e1923 100644
      }
  
 diff --git a/app/src/main/java/org/mozilla/fenix/settings/account/AccountUiView.kt b/app/src/main/java/org/mozilla/fenix/settings/account/AccountUiView.kt
-index 94464b035..058a0de5a 100644
+index c204fee61..1b5a9a41d 100644
 --- a/app/src/main/java/org/mozilla/fenix/settings/account/AccountUiView.kt
 +++ b/app/src/main/java/org/mozilla/fenix/settings/account/AccountUiView.kt
 @@ -88,7 +88,7 @@ class AccountUiView(
@@ -45,7 +45,7 @@ index 94464b035..058a0de5a 100644
              preferenceFirefoxAccountAuthError.isVisible = false
              accountPreferenceCategory.isVisible = false
 diff --git a/app/src/main/res/layout/component_tabstray2.xml b/app/src/main/res/layout/component_tabstray2.xml
-index 68e9d8251..976c3af3b 100644
+index 2919e0408..dabbb016c 100644
 --- a/app/src/main/res/layout/component_tabstray2.xml
 +++ b/app/src/main/res/layout/component_tabstray2.xml
 @@ -100,13 +100,6 @@
@@ -63,5 +63,5 @@ index 68e9d8251..976c3af3b 100644
  
      <ImageButton
 -- 
-2.34.1
+2.35.1
 

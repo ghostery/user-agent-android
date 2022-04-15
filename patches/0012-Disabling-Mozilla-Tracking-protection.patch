@@ -1,4 +1,4 @@
-From 802411ca0de5a3564f465d515466ff8f4ed3d9f6 Mon Sep 17 00:00:00 2001
+From 73c5f992e03e7f1c82fbfd83100df8159dae0692 Mon Sep 17 00:00:00 2001
 From: Stefano Pacifici <stefano.pacifici@gmail.com>
 Date: Wed, 10 Jun 2020 15:09:45 +0200
 Subject: Disabling Mozilla Tracking protection
@@ -10,10 +10,10 @@ Subject: Disabling Mozilla Tracking protection
  3 files changed, 1 insertion(+), 16 deletions(-)
 
 diff --git a/app/src/main/java/org/mozilla/fenix/components/Core.kt b/app/src/main/java/org/mozilla/fenix/components/Core.kt
-index 2f0f2c673..a8f5199c3 100644
+index 65319e3da..783d33aac 100644
 --- a/app/src/main/java/org/mozilla/fenix/components/Core.kt
 +++ b/app/src/main/java/org/mozilla/fenix/components/Core.kt
-@@ -106,7 +106,7 @@ class Core(
+@@ -111,7 +111,7 @@ class Core(
              remoteDebuggingEnabled = context.settings().isRemoteDebuggingEnabled &&
                  Build.VERSION.SDK_INT >= Build.VERSION_CODES.M,
              testingModeEnabled = false,
@@ -23,10 +23,10 @@ index 2f0f2c673..a8f5199c3 100644
              preferredColorScheme = getPreferredColorScheme(),
              automaticFontSizeAdjustment = context.settings().shouldUseAutoSize,
 diff --git a/app/src/main/java/org/mozilla/fenix/settings/SettingsFragment.kt b/app/src/main/java/org/mozilla/fenix/settings/SettingsFragment.kt
-index 220d0f187..6a9adbd76 100644
+index b1df94e88..a3cd95c1c 100644
 --- a/app/src/main/java/org/mozilla/fenix/settings/SettingsFragment.kt
 +++ b/app/src/main/java/org/mozilla/fenix/settings/SettingsFragment.kt
-@@ -189,16 +189,6 @@ class SettingsFragment : PreferenceFragmentCompat() {
+@@ -187,16 +187,6 @@ class SettingsFragment : PreferenceFragmentCompat() {
      }
  
      private fun update(shouldUpdateAccountUIState: Boolean) {
@@ -60,5 +60,5 @@ index 9308df8be..86e99ce13 100644
              android:key="@string/pref_key_site_permissions"
              app:iconSpaceReserved="false"
 -- 
-2.34.1
+2.35.1
 

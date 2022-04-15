@@ -1,4 +1,4 @@
-From 9b65e6ec454482ecf4c726dc0ea2431ed9a28350 Mon Sep 17 00:00:00 2001
+From 4c22a51c3fa4019ed26959f7125a74a9f1d33748 Mon Sep 17 00:00:00 2001
 From: Sam Macbeth <sam@cliqz.com>
 Date: Mon, 3 Aug 2020 18:24:11 +0200
 Subject: Help resources point to Ghostery domain
@@ -10,10 +10,10 @@ Subject: Help resources point to Ghostery domain
  3 files changed, 13 insertions(+), 42 deletions(-)
 
 diff --git a/app/src/main/java/org/mozilla/fenix/settings/SupportUtils.kt b/app/src/main/java/org/mozilla/fenix/settings/SupportUtils.kt
-index 225cee814..9babe8726 100644
+index 4100ff835..38602d049 100644
 --- a/app/src/main/java/org/mozilla/fenix/settings/SupportUtils.kt
 +++ b/app/src/main/java/org/mozilla/fenix/settings/SupportUtils.kt
-@@ -57,24 +57,25 @@ object SupportUtils {
+@@ -58,24 +58,25 @@ object SupportUtils {
      }
  
      enum class MozillaPage(internal val path: String) {
@@ -47,7 +47,7 @@ index 225cee814..9babe8726 100644
      }
  
      /**
-@@ -91,10 +92,10 @@ object SupportUtils {
+@@ -92,10 +93,10 @@ object SupportUtils {
          return "https://support.mozilla.org/kb/access-mozilla-services-firefox-account"
      }
  
@@ -141,5 +141,5 @@ index 7e9b03ff0..d266d4f8a 100644
              tools:text="1.0.x (Build #x), 0d7383fd2\nAC: 1.0.0, 96ae23b628\nGV: 69.x-x\nAS: 1.0.0" />
  
 -- 
-2.34.1
+2.35.1
 

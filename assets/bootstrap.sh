@@ -17,3 +17,6 @@ mkdir -p "$SEARCH_EXT_DIR"
 curl -L -o ghostery_search.zip "$SEARCH_DOWNLOAD_URL"
 unzip -o ghostery_search.zip -d "$SEARCH_EXT_DIR"
 rm ghostery_search.zip
+
+echo "/app/src/main/assets/extensions/ghostery-search" >> .gitignore
+echo "/app/src/main/assets/extensions/ghostery" >> .gitignore

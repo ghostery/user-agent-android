@@ -1,4 +1,4 @@
-From 3b01b22ddcaa1da9472a30fe668975744fd38c79 Mon Sep 17 00:00:00 2001
+From 0ec9d7ba8b8b7f3bffdc8233b4d5f8b13ff1a884 Mon Sep 17 00:00:00 2001
 From: Stefano Pacifici <stefano.pacifici@gmail.com>
 Date: Mon, 8 Jun 2020 14:56:58 +0200
 Subject: Adding Ghostery Icon resources
@@ -193,5 +193,5 @@ index 000000000..bb3c2179c
 +  </g>
 +</svg>
 -- 
-2.34.1
+2.35.1
 

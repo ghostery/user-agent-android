@@ -1,19 +1,20 @@
-From 2638c626dd18d2a2bba98de82c4a1567925642e6 Mon Sep 17 00:00:00 2001
+From 853a0ed58ee9a2b58dadffd79b9f314092839497 Mon Sep 17 00:00:00 2001
 From: Sam Macbeth <sam@cliqz.com>
 Date: Mon, 3 Aug 2020 16:46:47 +0200
 Subject: Disabling Telemetry & CrashReports
 
 ---
  app/build.gradle                              |  2 +-
- .../org/mozilla/fenix/FenixApplication.kt     | 41 +------------------
- .../org/mozilla/fenix/components/Analytics.kt | 32 ++++-----------
+ .../org/mozilla/fenix/FenixApplication.kt     | 40 -------------------
+ .../org/mozilla/fenix/components/Analytics.kt | 29 ++++----------
+ .../java/org/mozilla/fenix/components/Core.kt |  3 +-
  .../fenix/crashes/DummyCrashReporter.kt       | 19 +++++++++
  app/src/main/res/xml/preferences.xml          | 10 -----
- 5 files changed, 30 insertions(+), 74 deletions(-)
+ 7 files changed, 46 insertions(+), 89 deletions(-)
  create mode 100644 app/src/main/java/org/mozilla/fenix/crashes/DummyCrashReporter.kt
 
 diff --git a/app/build.gradle b/app/build.gradle
-index 4f61efd53..260ba122d 100644
+index 42cc15cd5..4ee964148 100644
 --- a/app/build.gradle
 +++ b/app/build.gradle
 @@ -102,7 +102,7 @@ android {
@@ -26,30 +27,30 @@ index 4f61efd53..260ba122d 100644
              pseudoLocalesEnabled true
          }
 diff --git a/app/src/main/java/org/mozilla/fenix/FenixApplication.kt b/app/src/main/java/org/mozilla/fenix/FenixApplication.kt
-index 8fa482e91..e28fd89f3 100644
+index 5ed920a82..2c672361f 100644
 --- a/app/src/main/java/org/mozilla/fenix/FenixApplication.kt
 +++ b/app/src/main/java/org/mozilla/fenix/FenixApplication.kt
-@@ -33,8 +33,6 @@ import mozilla.components.feature.addons.migration.DefaultSupportedAddonsChecker
- import mozilla.components.feature.addons.update.GlobalAddonDependencyProvider
+@@ -40,8 +40,6 @@ import mozilla.components.feature.top.sites.TopSitesProviderConfig
  import mozilla.components.lib.crash.CrashReporter
+ import mozilla.components.service.fxa.manager.SyncEnginesStorage
  import mozilla.components.service.glean.Glean
 -import mozilla.components.service.glean.config.Configuration
 -import mozilla.components.service.glean.net.ConceptFetchHttpUploader
  import mozilla.components.support.base.facts.register
  import mozilla.components.support.base.log.Log
  import mozilla.components.support.base.log.logger.Logger
-@@ -45,7 +43,6 @@ import mozilla.components.support.rusthttp.RustHttpConfig
- import mozilla.components.support.rustlog.RustLog
- import mozilla.components.support.utils.logElapsedTime
- import mozilla.components.support.webextensions.WebExtensionSupport
+@@ -57,7 +55,6 @@ import org.mozilla.experiments.nimbus.internal.EnrolledExperiment
+ import org.mozilla.fenix.GleanMetrics.Addons
+ import org.mozilla.fenix.GleanMetrics.AndroidAutofill
+ import org.mozilla.fenix.GleanMetrics.CustomizeHome
 -import org.mozilla.fenix.GleanMetrics.GleanBuildInfo
  import org.mozilla.fenix.GleanMetrics.Metrics
  import org.mozilla.fenix.GleanMetrics.PerfStartup
- import org.mozilla.fenix.components.Components
-@@ -118,45 +115,12 @@ open class FenixApplication : LocaleAwareApplication(), Provider {
+ import org.mozilla.fenix.GleanMetrics.Preferences
+@@ -121,14 +118,6 @@ open class FenixApplication : LocaleAwareApplication(), Provider {
              return
          }
- 
+
 -        if (Config.channel.isFenix) {
 -            // We need to always initialize Glean and do it early here.
 -            // Note that we are only initializing Glean here for "fenix" builds. "fennec" builds
@@ -59,11 +60,12 @@ index 8fa482e91..e28fd89f3 100644
 -        }
 -
          setupInMainProcessOnly()
- 
-         // DO NOT MOVE ANYTHING BELOW THIS stop CALL.
+
+         downloadWallpapers()
+@@ -136,31 +125,6 @@ open class FenixApplication : LocaleAwareApplication(), Provider {
          PerfStartup.applicationOnCreate.stopAndAccumulate(completeMethodDurationTimerId)
      }
- 
+
 -    @OptIn(DelicateCoroutinesApi::class) // GlobalScope usage
 -    protected open fun initializeGlean() {
 -        val telemetryEnabled = settings().isTelemetryEnabled
@@ -92,39 +94,30 @@ index 8fa482e91..e28fd89f3 100644
      @CallSuper
      open fun setupInAllProcesses() {
          setupCrashReporting()
-@@ -375,10 +339,7 @@ open class FenixApplication : LocaleAwareApplication(), Provider {
+@@ -381,10 +345,6 @@ open class FenixApplication : LocaleAwareApplication(), Provider {
      }
- 
+
      private fun setupCrashReporting() {
 -        components
 -            .analytics
 -            .crashReporter
 -            .install(this)
-+
      }
- 
+
      /**
 diff --git a/app/src/main/java/org/mozilla/fenix/components/Analytics.kt b/app/src/main/java/org/mozilla/fenix/components/Analytics.kt
-index 2bb3655af..bd967b625 100644
+index 69258a76c..7b3f8e589 100644
 --- a/app/src/main/java/org/mozilla/fenix/components/Analytics.kt
 +++ b/app/src/main/java/org/mozilla/fenix/components/Analytics.kt
-@@ -11,7 +11,6 @@ import android.content.Intent
- import mozilla.components.lib.crash.CrashReporter
- import mozilla.components.lib.crash.service.CrashReporterService
- import mozilla.components.lib.crash.service.GleanCrashReporterService
--import mozilla.components.lib.crash.service.MozillaSocorroService
- import mozilla.components.lib.crash.service.SentryService
- import mozilla.components.service.nimbus.NimbusApi
- import org.mozilla.fenix.BuildConfig
-@@ -22,6 +21,7 @@ import org.mozilla.fenix.ReleaseChannel
+@@ -23,6 +23,7 @@ import org.mozilla.fenix.ReleaseChannel
  import org.mozilla.fenix.components.metrics.AdjustMetricsService
  import org.mozilla.fenix.components.metrics.GleanMetricsService
  import org.mozilla.fenix.components.metrics.MetricController
 +import org.mozilla.fenix.crashes.DummyCrashReporter
- import org.mozilla.fenix.experiments.NimbusFeatures
  import org.mozilla.fenix.experiments.createNimbus
  import org.mozilla.fenix.ext.settings
-@@ -39,10 +39,6 @@ class Analytics(
+ import org.mozilla.fenix.nimbus.FxNimbus
+@@ -40,10 +41,6 @@ class Analytics(
  ) {
      val crashReporter: CrashReporter by lazyMonitored {
          val services = mutableListOf<CrashReporterService>()
@@ -132,17 +125,17 @@ index 2bb3655af..bd967b625 100644
 -            true -> "MozillaOnline"
 -            false -> "Mozilla"
 -        }
- 
+
          if (isSentryEnabled()) {
              val sentryService = SentryService(
-@@ -55,17 +51,10 @@ class Analytics(
+@@ -59,17 +56,10 @@ class Analytics(
              )
- 
+
              services.add(sentryService)
 +        } else {
 +            services.add(DummyCrashReporter())
          }
- 
+
 -        // The name "Fenix" here matches the product name on Socorro and is unrelated to the actual app name:
 -        // https://bugzilla.mozilla.org/show_bug.cgi?id=1523284
 -        val socorroService = MozillaSocorroService(
@@ -155,14 +148,13 @@ index 2bb3655af..bd967b625 100644
          val intent = Intent(context, HomeActivity::class.java).apply {
              flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
          }
-@@ -80,11 +69,11 @@ class Analytics(
+@@ -88,11 +78,11 @@ class Analytics(
          CrashReporter(
              context = context,
              services = services,
 -            telemetryServices = listOf(GleanCrashReporterService(context)),
--            shouldPrompt = CrashReporter.Prompt.ALWAYS,
 +            telemetryServices = listOf(),
-+            shouldPrompt = CrashReporter.Prompt.NEVER,
+             shouldPrompt = CrashReporter.Prompt.ALWAYS,
              promptConfiguration = CrashReporter.PromptConfiguration(
                  appName = context.getString(R.string.app_name),
 -                organizationName = "Mozilla"
@@ -170,8 +162,8 @@ index 2bb3655af..bd967b625 100644
              ),
              enabled = true,
              nonFatalCrashIntent = pendingIntent
-@@ -93,12 +82,9 @@ class Analytics(
- 
+@@ -101,12 +91,9 @@ class Analytics(
+
      val metrics: MetricController by lazyMonitored {
          MetricController.create(
 -            listOf(
@@ -186,6 +178,27 @@ index 2bb3655af..bd967b625 100644
              context.settings()
          )
      }
+diff --git a/app/src/main/java/org/mozilla/fenix/components/Core.kt b/app/src/main/java/org/mozilla/fenix/components/Core.kt
+index 2648c6b45..65319e3da 100644
+--- a/app/src/main/java/org/mozilla/fenix/components/Core.kt
++++ b/app/src/main/java/org/mozilla/fenix/components/Core.kt
+@@ -90,6 +90,7 @@ import org.mozilla.fenix.telemetry.TelemetryMiddleware
+ import org.mozilla.fenix.utils.getUndoDelay
+ import org.mozilla.geckoview.GeckoRuntime
+ import java.util.concurrent.TimeUnit
++import android.util.Log
+
+ /**
+  * Component group for all core browser functionality.
+@@ -142,7 +143,7 @@ class Core(
+                 WebCompatReporterFeature.install(it, "fenix")
+             }
+
+-            it.installWebExtension("GhosterySearch", "resource://android/assets/extensions/ghostery-search/",
++            it.installWebExtension("search@ghostery.com", "resource://android/assets/extensions/ghostery-search/",
+                 onSuccess = {
+                     Log.d("GHOSTERY", "Installed Ghostery Search webextension: ${it.id}")
+                 },
 diff --git a/app/src/main/java/org/mozilla/fenix/crashes/DummyCrashReporter.kt b/app/src/main/java/org/mozilla/fenix/crashes/DummyCrashReporter.kt
 new file mode 100644
 index 000000000..de5b53ff5
@@ -219,7 +232,7 @@ index e1e9be315..9308df8be 100644
 @@ -125,16 +125,6 @@
              app:iconSpaceReserved="false"
              android:title="@string/preferences_delete_browsing_data_on_quit" />
- 
+
 -        <androidx.preference.Preference
 -            android:key="@string/pref_key_notifications"
 -            app:iconSpaceReserved="false"
@@ -231,8 +244,8 @@ index e1e9be315..9308df8be 100644
 -            android:title="@string/preferences_data_collection" />
 -
      </androidx.preference.PreferenceCategory>
- 
+
      <PreferenceCategory
--- 
-2.34.1
+--
+2.35.1
 

@@ -1,4 +1,4 @@
-From 4db705bf1773fbd718c049b61bbd6ca1a5708e3a Mon Sep 17 00:00:00 2001
+From 876458477f9d8c469f6afd759d0a4666bb2fcb46 Mon Sep 17 00:00:00 2001
 From: Stefano Pacifici <stefano.pacifici@gmail.com>
 Date: Tue, 23 Jun 2020 16:53:36 +0200
 Subject: Removing "Common myths about private browsing" link
@@ -50,5 +50,5 @@ index cd0795e0d..076183905 100644
 -        android:textSize="14sp" />
  </LinearLayout>
 -- 
-2.34.1
+2.35.1
 

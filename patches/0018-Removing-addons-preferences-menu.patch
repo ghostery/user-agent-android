@@ -1,4 +1,4 @@
-From f9d654d5b44175d0654892bcd0bef69f61404ccb Mon Sep 17 00:00:00 2001
+From c888a2b8bbb797082ddd8ef32ee299585e4948b3 Mon Sep 17 00:00:00 2001
 From: Stefano Pacifici <stefano.pacifici@gmail.com>
 Date: Thu, 25 Jun 2020 18:02:43 +0200
 Subject: Removing addons preferences menu
@@ -28,5 +28,5 @@ index 09eec7f7d..bdfd249f0 100644
          <androidx.preference.SwitchPreference
              android:defaultValue="false"
 -- 
-2.34.1
+2.35.1
 

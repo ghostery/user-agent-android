@@ -1,20 +1,20 @@
-From b8c635e166f5102ef460ada3470cfb752d7d246a Mon Sep 17 00:00:00 2001
+From 24b10cc2b7d141ddde8154c469c14f1a4df9c188 Mon Sep 17 00:00:00 2001
 From: Sam Macbeth <sam@cliqz.com>
 Date: Mon, 3 Aug 2020 18:21:01 +0200
 Subject: Removig "What's new" from the Home menu
 
 ---
  .../java/org/mozilla/fenix/home/HomeMenu.kt   | 52 -------------------
- 1 file changed, 52 deletions(-)
+ 2 files changed, 22 insertions(+), 74 deletions(-)
 
 diff --git a/app/src/main/java/org/mozilla/fenix/home/HomeMenu.kt b/app/src/main/java/org/mozilla/fenix/home/HomeMenu.kt
-index 126e0df77..113566a67 100644
+index 7f019a08d..b9f7b6b75 100644
 --- a/app/src/main/java/org/mozilla/fenix/home/HomeMenu.kt
 +++ b/app/src/main/java/org/mozilla/fenix/home/HomeMenu.kt
-@@ -94,14 +94,6 @@ class HomeMenu(
+@@ -93,14 +93,6 @@ class HomeMenu(
      private fun getSyncItemTitle(): String =
          accountManager.accountProfileEmail ?: context.getString(R.string.sync_menu_sign_in)
- 
+
 -    private val syncSignInMenuItem = BrowserMenuImageText(
 -        getSyncItemTitle(),
 -        R.drawable.ic_synced_tabs,
@@ -26,10 +26,10 @@ index 126e0df77..113566a67 100644
      val desktopItem = BrowserMenuImageSwitch(
          imageResource = R.drawable.ic_desktop,
          label = context.getString(R.string.browser_menu_desktop_site),
-@@ -139,34 +131,6 @@ class HomeMenu(
+@@ -137,34 +129,6 @@ class HomeMenu(
              onItemTapped.invoke(Item.Downloads)
          }
- 
+
 -        val extensionsItem = BrowserMenuImageText(
 -            context.getString(R.string.browser_menu_add_ons),
 -            R.drawable.ic_addons_extensions,
@@ -59,12 +59,12 @@ index 126e0df77..113566a67 100644
 -        }
 -
          val customizeHomeItem = BrowserMenuImageText(
-             context.getString(R.string.browser_menu_customize_home),
+             context.getString(R.string.browser_menu_customize_home_1),
              R.drawable.ic_customize,
-@@ -185,29 +149,13 @@ class HomeMenu(
+@@ -183,29 +147,13 @@ class HomeMenu(
              onItemTapped.invoke(Item.Settings)
          }
- 
+
 -        // Only query account manager if it has been initialized.
 -        // We don't want to cause its initialization just for this check.
 -        val accountAuthItem =
@@ -91,6 +91,6 @@ index 126e0df77..113566a67 100644
              customizeHomeItem,
              settingsItem,
              if (settings.shouldDeleteBrowsingDataOnQuit) quitItem else null
--- 
-2.34.1
+--
+2.35.1
 

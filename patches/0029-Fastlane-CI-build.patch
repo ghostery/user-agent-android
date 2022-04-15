@@ -1,4 +1,4 @@
-From 7757f7d8831361e477f123b19cbbc9a09fb7851c Mon Sep 17 00:00:00 2001
+From ebd5fed404fe3988825f26dad4447a33d9c439b9 Mon Sep 17 00:00:00 2001
 From: Sam Macbeth <sam@cliqz.com>
 Date: Tue, 4 Aug 2020 17:08:25 +0200
 Subject: Fastlane CI build
@@ -19,7 +19,7 @@ index 7a118b49b..000000000
 -
 -gem "fastlane"
 diff --git a/app/build.gradle b/app/build.gradle
-index 13af364ab..e0e767a0c 100644
+index d06895507..862979a96 100644
 --- a/app/build.gradle
 +++ b/app/build.gradle
 @@ -77,6 +77,15 @@ android {
@@ -47,5 +47,5 @@ index 13af364ab..e0e767a0c 100644
              applicationIdSuffix ".ghostery"
              def deepLinkSchemeValue = "ghostery"
 -- 
-2.34.1
+2.35.1
 

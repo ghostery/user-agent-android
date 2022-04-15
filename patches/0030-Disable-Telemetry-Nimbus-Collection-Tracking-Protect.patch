@@ -1,4 +1,4 @@
-From 6e2c83cdbd1f06eb7715f0fa8aac6db8dbaba3d0 Mon Sep 17 00:00:00 2001
+From 510aa4963676279eb53d77f7ebfeae1af68dedfc Mon Sep 17 00:00:00 2001
 From: Krzysztof Modras <chrmod@chrmod.net>
 Date: Fri, 25 Feb 2022 15:56:39 +0100
 Subject: Disable Telemetry, Nimbus, Collection, Tracking Protection
@@ -8,10 +8,10 @@ Subject: Disable Telemetry, Nimbus, Collection, Tracking Protection
  1 file changed, 7 insertions(+), 28 deletions(-)
 
 diff --git a/app/src/main/java/org/mozilla/fenix/utils/Settings.kt b/app/src/main/java/org/mozilla/fenix/utils/Settings.kt
-index 1aa6045c9..62fb9821a 100644
+index 1fa439bdd..a77734a29 100644
 --- a/app/src/main/java/org/mozilla/fenix/utils/Settings.kt
 +++ b/app/src/main/java/org/mozilla/fenix/utils/Settings.kt
-@@ -214,10 +214,7 @@ class Settings(private val appContext: Context) : PreferencesHolder {
+@@ -241,10 +241,7 @@ class Settings(private val appContext: Context) : PreferencesHolder {
          default = false
      )
  
@@ -23,7 +23,7 @@ index 1aa6045c9..62fb9821a 100644
  
      val isCrashReportingEnabled: Boolean
          get() = isCrashReportEnabledInBuild &&
-@@ -231,20 +228,11 @@ class Settings(private val appContext: Context) : PreferencesHolder {
+@@ -258,20 +255,11 @@ class Settings(private val appContext: Context) : PreferencesHolder {
          default = false
      )
  
@@ -47,7 +47,7 @@ index 1aa6045c9..62fb9821a 100644
  
      var isOverrideTPPopupsForPerformanceTest = false
  
-@@ -542,20 +530,11 @@ class Settings(private val appContext: Context) : PreferencesHolder {
+@@ -586,20 +574,11 @@ class Settings(private val appContext: Context) : PreferencesHolder {
          default = false
      )
  
@@ -72,5 +72,5 @@ index 1aa6045c9..62fb9821a 100644
      @VisibleForTesting(otherwise = PRIVATE)
      fun setStrictETP() {
 -- 
-2.34.1
+2.35.1
 
