@@ -1,2 +1,2 @@
 #!/bin/bash
-export FENIX_TAG=v97.1.1
+export FENIX_TAG=v99.2.0

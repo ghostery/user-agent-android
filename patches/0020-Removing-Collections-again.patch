@@ -1,4 +1,4 @@
-From c4a717f46f996c2f314903f06765e789b49a935d Mon Sep 17 00:00:00 2001
+From b5338029c6698244a14c6e55ecf24f9efee815b2 Mon Sep 17 00:00:00 2001
 From: Stefano Pacifici <stefano.pacifici@gmail.com>
 Date: Fri, 26 Jun 2020 16:18:32 +0200
 Subject: Removing Collections (again)
@@ -14,10 +14,10 @@ Subject: Removing Collections (again)
  7 files changed, 3 insertions(+), 92 deletions(-)
 
 diff --git a/app/src/main/java/org/mozilla/fenix/components/toolbar/DefaultToolbarMenu.kt b/app/src/main/java/org/mozilla/fenix/components/toolbar/DefaultToolbarMenu.kt
-index 0630e8fe2..6dfe58dca 100644
+index 88a31432c..3a51f694d 100644
 --- a/app/src/main/java/org/mozilla/fenix/components/toolbar/DefaultToolbarMenu.kt
 +++ b/app/src/main/java/org/mozilla/fenix/components/toolbar/DefaultToolbarMenu.kt
-@@ -214,10 +214,6 @@ open class DefaultToolbarMenu(
+@@ -216,10 +216,6 @@ open class DefaultToolbarMenu(
          onItemTapped.invoke(ToolbarMenu.Item.Downloads)
      }
  
@@ -28,9 +28,9 @@ index 0630e8fe2..6dfe58dca 100644
      val findInPageItem = BrowserMenuImageText(
          label = context.getString(R.string.browser_menu_find_in_page),
          imageResource = R.drawable.mozac_ic_search,
-@@ -279,14 +275,6 @@ open class DefaultToolbarMenu(
-         onItemTapped.invoke(ToolbarMenu.Item.AddToTopSites)
-     }
+@@ -291,14 +287,6 @@ open class DefaultToolbarMenu(
+         }
+     )
  
 -    val saveToCollectionItem = BrowserMenuImageText(
 -        label = context.getString(R.string.browser_menu_save_to_collection_2),
@@ -43,7 +43,7 @@ index 0630e8fe2..6dfe58dca 100644
      val settingsItem = BrowserMenuHighlightableItem(
          label = context.getString(R.string.browser_menu_settings),
          startImageResource = R.drawable.mozac_ic_settings,
-@@ -331,19 +319,6 @@ open class DefaultToolbarMenu(
+@@ -343,19 +331,6 @@ open class DefaultToolbarMenu(
          onItemTapped.invoke(ToolbarMenu.Item.Quit)
      }
  
@@ -62,29 +62,29 @@ index 0630e8fe2..6dfe58dca 100644
 -
      @VisibleForTesting(otherwise = PRIVATE)
      val coreMenuItems by lazy {
-         val menuItems =
-@@ -354,8 +329,6 @@ open class DefaultToolbarMenu(
+         val defaultBrowserItem = getSetDefaultBrowserItem()
+@@ -367,8 +342,6 @@ open class DefaultToolbarMenu(
                  bookmarksItem,
                  historyItem,
                  downloadsItem,
 -                extensionsItem,
 -                syncMenuItem,
                  BrowserMenuDivider(),
-                 getSetDefaultBrowserItem(),
-                 getSetDefaultBrowserItem()?.let { BrowserMenuDivider() },
-@@ -368,7 +341,6 @@ open class DefaultToolbarMenu(
+                 defaultBrowserItem,
+                 defaultBrowserItem?.let { BrowserMenuDivider() },
+@@ -381,7 +354,6 @@ open class DefaultToolbarMenu(
                  addToHomeScreenItem.apply { visible = ::canAddToHomescreen },
                  installToHomescreen.apply { visible = ::canInstall },
-                 addToTopSitesItem,
+                 addRemoveTopSitesItem,
 -                saveToCollectionItem,
                  BrowserMenuDivider(),
                  settingsItem,
                  if (shouldDeleteDataOnQuit) deleteDataOnQuit else null,
 diff --git a/app/src/main/java/org/mozilla/fenix/home/sessioncontrol/SessionControlAdapter.kt b/app/src/main/java/org/mozilla/fenix/home/sessioncontrol/SessionControlAdapter.kt
-index b321e2cce..a20e69a88 100644
+index dc3f9f184..0a398adfe 100644
 --- a/app/src/main/java/org/mozilla/fenix/home/sessioncontrol/SessionControlAdapter.kt
 +++ b/app/src/main/java/org/mozilla/fenix/home/sessioncontrol/SessionControlAdapter.kt
-@@ -110,21 +110,6 @@ sealed class AdapterItem(@LayoutRes val viewType: Int) {
+@@ -113,21 +113,6 @@ sealed class AdapterItem(@LayoutRes val viewType: Int) {
      object PrivateBrowsingDescription : AdapterItem(PrivateBrowsingDescriptionViewHolder.LAYOUT_ID)
      object NoCollectionsMessage : AdapterItem(NoCollectionsMessageViewHolder.LAYOUT_ID)
  
@@ -106,7 +106,7 @@ index b321e2cce..a20e69a88 100644
      data class TabInCollectionItem(
          val collection: TabCollection,
          val tab: ComponentTab,
-@@ -338,10 +323,6 @@ class SessionControlAdapter(
+@@ -360,10 +345,6 @@ class SessionControlAdapter(
              is TopSitePagerViewHolder -> {
                  holder.bind((item as AdapterItem.TopSitePager).topSites)
              }
@@ -118,7 +118,7 @@ index b321e2cce..a20e69a88 100644
                  val (collection, tab, isLastTab) = item as AdapterItem.TabInCollectionItem
                  holder.bindSession(collection, tab, isLastTab)
 diff --git a/app/src/main/java/org/mozilla/fenix/home/sessioncontrol/SessionControlView.kt b/app/src/main/java/org/mozilla/fenix/home/sessioncontrol/SessionControlView.kt
-index 59020b097..d255abd9e 100644
+index 7517d0d29..1fde9ef31 100644
 --- a/app/src/main/java/org/mozilla/fenix/home/sessioncontrol/SessionControlView.kt
 +++ b/app/src/main/java/org/mozilla/fenix/home/sessioncontrol/SessionControlView.kt
 @@ -28,7 +28,8 @@ import org.mozilla.fenix.utils.Settings
@@ -146,7 +146,7 @@ index 59020b097..d255abd9e 100644
      if (pocketStories.isNotEmpty()) {
          shouldShowCustomizeHome = true
          items.add(AdapterItem.PocketStoriesItem)
-@@ -98,23 +91,6 @@ internal fun normalModeAdapterItems(
+@@ -100,23 +93,6 @@ internal fun normalModeAdapterItems(
      return items
  }
  
@@ -171,10 +171,10 @@ index 59020b097..d255abd9e 100644
  
  private fun onboardingAdapterItems(onboardingState: OnboardingState): List<AdapterItem> {
 diff --git a/app/src/main/java/org/mozilla/fenix/tabstray/TabsTrayFragment.kt b/app/src/main/java/org/mozilla/fenix/tabstray/TabsTrayFragment.kt
-index 4987d8fbc..a5bc62e02 100644
+index 06a9af8d7..fd6e193b4 100644
 --- a/app/src/main/java/org/mozilla/fenix/tabstray/TabsTrayFragment.kt
 +++ b/app/src/main/java/org/mozilla/fenix/tabstray/TabsTrayFragment.kt
-@@ -320,7 +320,6 @@ class TabsTrayFragment : AppCompatDialogFragment() {
+@@ -324,7 +324,6 @@ class TabsTrayFragment : AppCompatDialogFragment() {
                  containerView = view,
                  backgroundView = tabsTrayBinding.topBar,
                  showOnSelectViews = VisibilityModifier(
@@ -183,7 +183,7 @@ index 4987d8fbc..a5bc62e02 100644
                      tabsTrayMultiselectItemsBinding.menuMultiSelect,
                      tabsTrayBinding.multiselectTitle,
 diff --git a/app/src/main/java/org/mozilla/fenix/tabstray/browser/SelectionBannerBinding.kt b/app/src/main/java/org/mozilla/fenix/tabstray/browser/SelectionBannerBinding.kt
-index 93495b992..6a63e38af 100644
+index f7931f84c..b7574ae8d 100644
 --- a/app/src/main/java/org/mozilla/fenix/tabstray/browser/SelectionBannerBinding.kt
 +++ b/app/src/main/java/org/mozilla/fenix/tabstray/browser/SelectionBannerBinding.kt
 @@ -96,10 +96,6 @@ class SelectionBannerBinding(
@@ -198,7 +198,7 @@ index 93495b992..6a63e38af 100644
              store.dispatch(ExitSelectMode)
          }
 diff --git a/app/src/main/res/layout/component_tabstray2.xml b/app/src/main/res/layout/component_tabstray2.xml
-index 68e9d8251..5108d8213 100644
+index dabbb016c..d4095c3d7 100644
 --- a/app/src/main/res/layout/component_tabstray2.xml
 +++ b/app/src/main/res/layout/component_tabstray2.xml
 @@ -65,7 +65,7 @@
@@ -211,7 +211,7 @@ index 68e9d8251..5108d8213 100644
          app:layout_constraintHorizontal_chainStyle="packed"
          app:layout_constraintStart_toEndOf="@+id/exit_multi_select"
 diff --git a/app/src/main/res/layout/tabstray_multiselect_items.xml b/app/src/main/res/layout/tabstray_multiselect_items.xml
-index 22d325a1a..1c395f65e 100644
+index 67d2eee9e..01b3348b2 100644
 --- a/app/src/main/res/layout/tabstray_multiselect_items.xml
 +++ b/app/src/main/res/layout/tabstray_multiselect_items.xml
 @@ -9,19 +9,6 @@
@@ -229,11 +229,11 @@ index 22d325a1a..1c395f65e 100644
 -        app:layout_constraintEnd_toStartOf="@id/share_multi_select"
 -        app:layout_constraintTop_toTopOf="@id/topBar"
 -        app:srcCompat="@drawable/ic_tab_collection"
--        app:tint="@color/contrast_text_normal_theme" />
+-        app:tint="@color/fx_mobile_icon_color_oncolor" />
 -
      <ImageButton
          android:id="@+id/share_multi_select"
          android:layout_width="48dp"
 -- 
-2.34.1
+2.35.1
 

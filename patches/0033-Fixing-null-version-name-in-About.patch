@@ -1,4 +1,4 @@
-From 83f2e477271cdbde32db4b63e12a16ac178d2410 Mon Sep 17 00:00:00 2001
+From f1220ff9c216d55b955ce8f48f05c154af9794b0 Mon Sep 17 00:00:00 2001
 From: Krzysztof Modras <chrmod@chrmod.net>
 Date: Thu, 17 Mar 2022 16:25:43 +0100
 Subject: Fixing null version name in About
@@ -10,7 +10,7 @@ Subject: Fixing null version name in About
  3 files changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/app/build.gradle b/app/build.gradle
-index e0e767a0c..5b9b1cdfe 100644
+index 862979a96..77d500cb3 100644
 --- a/app/build.gradle
 +++ b/app/build.gradle
 @@ -38,7 +38,7 @@ android {
@@ -36,7 +36,7 @@ index 3097fd718..b7fea43bd 100644
                  maybeFenixGitHash,
                  componentsAbbreviation,
 diff --git a/buildSrc/src/main/java/Config.kt b/buildSrc/src/main/java/Config.kt
-index ef27174f3..7905f3534 100644
+index ed6f95683..f5ab641b0 100644
 --- a/buildSrc/src/main/java/Config.kt
 +++ b/buildSrc/src/main/java/Config.kt
 @@ -16,13 +16,13 @@ object Config {
@@ -56,5 +56,5 @@ index ef27174f3..7905f3534 100644
  
      @JvmStatic
 -- 
-2.34.1
+2.35.1
 

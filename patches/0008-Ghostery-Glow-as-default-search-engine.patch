@@ -1,29 +1,18 @@
-From 88759c8c0cfc3e6df473920f857c7a767b070532 Mon Sep 17 00:00:00 2001
+From e6240229fc68a57aeec8d3c797ba66f1d15a196d Mon Sep 17 00:00:00 2001
 From: Stefano Pacifici <stefano.pacifici@gmail.com>
 Date: Mon, 8 Jun 2020 16:28:41 +0200
 Subject: Ghostery Glow as default search engine
 
 ---
- .gitignore                                     |  2 ++
  app/src/main/assets/search/list.json           | 11 +++++++++++
  app/src/main/assets/searchplugins/ghostery.xml | 18 ++++++++++++++++++
  .../main/assets/searchplugins/startpage.xml    | 12 ++++++++++++
  .../java/org/mozilla/fenix/components/Core.kt  | 10 +++++++++-
- 5 files changed, 52 insertions(+), 1 deletion(-)
+ 4 files changed, 50 insertions(+), 1 deletion(-)
  create mode 100644 app/src/main/assets/search/list.json
  create mode 100644 app/src/main/assets/searchplugins/ghostery.xml
  create mode 100644 app/src/main/assets/searchplugins/startpage.xml
 
-diff --git a/.gitignore b/.gitignore
-index cd0e1c137..a58217034 100644
---- a/.gitignore
-+++ b/.gitignore
-@@ -102,3 +102,5 @@ test_artifacts/
- 
- # Web extensions: manifest.json files are generated
- manifest.json
-+
-+/app/src/main/assets/extensions/ghostery-search
 diff --git a/app/src/main/assets/search/list.json b/app/src/main/assets/search/list.json
 new file mode 100644
 index 000000000..bcf51fb42
@@ -84,10 +73,10 @@ index 000000000..52eadfe4f
 +<Url type="application/x-suggestions+json" rel="suggestions" template="https://www.startpage.com/suggestions?q={searchTerms}&amp;format=opensearch"/>
 +</OpenSearchDescription>
 diff --git a/app/src/main/java/org/mozilla/fenix/components/Core.kt b/app/src/main/java/org/mozilla/fenix/components/Core.kt
-index 136da1ee0..9fc236828 100644
+index ea4ddf81a..48ff5f843 100644
 --- a/app/src/main/java/org/mozilla/fenix/components/Core.kt
 +++ b/app/src/main/java/org/mozilla/fenix/components/Core.kt
-@@ -137,6 +137,14 @@ class Core(
+@@ -141,6 +141,14 @@ class Core(
              if (Config.channel.isNightlyOrDebug || Config.channel.isBeta) {
                  WebCompatReporterFeature.install(it, "fenix")
              }
@@ -102,7 +91,7 @@ index 136da1ee0..9fc236828 100644
          }
      }
  
-@@ -203,7 +211,7 @@ class Core(
+@@ -207,7 +215,7 @@ class Core(
                  RegionMiddleware(context, locationService),
                  SearchMiddleware(
                      context,
@@ -112,5 +101,5 @@ index 136da1ee0..9fc236828 100644
                  ),
                  RecordingDevicesMiddleware(context),
 -- 
-2.34.1
+2.35.1
 

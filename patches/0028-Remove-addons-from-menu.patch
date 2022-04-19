@@ -1,4 +1,4 @@
-From 604996e7b56bda46d41a80badffb9bb7b03f4188 Mon Sep 17 00:00:00 2001
+From 05e87fe685eb5016a42f3e9b8a1e14285b16b860 Mon Sep 17 00:00:00 2001
 From: Sam Macbeth <sam@macbeth.cc>
 Date: Tue, 4 Aug 2020 10:31:31 +0200
 Subject: Remove addons from menu
@@ -8,7 +8,7 @@ Subject: Remove addons from menu
  1 file changed, 5 insertions(+), 13 deletions(-)
 
 diff --git a/app/src/main/java/org/mozilla/fenix/components/toolbar/DefaultToolbarMenu.kt b/app/src/main/java/org/mozilla/fenix/components/toolbar/DefaultToolbarMenu.kt
-index 6dfe58dca..b5c88b26e 100644
+index 3a51f694d..5c6837573 100644
 --- a/app/src/main/java/org/mozilla/fenix/components/toolbar/DefaultToolbarMenu.kt
 +++ b/app/src/main/java/org/mozilla/fenix/components/toolbar/DefaultToolbarMenu.kt
 @@ -15,6 +15,7 @@ import kotlinx.coroutines.Job
@@ -19,7 +19,7 @@ index 6dfe58dca..b5c88b26e 100644
  import mozilla.components.browser.menu.BrowserMenuHighlight
  import mozilla.components.browser.menu.WebExtensionBrowserMenuBuilder
  import mozilla.components.browser.menu.item.BrowserMenuDivider
-@@ -74,19 +75,10 @@ open class DefaultToolbarMenu(
+@@ -76,19 +77,10 @@ open class DefaultToolbarMenu(
          get() = store.state.selectedTab
  
      override val menuBuilder by lazy {
@@ -44,5 +44,5 @@ index 6dfe58dca..b5c88b26e 100644
  
      override val menuToolbar by lazy {
 -- 
-2.34.1
+2.35.1
 

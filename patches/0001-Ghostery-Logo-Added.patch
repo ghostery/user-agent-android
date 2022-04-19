@@ -1,9 +1,10 @@
-From a34900d0dde9593a7b9cb110941de112bbcf72db Mon Sep 17 00:00:00 2001
+From 27fc0f36020d3d8afb1b27ab891b2abfad018ee3 Mon Sep 17 00:00:00 2001
 From: Sam Macbeth <sam@cliqz.com>
 Date: Mon, 24 Aug 2020 16:19:12 +0200
 Subject: Ghostery Logo Added
 
 ---
+ .gitignore                                    |  2 +
  app/build.gradle                              | 23 ++++++-
  .../res/drawable/ic_launcher_background.xml   | 30 +++++++++
  .../res/drawable/ic_launcher_foreground.xml   | 65 +++++++++++--------
@@ -13,14 +14,23 @@ Subject: Ghostery Logo Added
  .../mipmap-anydpi-v26/ic_launcher_private.xml |  8 +--
  .../ic_launcher_private_round.xml             |  8 +--
  .../mipmap-anydpi-v26/ic_launcher_round.xml   |  7 +-
- app/src/main/res/values-night/colors.xml      |  2 +-
- app/src/main/res/values/colors.xml            |  5 +-
- 11 files changed, 146 insertions(+), 58 deletions(-)
+ app/src/main/res/values/colors.xml            |  4 +-
+ 11 files changed, 146 insertions(+), 57 deletions(-)
  create mode 100644 app/src/main/res/drawable/ic_launcher_background.xml
  create mode 100644 app/src/main/res/drawable/ic_launcher_private_foreground.xml
 
+diff --git a/.gitignore b/.gitignore
+index 6eadbe346..031184cb0 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -103,3 +103,5 @@ test_artifacts/
+ 
+ # Web extensions: manifest.json files are generated
+ manifest.json
++/app/src/main/assets/extensions/ghostery-search
++/app/src/main/assets/extensions/ghostery
 diff --git a/app/build.gradle b/app/build.gradle
-index ba6c4155c..f9e5abb06 100644
+index 6bf359d28..42cc15cd5 100644
 --- a/app/build.gradle
 +++ b/app/build.gradle
 @@ -34,7 +34,7 @@ android {
@@ -221,10 +231,10 @@ index 000000000..85b0f1a86
 +  </group>
 +</vector>
 diff --git a/app/src/main/res/layout/fragment_home.xml b/app/src/main/res/layout/fragment_home.xml
-index ea60d2cd3..608271aff 100644
+index e477b124c..604bfa974 100644
 --- a/app/src/main/res/layout/fragment_home.xml
 +++ b/app/src/main/res/layout/fragment_home.xml
-@@ -32,14 +32,14 @@
+@@ -38,14 +38,14 @@
                  android:id="@+id/privateBrowsingButton"
                  android:layout_width="@dimen/glyph_button_height"
                  android:layout_height="@dimen/glyph_button_height"
@@ -242,7 +252,7 @@ index ea60d2cd3..608271aff 100644
              <!-- This value needs to be 1.67 * the wordmark parallax value as its 24dp vs 40 -->
  
              <ImageView
-@@ -54,9 +54,9 @@
+@@ -60,9 +60,9 @@
                  android:contentDescription="@string/app_name"
                  android:focusable="false"
                  android:importantForAccessibility="no"
@@ -320,45 +330,28 @@ index be0fd11ac..bbd3e0212 100644
 -</adaptive-icon>
 +</adaptive-icon>
 \ No newline at end of file
-diff --git a/app/src/main/res/values-night/colors.xml b/app/src/main/res/values-night/colors.xml
-index 15f82c3b4..38c629851 100644
---- a/app/src/main/res/values-night/colors.xml
-+++ b/app/src/main/res/values-night/colors.xml
-@@ -56,7 +56,7 @@
-     <!-- Warning text -->
-     <color name="fx_mobile_text_color_warning" tools:ignore="UnusedResources">@color/photonRed40</color>
-     <!-- Small heading, Text link -->
--    <color name="fx_mobile_text_color_accent">@color/photonViolet40</color>
-+    <color name="fx_mobile_text_color_accent">@color/photonWhite</color>
-     <!-- Text Inverted/On Color -->
-     <color name="fx_mobile_text_color_inverted" tools:ignore="UnusedResources">@color/photonWhite</color>
- 
 diff --git a/app/src/main/res/values/colors.xml b/app/src/main/res/values/colors.xml
-index 6fd4bb383..ae0263f5b 100644
+index d95d06e98..3cfc2bae9 100644
 --- a/app/src/main/res/values/colors.xml
 +++ b/app/src/main/res/values/colors.xml
-@@ -56,7 +56,7 @@
-     <!-- Warning text -->
-     <color name="fx_mobile_text_color_warning" tools:ignore="UnusedResources">@color/photonRed80</color>
+@@ -62,7 +62,7 @@
+     <!-- Warning text on Secondary button -->
+     <color name="fx_mobile_text_color_warning_button" tools:ignore="UnusedResources">@color/photonRed70</color>
      <!-- Small heading, Text link -->
 -    <color name="fx_mobile_text_color_accent">@color/photonViolet70</color>
 +    <color name="fx_mobile_text_color_accent">@color/photonBlack</color>
+     <!-- Small heading, Text link -->
+     <color name="fx_mobile_text_color_accent_disabled" tools:ignore="UnusedResources">@color/photonViolet70A80</color>
      <!-- Text Inverted/On Color -->
-     <color name="fx_mobile_text_color_inverted" tools:ignore="UnusedResources">@color/photonWhite</color>
- 
-@@ -306,10 +306,11 @@
+@@ -315,7 +315,7 @@
      <color name="device_foreground">@color/photonInk80</color>
  
      <!-- Launcher Icon colors -->
--    <color name="default_launcher_background">#FDFDFD</color>
-+    <color name="default_launcher_background">#00AEF0</color>
-     <color name="nightly_launcher_background">#220033</color>
-     <color name="debug_launcher_background">@color/photonInk20</color>
-     <color name="ic_launcher_background">@color/default_launcher_background</color>
-+    <color name="ic_launcher_private_background">@color/default_launcher_background</color>
+-    <color name="ic_launcher_background">#FDFDFD</color>
++    <color name="ic_launcher_background">#00AEF0</color>
  
      <!-- Button Colors -->
      <color name="grey_button_color">@color/photonLightGrey30</color>
 -- 
-2.34.1
+2.35.1
 

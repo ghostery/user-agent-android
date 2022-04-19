@@ -1,27 +1,15 @@
-From 297cd29740b035df54c23177b5c5c54bbcaff219 Mon Sep 17 00:00:00 2001
+From 3eede343de4dbeb9d9c8bba2f745f8ab378b9a1d Mon Sep 17 00:00:00 2001
 From: Sam Macbeth <sam@cliqz.com>
 Date: Mon, 3 Aug 2020 18:31:14 +0200
 Subject: Basic ghostery extension integration
 
 ---
- .gitignore                                             | 2 ++
  app/build.gradle                                       | 4 +++-
  app/src/main/java/org/mozilla/fenix/components/Core.kt | 9 +++++++++
- 3 files changed, 14 insertions(+), 1 deletion(-)
+ 2 files changed, 12 insertions(+), 1 deletion(-)
 
-diff --git a/.gitignore b/.gitignore
-index e297438d2..144c99ae4 100644
---- a/.gitignore
-+++ b/.gitignore
-@@ -103,4 +103,6 @@ test_artifacts/
- # Web extensions: manifest.json files are generated
- manifest.json
- 
-+# Ghostery extension
-+/app/src/main/assets/extensions/ghostery
- /app/src/main/assets/extensions/ghostery-search
 diff --git a/app/build.gradle b/app/build.gradle
-index 260ba122d..13af364ab 100644
+index 4ee964148..d06895507 100644
 --- a/app/build.gradle
 +++ b/app/build.gradle
 @@ -179,7 +179,9 @@ android {
@@ -36,7 +24,7 @@ index 260ba122d..13af364ab 100644
  
      testOptions {
 diff --git a/app/src/main/java/org/mozilla/fenix/components/Core.kt b/app/src/main/java/org/mozilla/fenix/components/Core.kt
-index e7d94c6ee..cf0d4cc5c 100644
+index 783d33aac..b1b4b3c3a 100644
 --- a/app/src/main/java/org/mozilla/fenix/components/Core.kt
 +++ b/app/src/main/java/org/mozilla/fenix/components/Core.kt
 @@ -8,6 +8,7 @@ import android.content.Context
@@ -47,7 +35,7 @@ index e7d94c6ee..cf0d4cc5c 100644
  import androidx.core.content.ContextCompat
  import mozilla.components.browser.engine.gecko.GeckoEngine
  import mozilla.components.browser.engine.gecko.fetch.GeckoViewFetchClient
-@@ -145,6 +146,14 @@ class Core(
+@@ -150,6 +151,14 @@ class Core(
                  onError = { ext, throwable ->
                      Log.e("GHOSTERY", "Failed to install Ghostery Search webextension: $ext", throwable)
                  })
@@ -63,5 +51,5 @@ index e7d94c6ee..cf0d4cc5c 100644
      }
  
 -- 
-2.34.1
+2.35.1
 
