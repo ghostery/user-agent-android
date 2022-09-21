@@ -39,7 +39,10 @@ to match your git commit history.
 To update the browser to a newer version of Fenix, first update the Fenix submodule branch, then apply and fix the patches.
 
 To update Fenix version:
-1. change `.gitmodule` to specify new version
-2. `git submodule sync --recursive`
-3. `git submodule foreach --recursive git fetch`
-4. `git submodule update --init --recursive`
+* change `FENIX_TAG` in `./config.sh`
+* change `.gitmodule` to specify new version
+* `git submodule sync --recursive`
+* `git submodule foreach --recursive git fetch`
+* `git submodule update --init --recursive`
+* in browser folder `git checkout TAG`
+* commit changes
