@@ -23,8 +23,8 @@ diff --git a/.gitignore b/.gitignore
 index 6eadbe346..031184cb0 100644
 --- a/.gitignore
 +++ b/.gitignore
-@@ -103,3 +103,5 @@ test_artifacts/
- 
+@@ -104,3 +104,5 @@ test_artifacts/
+
  # Web extensions: manifest.json files are generated
  manifest.json
 +/app/src/main/assets/extensions/ghostery-search
@@ -35,7 +35,7 @@ index 6bf359d28..42cc15cd5 100644
 +++ b/app/build.gradle
 @@ -34,7 +34,7 @@ android {
      }
- 
+
      defaultConfig {
 -        applicationId "org.mozilla"
 +        applicationId "com.ghostery.android"
@@ -64,19 +64,8 @@ index 6bf359d28..42cc15cd5 100644
 +            ]
 +        }
      }
- 
+
      buildFeatures {
-@@ -185,6 +202,10 @@ android {
-             java.srcDirs = ['src/migration/java']
-             manifest.srcFile "src/migration/AndroidManifest.xml"
-         }
-+        ghostery {
-+            java.srcDirs = ['src/migration/java']
-+            manifest.srcFile "src/migration/AndroidManifest.xml"
-+        }
-     }
- 
-     splits {
 diff --git a/app/src/main/res/drawable/ic_launcher_background.xml b/app/src/main/res/drawable/ic_launcher_background.xml
 new file mode 100644
 index 000000000..ba3508570
@@ -250,7 +239,7 @@ index e477b124c..604bfa974 100644
 +                app:layout_collapseParallaxMultiplier=".167"
 +                app:srcCompat="@drawable/private_browsing_button" />
              <!-- This value needs to be 1.67 * the wordmark parallax value as its 24dp vs 40 -->
- 
+
              <ImageView
 @@ -60,9 +60,9 @@
                  android:contentDescription="@string/app_name"
@@ -261,9 +250,9 @@ index e477b124c..604bfa974 100644
 -                app:layout_collapseParallaxMultiplier=".1"/>
 +                app:layout_collapseParallaxMultiplier=".1"
 +                app:srcCompat="?fenixLogo" />
- 
+
          </com.google.android.material.appbar.CollapsingToolbarLayout>
- 
+
 diff --git a/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml b/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml
 index be0fd11ac..bbd3e0212 100644
 --- a/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml
@@ -343,15 +332,15 @@ index d95d06e98..3cfc2bae9 100644
      <!-- Small heading, Text link -->
      <color name="fx_mobile_text_color_accent_disabled" tools:ignore="UnusedResources">@color/photonViolet70A80</color>
      <!-- Text Inverted/On Color -->
-@@ -315,7 +315,7 @@
+@@ -320,7 +320,7 @@
      <color name="device_foreground">@color/photonInk80</color>
- 
+
      <!-- Launcher Icon colors -->
 -    <color name="ic_launcher_background">#FDFDFD</color>
 +    <color name="ic_launcher_background">#00AEF0</color>
- 
-     <!-- Button Colors -->
-     <color name="grey_button_color">@color/photonLightGrey30</color>
--- 
+
+     <!-- Private Browsing Mode Persistent Notification -->
+     <color name="pbm_notification_color">@color/photonViolet70</color>
+--
 2.35.1
 

@@ -30,15 +30,15 @@ diff --git a/app/src/main/java/org/mozilla/fenix/FenixApplication.kt b/app/src/m
 index 5ed920a82..2c672361f 100644
 --- a/app/src/main/java/org/mozilla/fenix/FenixApplication.kt
 +++ b/app/src/main/java/org/mozilla/fenix/FenixApplication.kt
-@@ -40,8 +40,6 @@ import mozilla.components.feature.top.sites.TopSitesProviderConfig
+@@ -42,8 +42,6 @@ import mozilla.components.feature.top.sites.TopSitesProviderConfig
  import mozilla.components.lib.crash.CrashReporter
  import mozilla.components.service.fxa.manager.SyncEnginesStorage
  import mozilla.components.service.glean.Glean
 -import mozilla.components.service.glean.config.Configuration
 -import mozilla.components.service.glean.net.ConceptFetchHttpUploader
+ import mozilla.components.support.rusterrors.initializeRustErrors
  import mozilla.components.support.base.facts.register
  import mozilla.components.support.base.log.Log
- import mozilla.components.support.base.log.logger.Logger
 @@ -57,7 +55,6 @@ import org.mozilla.experiments.nimbus.internal.EnrolledExperiment
  import org.mozilla.fenix.GleanMetrics.Addons
  import org.mozilla.fenix.GleanMetrics.AndroidAutofill
@@ -47,30 +47,25 @@ index 5ed920a82..2c672361f 100644
  import org.mozilla.fenix.GleanMetrics.Metrics
  import org.mozilla.fenix.GleanMetrics.PerfStartup
  import org.mozilla.fenix.GleanMetrics.Preferences
-@@ -121,14 +118,6 @@ open class FenixApplication : LocaleAwareApplication(), Provider {
+@@ -129,9 +129,7 @@ open class FenixApplication : LocaleAwareApplication(), Provider {
              return
          }
 
--        if (Config.channel.isFenix) {
--            // We need to always initialize Glean and do it early here.
--            // Note that we are only initializing Glean here for "fenix" builds. "fennec" builds
--            // will initialize in MigratingFenixApplication because we first need to migrate the
--            // user's choice from Fennec.
--            initializeGlean()
--        }
--
+-        // We need to always initialize Glean and do it early here.
+-        initializeGlean()
+
          setupInMainProcessOnly()
 
          downloadWallpapers()
-@@ -136,31 +125,6 @@ open class FenixApplication : LocaleAwareApplication(), Provider {
-         PerfStartup.applicationOnCreate.stopAndAccumulate(completeMethodDurationTimerId)
+@@ -147,31 +147,6 @@
+         }
      }
 
 -    @OptIn(DelicateCoroutinesApi::class) // GlobalScope usage
 -    protected open fun initializeGlean() {
 -        val telemetryEnabled = settings().isTelemetryEnabled
 -
--        logger.debug("Initializing Glean (uploadEnabled=$telemetryEnabled, isFennec=${Config.channel.isFennec})")
+-        logger.debug("Initializing Glean (uploadEnabled=$telemetryEnabled})")
 -
 -        Glean.initialize(
 -            applicationContext = this,
@@ -109,15 +104,15 @@ diff --git a/app/src/main/java/org/mozilla/fenix/components/Analytics.kt b/app/s
 index 69258a76c..7b3f8e589 100644
 --- a/app/src/main/java/org/mozilla/fenix/components/Analytics.kt
 +++ b/app/src/main/java/org/mozilla/fenix/components/Analytics.kt
-@@ -23,6 +23,7 @@ import org.mozilla.fenix.ReleaseChannel
+@@ -24,6 +24,7 @@ import org.mozilla.fenix.ReleaseChannel
  import org.mozilla.fenix.components.metrics.AdjustMetricsService
  import org.mozilla.fenix.components.metrics.GleanMetricsService
  import org.mozilla.fenix.components.metrics.MetricController
 +import org.mozilla.fenix.crashes.DummyCrashReporter
  import org.mozilla.fenix.experiments.createNimbus
  import org.mozilla.fenix.ext.settings
- import org.mozilla.fenix.nimbus.FxNimbus
-@@ -40,10 +41,6 @@ class Analytics(
+ import org.mozilla.fenix.gleanplumb.CustomAttributeProvider
+@@ -44,10 +45,6 @@ class Analytics(
  ) {
      val crashReporter: CrashReporter by lazyMonitored {
          val services = mutableListOf<CrashReporterService>()
@@ -127,7 +122,7 @@ index 69258a76c..7b3f8e589 100644
 -        }
 
          if (isSentryEnabled()) {
-             val sentryService = SentryService(
+             // We treat caught exceptions similar to debug logging.
 @@ -59,17 +56,10 @@ class Analytics(
              )
 
@@ -182,15 +177,15 @@ diff --git a/app/src/main/java/org/mozilla/fenix/components/Core.kt b/app/src/ma
 index 2648c6b45..65319e3da 100644
 --- a/app/src/main/java/org/mozilla/fenix/components/Core.kt
 +++ b/app/src/main/java/org/mozilla/fenix/components/Core.kt
-@@ -90,6 +90,7 @@ import org.mozilla.fenix.telemetry.TelemetryMiddleware
- import org.mozilla.fenix.utils.getUndoDelay
+@@ -98,6 +98,7 @@
  import org.mozilla.geckoview.GeckoRuntime
+ import java.util.UUID
  import java.util.concurrent.TimeUnit
 +import android.util.Log
 
  /**
   * Component group for all core browser functionality.
-@@ -142,7 +143,7 @@ class Core(
+@@ -151,7 +151,7 @@ class Core(
                  WebCompatReporterFeature.install(it, "fenix")
              }
 
