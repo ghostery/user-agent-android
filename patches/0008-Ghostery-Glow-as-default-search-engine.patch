@@ -89,7 +89,7 @@ index ea4ddf81a..48ff5f843 100644
                  WebCompatReporterFeature.install(it, "fenix")
              }
 +
-+            it.installWebExtension("GhosterySearch", "resource://android/assets/extensions/ghostery-search/",
++            it.installWebExtension("search@ghostery.com", "resource://android/assets/extensions/ghostery-search/",
 +                onSuccess = {
 +                    Log.d("GHOSTERY", "Installed Ghostery Search webextension: ${it.id}")
 +                },
