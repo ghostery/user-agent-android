@@ -76,6 +76,14 @@ diff --git a/app/src/main/java/org/mozilla/fenix/components/Core.kt b/app/src/ma
 index ea4ddf81a..48ff5f843 100644
 --- a/app/src/main/java/org/mozilla/fenix/components/Core.kt
 +++ b/app/src/main/java/org/mozilla/fenix/components/Core.kt
+@@ -8,6 +8,7 @@ import android.content.Context
+ import android.content.res.Configuration
+ import android.os.Build
+ import android.os.StrictMode
++import android.util.Log
+ import androidx.appcompat.content.res.AppCompatResources.getDrawable
+ import androidx.core.content.ContextCompat
+ import androidx.core.graphics.drawable.toBitmap
 @@ -141,6 +141,14 @@ class Core(
              if (Config.channel.isNightlyOrDebug || Config.channel.isBeta) {
                  WebCompatReporterFeature.install(it, "fenix")
@@ -90,7 +98,7 @@ index ea4ddf81a..48ff5f843 100644
 +                })
          }
      }
- 
+
 @@ -207,7 +215,7 @@ class Core(
                  RegionMiddleware(context, locationService),
                  SearchMiddleware(
@@ -100,6 +108,6 @@ index ea4ddf81a..48ff5f843 100644
                      migration = SearchMigration(context)
                  ),
                  RecordingDevicesMiddleware(context),
--- 
+--
 2.35.1
 
