@@ -8,10 +8,10 @@ Subject: Removig "What's new" from the Home menu
  2 files changed, 22 insertions(+), 74 deletions(-)
 
 diff --git a/app/src/main/java/org/mozilla/fenix/home/HomeMenu.kt b/app/src/main/java/org/mozilla/fenix/home/HomeMenu.kt
-index 7f019a08d..b9f7b6b75 100644
+index 1778be13a..09f80f7fe 100644
 --- a/app/src/main/java/org/mozilla/fenix/home/HomeMenu.kt
 +++ b/app/src/main/java/org/mozilla/fenix/home/HomeMenu.kt
-@@ -93,14 +93,6 @@ class HomeMenu(
+@@ -99,14 +99,6 @@ class HomeMenu(
      private fun getSyncItemTitle(): String =
          accountManager.accountProfileEmail ?: context.getString(R.string.sync_menu_sign_in)
 
@@ -26,7 +26,7 @@ index 7f019a08d..b9f7b6b75 100644
      val desktopItem = BrowserMenuImageSwitch(
          imageResource = R.drawable.ic_desktop,
          label = context.getString(R.string.browser_menu_desktop_site),
-@@ -137,34 +129,6 @@ class HomeMenu(
+@@ -143,14 +135,6 @@ class HomeMenu(
              onItemTapped.invoke(Item.Downloads)
          }
 
@@ -38,6 +38,13 @@ index 7f019a08d..b9f7b6b75 100644
 -            onItemTapped.invoke(Item.Extensions)
 -        }
 -
+         val manageAccountAndDevicesItem = SimpleBrowserMenuItem(
+             context.getString(R.string.browser_menu_manage_account_and_devices),
+             textColorResource = primaryTextColor
+@@ -158,26 +142,6 @@ class HomeMenu(
+             onItemTapped.invoke(Item.ManageAccountAndDevices)
+         }
+
 -        val whatsNewItem = BrowserMenuHighlightableItem(
 -            context.getString(R.string.browser_menu_whats_new),
 -            R.drawable.ic_whats_new,
@@ -61,7 +68,7 @@ index 7f019a08d..b9f7b6b75 100644
          val customizeHomeItem = BrowserMenuImageText(
              context.getString(R.string.browser_menu_customize_home_1),
              R.drawable.ic_customize,
-@@ -183,29 +147,13 @@ class HomeMenu(
+@@ -196,30 +160,14 @@ class HomeMenu(
              onItemTapped.invoke(Item.Settings)
          }
 
@@ -83,6 +90,7 @@ index 7f019a08d..b9f7b6b75 100644
 -            extensionsItem,
 -            syncSignInMenuItem,
 -            accountAuthItem,
+             if (Config.channel.isMozillaOnline) manageAccountAndDevicesItem else null,
              BrowserMenuDivider(),
              desktopItem,
              BrowserMenuDivider(),
