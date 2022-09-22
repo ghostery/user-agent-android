@@ -29,65 +29,15 @@ diff --git a/app/src/main/java/org/mozilla/fenix/FenixApplication.kt b/app/src/m
 index 5ed920a82..2c672361f 100644
 --- a/app/src/main/java/org/mozilla/fenix/FenixApplication.kt
 +++ b/app/src/main/java/org/mozilla/fenix/FenixApplication.kt
-@@ -42,8 +42,6 @@ import mozilla.components.feature.top.sites.TopSitesProviderConfig
- import mozilla.components.lib.crash.CrashReporter
- import mozilla.components.service.fxa.manager.SyncEnginesStorage
- import mozilla.components.service.glean.Glean
--import mozilla.components.service.glean.config.Configuration
--import mozilla.components.service.glean.net.ConceptFetchHttpUploader
- import mozilla.components.support.rusterrors.initializeRustErrors
- import mozilla.components.support.base.facts.register
- import mozilla.components.support.base.log.Log
-@@ -57,7 +55,6 @@ import org.mozilla.experiments.nimbus.internal.EnrolledExperiment
- import org.mozilla.fenix.GleanMetrics.Addons
- import org.mozilla.fenix.GleanMetrics.AndroidAutofill
- import org.mozilla.fenix.GleanMetrics.CustomizeHome
--import org.mozilla.fenix.GleanMetrics.GleanBuildInfo
- import org.mozilla.fenix.GleanMetrics.Metrics
- import org.mozilla.fenix.GleanMetrics.PerfStartup
- import org.mozilla.fenix.GleanMetrics.Preferences
-@@ -129,9 +129,7 @@ open class FenixApplication : LocaleAwareApplication(), Provider {
-             return
-         }
+@@ -149,7 +149,7 @@ open class FenixApplication : LocaleAwareApplication(), Provider {
 
--        // We need to always initialize Glean and do it early here.
--        initializeGlean()
-
-         setupInMainProcessOnly()
-
-         downloadWallpapers()
-@@ -147,31 +147,6 @@
-         }
-     }
-
--    @OptIn(DelicateCoroutinesApi::class) // GlobalScope usage
--    protected open fun initializeGlean() {
+     @OptIn(DelicateCoroutinesApi::class) // GlobalScope usage
+     protected open fun initializeGlean() {
 -        val telemetryEnabled = settings().isTelemetryEnabled
--
--        logger.debug("Initializing Glean (uploadEnabled=$telemetryEnabled})")
--
--        Glean.initialize(
--            applicationContext = this,
--            configuration = Configuration(
--                channel = BuildConfig.BUILD_TYPE,
--                httpClient = ConceptFetchHttpUploader(
--                    lazy(LazyThreadSafetyMode.NONE) { components.core.client }
--                )
--            ),
--            uploadEnabled = telemetryEnabled,
--            buildInfo = GleanBuildInfo.buildInfo
--        )
--
--        // We avoid blocking the main thread on startup by setting startup metrics on the background thread.
--        val store = components.core.store
--        GlobalScope.launch(Dispatchers.IO) {
--            setStartupMetrics(store, settings())
--        }
--    }
--
-     @CallSuper
-     open fun setupInAllProcesses() {
-         setupCrashReporting()
++        val telemetryEnabled = false
+
+         logger.debug("Initializing Glean (uploadEnabled=$telemetryEnabled})")
+
 @@ -381,10 +345,6 @@ open class FenixApplication : LocaleAwareApplication(), Provider {
      }
 
