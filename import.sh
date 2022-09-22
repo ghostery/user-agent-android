@@ -20,6 +20,7 @@ git add . && git commit -a -m "Copy static assets"
 
 # Install Ghostery Browser Extension
 ./bootstrap.sh
+git add . && git commit -a -m "Add extensions"
 
 git tag -f $FENIX_TAG-start
 # apply patches
