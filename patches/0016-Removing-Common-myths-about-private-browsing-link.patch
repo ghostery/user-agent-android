@@ -1,54 +1,39 @@
-From 876458477f9d8c469f6afd759d0a4666bb2fcb46 Mon Sep 17 00:00:00 2001
+From 55a62fd2c9b7ca7a5c243959c0ad57b7070d2e52 Mon Sep 17 00:00:00 2001
 From: Stefano Pacifici <stefano.pacifici@gmail.com>
 Date: Tue, 23 Jun 2020 16:53:36 +0200
 Subject: Removing "Common myths about private browsing" link
 
 ---
- .../PrivateBrowsingDescriptionViewHolder.kt        |  7 -------
- .../res/layout/private_browsing_description.xml    | 14 --------------
- 2 files changed, 21 deletions(-)
+ .../fenix/home/sessioncontrol/SessionControlInteractor.kt       | 2 +-
+ .../viewholders/PrivateBrowsingDescriptionViewHolder.kt         | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/app/src/main/java/org/mozilla/fenix/home/sessioncontrol/viewholders/PrivateBrowsingDescriptionViewHolder.kt b/app/src/main/java/org/mozilla/fenix/home/sessioncontrol/viewholders/PrivateBrowsingDescriptionViewHolder.kt
-index 45aeb054d..efbba87a1 100644
---- a/app/src/main/java/org/mozilla/fenix/home/sessioncontrol/viewholders/PrivateBrowsingDescriptionViewHolder.kt
-+++ b/app/src/main/java/org/mozilla/fenix/home/sessioncontrol/viewholders/PrivateBrowsingDescriptionViewHolder.kt
-@@ -24,13 +24,6 @@ class PrivateBrowsingDescriptionViewHolder(
-         binding.privateSessionDescription.text = resources.getString(
-             R.string.private_browsing_placeholder_description_2, appName
-         )
--        with(binding.privateSessionCommonMyths) {
--            movementMethod = LinkMovementMethod.getInstance()
--            addUnderline()
--            setOnClickListener {
--                interactor.onPrivateBrowsingLearnMoreClicked()
--            }
--        }
+diff --git a/app/src/main/java/org/mozilla/fenix/home/sessioncontrol/SessionControlInteractor.kt b/app/src/main/java/org/mozilla/fenix/home/sessioncontrol/SessionControlInteractor.kt
+index 787bdb273..7d020a107 100644
+--- a/app/src/main/java/org/mozilla/fenix/home/sessioncontrol/SessionControlInteractor.kt
++++ b/app/src/main/java/org/mozilla/fenix/home/sessioncontrol/SessionControlInteractor.kt
+@@ -341,7 +341,7 @@ class SessionControlInteractor(
      }
  
-     companion object {
-diff --git a/app/src/main/res/layout/private_browsing_description.xml b/app/src/main/res/layout/private_browsing_description.xml
-index cd0795e0d..076183905 100644
---- a/app/src/main/res/layout/private_browsing_description.xml
-+++ b/app/src/main/res/layout/private_browsing_description.xml
-@@ -26,18 +26,4 @@
-         android:textSize="14sp"
-         tools:text="@string/private_browsing_placeholder_description_2" />
+     override fun onPrivateBrowsingLearnMoreClicked() {
+-        controller.handlePrivateBrowsingLearnMoreClicked()
++//        controller.handlePrivateBrowsingLearnMoreClicked()
+     }
  
--    <org.mozilla.fenix.utils.LinkTextView
--        android:id="@+id/private_session_common_myths"
--        android:layout_width="match_parent"
--        android:layout_height="wrap_content"
--        android:ellipsize="none"
--        android:gravity="center_vertical"
--        android:lineSpacingExtra="6dp"
--        android:paddingHorizontal="4dp"
--        android:paddingTop="10dp"
--        android:paddingBottom="19dp"
--        android:scrollHorizontally="false"
--        android:text="@string/private_browsing_common_myths"
--        android:textColor="?primaryText"
--        android:textSize="14sp" />
- </LinearLayout>
+     override fun onPrivateModeButtonClicked(newMode: BrowsingMode, userHasBeenOnboarded: Boolean) {
+diff --git a/app/src/main/java/org/mozilla/fenix/home/sessioncontrol/viewholders/PrivateBrowsingDescriptionViewHolder.kt b/app/src/main/java/org/mozilla/fenix/home/sessioncontrol/viewholders/PrivateBrowsingDescriptionViewHolder.kt
+index 918d752cb..06e1d9ebc 100644
+--- a/app/src/main/java/org/mozilla/fenix/home/sessioncontrol/viewholders/PrivateBrowsingDescriptionViewHolder.kt
++++ b/app/src/main/java/org/mozilla/fenix/home/sessioncontrol/viewholders/PrivateBrowsingDescriptionViewHolder.kt
+@@ -91,7 +91,7 @@ fun PrivateBrowsingDescription(
+         Box(
+             modifier = Modifier
+                 .fillMaxWidth()
+-                .height(48.dp)
++                .height(0.dp)
+                 .clickable(
+                     interactionSource = interactionSource,
+                     indication = null,
 -- 
-2.35.1
+2.37.2
 

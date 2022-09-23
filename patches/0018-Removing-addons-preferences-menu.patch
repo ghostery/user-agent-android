@@ -1,4 +1,4 @@
-From c888a2b8bbb797082ddd8ef32ee299585e4948b3 Mon Sep 17 00:00:00 2001
+From 68c8440c86efe298eba4e4c80daf253b116f3cfa Mon Sep 17 00:00:00 2001
 From: Stefano Pacifici <stefano.pacifici@gmail.com>
 Date: Thu, 25 Jun 2020 18:02:43 +0200
 Subject: Removing addons preferences menu
@@ -8,10 +8,10 @@ Subject: Removing addons preferences menu
  1 file changed, 9 deletions(-)
 
 diff --git a/app/src/main/res/xml/preferences.xml b/app/src/main/res/xml/preferences.xml
-index 09eec7f7d..bdfd249f0 100644
+index 3f6e52dd4..5ca9fa279 100644
 --- a/app/src/main/res/xml/preferences.xml
 +++ b/app/src/main/res/xml/preferences.xml
-@@ -116,15 +116,6 @@
+@@ -121,15 +121,6 @@
          android:title="@string/preferences_category_advanced"
          android:key="@string/pref_key_advanced"
          android:layout="@layout/preference_category_no_icon_style">
@@ -28,5 +28,5 @@ index 09eec7f7d..bdfd249f0 100644
          <androidx.preference.SwitchPreference
              android:defaultValue="false"
 -- 
-2.35.1
+2.37.2
 

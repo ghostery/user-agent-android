@@ -1,4 +1,4 @@
-From 4c22a51c3fa4019ed26959f7125a74a9f1d33748 Mon Sep 17 00:00:00 2001
+From 087872801a98bbab0d472a36b0d9f9796d1beb73 Mon Sep 17 00:00:00 2001
 From: Sam Macbeth <sam@cliqz.com>
 Date: Mon, 3 Aug 2020 18:24:11 +0200
 Subject: Help resources point to Ghostery domain
@@ -10,19 +10,19 @@ Subject: Help resources point to Ghostery domain
  3 files changed, 13 insertions(+), 42 deletions(-)
 
 diff --git a/app/src/main/java/org/mozilla/fenix/settings/SupportUtils.kt b/app/src/main/java/org/mozilla/fenix/settings/SupportUtils.kt
-index 4100ff835..38602d049 100644
+index 59e463638..8bfc8e6ad 100644
 --- a/app/src/main/java/org/mozilla/fenix/settings/SupportUtils.kt
 +++ b/app/src/main/java/org/mozilla/fenix/settings/SupportUtils.kt
-@@ -58,24 +58,25 @@ object SupportUtils {
+@@ -56,24 +56,25 @@ object SupportUtils {
      }
-
+ 
      enum class MozillaPage(internal val path: String) {
 -        PRIVATE_NOTICE("privacy/firefox/"),
 -        MANIFESTO("about/manifesto/")
 +        PRIVATE_NOTICE("privacy/privacy/"),
 +        MANIFESTO("ghostery-manifesto/")
      }
-
+ 
      /**
       * Gets a support page URL for the corresponding topic.
       */
@@ -45,12 +45,12 @@ index 4100ff835..38602d049 100644
 +            else -> "This topic is unsupported"
 +        }
      }
-
+ 
      /**
-@@ -92,10 +93,10 @@ object SupportUtils {
+@@ -90,10 +91,10 @@ object SupportUtils {
          return "https://support.mozilla.org/kb/access-mozilla-services-firefox-account"
      }
-
+ 
 +    @Suppress("UNUSED_PARAMETER")
      fun getMozillaPageUrl(page: MozillaPage, locale: Locale = Locale.getDefault()): String {
          val path = page.path
@@ -58,27 +58,27 @@ index 4100ff835..38602d049 100644
 -        return "https://www.mozilla.org/$langTag/$path"
 +        return "https://www.ghostery.com/$path"
      }
-
+ 
      fun getWhatsNewUrl(context: Context) = getSumoURLForTopic(context, SumoTopic.WHATS_NEW)
 diff --git a/app/src/main/java/org/mozilla/fenix/settings/about/AboutFragment.kt b/app/src/main/java/org/mozilla/fenix/settings/about/AboutFragment.kt
-index e3799b3cc..3097fd718 100644
+index bdf1bc343..b9cf2bc5f 100644
 --- a/app/src/main/java/org/mozilla/fenix/settings/about/AboutFragment.kt
 +++ b/app/src/main/java/org/mozilla/fenix/settings/about/AboutFragment.kt
 @@ -124,11 +124,9 @@ class AboutFragment : Fragment(), AboutPageListener {
              ""
          }
-
+ 
 -        val content = getString(R.string.about_content, appName)
          val buildDate = BuildConfig.BUILD_DATE
-
+ 
          binding.aboutText.text = aboutText
 -        binding.aboutContent.text = content
          binding.buildDate.text = buildDate
      }
-
-@@ -140,13 +138,7 @@ class AboutFragment : Fragment(), AboutPageListener {
+ 
+@@ -136,13 +134,7 @@ class AboutFragment : Fragment(), AboutPageListener {
          val context = requireContext()
-
+ 
          return listOf(
 -            AboutPageItem(
 -                AboutItem.ExternalLink(
@@ -91,7 +91,7 @@ index e3799b3cc..3097fd718 100644
              AboutPageItem(
                  AboutItem.ExternalLink(
                      SUPPORT,
-@@ -165,13 +157,6 @@ class AboutFragment : Fragment(), AboutPageListener {
+@@ -161,13 +153,6 @@ class AboutFragment : Fragment(), AboutPageListener {
                  ),
                  getString(R.string.about_privacy_notice)
              ),
@@ -112,7 +112,7 @@ index 7e9b03ff0..d266d4f8a 100644
 @@ -33,21 +33,6 @@
              app:layout_constraintTop_toTopOf="parent"
              app:layout_constraintWidth_percent="0.75" />
-
+ 
 -        <TextView
 -            android:id="@+id/about_content"
 -            style="@style/Header16TextStyle"
@@ -139,7 +139,7 @@ index 7e9b03ff0..d266d4f8a 100644
 +            app:layout_constraintTop_toBottomOf="@id/wordmark"
              app:layout_constraintWidth_percent="0.8"
              tools:text="1.0.x (Build #x), 0d7383fd2\nAC: 1.0.0, 96ae23b628\nGV: 69.x-x\nAS: 1.0.0" />
-
---
-2.35.1
+ 
+-- 
+2.37.2
 
