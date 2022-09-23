@@ -5,7 +5,6 @@ Subject: Ghostery Release fixes
 
 ---
  app/src/main/java/org/mozilla/fenix/Config.kt                | 5 ++++-
- .../main/java/org/mozilla/fenix/browser/BrowserFragment.kt   | 2 +-
  2 files changed, 5 insertions(+), 2 deletions(-)
 
 diff --git a/app/src/main/java/org/mozilla/fenix/Config.kt b/app/src/main/java/org/mozilla/fenix/Config.kt
@@ -19,7 +18,7 @@ index 114eab812..61467647c 100644
 -    Release;
 +    Release,
 +    Ghostery;
- 
+
      val isReleased: Boolean
          get() = when (this) {
 @@ -32,6 +33,7 @@ enum class ReleaseChannel {
@@ -29,7 +28,7 @@ index 114eab812..61467647c 100644
 +            Ghostery -> true
              else -> false
          }
- 
+
 @@ -55,6 +57,7 @@ object Config {
          "nightly" -> ReleaseChannel.Nightly
          "beta" -> ReleaseChannel.Beta
@@ -38,19 +37,6 @@ index 114eab812..61467647c 100644
          else -> {
              throw IllegalStateException("Unknown build type: ${BuildConfig.BUILD_TYPE}")
          }
-diff --git a/app/src/main/java/org/mozilla/fenix/browser/BrowserFragment.kt b/app/src/main/java/org/mozilla/fenix/browser/BrowserFragment.kt
-index 6d956f96b..23163a29a 100644
---- a/app/src/main/java/org/mozilla/fenix/browser/BrowserFragment.kt
-+++ b/app/src/main/java/org/mozilla/fenix/browser/BrowserFragment.kt
-@@ -78,7 +78,7 @@ class BrowserFragment : BaseBrowserFragment(), UserInteractionHandler {
-                 R.drawable.ic_ghostery
-             )!!,
-             contentDescription = "Ghostery",
--            iconTintColorResource = ThemeManager.resolveAttribute(R.attr.primaryText, context),
-+            iconTintColorResource = ThemeManager.resolveAttribute(R.attr.textPrimary, context),
-             listener = {
-                 val globalAction = requireComponents.core.store.state.extensions.get("firefox@ghostery.com")?.browserAction
-                 if (globalAction != null) {
--- 
+--
 2.37.2
 
