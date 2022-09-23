@@ -1,45 +1,45 @@
-From 1a6878d217f9968dd2003989e0707fff7690ce7f Mon Sep 17 00:00:00 2001
+From 5053793efdbf58df6953f7c0c42394349761714e Mon Sep 17 00:00:00 2001
 From: Sam Macbeth <sam@cliqz.com>
 Date: Mon, 3 Aug 2020 15:07:40 +0200
 Subject: Disabling Firefox onboarding
 
 ---
- .../org/mozilla/fenix/onboarding/FenixOnboarding.kt    |  4 +---
- app/src/main/java/org/mozilla/fenix/utils/Settings.kt  | 10 ++--------
- 2 files changed, 3 insertions(+), 11 deletions(-)
+ .../org/mozilla/fenix/onboarding/FenixOnboarding.kt   |  4 +---
+ app/src/main/java/org/mozilla/fenix/utils/Settings.kt | 11 ++---------
+ 2 files changed, 3 insertions(+), 12 deletions(-)
 
 diff --git a/app/src/main/java/org/mozilla/fenix/onboarding/FenixOnboarding.kt b/app/src/main/java/org/mozilla/fenix/onboarding/FenixOnboarding.kt
-index c9cfff8d9..583b947eb 100644
+index a240fa2b0..6ee4b9d96 100644
 --- a/app/src/main/java/org/mozilla/fenix/onboarding/FenixOnboarding.kt
 +++ b/app/src/main/java/org/mozilla/fenix/onboarding/FenixOnboarding.kt
-@@ -32,9 +32,7 @@ class FenixOnboarding(context: Context) : PreferencesHolder {
+@@ -29,9 +29,7 @@ class FenixOnboarding(context: Context) : PreferencesHolder {
      }
-
+ 
      fun userHasBeenOnboarded(): Boolean {
 -        return strictMode.resetAfter(StrictMode.allowThreadDiskReads()) {
 -            onboardedVersion == CURRENT_ONBOARDING_VERSION
 -        }
 +        return true
      }
-
+ 
      companion object {
 diff --git a/app/src/main/java/org/mozilla/fenix/utils/Settings.kt b/app/src/main/java/org/mozilla/fenix/utils/Settings.kt
-index 700cc838b..879c69955 100644
+index e56e197ee..aabf35e10 100644
 --- a/app/src/main/java/org/mozilla/fenix/utils/Settings.kt
 +++ b/app/src/main/java/org/mozilla/fenix/utils/Settings.kt
 @@ -818,10 +818,7 @@ class Settings(private val appContext: Context) : PreferencesHolder {
          default = false
      )
-
+ 
 -    var shouldShowOpenInAppBanner by booleanPreference(
 -        appContext.getPreferenceKey(R.string.pref_key_should_show_open_in_app_banner),
 -        default = true
 -    )
 +    var shouldShowOpenInAppBanner = false
-
+ 
      val shouldShowOpenInAppCfr: Boolean
          get() = canShowCfr && shouldShowOpenInAppBanner
-@@ -859,11 +859,7 @@ class Settings(private val appContext: Context) : PreferencesHolder {
+@@ -859,11 +856,7 @@ class Settings(private val appContext: Context) : PreferencesHolder {
      /**
       * Indicates if the jump back in CRF should be shown.
       */
@@ -49,9 +49,9 @@ index 700cc838b..879c69955 100644
 -        default = { onboardScreenSection[OnboardingSection.JUMP_BACK_IN_CFR] == true },
 -    )
 +    var shouldShowJumpBackInCFR = false
-
+ 
      fun getSitePermissionsPhoneFeatureAction(
          feature: PhoneFeature,
---
-2.35.1
+-- 
+2.37.2
 

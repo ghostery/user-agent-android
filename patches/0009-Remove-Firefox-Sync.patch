@@ -1,4 +1,4 @@
-From a8f1d2db3c70707c33fa6655e4404159aba67473 Mon Sep 17 00:00:00 2001
+From cd3e25d1c33bc9ef8269a2b7e15e3651e2dea251 Mon Sep 17 00:00:00 2001
 From: Stefano Pacifici <stefano.pacifici@gmail.com>
 Date: Tue, 9 Jun 2020 10:56:17 +0200
 Subject: Remove Firefox Sync
@@ -10,10 +10,10 @@ Subject: Remove Firefox Sync
  3 files changed, 2 insertions(+), 11 deletions(-)
 
 diff --git a/app/src/main/java/org/mozilla/fenix/library/bookmarks/BookmarkFragment.kt b/app/src/main/java/org/mozilla/fenix/library/bookmarks/BookmarkFragment.kt
-index c4a09deba..d6f6e1923 100644
+index 38d3dc684..0663a7998 100644
 --- a/app/src/main/java/org/mozilla/fenix/library/bookmarks/BookmarkFragment.kt
 +++ b/app/src/main/java/org/mozilla/fenix/library/bookmarks/BookmarkFragment.kt
-@@ -130,7 +130,6 @@ class BookmarkFragment : LibraryPageFragment<BookmarkNode>(), UserInteractionHan
+@@ -134,7 +134,6 @@ class BookmarkFragment : LibraryPageFragment<BookmarkNode>(), UserInteractionHan
  
      override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
          super.onViewCreated(view, savedInstanceState)
@@ -21,7 +21,7 @@ index c4a09deba..d6f6e1923 100644
          consumeFrom(bookmarkStore) {
              bookmarkView.update(it)
  
-@@ -138,8 +137,7 @@ class BookmarkFragment : LibraryPageFragment<BookmarkNode>(), UserInteractionHan
+@@ -142,8 +141,7 @@ class BookmarkFragment : LibraryPageFragment<BookmarkNode>(), UserInteractionHan
              // Don't want to pester user too much with it, and if there are lots of bookmarks present,
              // it'll just get visually lost. Inside of the "Desktop Bookmarks" node, it'll nicely stand-out,
              // since there are always only three other items in there. It's also the right place contextually.
@@ -45,10 +45,10 @@ index c204fee61..1b5a9a41d 100644
              preferenceFirefoxAccountAuthError.isVisible = false
              accountPreferenceCategory.isVisible = false
 diff --git a/app/src/main/res/layout/component_tabstray2.xml b/app/src/main/res/layout/component_tabstray2.xml
-index 2919e0408..dabbb016c 100644
+index 5a34bf2a2..4bfc41e18 100644
 --- a/app/src/main/res/layout/component_tabstray2.xml
 +++ b/app/src/main/res/layout/component_tabstray2.xml
-@@ -100,13 +100,6 @@
+@@ -99,13 +99,6 @@
              android:contentDescription="@string/tabs_header_private_tabs_title"
              android:icon="@drawable/ic_private_browsing" />
  
@@ -63,5 +63,5 @@ index 2919e0408..dabbb016c 100644
  
      <ImageButton
 -- 
-2.35.1
+2.37.2
 

@@ -1,4 +1,4 @@
-From f1220ff9c216d55b955ce8f48f05c154af9794b0 Mon Sep 17 00:00:00 2001
+From b9d863c225614b0db2f1353777b501073b6b5d3a Mon Sep 17 00:00:00 2001
 From: Krzysztof Modras <chrmod@chrmod.net>
 Date: Thu, 17 Mar 2022 16:25:43 +0100
 Subject: Fixing null version name in About
@@ -10,7 +10,7 @@ Subject: Fixing null version name in About
  3 files changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/app/build.gradle b/app/build.gradle
-index 862979a96..77d500cb3 100644
+index b3a49f871..7cb97d49d 100644
 --- a/app/build.gradle
 +++ b/app/build.gradle
 @@ -38,7 +38,7 @@ android {
@@ -23,10 +23,10 @@ index 862979a96..77d500cb3 100644
          testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
          testInstrumentationRunnerArguments clearPackageData: 'true'
 diff --git a/app/src/main/java/org/mozilla/fenix/settings/about/AboutFragment.kt b/app/src/main/java/org/mozilla/fenix/settings/about/AboutFragment.kt
-index 3097fd718..b7fea43bd 100644
+index b9cf2bc5f..928c1a900 100644
 --- a/app/src/main/java/org/mozilla/fenix/settings/about/AboutFragment.kt
 +++ b/app/src/main/java/org/mozilla/fenix/settings/about/AboutFragment.kt
-@@ -114,7 +114,7 @@ class AboutFragment : Fragment(), AboutPageListener {
+@@ -110,7 +110,7 @@ class AboutFragment : Fragment(), AboutPageListener {
 
              String.format(
                  "%s (Build #%s)%s\n%s: %s\n%s: %s\n%s: %s",
@@ -36,7 +36,7 @@ index 3097fd718..b7fea43bd 100644
                  maybeFenixGitHash,
                  componentsAbbreviation,
 diff --git a/buildSrc/src/main/java/Config.kt b/buildSrc/src/main/java/Config.kt
-index ed6f95683..f5ab641b0 100644
+index cbcdefd9e..beb199073 100644
 --- a/buildSrc/src/main/java/Config.kt
 +++ b/buildSrc/src/main/java/Config.kt
 @@ -16,13 +16,13 @@ object Config {
@@ -44,7 +44,7 @@ index ed6f95683..f5ab641b0 100644
 
      @JvmStatic
 -    private fun generateDebugVersionName(): String {
-+    private fun generateDebugVersionName(project): String {
++    private fun generateDebugVersionName(project: Project): String {
          val today = Date()
          // Append the year (2 digits) and week in year (2 digits). This will make it easier to distinguish versions and
          // identify ancient versions when debugging issues. However this will still keep the same version number during
@@ -56,5 +56,5 @@ index ed6f95683..f5ab641b0 100644
 
      @JvmStatic
 --
-2.35.1
+2.37.2
 

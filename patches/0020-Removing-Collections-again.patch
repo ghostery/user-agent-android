@@ -1,26 +1,26 @@
-From b5338029c6698244a14c6e55ecf24f9efee815b2 Mon Sep 17 00:00:00 2001
+From a18b27874f22e8a83017271eb75084b5300b1dfc Mon Sep 17 00:00:00 2001
 From: Stefano Pacifici <stefano.pacifici@gmail.com>
 Date: Fri, 26 Jun 2020 16:18:32 +0200
 Subject: Removing Collections (again)
 
 ---
  .../components/toolbar/DefaultToolbarMenu.kt  | 28 -------------------
- .../sessioncontrol/SessionControlAdapter.kt   | 19 -------------
+ .../sessioncontrol/SessionControlAdapter.kt   | 21 --------------
  .../home/sessioncontrol/SessionControlView.kt | 28 ++-----------------
  .../fenix/tabstray/TabsTrayFragment.kt        |  1 -
  .../browser/SelectionBannerBinding.kt         |  4 ---
  .../main/res/layout/component_tabstray2.xml   |  2 +-
  .../res/layout/tabstray_multiselect_items.xml | 13 ---------
- 7 files changed, 3 insertions(+), 92 deletions(-)
+ 7 files changed, 3 insertions(+), 94 deletions(-)
 
 diff --git a/app/src/main/java/org/mozilla/fenix/components/toolbar/DefaultToolbarMenu.kt b/app/src/main/java/org/mozilla/fenix/components/toolbar/DefaultToolbarMenu.kt
-index 88a31432c..3a51f694d 100644
+index d92be4c83..d6c558b9e 100644
 --- a/app/src/main/java/org/mozilla/fenix/components/toolbar/DefaultToolbarMenu.kt
 +++ b/app/src/main/java/org/mozilla/fenix/components/toolbar/DefaultToolbarMenu.kt
 @@ -217,10 +217,6 @@ open class DefaultToolbarMenu(
          onItemTapped.invoke(ToolbarMenu.Item.Downloads)
      }
-
+ 
 -    private val extensionsItem = WebExtensionPlaceholderMenuItem(
 -        id = WebExtensionPlaceholderMenuItem.MAIN_EXTENSIONS_MENU_ID
 -    )
@@ -31,7 +31,7 @@ index 88a31432c..3a51f694d 100644
 @@ -292,14 +288,6 @@ open class DefaultToolbarMenu(
          }
      )
-
+ 
 -    private val saveToCollectionItem = BrowserMenuImageText(
 -        label = context.getString(R.string.browser_menu_save_to_collection_2),
 -        imageResource = R.drawable.ic_tab_collection,
@@ -46,7 +46,7 @@ index 88a31432c..3a51f694d 100644
 @@ -349,19 +337,6 @@ open class DefaultToolbarMenu(
          onItemTapped.invoke(ToolbarMenu.Item.Quit)
      }
-
+ 
 -    private fun getSyncItemTitle() =
 -        accountManager.accountProfileEmail ?: context.getString(R.string.sync_menu_sign_in)
 -
@@ -81,14 +81,13 @@ index 88a31432c..3a51f694d 100644
                  settingsItem,
                  if (shouldDeleteDataOnQuit) deleteDataOnQuit else null,
 diff --git a/app/src/main/java/org/mozilla/fenix/home/sessioncontrol/SessionControlAdapter.kt b/app/src/main/java/org/mozilla/fenix/home/sessioncontrol/SessionControlAdapter.kt
-index dc3f9f184..0a398adfe 100644
+index 5f5c7edfd..20d4f5831 100644
 --- a/app/src/main/java/org/mozilla/fenix/home/sessioncontrol/SessionControlAdapter.kt
 +++ b/app/src/main/java/org/mozilla/fenix/home/sessioncontrol/SessionControlAdapter.kt
-@@ -107,24 +107,7 @@ sealed class AdapterItem(@LayoutRes val viewType: Int) {
-
+@@ -108,23 +108,6 @@ sealed class AdapterItem(@LayoutRes val viewType: Int) {
      object PrivateBrowsingDescription : AdapterItem(PrivateBrowsingDescriptionViewHolder.LAYOUT_ID)
      object NoCollectionsMessage : AdapterItem(NoCollectionsMessageViewHolder.LAYOUT_ID)
--
+ 
 -    object CollectionHeader : AdapterItem(CollectionHeaderViewHolder.LAYOUT_ID)
 -    data class CollectionItem(
 -        val collection: TabCollection,
@@ -106,7 +105,6 @@ index dc3f9f184..0a398adfe 100644
 -        }
 -    }
 -
-+
      data class TabInCollectionItem(
          val collection: TabCollection,
          val tab: ComponentTab,
@@ -122,11 +120,11 @@ index dc3f9f184..0a398adfe 100644
                  val (collection, tab, isLastTab) = item as AdapterItem.TabInCollectionItem
                  holder.bindSession(collection, tab, isLastTab)
 diff --git a/app/src/main/java/org/mozilla/fenix/home/sessioncontrol/SessionControlView.kt b/app/src/main/java/org/mozilla/fenix/home/sessioncontrol/SessionControlView.kt
-index 7517d0d29..1fde9ef31 100644
+index baac4a035..80a599f8d 100644
 --- a/app/src/main/java/org/mozilla/fenix/home/sessioncontrol/SessionControlView.kt
 +++ b/app/src/main/java/org/mozilla/fenix/home/sessioncontrol/SessionControlView.kt
 @@ -27,7 +27,8 @@ import org.mozilla.fenix.utils.Settings
-
+ 
  // This method got a little complex with the addition of the tab tray feature flag
  // When we remove the tabs from the home screen this will get much simpler again.
 -@Suppress("ComplexMethod", "LongParameterList")
@@ -138,7 +136,7 @@ index 7517d0d29..1fde9ef31 100644
 @@ -77,14 +78,6 @@ internal fun normalModeAdapterItems(
          items.add(AdapterItem.RecentVisitsItems)
      }
-
+ 
 -    if (collections.isEmpty()) {
 -        if (showCollectionsPlaceholder) {
 -            items.add(AdapterItem.NoCollectionsMessage)
@@ -153,7 +151,7 @@ index 7517d0d29..1fde9ef31 100644
 @@ -101,23 +94,6 @@ internal fun normalModeAdapterItems(
      return items
  }
-
+ 
 -private fun showCollections(
 -    collections: List<TabCollection>,
 -    expandedCollections: Set<Long>,
@@ -172,10 +170,10 @@ index 7517d0d29..1fde9ef31 100644
 -}
 -
  private fun privateModeAdapterItems() = listOf(AdapterItem.PrivateBrowsingDescription)
-
+ 
  private fun onboardingAdapterItems(onboardingState: OnboardingState): List<AdapterItem> {
 diff --git a/app/src/main/java/org/mozilla/fenix/tabstray/TabsTrayFragment.kt b/app/src/main/java/org/mozilla/fenix/tabstray/TabsTrayFragment.kt
-index 06a9af8d7..fd6e193b4 100644
+index 75cbc4b9f..382755bb0 100644
 --- a/app/src/main/java/org/mozilla/fenix/tabstray/TabsTrayFragment.kt
 +++ b/app/src/main/java/org/mozilla/fenix/tabstray/TabsTrayFragment.kt
 @@ -345,7 +345,6 @@ class TabsTrayFragment : AppCompatDialogFragment() {
@@ -187,13 +185,13 @@ index 06a9af8d7..fd6e193b4 100644
                      tabsTrayMultiselectItemsBinding.menuMultiSelect,
                      tabsTrayBinding.multiselectTitle,
 diff --git a/app/src/main/java/org/mozilla/fenix/tabstray/browser/SelectionBannerBinding.kt b/app/src/main/java/org/mozilla/fenix/tabstray/browser/SelectionBannerBinding.kt
-index f7931f84c..b7574ae8d 100644
+index b5970339a..28590dde2 100644
 --- a/app/src/main/java/org/mozilla/fenix/tabstray/browser/SelectionBannerBinding.kt
 +++ b/app/src/main/java/org/mozilla/fenix/tabstray/browser/SelectionBannerBinding.kt
-@@ -96,10 +96,6 @@ class SelectionBannerBinding(
+@@ -93,10 +93,6 @@ class SelectionBannerBinding(
              navInteractor.onShareTabs(store.state.mode.selectedTabs)
          }
-
+ 
 -        tabsTrayMultiselectItemsBinding.collectMultiSelect.setOnClickListener {
 -            navInteractor.onSaveToCollections(store.state.mode.selectedTabs)
 -        }
@@ -202,7 +200,7 @@ index f7931f84c..b7574ae8d 100644
              store.dispatch(ExitSelectMode)
          }
 diff --git a/app/src/main/res/layout/component_tabstray2.xml b/app/src/main/res/layout/component_tabstray2.xml
-index dabbb016c..d4095c3d7 100644
+index 4bfc41e18..3dfbe57ab 100644
 --- a/app/src/main/res/layout/component_tabstray2.xml
 +++ b/app/src/main/res/layout/component_tabstray2.xml
 @@ -64,7 +64,7 @@
@@ -221,7 +219,7 @@ index 67d2eee9e..01b3348b2 100644
 @@ -9,19 +9,6 @@
      android:layout_height="wrap_content"
      tools:parentTag="androidx.constraintlayout.widget.ConstraintLayout">
-
+ 
 -    <ImageButton
 -        android:id="@+id/collect_multi_select"
 -        android:layout_width="48dp"
@@ -238,6 +236,6 @@ index 67d2eee9e..01b3348b2 100644
      <ImageButton
          android:id="@+id/share_multi_select"
          android:layout_width="48dp"
---
-2.35.1
+-- 
+2.37.2
 

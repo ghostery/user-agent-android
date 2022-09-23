@@ -1,19 +1,19 @@
-From 853a0ed58ee9a2b58dadffd79b9f314092839497 Mon Sep 17 00:00:00 2001
+From f4ed5fc0aece00c33b3a884a6192a9ad36035a5b Mon Sep 17 00:00:00 2001
 From: Sam Macbeth <sam@cliqz.com>
 Date: Mon, 3 Aug 2020 16:46:47 +0200
 Subject: Disabling Telemetry & CrashReports
 
 ---
  app/build.gradle                              |  2 +-
- .../org/mozilla/fenix/FenixApplication.kt     | 40 -------------------
- .../org/mozilla/fenix/components/Analytics.kt | 29 ++++----------
- .../fenix/crashes/DummyCrashReporter.kt       | 19 +++++++++
- app/src/main/res/xml/preferences.xml          | 10 -----
- 7 files changed, 46 insertions(+), 89 deletions(-)
+ .../org/mozilla/fenix/FenixApplication.kt     |  6 +---
+ .../org/mozilla/fenix/components/Analytics.kt | 29 +++++--------------
+ .../fenix/crashes/DummyCrashReporter.kt       | 19 ++++++++++++
+ app/src/main/res/xml/preferences.xml          | 10 -------
+ 5 files changed, 29 insertions(+), 37 deletions(-)
  create mode 100644 app/src/main/java/org/mozilla/fenix/crashes/DummyCrashReporter.kt
 
 diff --git a/app/build.gradle b/app/build.gradle
-index 42cc15cd5..4ee964148 100644
+index fe68d68f4..93ba55042 100644
 --- a/app/build.gradle
 +++ b/app/build.gradle
 @@ -102,7 +102,7 @@ android {
@@ -26,31 +26,31 @@ index 42cc15cd5..4ee964148 100644
              pseudoLocalesEnabled true
          }
 diff --git a/app/src/main/java/org/mozilla/fenix/FenixApplication.kt b/app/src/main/java/org/mozilla/fenix/FenixApplication.kt
-index 5ed920a82..2c672361f 100644
+index 848ec3a1f..612bb2dcb 100644
 --- a/app/src/main/java/org/mozilla/fenix/FenixApplication.kt
 +++ b/app/src/main/java/org/mozilla/fenix/FenixApplication.kt
 @@ -149,7 +149,7 @@ open class FenixApplication : LocaleAwareApplication(), Provider {
-
+ 
      @OptIn(DelicateCoroutinesApi::class) // GlobalScope usage
      protected open fun initializeGlean() {
 -        val telemetryEnabled = settings().isTelemetryEnabled
 +        val telemetryEnabled = false
-
+ 
          logger.debug("Initializing Glean (uploadEnabled=$telemetryEnabled})")
-
-@@ -381,10 +345,6 @@ open class FenixApplication : LocaleAwareApplication(), Provider {
+ 
+@@ -390,10 +390,6 @@ open class FenixApplication : LocaleAwareApplication(), Provider {
      }
-
+ 
      private fun setupCrashReporting() {
 -        components
 -            .analytics
 -            .crashReporter
 -            .install(this)
      }
-
+ 
      /**
 diff --git a/app/src/main/java/org/mozilla/fenix/components/Analytics.kt b/app/src/main/java/org/mozilla/fenix/components/Analytics.kt
-index 69258a76c..7b3f8e589 100644
+index abfd470ac..48a72f57d 100644
 --- a/app/src/main/java/org/mozilla/fenix/components/Analytics.kt
 +++ b/app/src/main/java/org/mozilla/fenix/components/Analytics.kt
 @@ -24,6 +24,7 @@ import org.mozilla.fenix.ReleaseChannel
@@ -69,17 +69,17 @@ index 69258a76c..7b3f8e589 100644
 -            true -> "MozillaOnline"
 -            false -> "Mozilla"
 -        }
-
+ 
          if (isSentryEnabled()) {
              // We treat caught exceptions similar to debug logging.
-@@ -59,17 +56,10 @@ class Analytics(
+@@ -71,17 +68,10 @@ class Analytics(
              )
-
+ 
              services.add(sentryService)
 +        } else {
 +            services.add(DummyCrashReporter())
          }
-
+ 
 -        // The name "Fenix" here matches the product name on Socorro and is unrelated to the actual app name:
 -        // https://bugzilla.mozilla.org/show_bug.cgi?id=1523284
 -        val socorroService = MozillaSocorroService(
@@ -92,7 +92,7 @@ index 69258a76c..7b3f8e589 100644
          val intent = Intent(context, HomeActivity::class.java).apply {
              flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
          }
-@@ -88,11 +78,11 @@ class Analytics(
+@@ -100,11 +90,11 @@ class Analytics(
          CrashReporter(
              context = context,
              services = services,
@@ -106,8 +106,8 @@ index 69258a76c..7b3f8e589 100644
              ),
              enabled = true,
              nonFatalCrashIntent = pendingIntent
-@@ -101,12 +91,9 @@ class Analytics(
-
+@@ -113,12 +103,9 @@ class Analytics(
+ 
      val metrics: MetricController by lazyMonitored {
          MetricController.create(
 -            listOf(
@@ -149,13 +149,13 @@ index 000000000..de5b53ff5
 +}
 \ No newline at end of file
 diff --git a/app/src/main/res/xml/preferences.xml b/app/src/main/res/xml/preferences.xml
-index e1e9be315..9308df8be 100644
+index 5cc4db58d..42e670dbe 100644
 --- a/app/src/main/res/xml/preferences.xml
 +++ b/app/src/main/res/xml/preferences.xml
-@@ -125,16 +125,6 @@
+@@ -130,16 +130,6 @@
              app:iconSpaceReserved="false"
              android:title="@string/preferences_delete_browsing_data_on_quit" />
-
+ 
 -        <androidx.preference.Preference
 -            android:key="@string/pref_key_notifications"
 -            app:iconSpaceReserved="false"
@@ -167,8 +167,8 @@ index e1e9be315..9308df8be 100644
 -            android:title="@string/preferences_data_collection" />
 -
      </androidx.preference.PreferenceCategory>
-
+ 
      <PreferenceCategory
---
-2.35.1
+-- 
+2.37.2
 

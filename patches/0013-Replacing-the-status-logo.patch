@@ -1,4 +1,4 @@
-From 67145063d1a6b85e323a1c9e23e9563f6bef3c9f Mon Sep 17 00:00:00 2001
+From b7b1781f73d91842385c1400208250acce7a9814 Mon Sep 17 00:00:00 2001
 From: Stefano Pacifici <stefano.pacifici@gmail.com>
 Date: Mon, 15 Jun 2020 10:40:37 +0200
 Subject: Replacing the status logo
@@ -112,5 +112,5 @@ index 000000000..3eefd4af1
 +  </g>
 +</svg>
 -- 
-2.35.1
+2.37.2
 

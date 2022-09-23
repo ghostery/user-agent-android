@@ -1,11 +1,11 @@
-From 24b10cc2b7d141ddde8154c469c14f1a4df9c188 Mon Sep 17 00:00:00 2001
+From 6e47a828d9d7d80b0034928279af29d11ef428aa Mon Sep 17 00:00:00 2001
 From: Sam Macbeth <sam@cliqz.com>
 Date: Mon, 3 Aug 2020 18:21:01 +0200
 Subject: Removig "What's new" from the Home menu
 
 ---
  .../java/org/mozilla/fenix/home/HomeMenu.kt   | 52 -------------------
- 2 files changed, 22 insertions(+), 74 deletions(-)
+ 1 file changed, 52 deletions(-)
 
 diff --git a/app/src/main/java/org/mozilla/fenix/home/HomeMenu.kt b/app/src/main/java/org/mozilla/fenix/home/HomeMenu.kt
 index 1778be13a..09f80f7fe 100644
@@ -14,7 +14,7 @@ index 1778be13a..09f80f7fe 100644
 @@ -99,14 +99,6 @@ class HomeMenu(
      private fun getSyncItemTitle(): String =
          accountManager.accountProfileEmail ?: context.getString(R.string.sync_menu_sign_in)
-
+ 
 -    private val syncSignInMenuItem = BrowserMenuImageText(
 -        getSyncItemTitle(),
 -        R.drawable.ic_synced_tabs,
@@ -29,7 +29,7 @@ index 1778be13a..09f80f7fe 100644
 @@ -143,14 +135,6 @@ class HomeMenu(
              onItemTapped.invoke(Item.Downloads)
          }
-
+ 
 -        val extensionsItem = BrowserMenuImageText(
 -            context.getString(R.string.browser_menu_add_ons),
 -            R.drawable.ic_addons_extensions,
@@ -44,7 +44,7 @@ index 1778be13a..09f80f7fe 100644
 @@ -158,26 +142,6 @@ class HomeMenu(
              onItemTapped.invoke(Item.ManageAccountAndDevices)
          }
-
+ 
 -        val whatsNewItem = BrowserMenuHighlightableItem(
 -            context.getString(R.string.browser_menu_whats_new),
 -            R.drawable.ic_whats_new,
@@ -71,7 +71,7 @@ index 1778be13a..09f80f7fe 100644
 @@ -196,30 +160,14 @@ class HomeMenu(
              onItemTapped.invoke(Item.Settings)
          }
-
+ 
 -        // Only query account manager if it has been initialized.
 -        // We don't want to cause its initialization just for this check.
 -        val accountAuthItem =
@@ -99,6 +99,6 @@ index 1778be13a..09f80f7fe 100644
              customizeHomeItem,
              settingsItem,
              if (settings.shouldDeleteBrowsingDataOnQuit) quitItem else null
---
-2.35.1
+-- 
+2.37.2
 

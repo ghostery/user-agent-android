@@ -1,4 +1,4 @@
-From d76e91f382a8cb5171c98688131986dea6f0ae1b Mon Sep 17 00:00:00 2001
+From cc6902c80af2d3ddc4c94627b5c0de2b840183b7 Mon Sep 17 00:00:00 2001
 From: Stefano Pacifici <stefano.pacifici@gmail.com>
 Date: Tue, 7 Jul 2020 14:43:34 +0200
 Subject: Changing the progress bar color
@@ -8,7 +8,7 @@ Subject: Changing the progress bar color
  1 file changed, 4 insertions(+), 3 deletions(-)
 
 diff --git a/app/src/main/res/drawable/progress_gradient.xml b/app/src/main/res/drawable/progress_gradient.xml
-index a451c6cef..286fc083c 100644
+index 76809e6b7..740d8237f 100644
 --- a/app/src/main/res/drawable/progress_gradient.xml
 +++ b/app/src/main/res/drawable/progress_gradient.xml
 @@ -17,11 +17,12 @@
@@ -28,5 +28,5 @@ index a451c6cef..286fc083c 100644
          </scale>
      </item>
 -- 
-2.35.1
+2.37.2
 

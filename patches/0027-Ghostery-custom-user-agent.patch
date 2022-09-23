@@ -1,4 +1,4 @@
-From 468b4aca3315dd361ead3e837f005f72bda454ad Mon Sep 17 00:00:00 2001
+From 393c70d385c998d9d9ff9c81835352fb17fe7179 Mon Sep 17 00:00:00 2001
 From: Stefano Pacifici <stefano.pacifici@gmail.com>
 Date: Wed, 29 Jul 2020 19:08:26 +0200
 Subject: Ghostery custom user agent
@@ -8,7 +8,7 @@ Subject: Ghostery custom user agent
  1 file changed, 8 insertions(+)
 
 diff --git a/app/src/main/java/org/mozilla/fenix/components/Core.kt b/app/src/main/java/org/mozilla/fenix/components/Core.kt
-index 1fd0c992e..fd4542120 100644
+index 0f2b8d1ad..193bfb4e6 100644
 --- a/app/src/main/java/org/mozilla/fenix/components/Core.kt
 +++ b/app/src/main/java/org/mozilla/fenix/components/Core.kt
 @@ -97,6 +97,7 @@ import org.mozilla.fenix.settings.advanced.getSelectedLocale
@@ -18,7 +18,7 @@ index 1fd0c992e..fd4542120 100644
 +import org.mozilla.geckoview.GeckoSession
  import java.util.UUID
  import java.util.concurrent.TimeUnit
-
+ 
 @@ -115,6 +116,7 @@ class Core(
       */
      val engine: Engine by lazyMonitored {
@@ -30,7 +30,7 @@ index 1fd0c992e..fd4542120 100644
 @@ -170,6 +172,12 @@ class Core(
          }
      }
-
+ 
 +    val customUserAgent by lazyMonitored {
 +        val defaultUserAgent = GeckoSession.getDefaultUserAgent()
 +        val (prefix, postfix) = defaultUserAgent.split(')')
@@ -40,6 +40,6 @@ index 1fd0c992e..fd4542120 100644
      /**
       * Passed to [engine] to intercept requests for app links,
       * and various features triggered by page load requests.
---
-2.35.1
+-- 
+2.37.2
 

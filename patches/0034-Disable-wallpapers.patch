@@ -1,38 +1,27 @@
-From f063b334e2728a640c92b86a67d5921b8cc9be5e Mon Sep 17 00:00:00 2001
+From 1bca9948f00548a4b52abb2ccaa2ab6e1cb3ea6f Mon Sep 17 00:00:00 2001
 From: Krzysztof Modras <chrmod@chrmod.net>
 Date: Fri, 15 Apr 2022 16:10:00 +0200
 Subject: Disable wallpapers
 
 ---
- app/src/main/java/org/mozilla/fenix/FeatureFlags.kt | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+ app/src/main/res/xml/home_preferences.xml | 4 ----
+ 1 file changed, 4 deletions(-)
 
-diff --git a/app/src/main/java/org/mozilla/fenix/FeatureFlags.kt b/app/src/main/java/org/mozilla/fenix/FeatureFlags.kt
-index 44cc3b8cf..daa2fcf35 100644
---- a/app/src/main/java/org/mozilla/fenix/FeatureFlags.kt
-+++ b/app/src/main/java/org/mozilla/fenix/FeatureFlags.kt
-@@ -74,7 +74,7 @@ object FeatureFlags {
-     /**
-      * Enables showing the wallpaper functionality.
-      */
--    const val showWallpapers = true
-+    const val showWallpapers = false
+diff --git a/app/src/main/res/xml/home_preferences.xml b/app/src/main/res/xml/home_preferences.xml
+index a13a10e16..0f01466be 100644
+--- a/app/src/main/res/xml/home_preferences.xml
++++ b/app/src/main/res/xml/home_preferences.xml
+@@ -41,10 +41,6 @@
+         android:key="@string/pref_key_pocket_sponsored_stories"
+         android:title="@string/customize_toggle_pocket_sponsored" />
  
-     /**
-      * Enables the Contile top sites.
-@@ -89,10 +89,9 @@ object FeatureFlags {
-     /**
-      * Enables themed wallpapers feature.
-      */
-+    @Suppress("UNUSED_PARAMETER")
-     fun isThemedWallpapersFeatureEnabled(context: Context): Boolean {
--        val langTag = LocaleManager.getCurrentLocale(context)
--            ?.toLanguageTag() ?: getSystemDefault().toLanguageTag()
--        return listOf("en-US", "es-US").contains(langTag)
-+        return false
-     }
- 
-     /**
+-    <androidx.preference.Preference
+-        android:key="@string/pref_key_wallpapers"
+-        android:title="@string/customize_wallpapers" />
+-
+     <androidx.preference.PreferenceCategory
+         android:layout="@layout/preference_cat_style"
+         android:title="@string/preferences_opening_screen"
 -- 
-2.35.1
+2.37.2
 

@@ -1,16 +1,15 @@
-From 35ac4d6413b86f55594794bc8e2fd2a95035228e Mon Sep 17 00:00:00 2001
+From 0855599766cece8a2dcdf05ae4add1271e1866a0 Mon Sep 17 00:00:00 2001
 From: Stefano Pacifici <stefano.pacifici@gmail.com>
 Date: Tue, 30 Jun 2020 17:59:32 +0200
 Subject: Ghostery Release fixes
 
 ---
- app/src/main/java/org/mozilla/fenix/Config.kt        | 12 ++++++++++--
- app/src/migration/AndroidManifest.xml                |  4 +++-
- .../org/mozilla/fenix/MigratingFenixApplication.kt   |  2 ++
- 3 files changed, 15 insertions(+), 3 deletions(-)
+ app/src/main/java/org/mozilla/fenix/Config.kt                | 5 ++++-
+ .../main/java/org/mozilla/fenix/browser/BrowserFragment.kt   | 2 +-
+ 2 files changed, 5 insertions(+), 2 deletions(-)
 
 diff --git a/app/src/main/java/org/mozilla/fenix/Config.kt b/app/src/main/java/org/mozilla/fenix/Config.kt
-index 702bb532a..2c0b17310 100644
+index 114eab812..61467647c 100644
 --- a/app/src/main/java/org/mozilla/fenix/Config.kt
 +++ b/app/src/main/java/org/mozilla/fenix/Config.kt
 @@ -8,7 +8,8 @@ enum class ReleaseChannel {
@@ -20,7 +19,7 @@ index 702bb532a..2c0b17310 100644
 -    Release;
 +    Release,
 +    Ghostery;
-
+ 
      val isReleased: Boolean
          get() = when (this) {
 @@ -32,6 +33,7 @@ enum class ReleaseChannel {
@@ -30,7 +29,7 @@ index 702bb532a..2c0b17310 100644
 +            Ghostery -> true
              else -> false
          }
-
+ 
 @@ -55,6 +57,7 @@ object Config {
          "nightly" -> ReleaseChannel.Nightly
          "beta" -> ReleaseChannel.Beta
@@ -39,6 +38,19 @@ index 702bb532a..2c0b17310 100644
          else -> {
              throw IllegalStateException("Unknown build type: ${BuildConfig.BUILD_TYPE}")
          }
---
-2.35.1
+diff --git a/app/src/main/java/org/mozilla/fenix/browser/BrowserFragment.kt b/app/src/main/java/org/mozilla/fenix/browser/BrowserFragment.kt
+index 6d956f96b..23163a29a 100644
+--- a/app/src/main/java/org/mozilla/fenix/browser/BrowserFragment.kt
++++ b/app/src/main/java/org/mozilla/fenix/browser/BrowserFragment.kt
+@@ -78,7 +78,7 @@ class BrowserFragment : BaseBrowserFragment(), UserInteractionHandler {
+                 R.drawable.ic_ghostery
+             )!!,
+             contentDescription = "Ghostery",
+-            iconTintColorResource = ThemeManager.resolveAttribute(R.attr.primaryText, context),
++            iconTintColorResource = ThemeManager.resolveAttribute(R.attr.textPrimary, context),
+             listener = {
+                 val globalAction = requireComponents.core.store.state.extensions.get("firefox@ghostery.com")?.browserAction
+                 if (globalAction != null) {
+-- 
+2.37.2
 

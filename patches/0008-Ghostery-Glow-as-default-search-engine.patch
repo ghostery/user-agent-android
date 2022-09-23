@@ -1,4 +1,4 @@
-From e6240229fc68a57aeec8d3c797ba66f1d15a196d Mon Sep 17 00:00:00 2001
+From 636cf5d7b735f3aeb4d23b485aca594034f25a5e Mon Sep 17 00:00:00 2001
 From: Stefano Pacifici <stefano.pacifici@gmail.com>
 Date: Mon, 8 Jun 2020 16:28:41 +0200
 Subject: Ghostery Glow as default search engine
@@ -7,8 +7,8 @@ Subject: Ghostery Glow as default search engine
  app/src/main/assets/search/list.json           | 11 +++++++++++
  app/src/main/assets/searchplugins/ghostery.xml | 18 ++++++++++++++++++
  .../main/assets/searchplugins/startpage.xml    | 12 ++++++++++++
- .../java/org/mozilla/fenix/components/Core.kt  | 10 +++++++++-
- 4 files changed, 50 insertions(+), 1 deletion(-)
+ .../java/org/mozilla/fenix/components/Core.kt  | 11 ++++++++++-
+ 4 files changed, 51 insertions(+), 1 deletion(-)
  create mode 100644 app/src/main/assets/search/list.json
  create mode 100644 app/src/main/assets/searchplugins/ghostery.xml
  create mode 100644 app/src/main/assets/searchplugins/startpage.xml
@@ -73,7 +73,7 @@ index 000000000..52eadfe4f
 +<Url type="application/x-suggestions+json" rel="suggestions" template="https://www.startpage.com/suggestions?q={searchTerms}&amp;format=opensearch"/>
 +</OpenSearchDescription>
 diff --git a/app/src/main/java/org/mozilla/fenix/components/Core.kt b/app/src/main/java/org/mozilla/fenix/components/Core.kt
-index ea4ddf81a..48ff5f843 100644
+index 098da5015..c235011f9 100644
 --- a/app/src/main/java/org/mozilla/fenix/components/Core.kt
 +++ b/app/src/main/java/org/mozilla/fenix/components/Core.kt
 @@ -8,6 +8,7 @@ import android.content.Context
@@ -84,12 +84,12 @@ index ea4ddf81a..48ff5f843 100644
  import androidx.appcompat.content.res.AppCompatResources.getDrawable
  import androidx.core.content.ContextCompat
  import androidx.core.graphics.drawable.toBitmap
-@@ -141,6 +141,14 @@ class Core(
+@@ -150,6 +151,14 @@ class Core(
              if (Config.channel.isNightlyOrDebug || Config.channel.isBeta) {
                  WebCompatReporterFeature.install(it, "fenix")
              }
 +
-+            it.installWebExtension("search@ghostery.com", "resource://android/assets/extensions/ghostery-search/",
++            it.installWebExtension("GhosterySearch", "resource://android/assets/extensions/ghostery-search/",
 +                onSuccess = {
 +                    Log.d("GHOSTERY", "Installed Ghostery Search webextension: ${it.id}")
 +                },
@@ -98,8 +98,8 @@ index ea4ddf81a..48ff5f843 100644
 +                })
          }
      }
-
-@@ -207,7 +215,7 @@ class Core(
+ 
+@@ -238,7 +247,7 @@ class Core(
                  RegionMiddleware(context, locationService),
                  SearchMiddleware(
                      context,
@@ -108,6 +108,6 @@ index ea4ddf81a..48ff5f843 100644
                      migration = SearchMigration(context)
                  ),
                  RecordingDevicesMiddleware(context),
---
-2.35.1
+-- 
+2.37.2
 
