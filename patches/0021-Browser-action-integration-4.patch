@@ -1,4 +1,4 @@
-From 8fbf0f56002604d8aeabb99a582366a0a65e39de Mon Sep 17 00:00:00 2001
+From 261bf3f40d234486e5d1609f29a2777a9b554d5b Mon Sep 17 00:00:00 2001
 From: Sam Macbeth <sammacbeth@users.noreply.github.com>
 Date: Mon, 29 Jun 2020 16:29:21 +0200
 Subject: Browser action integration (#4)
@@ -17,7 +17,7 @@ Subject: Browser action integration (#4)
  create mode 100644 app/src/main/res/drawable/ic_ghostery.xml
 
 diff --git a/app/src/main/java/org/mozilla/fenix/browser/BrowserFragment.kt b/app/src/main/java/org/mozilla/fenix/browser/BrowserFragment.kt
-index 49b11f1ae..6d956f96b 100644
+index 49b11f1ae..23163a29a 100644
 --- a/app/src/main/java/org/mozilla/fenix/browser/BrowserFragment.kt
 +++ b/app/src/main/java/org/mozilla/fenix/browser/BrowserFragment.kt
 @@ -72,6 +72,23 @@ class BrowserFragment : BaseBrowserFragment(), UserInteractionHandler {
@@ -30,7 +30,7 @@ index 49b11f1ae..6d956f96b 100644
 +                R.drawable.ic_ghostery
 +            )!!,
 +            contentDescription = "Ghostery",
-+            iconTintColorResource = ThemeManager.resolveAttribute(R.attr.primaryText, context),
++            iconTintColorResource = ThemeManager.resolveAttribute(R.attr.textPrimary, context),
 +            listener = {
 +                val globalAction = requireComponents.core.store.state.extensions.get("firefox@ghostery.com")?.browserAction
 +                if (globalAction != null) {
