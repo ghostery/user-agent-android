@@ -20,10 +20,10 @@ diff --git a/app/src/main/java/org/mozilla/fenix/browser/BrowserFragment.kt b/ap
 index da88c5939..0e9049b1c 100644
 --- a/app/src/main/java/org/mozilla/fenix/browser/BrowserFragment.kt
 +++ b/app/src/main/java/org/mozilla/fenix/browser/BrowserFragment.kt
-@@ -71,6 +71,23 @@ class BrowserFragment : BaseBrowserFragment(), UserInteractionHandler {
+@@ -72,6 +72,23 @@ class BrowserFragment : BaseBrowserFragment(), UserInteractionHandler {
              )
          }
- 
+
 +        val ghosteryAction = BrowserToolbar.Button(
 +            imageDrawable = AppCompatResources.getDrawable(
 +                context,
@@ -58,7 +58,7 @@ index 009c3983c..101053ff7 100644
              context = context,
              ioScope = viewLifecycleOwner.lifecycleScope + Dispatchers.IO,
 @@ -132,11 +130,9 @@ class QuickSettingsSheetDialogFragment : FenixDialogFragment() {
- 
+
      override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
          super.onViewCreated(view, savedInstanceState)
 -        observeTrackersChange(requireComponents.core.store)
@@ -105,18 +105,18 @@ index e447f5f99..a1189eeb5 100644
              android:layout_height="wrap_content"
 -            app:layout_constraintBottom_toTopOf="@id/trackingProtectionDivider" />
 +            app:layout_constraintBottom_toTopOf="@id/clearSiteDataLayout" />
- 
+
          <View
              android:id="@+id/webSitePermissionsDivider"
 @@ -37,21 +37,6 @@
-             android:background="?neutralFaded"
+             android:background="?borderPrimary"
              app:layout_constraintBottom_toTopOf="@id/websitePermissionsLayout" />
- 
+
 -        <FrameLayout
 -            android:id="@+id/trackingProtectionLayout"
 -            android:layout_width="match_parent"
 -            android:layout_height="wrap_content"
--            app:layout_constraintBottom_toTopOf="@+id/clearSiteDataLayout" />
+-            app:layout_constraintBottom_toTopOf="@+id/clearSiteDataDivider" />
 -
 -        <View
 -            android:id="@+id/trackingProtectionDivider"
@@ -124,12 +124,12 @@ index e447f5f99..a1189eeb5 100644
 -            android:layout_height="1dp"
 -            android:layout_marginTop="8dp"
 -            android:layout_marginBottom="8dp"
--            android:background="?neutralFaded"
+-            android:background="?borderPrimary"
 -            app:layout_constraintBottom_toTopOf="@id/trackingProtectionLayout" />
 -
          <FrameLayout
              android:id="@+id/clearSiteDataLayout"
              android:layout_width="match_parent"
--- 
+--
 2.35.1
 
