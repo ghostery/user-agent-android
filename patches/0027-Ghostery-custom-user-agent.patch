@@ -11,15 +11,15 @@ diff --git a/app/src/main/java/org/mozilla/fenix/components/Core.kt b/app/src/ma
 index 1fd0c992e..fd4542120 100644
 --- a/app/src/main/java/org/mozilla/fenix/components/Core.kt
 +++ b/app/src/main/java/org/mozilla/fenix/components/Core.kt
-@@ -90,6 +90,7 @@ import org.mozilla.fenix.tabstray.SearchTermTabGroupMiddleware
+@@ -97,6 +97,7 @@ import org.mozilla.fenix.settings.advanced.getSelectedLocale
  import org.mozilla.fenix.telemetry.TelemetryMiddleware
  import org.mozilla.fenix.utils.getUndoDelay
  import org.mozilla.geckoview.GeckoRuntime
 +import org.mozilla.geckoview.GeckoSession
+ import java.util.UUID
  import java.util.concurrent.TimeUnit
- 
- /**
-@@ -107,6 +108,7 @@ class Core(
+
+@@ -115,6 +116,7 @@ class Core(
       */
      val engine: Engine by lazyMonitored {
          val defaultSettings = DefaultSettings(
@@ -27,10 +27,10 @@ index 1fd0c992e..fd4542120 100644
              requestInterceptor = requestInterceptor,
              remoteDebuggingEnabled = context.settings().isRemoteDebuggingEnabled &&
                  Build.VERSION.SDK_INT >= Build.VERSION_CODES.M,
-@@ -161,6 +163,12 @@ class Core(
+@@ -170,6 +172,12 @@ class Core(
          }
      }
- 
+
 +    val customUserAgent by lazyMonitored {
 +        val defaultUserAgent = GeckoSession.getDefaultUserAgent()
 +        val (prefix, postfix) = defaultUserAgent.split(')')
@@ -40,6 +40,6 @@ index 1fd0c992e..fd4542120 100644
      /**
       * Passed to [engine] to intercept requests for app links,
       * and various features triggered by page load requests.
--- 
+--
 2.35.1
 
