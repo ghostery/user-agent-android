@@ -13,74 +13,32 @@ diff --git a/app/src/main/java/org/mozilla/fenix/Config.kt b/app/src/main/java/o
 index 702bb532a..2c0b17310 100644
 --- a/app/src/main/java/org/mozilla/fenix/Config.kt
 +++ b/app/src/main/java/org/mozilla/fenix/Config.kt
-@@ -8,7 +8,10 @@ enum class ReleaseChannel {
+@@ -8,7 +8,8 @@ enum class ReleaseChannel {
      Debug,
      Nightly,
      Beta,
 -    Release;
 +    Release,
-+    /* Ghostery Begin: add Ghostery release channel */
 +    Ghostery;
-+    /* Ghostery End */
- 
+
      val isReleased: Boolean
          get() = when (this) {
-@@ -32,6 +35,7 @@ enum class ReleaseChannel {
+@@ -32,6 +33,7 @@ enum class ReleaseChannel {
      val isRelease: Boolean
          get() = when (this) {
              Release -> true
-+            Ghostery -> true // Ghostery
++            Ghostery -> true
              else -> false
          }
- 
-@@ -67,6 +71,7 @@ object Config {
+
+@@ -55,6 +57,7 @@ object Config {
          "nightly" -> ReleaseChannel.Nightly
          "beta" -> ReleaseChannel.Beta
          "release" -> ReleaseChannel.Release
-+        "ghostery" -> ReleaseChannel.Ghostery // Ghostery
++        "ghostery" -> ReleaseChannel.Ghostery
          else -> {
              throw IllegalStateException("Unknown build type: ${BuildConfig.BUILD_TYPE}")
          }
-@@ -75,5 +80,8 @@ object Config {
- 
- private val fennecChannels: List<ReleaseChannel> = listOf(
-     ReleaseChannel.Beta,
--    ReleaseChannel.Release
-+    ReleaseChannel.Release,
-+    /* Ghostery Begin: adding GHostery release channel */
-+    ReleaseChannel.Ghostery
-+    /* Ghostery End */
- )
-diff --git a/app/src/migration/AndroidManifest.xml b/app/src/migration/AndroidManifest.xml
-index a90db330d..787d48949 100644
---- a/app/src/migration/AndroidManifest.xml
-+++ b/app/src/migration/AndroidManifest.xml
-@@ -7,8 +7,10 @@
-                 - https://issuetracker.google.com/issues/36905922
- -->
- <manifest xmlns:android="http://schemas.android.com/apk/res/android"
--    xmlns:tools="http://schemas.android.com/tools"
-+    xmlns:tools="http://schemas.android.com/tools">
-+    <!-- Ghostery Begin: Removing the user id -+>
-     android:sharedUserId="${sharedUserId}">
-+    <!+- Ghostery End -->
-     <application
-         android:name="org.mozilla.fenix.MigratingFenixApplication"
-         tools:replace="android:name">
-diff --git a/app/src/migration/java/org/mozilla/fenix/MigratingFenixApplication.kt b/app/src/migration/java/org/mozilla/fenix/MigratingFenixApplication.kt
-index 777bee33e..b00ae71a8 100644
---- a/app/src/migration/java/org/mozilla/fenix/MigratingFenixApplication.kt
-+++ b/app/src/migration/java/org/mozilla/fenix/MigratingFenixApplication.kt
-@@ -63,7 +63,9 @@ class MigratingFenixApplication : FenixApplication() {
- 
-         // Now that we have migrated from Fennec whether the user wants to enable telemetry we can
-         // initialize Glean
-+        /* Ghostery Begin: we do not use Gleen +/
-         initializeGlean()
-+        /+ Ghostery End */
- 
-         // Fenix application initialization can happen now.
-         super.setupInMainProcessOnly()
--- 
+--
 2.35.1
 
