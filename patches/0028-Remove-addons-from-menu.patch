@@ -11,17 +11,17 @@ diff --git a/app/src/main/java/org/mozilla/fenix/components/toolbar/DefaultToolb
 index 3a51f694d..5c6837573 100644
 --- a/app/src/main/java/org/mozilla/fenix/components/toolbar/DefaultToolbarMenu.kt
 +++ b/app/src/main/java/org/mozilla/fenix/components/toolbar/DefaultToolbarMenu.kt
-@@ -15,6 +15,7 @@ import kotlinx.coroutines.Job
- import kotlinx.coroutines.flow.collect
+@@ -14,6 +14,7 @@ import androidx.lifecycle.lifecycleScope
+ import kotlinx.coroutines.Job
  import kotlinx.coroutines.flow.mapNotNull
  import kotlinx.coroutines.launch
 +import mozilla.components.browser.menu.BrowserMenuBuilder
  import mozilla.components.browser.menu.BrowserMenuHighlight
  import mozilla.components.browser.menu.WebExtensionBrowserMenuBuilder
  import mozilla.components.browser.menu.item.BrowserMenuDivider
-@@ -76,19 +77,10 @@ open class DefaultToolbarMenu(
+@@ -75,18 +76,9 @@ open class DefaultToolbarMenu(
          get() = store.state.selectedTab
- 
+
      override val menuBuilder by lazy {
 -        WebExtensionBrowserMenuBuilder(
 -            items = coreMenuItems,
@@ -35,14 +35,12 @@ index 3a51f694d..5c6837573 100644
 -                onItemTapped.invoke(ToolbarMenu.Item.AddonsManager)
 -            },
 -            appendExtensionSubMenuAtStart = shouldUseBottomToolbar
--        )
-+       BrowserMenuBuilder(
-+           coreMenuItems,
-+           endOfMenuAlwaysVisible = shouldUseBottomToolbar
-+       )
++        BrowserMenuBuilder(
++            coreMenuItems,
++            endOfMenuAlwaysVisible = shouldUseBottomToolbar
+         )
      }
- 
-     override val menuToolbar by lazy {
--- 
+
+--
 2.35.1
 
