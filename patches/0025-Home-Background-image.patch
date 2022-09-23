@@ -12,13 +12,12 @@ diff --git a/app/src/main/java/org/mozilla/fenix/home/HomeFragment.kt b/app/src/
 index 2ac43d3e3..a9365bf8f 100644
 --- a/app/src/main/java/org/mozilla/fenix/home/HomeFragment.kt
 +++ b/app/src/main/java/org/mozilla/fenix/home/HomeFragment.kt
-@@ -1261,9 +1261,7 @@ class HomeFragment : Fragment() {
-             FeatureFlags.isThemedWallpapersFeatureEnabled(localContext)
+@@ -947,8 +947,7 @@ class HomeFragment : Fragment() {
+         }
      }
 
 -    private fun shouldEnableWallpaper() =
--        FeatureFlags.showWallpapers &&
--            (activity as? HomeActivity)?.themeManager?.currentTheme?.isPrivate?.not() ?: false
+-        (activity as? HomeActivity)?.themeManager?.currentTheme?.isPrivate?.not() ?: false
 +    private fun shouldEnableWallpaper() = false
 
      companion object {
