@@ -30,7 +30,7 @@ index da88c5939..0e9049b1c 100644
 +                R.drawable.ic_ghostery
 +            )!!,
 +            contentDescription = "Ghostery",
-+            iconTintColorResource = ThemeManager.resolveAttribute(R.attr.primaryText, context),
++            iconTintColorResource = ThemeManager.resolveAttribute(R.attr.textPrimary, context),
 +            listener = {
 +                val globalAction = requireComponents.core.store.state.extensions.get("firefox@ghostery.com")?.browserAction
 +                if (globalAction != null) {
