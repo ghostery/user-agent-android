@@ -1,12 +1,33 @@
-From 1bca9948f00548a4b52abb2ccaa2ab6e1cb3ea6f Mon Sep 17 00:00:00 2001
+From c9c4d97297c30364fb2e7c1af111705bd5c283c7 Mon Sep 17 00:00:00 2001
 From: Krzysztof Modras <chrmod@chrmod.net>
 Date: Fri, 15 Apr 2022 16:10:00 +0200
 Subject: Disable wallpapers
 
 ---
- app/src/main/res/xml/home_preferences.xml | 4 ----
- 1 file changed, 4 deletions(-)
+ .../org/mozilla/fenix/settings/HomeSettingsFragment.kt   | 9 ---------
+ app/src/main/res/xml/home_preferences.xml                | 4 ----
+ 2 files changed, 13 deletions(-)
 
+diff --git a/app/src/main/java/org/mozilla/fenix/settings/HomeSettingsFragment.kt b/app/src/main/java/org/mozilla/fenix/settings/HomeSettingsFragment.kt
+index 5660541e6..40c7c6e8b 100644
+--- a/app/src/main/java/org/mozilla/fenix/settings/HomeSettingsFragment.kt
++++ b/app/src/main/java/org/mozilla/fenix/settings/HomeSettingsFragment.kt
+@@ -164,15 +164,6 @@ class HomeSettingsFragment : PreferenceFragmentCompat() {
+         val openingScreenAfterFourHours =
+             requirePreference<RadioButtonPreference>(R.string.pref_key_start_on_home_after_four_hours)
+ 
+-        requirePreference<Preference>(R.string.pref_key_wallpapers).apply {
+-            setOnPreferenceClickListener {
+-                view?.findNavController()?.navigate(
+-                    HomeSettingsFragmentDirections.actionHomeSettingsFragmentToWallpaperSettingsFragment()
+-                )
+-                true
+-            }
+-        }
+-
+         addToRadioGroup(
+             openingScreenRadioHomepage,
+             openingScreenLastTab,
 diff --git a/app/src/main/res/xml/home_preferences.xml b/app/src/main/res/xml/home_preferences.xml
 index a13a10e16..0f01466be 100644
 --- a/app/src/main/res/xml/home_preferences.xml
