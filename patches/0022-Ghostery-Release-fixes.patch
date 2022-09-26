@@ -1,11 +1,12 @@
-From 0855599766cece8a2dcdf05ae4add1271e1866a0 Mon Sep 17 00:00:00 2001
+From 43ea46cb380263c05c91b6f625f54c7c09d5a44a Mon Sep 17 00:00:00 2001
 From: Stefano Pacifici <stefano.pacifici@gmail.com>
 Date: Tue, 30 Jun 2020 17:59:32 +0200
 Subject: Ghostery Release fixes
 
 ---
- app/src/main/java/org/mozilla/fenix/Config.kt                | 5 ++++-
- 2 files changed, 5 insertions(+), 2 deletions(-)
+ app/src/main/java/org/mozilla/fenix/Config.kt | 5 ++++-
+ nimbus.fml.yaml                               | 1 +
+ 2 files changed, 5 insertions(+), 1 deletion(-)
 
 diff --git a/app/src/main/java/org/mozilla/fenix/Config.kt b/app/src/main/java/org/mozilla/fenix/Config.kt
 index 114eab812..61467647c 100644
@@ -18,7 +19,7 @@ index 114eab812..61467647c 100644
 -    Release;
 +    Release,
 +    Ghostery;
-
+ 
      val isReleased: Boolean
          get() = when (this) {
 @@ -32,6 +33,7 @@ enum class ReleaseChannel {
@@ -28,7 +29,7 @@ index 114eab812..61467647c 100644
 +            Ghostery -> true
              else -> false
          }
-
+ 
 @@ -55,6 +57,7 @@ object Config {
          "nightly" -> ReleaseChannel.Nightly
          "beta" -> ReleaseChannel.Beta
@@ -37,6 +38,18 @@ index 114eab812..61467647c 100644
          else -> {
              throw IllegalStateException("Unknown build type: ${BuildConfig.BUILD_TYPE}")
          }
---
+diff --git a/nimbus.fml.yaml b/nimbus.fml.yaml
+index e187a8097..ec5143e4f 100644
+--- a/nimbus.fml.yaml
++++ b/nimbus.fml.yaml
+@@ -4,6 +4,7 @@ channels:
+   - beta
+   - nightly
+   - developer
++  - ghostery
+ features:
+   homescreen:
+     description: The homescreen that the user goes to when they press home or new tab.
+-- 
 2.37.2
 
