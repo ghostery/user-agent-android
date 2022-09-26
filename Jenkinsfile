@@ -30,5 +30,8 @@ node('browser-builder') {
                 }
             }
         }
+        stage('archive') {
+            archiveArtifacts artifacts: 'browser/app/build/outputs/apk/**/*.apk'
+        }
     }
 }
