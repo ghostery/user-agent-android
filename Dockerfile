@@ -48,7 +48,7 @@ RUN dpkg --add-architecture i386 && \
     apt-get clean -y && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-RUN gem install fastlane --version 2.154.0
+RUN gem install fastlane --version 2.210.1
 
 # Set the locale
 RUN locale-gen en_US en_US.UTF-8
