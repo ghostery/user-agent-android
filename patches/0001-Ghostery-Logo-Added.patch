@@ -1,4 +1,4 @@
-From 7831c470c75d6f8e5b95cf4ee003ba4b9e499ab1 Mon Sep 17 00:00:00 2001
+From 962de08f28223f82299ea48129f5eaae53f79e4d Mon Sep 17 00:00:00 2001
 From: Sam Macbeth <sam@cliqz.com>
 Date: Mon, 24 Aug 2020 16:19:12 +0200
 Subject: Ghostery Logo Added
@@ -6,7 +6,8 @@ Subject: Ghostery Logo Added
 ---
  app/build.gradle                              | 19 ++++++++++++++++++-
  .../res/mipmap-anydpi-v26/ic_launcher.xml     |  2 +-
- 2 files changed, 19 insertions(+), 2 deletions(-)
+ .../mipmap-anydpi-v26/ic_launcher_round.xml   |  2 +-
+ 3 files changed, 20 insertions(+), 3 deletions(-)
 
 diff --git a/app/build.gradle b/app/build.gradle
 index f346771cc..fe68d68f4 100644
@@ -49,6 +50,18 @@ diff --git a/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml b/app/src/main/r
 index be0fd11ac..6736fafb7 100644
 --- a/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml
 +++ b/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml
+@@ -3,6 +3,6 @@
+    - License, v. 2.0. If a copy of the MPL was not distributed with this
+    - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
+ <adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">
+-    <background android:drawable="@color/ic_launcher_background"/>
++    <background android:drawable="@drawable/ic_launcher_background"/>
+     <foreground android:drawable="@drawable/ic_launcher_foreground"/>
+ </adaptive-icon>
+diff --git a/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml b/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml
+index be0fd11ac..6736fafb7 100644
+--- a/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml
++++ b/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml
 @@ -3,6 +3,6 @@
     - License, v. 2.0. If a copy of the MPL was not distributed with this
     - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
