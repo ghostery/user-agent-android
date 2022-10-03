@@ -1,0 +1,60 @@
+From 1a4f815886c26682714a641652b8b7fc2b378030 Mon Sep 17 00:00:00 2001
+From: Krzysztof Modras <chrmod@chrmod.net>
+Date: Mon, 3 Oct 2022 18:40:09 +0200
+Subject: Force Ghostery onboarding
+
+---
+ .../org/mozilla/fenix/home/HomeFragment.kt    | 23 +++++++++++++++++++
+ 1 file changed, 23 insertions(+)
+
+diff --git a/app/src/main/java/org/mozilla/fenix/home/HomeFragment.kt b/app/src/main/java/org/mozilla/fenix/home/HomeFragment.kt
+index 9e85cedf9..b5cc997dc 100644
+--- a/app/src/main/java/org/mozilla/fenix/home/HomeFragment.kt
++++ b/app/src/main/java/org/mozilla/fenix/home/HomeFragment.kt
+@@ -54,6 +54,7 @@ import mozilla.components.browser.menu.view.MenuButton
+ import mozilla.components.browser.state.selector.findTab
+ import mozilla.components.browser.state.selector.normalTabs
+ import mozilla.components.browser.state.selector.privateTabs
++import mozilla.components.browser.state.selector.selectedTab
+ import mozilla.components.browser.state.state.BrowserState
+ import mozilla.components.browser.state.state.selectedOrDefaultSearchEngine
+ import mozilla.components.browser.state.store.BrowserStore
+@@ -123,6 +124,9 @@ import org.mozilla.fenix.wallpapers.Wallpaper
+ import java.lang.ref.WeakReference
+ import kotlin.math.min
+ 
++var onboardingShownOnce = false
++val onboardingPattern = """moz-extension://[^/]+/app/templates/onboarding\.html.*""".toRegex()
++
+ @Suppress("TooManyFunctions", "LargeClass")
+ class HomeFragment : Fragment() {
+     private val args by navArgs<HomeFragmentArgs>()
+@@ -502,6 +506,25 @@ class HomeFragment : Fragment() {
+         observeSearchEngineChanges()
+         observeSearchEngineNameChanges()
+ 
++        // This is an hack to force the browser to display the extension on-boarding on start-up
++        consumeFlow(store) { flow ->
++            flow.map { state -> state.selectedTab?.content?.url }
++                .ifChanged()
++                .collect { url ->
++                    val navController = findNavController()
++                    if (
++                        !onboardingShownOnce &&
++                        url != null &&
++                        store.state.tabs.size == 1 &&
++                        onboardingPattern.matches(url) &&
++                        navController.currentDestination?.id != R.id.browserFragment
++                    ) {
++                        navController.navigate(R.id.browserFragment)
++                        onboardingShownOnce = true
++                    }
++                }
++        }
++
+         HomeMenuBuilder(
+             view = view,
+             context = view.context,
+-- 
+2.37.2
+
