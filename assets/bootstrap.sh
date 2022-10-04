@@ -3,7 +3,7 @@ set -x
 set -e
 
 EXT_DIR="app/src/main/assets/extensions/ghostery"
-DOWNLOAD_URL="https://s3.amazonaws.com/ghostery-deployments/ghostery-extension/8.8.1.040168b0/ghostery-dawn-v8.8.1.040168b0.xpi"
+DOWNLOAD_URL="https://github.com/ghostery/ghostery-extension/releases/download/v8.8.1/ghostery-dawn-v8.8.1.xpi"
 rm -rf "$EXT_DIR"
 mkdir -p "$EXT_DIR"
 curl -L -o ghostery.zip "$DOWNLOAD_URL"
