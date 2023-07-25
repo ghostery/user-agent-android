@@ -7,25 +7,25 @@ White wordmark
 ---
  app/src/main/res/layout/fragment_about.xml |   3 +-
  app/src/main/res/values/styles.xml         |   4 +-
- ghostery_res/wordmark.svg                  | 103 +++++++++++++++++++++
- ghostery_res/wordmark_private.svg          | 103 +++++++++++++++++++++
- ghostery_res/wordmark_white.svg            |  98 ++++++++++++++++++++
+ fenix/ghostery_res/wordmark.svg                  | 103 +++++++++++++++++++++
+ fenix/ghostery_res/wordmark_private.svg          | 103 +++++++++++++++++++++
+ fenix/ghostery_res/wordmark_white.svg            |  98 ++++++++++++++++++++
  5 files changed, 308 insertions(+), 3 deletions(-)
- create mode 100644 ghostery_res/wordmark.svg
- create mode 100644 ghostery_res/wordmark_private.svg
- create mode 100644 ghostery_res/wordmark_white.svg
+ create mode 100644 fenix/ghostery_res/wordmark.svg
+ create mode 100644 fenix/ghostery_res/wordmark_private.svg
+ create mode 100644 fenix/ghostery_res/wordmark_white.svg
 
-diff --git a/app/src/main/res/layout/fragment_about.xml b/app/src/main/res/layout/fragment_about.xml
+diff --git a/fenix/app/src/main/res/layout/fragment_about.xml b/fenix/app/src/main/res/layout/fragment_about.xml
 index 53d86a98e..7e9b03ff0 100644
---- a/app/src/main/res/layout/fragment_about.xml
-+++ b/app/src/main/res/layout/fragment_about.xml
+--- a/fenix/app/src/main/res/layout/fragment_about.xml
++++ b/fenix/app/src/main/res/layout/fragment_about.xml
 @@ -11,6 +11,7 @@
      android:layout_width="match_parent"
      android:layout_height="match_parent"
      android:fillViewport="true"
 +    android:background="?homeBackground"
      tools:context="org.mozilla.fenix.settings.about.AboutFragment">
- 
+
      <androidx.constraintlayout.widget.ConstraintLayout
 @@ -26,7 +27,7 @@
              android:layout_marginEnd="@dimen/about_header_icon_margin_start_end"
@@ -36,33 +36,33 @@ index 53d86a98e..7e9b03ff0 100644
              app:layout_constraintEnd_toEndOf="parent"
              app:layout_constraintStart_toStartOf="parent"
              app:layout_constraintTop_toTopOf="parent"
-diff --git a/app/src/main/res/values/styles.xml b/app/src/main/res/values/styles.xml
+diff --git a/fenix/app/src/main/res/values/styles.xml b/fenix/app/src/main/res/values/styles.xml
 index a54d3c438..d41c8647b 100644
---- a/app/src/main/res/values/styles.xml
-+++ b/app/src/main/res/values/styles.xml
+--- a/fenix/app/src/main/res/values/styles.xml
++++ b/fenix/app/src/main/res/values/styles.xml
 @@ -118,7 +118,7 @@
          <item name="mozac_widget_favicon_border_color">@color/fx_mobile_border_color_primary</item>
- 
+
          <!-- Drawables -->
 -        <item name="fenixLogo">@drawable/ic_logo_wordmark_normal</item>
 +        <item name="fenixLogo">@drawable/ic_logo_wordmark_white</item>
+         <item name="fenixWordmarkText">@drawable/ic_wordmark_text_normal</item>
+         <item name="fenixWordmarkLogo">@drawable/ic_wordmark_logo</item>
          <item name="homeBackground">@color/fx_mobile_layer_color_1</item>
-         <item name="bottomBarBackground">@drawable/home_bottom_bar_background</item>
-         <item name="bottomBarBackgroundTop">@drawable/home_bottom_bar_background_top</item>
-@@ -315,7 +315,7 @@
+@@ -317,7 +317,7 @@
          <item name="mozac_widget_favicon_border_color">@color/photonInk50</item>
- 
+
          <!-- Drawables -->
 -        <item name="fenixLogo">@drawable/ic_logo_wordmark_private</item>
 +        <item name="fenixLogo">@drawable/ic_logo_wordmark_white</item>
+         <item name="fenixWordmarkText">@drawable/ic_wordmark_text_private</item>
          <item name="homeBackground">@drawable/private_home_background_gradient</item>
          <item name="bottomBarBackground">@drawable/private_home_bottom_bar_background_gradient</item>
-         <item name="bottomBarBackgroundTop">@drawable/private_home_bottom_bar_background_gradient_top</item>
-diff --git a/ghostery_res/wordmark.svg b/ghostery_res/wordmark.svg
+diff --git a/fenix/ghostery_res/wordmark.svg b/fenix/ghostery_res/wordmark.svg
 new file mode 100644
 index 000000000..c97885d8c
 --- /dev/null
-+++ b/ghostery_res/wordmark.svg
++++ b/fenix/ghostery_res/wordmark.svg
 @@ -0,0 +1,103 @@
 +<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 +<svg
@@ -167,11 +167,11 @@ index 000000000..c97885d8c
 +    </g>
 +  </g>
 +</svg>
-diff --git a/ghostery_res/wordmark_private.svg b/ghostery_res/wordmark_private.svg
+diff --git a/fenix/ghostery_res/wordmark_private.svg b/fenix/ghostery_res/wordmark_private.svg
 new file mode 100644
 index 000000000..fcafa6fab
 --- /dev/null
-+++ b/ghostery_res/wordmark_private.svg
++++ b/fenix/ghostery_res/wordmark_private.svg
 @@ -0,0 +1,103 @@
 +<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 +<svg
@@ -276,11 +276,11 @@ index 000000000..fcafa6fab
 +    </g>
 +  </g>
 +</svg>
-diff --git a/ghostery_res/wordmark_white.svg b/ghostery_res/wordmark_white.svg
+diff --git a/fenix/ghostery_res/wordmark_white.svg b/fenix/ghostery_res/wordmark_white.svg
 new file mode 100644
 index 000000000..7be352f75
 --- /dev/null
-+++ b/ghostery_res/wordmark_white.svg
++++ b/fenix/ghostery_res/wordmark_white.svg
 @@ -0,0 +1,98 @@
 +<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 +<svg
@@ -380,6 +380,6 @@ index 000000000..7be352f75
 +    </g>
 +  </g>
 +</svg>
--- 
+--
 2.37.2
 

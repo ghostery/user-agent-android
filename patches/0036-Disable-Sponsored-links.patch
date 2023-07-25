@@ -7,10 +7,10 @@ Subject: Disable Sponsored links
  app/src/main/java/org/mozilla/fenix/utils/Settings.kt | 5 +----
  1 file changed, 1 insertion(+), 4 deletions(-)
 
-diff --git a/app/src/main/java/org/mozilla/fenix/utils/Settings.kt b/app/src/main/java/org/mozilla/fenix/utils/Settings.kt
+diff --git a/fenix/app/src/main/java/org/mozilla/fenix/utils/Settings.kt b/fenix/app/src/main/java/org/mozilla/fenix/utils/Settings.kt
 index 49a54d426..db08a109a 100644
---- a/app/src/main/java/org/mozilla/fenix/utils/Settings.kt
-+++ b/app/src/main/java/org/mozilla/fenix/utils/Settings.kt
+--- a/fenix/app/src/main/java/org/mozilla/fenix/utils/Settings.kt
++++ b/fenix/app/src/main/java/org/mozilla/fenix/utils/Settings.kt
 @@ -1285,10 +1285,7 @@ class Settings(private val appContext: Context) : PreferencesHolder {
      /**
       * Indicates if the Contile functionality should be visible.
@@ -20,9 +20,9 @@ index 49a54d426..db08a109a 100644
 -        default = true,
 -    )
 +    var showContileFeature = false
- 
+
      /**
       * Indicates if the Task Continuity enhancements are enabled.
--- 
+--
 2.37.2
 

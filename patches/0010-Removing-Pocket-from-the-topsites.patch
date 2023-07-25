@@ -7,33 +7,33 @@ Subject: Removing Pocket from the topsites
  .../java/org/mozilla/fenix/components/Core.kt    | 16 ----------------
  1 file changed, 16 deletions(-)
 
-diff --git a/app/src/main/java/org/mozilla/fenix/components/Core.kt b/app/src/main/java/org/mozilla/fenix/components/Core.kt
+diff --git a/fenix/app/src/main/java/org/mozilla/fenix/components/Core.kt b/fenix/app/src/main/java/org/mozilla/fenix/components/Core.kt
 index c235011f9..b16f48eab 100644
---- a/app/src/main/java/org/mozilla/fenix/components/Core.kt
-+++ b/app/src/main/java/org/mozilla/fenix/components/Core.kt
-@@ -458,22 +458,6 @@ class Core(
-                         )
+--- a/fenix/app/src/main/java/org/mozilla/fenix/components/Core.kt
++++ b/fenix/app/src/main/java/org/mozilla/fenix/components/Core.kt
+@@ -504,22 +504,6 @@ class Core(
+                         ),
                      )
                  } else {
 -                    defaultTopSites.add(
 -                        Pair(
 -                            context.getString(R.string.default_top_site_google),
--                            SupportUtils.GOOGLE_URL
--                        )
+-                            SupportUtils.GOOGLE_URL,
+-                        ),
 -                    )
 -
 -                    if (LocaleManager.getSelectedLocale(context).language == "en") {
 -                        defaultTopSites.add(
 -                            Pair(
 -                                context.getString(R.string.pocket_pinned_top_articles),
--                                SupportUtils.POCKET_TRENDING_URL
--                            )
+-                                SupportUtils.POCKET_TRENDING_URL,
+-                            ),
 -                        )
 -                    }
 -
                      defaultTopSites.add(
                          Pair(
                              context.getString(R.string.default_top_site_wikipedia),
--- 
+
 2.37.2
 

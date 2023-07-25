@@ -7,10 +7,10 @@ Subject: Disable Pocket
  app/src/main/java/org/mozilla/fenix/FeatureFlags.kt | 5 ++---
  1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/app/src/main/java/org/mozilla/fenix/FeatureFlags.kt b/app/src/main/java/org/mozilla/fenix/FeatureFlags.kt
+diff --git a/fenix/app/src/main/java/org/mozilla/fenix/FeatureFlags.kt b/fenix/app/src/main/java/org/mozilla/fenix/FeatureFlags.kt
 index 0e4ee1e64..d82b069be 100644
---- a/app/src/main/java/org/mozilla/fenix/FeatureFlags.kt
-+++ b/app/src/main/java/org/mozilla/fenix/FeatureFlags.kt
+--- a/fenix/app/src/main/java/org/mozilla/fenix/FeatureFlags.kt
++++ b/fenix/app/src/main/java/org/mozilla/fenix/FeatureFlags.kt
 @@ -66,10 +66,9 @@ object FeatureFlags {
      /**
       * Show Pocket recommended stories on home.
@@ -22,8 +22,8 @@ index 0e4ee1e64..d82b069be 100644
 -        return listOf("en-US", "en-CA").contains(langTag)
 +        return false
      }
- 
+
      /**
--- 
+--
 2.37.2
 

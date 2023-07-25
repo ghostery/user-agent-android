@@ -9,10 +9,10 @@ Subject: Fixing null version name in About
  buildSrc/src/main/java/Config.kt                              | 4 ++--
  3 files changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/app/build.gradle b/app/build.gradle
+diff --git a/fenix/app/build.gradle b/fenix/app/build.gradle
 index b3a49f871..7cb97d49d 100644
---- a/app/build.gradle
-+++ b/app/build.gradle
+--- a/fenix/app/build.gradle
++++ b/fenix/app/build.gradle
 @@ -38,7 +38,7 @@ android {
          minSdkVersion Config.minSdkVersion
          targetSdkVersion Config.targetSdkVersion
@@ -22,10 +22,10 @@ index b3a49f871..7cb97d49d 100644
          vectorDrawables.useSupportLibrary = true
          testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
          testInstrumentationRunnerArguments clearPackageData: 'true'
-diff --git a/app/src/main/java/org/mozilla/fenix/settings/about/AboutFragment.kt b/app/src/main/java/org/mozilla/fenix/settings/about/AboutFragment.kt
+diff --git a/fenix/app/src/main/java/org/mozilla/fenix/settings/about/AboutFragment.kt b/fenix/app/src/main/java/org/mozilla/fenix/settings/about/AboutFragment.kt
 index b9cf2bc5f..928c1a900 100644
---- a/app/src/main/java/org/mozilla/fenix/settings/about/AboutFragment.kt
-+++ b/app/src/main/java/org/mozilla/fenix/settings/about/AboutFragment.kt
+--- a/fenix/app/src/main/java/org/mozilla/fenix/settings/about/AboutFragment.kt
++++ b/fenix/app/src/main/java/org/mozilla/fenix/settings/about/AboutFragment.kt
 @@ -110,7 +110,7 @@ class AboutFragment : Fragment(), AboutPageListener {
 
              String.format(

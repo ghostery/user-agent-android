@@ -16,14 +16,14 @@ Subject: Browser action integration (#4)
  4 files changed, 37 insertions(+), 20 deletions(-)
  create mode 100644 app/src/main/res/drawable/ic_ghostery.xml
 
-diff --git a/app/src/main/java/org/mozilla/fenix/browser/BrowserFragment.kt b/app/src/main/java/org/mozilla/fenix/browser/BrowserFragment.kt
+diff --git a/fenix/app/src/main/java/org/mozilla/fenix/browser/BrowserFragment.kt b/fenix/app/src/main/java/org/mozilla/fenix/browser/BrowserFragment.kt
 index 49b11f1ae..23163a29a 100644
---- a/app/src/main/java/org/mozilla/fenix/browser/BrowserFragment.kt
-+++ b/app/src/main/java/org/mozilla/fenix/browser/BrowserFragment.kt
+--- a/fenix/app/src/main/java/org/mozilla/fenix/browser/BrowserFragment.kt
++++ b/fenix/app/src/main/java/org/mozilla/fenix/browser/BrowserFragment.kt
 @@ -72,6 +72,23 @@ class BrowserFragment : BaseBrowserFragment(), UserInteractionHandler {
              )
          }
- 
+
 +        val ghosteryAction = BrowserToolbar.Button(
 +            imageDrawable = AppCompatResources.getDrawable(
 +                context,
@@ -44,10 +44,10 @@ index 49b11f1ae..23163a29a 100644
          val homeAction = BrowserToolbar.Button(
              imageDrawable = AppCompatResources.getDrawable(
                  context,
-diff --git a/app/src/main/java/org/mozilla/fenix/settings/quicksettings/QuickSettingsSheetDialogFragment.kt b/app/src/main/java/org/mozilla/fenix/settings/quicksettings/QuickSettingsSheetDialogFragment.kt
+diff --git a/fenix/app/src/main/java/org/mozilla/fenix/settings/quicksettings/QuickSettingsSheetDialogFragment.kt b/fenix/app/src/main/java/org/mozilla/fenix/settings/quicksettings/QuickSettingsSheetDialogFragment.kt
 index e96ff23c3..f284ff996 100644
---- a/app/src/main/java/org/mozilla/fenix/settings/quicksettings/QuickSettingsSheetDialogFragment.kt
-+++ b/app/src/main/java/org/mozilla/fenix/settings/quicksettings/QuickSettingsSheetDialogFragment.kt
+--- a/fenix/app/src/main/java/org/mozilla/fenix/settings/quicksettings/QuickSettingsSheetDialogFragment.kt
++++ b/fenix/app/src/main/java/org/mozilla/fenix/settings/quicksettings/QuickSettingsSheetDialogFragment.kt
 @@ -114,8 +114,6 @@ class QuickSettingsSheetDialogFragment : FenixDialogFragment() {
          websiteInfoView = WebsiteInfoView(binding.websiteInfoLayout, interactor = interactor)
          websitePermissionsView =
@@ -58,7 +58,7 @@ index e96ff23c3..f284ff996 100644
              context = context,
              ioScope = viewLifecycleOwner.lifecycleScope + Dispatchers.IO,
 @@ -130,11 +128,9 @@ class QuickSettingsSheetDialogFragment : FenixDialogFragment() {
- 
+
      override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
          super.onViewCreated(view, savedInstanceState)
 -        observeTrackersChange(requireComponents.core.store)
@@ -69,11 +69,11 @@ index e96ff23c3..f284ff996 100644
              clearSiteDataView.update(it.webInfoState)
          }
      }
-diff --git a/app/src/main/res/drawable/ic_ghostery.xml b/app/src/main/res/drawable/ic_ghostery.xml
+diff --git a/fenix/app/src/main/res/drawable/ic_ghostery.xml b/fenix/app/src/main/res/drawable/ic_ghostery.xml
 new file mode 100644
 index 000000000..7770c4093
 --- /dev/null
-+++ b/app/src/main/res/drawable/ic_ghostery.xml
++++ b/fenix/app/src/main/res/drawable/ic_ghostery.xml
 @@ -0,0 +1,19 @@
 +<?xml version="1.0" encoding="utf-8"?>
 +<!-- This Source Code Form is subject to the terms of the Mozilla Public
@@ -95,23 +95,23 @@ index 000000000..7770c4093
 +  </group>
 +</vector>
 \ No newline at end of file
-diff --git a/app/src/main/res/layout/fragment_quick_settings_dialog_sheet.xml b/app/src/main/res/layout/fragment_quick_settings_dialog_sheet.xml
+diff --git a/fenix/app/src/main/res/layout/fragment_quick_settings_dialog_sheet.xml b/fenix/app/src/main/res/layout/fragment_quick_settings_dialog_sheet.xml
 index 008745706..25f811f30 100644
---- a/app/src/main/res/layout/fragment_quick_settings_dialog_sheet.xml
-+++ b/app/src/main/res/layout/fragment_quick_settings_dialog_sheet.xml
+--- a/fenix/app/src/main/res/layout/fragment_quick_settings_dialog_sheet.xml
++++ b/fenix/app/src/main/res/layout/fragment_quick_settings_dialog_sheet.xml
 @@ -26,7 +26,7 @@
              android:id="@+id/websitePermissionsLayout"
              android:layout_width="match_parent"
              android:layout_height="wrap_content"
 -            app:layout_constraintBottom_toTopOf="@id/trackingProtectionDivider" />
 +            app:layout_constraintBottom_toTopOf="@id/clearSiteDataLayout" />
- 
+
          <View
              android:id="@+id/webSitePermissionsDivider"
 @@ -37,21 +37,6 @@
              android:background="?borderPrimary"
              app:layout_constraintBottom_toTopOf="@id/websitePermissionsLayout" />
- 
+
 -        <FrameLayout
 -            android:id="@+id/trackingProtectionLayout"
 -            android:layout_width="match_parent"
@@ -130,6 +130,6 @@ index 008745706..25f811f30 100644
          <FrameLayout
              android:id="@+id/clearSiteDataLayout"
              android:layout_width="match_parent"
--- 
+--
 2.37.2
 

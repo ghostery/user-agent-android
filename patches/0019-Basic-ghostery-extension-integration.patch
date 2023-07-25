@@ -8,12 +8,12 @@ Subject: Basic ghostery extension integration
  app/src/main/java/org/mozilla/fenix/components/Core.kt | 8 ++++++++
  2 files changed, 11 insertions(+), 1 deletion(-)
 
-diff --git a/app/build.gradle b/app/build.gradle
+diff --git a/fenix/app/build.gradle b/fenix/app/build.gradle
 index 93ba55042..258316712 100644
---- a/app/build.gradle
-+++ b/app/build.gradle
+--- a/fenix/app/build.gradle
++++ b/fenix/app/build.gradle
 @@ -179,7 +179,9 @@ android {
- 
+
          // manifest.template.json is converted to manifest.json at build time.
          // No need to package the template in the APK.
 -        ignoreAssetsPattern "manifest.template.json"
@@ -21,12 +21,12 @@ index 93ba55042..258316712 100644
 +        // that breaks webextensions i18n as traslation are located in _locales folder
 +        ignoreAssetsPattern "manifest.template.json:!.svn:!.git:!.ds_store:!*.scc:.*:!CVS:!thumbs.db:!picasa.ini:!*~"
      }
- 
+
      testOptions {
-diff --git a/app/src/main/java/org/mozilla/fenix/components/Core.kt b/app/src/main/java/org/mozilla/fenix/components/Core.kt
+diff --git a/fenix/app/src/main/java/org/mozilla/fenix/components/Core.kt b/fenix/app/src/main/java/org/mozilla/fenix/components/Core.kt
 index 3db6d32c2..0f2b8d1ad 100644
---- a/app/src/main/java/org/mozilla/fenix/components/Core.kt
-+++ b/app/src/main/java/org/mozilla/fenix/components/Core.kt
+--- a/fenix/app/src/main/java/org/mozilla/fenix/components/Core.kt
++++ b/fenix/app/src/main/java/org/mozilla/fenix/components/Core.kt
 @@ -159,6 +159,14 @@ class Core(
                  onError = { ext, throwable ->
                      Log.e("GHOSTERY", "Failed to install Ghostery Search webextension: $ext", throwable)
@@ -41,7 +41,7 @@ index 3db6d32c2..0f2b8d1ad 100644
 +                })
          }
      }
- 
--- 
+
+--
 2.37.2
 

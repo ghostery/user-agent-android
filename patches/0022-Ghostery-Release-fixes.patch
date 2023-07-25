@@ -8,10 +8,10 @@ Subject: Ghostery Release fixes
  nimbus.fml.yaml                               | 1 +
  2 files changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/app/src/main/java/org/mozilla/fenix/Config.kt b/app/src/main/java/org/mozilla/fenix/Config.kt
+diff --git a/fenix/app/src/main/java/org/mozilla/fenix/Config.kt b/fenix/app/src/main/java/org/mozilla/fenix/Config.kt
 index 114eab812..61467647c 100644
---- a/app/src/main/java/org/mozilla/fenix/Config.kt
-+++ b/app/src/main/java/org/mozilla/fenix/Config.kt
+--- a/fenix/app/src/main/java/org/mozilla/fenix/Config.kt
++++ b/fenix/app/src/main/java/org/mozilla/fenix/Config.kt
 @@ -8,7 +8,8 @@ enum class ReleaseChannel {
      Debug,
      Nightly,
@@ -19,7 +19,7 @@ index 114eab812..61467647c 100644
 -    Release;
 +    Release,
 +    Ghostery;
- 
+
      val isReleased: Boolean
          get() = when (this) {
 @@ -32,6 +33,7 @@ enum class ReleaseChannel {
@@ -29,7 +29,7 @@ index 114eab812..61467647c 100644
 +            Ghostery -> true
              else -> false
          }
- 
+
 @@ -55,6 +57,7 @@ object Config {
          "nightly" -> ReleaseChannel.Nightly
          "beta" -> ReleaseChannel.Beta
@@ -50,6 +50,6 @@ index e187a8097..ec5143e4f 100644
  features:
    homescreen:
      description: The homescreen that the user goes to when they press home or new tab.
--- 
+--
 2.37.2
 

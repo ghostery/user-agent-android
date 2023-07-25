@@ -7,52 +7,50 @@ Subject: Removig "What's new" from the Home menu
  .../java/org/mozilla/fenix/home/HomeMenu.kt   | 52 -------------------
  1 file changed, 52 deletions(-)
 
-diff --git a/app/src/main/java/org/mozilla/fenix/home/HomeMenu.kt b/app/src/main/java/org/mozilla/fenix/home/HomeMenu.kt
+diff --git a/fenix/app/src/main/java/org/mozilla/fenix/home/HomeMenu.kt b/fenix/app/src/main/java/org/mozilla/fenix/home/HomeMenu.kt
 index 1778be13a..09f80f7fe 100644
---- a/app/src/main/java/org/mozilla/fenix/home/HomeMenu.kt
-+++ b/app/src/main/java/org/mozilla/fenix/home/HomeMenu.kt
-@@ -99,14 +99,6 @@ class HomeMenu(
-     private fun getSyncItemTitle(): String =
-         accountManager.accountProfileEmail ?: context.getString(R.string.sync_menu_sign_in)
- 
--    private val syncSignInMenuItem = BrowserMenuImageText(
--        getSyncItemTitle(),
--        R.drawable.ic_synced_tabs,
--        primaryTextColor
--    ) {
--        onItemTapped.invoke(Item.SyncAccount(accountManager.accountState))
+--- a/fenix/app/src/main/java/org/mozilla/fenix/home/HomeMenu.kt
++++ b/fenix/app/src/main/java/org/mozilla/fenix/home/HomeMenu.kt
+@@ -98,12 +98,6 @@ class HomeMenu(
+         }
+     }
+
+-    private fun syncSignInMenuItem(): BrowserMenuItem {
+-        return BrowserMenuSignIn(primaryTextColor) {
+-            onItemTapped.invoke(Item.SyncAccount(accountManager.accountState))
+-        }
 -    }
 -
      val desktopItem = BrowserMenuImageSwitch(
          imageResource = R.drawable.ic_desktop,
          label = context.getString(R.string.browser_menu_desktop_site),
-@@ -143,14 +135,6 @@ class HomeMenu(
+@@ -140,14 +134,6 @@ class HomeMenu(
              onItemTapped.invoke(Item.Downloads)
          }
- 
+
 -        val extensionsItem = BrowserMenuImageText(
 -            context.getString(R.string.browser_menu_add_ons),
 -            R.drawable.ic_addons_extensions,
--            primaryTextColor
+-            primaryTextColor,
 -        ) {
 -            onItemTapped.invoke(Item.Extensions)
 -        }
 -
          val manageAccountAndDevicesItem = SimpleBrowserMenuItem(
              context.getString(R.string.browser_menu_manage_account_and_devices),
-             textColorResource = primaryTextColor
-@@ -158,26 +142,6 @@ class HomeMenu(
+             textColorResource = primaryTextColor,
+@@ -155,26 +141,6 @@ class HomeMenu(
              onItemTapped.invoke(Item.ManageAccountAndDevices)
          }
- 
+
 -        val whatsNewItem = BrowserMenuHighlightableItem(
 -            context.getString(R.string.browser_menu_whats_new),
 -            R.drawable.ic_whats_new,
 -            iconTintColorResource = primaryTextColor,
 -            highlight = BrowserMenuHighlight.LowPriority(
--                notificationTint = getColor(context, R.color.fx_mobile_icon_color_information)
+-                notificationTint = getColor(context, R.color.fx_mobile_icon_color_information),
 -            ),
--            isHighlighted = { WhatsNew.shouldHighlightWhatsNew(context) }
+-            isHighlighted = { WhatsNew.shouldHighlightWhatsNew(context) },
 -        ) {
 -            onItemTapped.invoke(Item.WhatsNew)
 -        }
@@ -60,7 +58,7 @@ index 1778be13a..09f80f7fe 100644
 -        val helpItem = BrowserMenuImageText(
 -            context.getString(R.string.browser_menu_help),
 -            R.drawable.mozac_ic_help,
--            primaryTextColor
+-            primaryTextColor,
 -        ) {
 -            onItemTapped.invoke(Item.Help)
 -        }
@@ -68,10 +66,10 @@ index 1778be13a..09f80f7fe 100644
          val customizeHomeItem = BrowserMenuImageText(
              context.getString(R.string.browser_menu_customize_home_1),
              R.drawable.ic_customize,
-@@ -196,30 +160,14 @@ class HomeMenu(
+@@ -193,30 +159,14 @@ class HomeMenu(
              onItemTapped.invoke(Item.Settings)
          }
- 
+
 -        // Only query account manager if it has been initialized.
 -        // We don't want to cause its initialization just for this check.
 -        val accountAuthItem =
@@ -88,7 +86,7 @@ index 1778be13a..09f80f7fe 100644
              historyItem,
              downloadsItem,
 -            extensionsItem,
--            syncSignInMenuItem,
+-            syncSignInMenuItem(),
 -            accountAuthItem,
              if (Config.channel.isMozillaOnline) manageAccountAndDevicesItem else null,
              BrowserMenuDivider(),
@@ -98,7 +96,7 @@ index 1778be13a..09f80f7fe 100644
 -            helpItem,
              customizeHomeItem,
              settingsItem,
-             if (settings.shouldDeleteBrowsingDataOnQuit) quitItem else null
--- 
+             if (settings.shouldDeleteBrowsingDataOnQuit) quitItem else null,
+--
 2.37.2
 

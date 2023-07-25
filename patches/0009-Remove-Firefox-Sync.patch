@@ -9,19 +9,19 @@ Subject: Remove Firefox Sync
  app/src/main/res/layout/component_tabstray2.xml            | 7 -------
  3 files changed, 2 insertions(+), 11 deletions(-)
 
-diff --git a/app/src/main/java/org/mozilla/fenix/library/bookmarks/BookmarkFragment.kt b/app/src/main/java/org/mozilla/fenix/library/bookmarks/BookmarkFragment.kt
+diff --git a/fenix/app/src/main/java/org/mozilla/fenix/library/bookmarks/BookmarkFragment.kt b/fenix/app/src/main/java/org/mozilla/fenix/library/bookmarks/BookmarkFragment.kt
 index 38d3dc684..0663a7998 100644
---- a/app/src/main/java/org/mozilla/fenix/library/bookmarks/BookmarkFragment.kt
-+++ b/app/src/main/java/org/mozilla/fenix/library/bookmarks/BookmarkFragment.kt
-@@ -134,7 +134,6 @@ class BookmarkFragment : LibraryPageFragment<BookmarkNode>(), UserInteractionHan
- 
-     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-         super.onViewCreated(view, savedInstanceState)
+--- a/fenix/app/src/main/java/org/mozilla/fenix/library/bookmarks/BookmarkFragment.kt
++++ b/fenix/app/src/main/java/org/mozilla/fenix/library/bookmarks/BookmarkFragment.kt
+@@ -139,7 +139,6 @@ class BookmarkFragment : LibraryPageFragment<BookmarkNode>(), UserInteractionHan
+
+         requireActivity().addMenuProvider(this, viewLifecycleOwner, Lifecycle.State.RESUMED)
+
 -        val accountManager = requireComponents.backgroundServices.accountManager
          consumeFrom(bookmarkStore) {
              bookmarkView.update(it)
- 
-@@ -142,8 +141,7 @@ class BookmarkFragment : LibraryPageFragment<BookmarkNode>(), UserInteractionHan
+
+@@ -147,8 +146,7 @@ class BookmarkFragment : LibraryPageFragment<BookmarkNode>(), UserInteractionHan
              // Don't want to pester user too much with it, and if there are lots of bookmarks present,
              // it'll just get visually lost. Inside of the "Desktop Bookmarks" node, it'll nicely stand-out,
              // since there are always only three other items in there. It's also the right place contextually.
@@ -30,13 +30,13 @@ index 38d3dc684..0663a7998 100644
 +            bookmarkView.binding.bookmarkFoldersSignIn.isVisible = false
          }
      }
- 
-diff --git a/app/src/main/java/org/mozilla/fenix/settings/account/AccountUiView.kt b/app/src/main/java/org/mozilla/fenix/settings/account/AccountUiView.kt
+
+diff --git a/fenix/app/src/main/java/org/mozilla/fenix/settings/account/AccountUiView.kt b/fenix/app/src/main/java/org/mozilla/fenix/settings/account/AccountUiView.kt
 index c204fee61..1b5a9a41d 100644
---- a/app/src/main/java/org/mozilla/fenix/settings/account/AccountUiView.kt
-+++ b/app/src/main/java/org/mozilla/fenix/settings/account/AccountUiView.kt
+--- a/fenix/app/src/main/java/org/mozilla/fenix/settings/account/AccountUiView.kt
++++ b/fenix/app/src/main/java/org/mozilla/fenix/settings/account/AccountUiView.kt
 @@ -88,7 +88,7 @@ class AccountUiView(
- 
+
              // Signed-out.
          } else {
 -            preferenceSignIn.isVisible = true
@@ -44,14 +44,14 @@ index c204fee61..1b5a9a41d 100644
              preferenceFirefoxAccount.isVisible = false
              preferenceFirefoxAccountAuthError.isVisible = false
              accountPreferenceCategory.isVisible = false
-diff --git a/app/src/main/res/layout/component_tabstray2.xml b/app/src/main/res/layout/component_tabstray2.xml
+diff --git a/fenix/app/src/main/res/layout/component_tabstray2.xml b/fenix/app/src/main/res/layout/component_tabstray2.xml
 index 5a34bf2a2..4bfc41e18 100644
---- a/app/src/main/res/layout/component_tabstray2.xml
-+++ b/app/src/main/res/layout/component_tabstray2.xml
+--- a/fenix/app/src/main/res/layout/component_tabstray2.xml
++++ b/fenix/app/src/main/res/layout/component_tabstray2.xml
 @@ -99,13 +99,6 @@
              android:contentDescription="@string/tabs_header_private_tabs_title"
              android:icon="@drawable/ic_private_browsing" />
- 
+
 -        <com.google.android.material.tabs.TabItem
 -            android:layout_width="0dp"
 -            android:layout_height="match_parent"
@@ -60,8 +60,8 @@ index 5a34bf2a2..4bfc41e18 100644
 -            android:icon="@drawable/ic_synced_tabs" />
 -
      </com.google.android.material.tabs.TabLayout>
- 
+
      <ImageButton
--- 
+--
 2.37.2
 

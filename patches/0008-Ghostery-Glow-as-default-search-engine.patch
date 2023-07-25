@@ -13,11 +13,11 @@ Subject: Ghostery Glow as default search engine
  create mode 100644 app/src/main/assets/searchplugins/ghostery.xml
  create mode 100644 app/src/main/assets/searchplugins/startpage.xml
 
-diff --git a/app/src/main/assets/search/list.json b/app/src/main/assets/search/list.json
+diff --git a/fenix/app/src/main/assets/search/list.json b/fenix/app/src/main/assets/search/list.json
 new file mode 100644
 index 000000000..bcf51fb42
 --- /dev/null
-+++ b/app/src/main/assets/search/list.json
++++ b/fenix/app/src/main/assets/search/list.json
 @@ -0,0 +1,11 @@
 +{
 +  "default": {
@@ -30,11 +30,11 @@ index 000000000..bcf51fb42
 +  "regionOverrides": {},
 +  "locales": {}
 +}
-diff --git a/app/src/main/assets/searchplugins/ghostery.xml b/app/src/main/assets/searchplugins/ghostery.xml
+diff --git a/fenix/app/src/main/assets/searchplugins/ghostery.xml b/fenix/app/src/main/assets/searchplugins/ghostery.xml
 new file mode 100644
 index 000000000..80d6c067f
 --- /dev/null
-+++ b/app/src/main/assets/searchplugins/ghostery.xml
++++ b/fenix/app/src/main/assets/searchplugins/ghostery.xml
 @@ -0,0 +1,18 @@
 +<?xml version="1.0" encoding="utf-8"?>
 +<!-- This Source Code Form is subject to the terms of the Mozilla Public
@@ -54,11 +54,11 @@ index 000000000..80d6c067f
 +      <Param name="client" value="ghostery-dawn-android"/>
 +    </Url>
 +</SearchPlugin>
-diff --git a/app/src/main/assets/searchplugins/startpage.xml b/app/src/main/assets/searchplugins/startpage.xml
+diff --git a/fenix/app/src/main/assets/searchplugins/startpage.xml b/fenix/app/src/main/assets/searchplugins/startpage.xml
 new file mode 100644
 index 000000000..52eadfe4f
 --- /dev/null
-+++ b/app/src/main/assets/searchplugins/startpage.xml
++++ b/fenix/app/src/main/assets/searchplugins/startpage.xml
 @@ -0,0 +1,12 @@
 +<?xml version="1.0" encoding="UTF-8"?>
 +<OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/">
@@ -72,10 +72,10 @@ index 000000000..52eadfe4f
 +</Url>
 +<Url type="application/x-suggestions+json" rel="suggestions" template="https://www.startpage.com/suggestions?q={searchTerms}&amp;format=opensearch"/>
 +</OpenSearchDescription>
-diff --git a/app/src/main/java/org/mozilla/fenix/components/Core.kt b/app/src/main/java/org/mozilla/fenix/components/Core.kt
+diff --git a/fenix/app/src/main/java/org/mozilla/fenix/components/Core.kt b/fenix/app/src/main/java/org/mozilla/fenix/components/Core.kt
 index 098da5015..c235011f9 100644
---- a/app/src/main/java/org/mozilla/fenix/components/Core.kt
-+++ b/app/src/main/java/org/mozilla/fenix/components/Core.kt
+--- a/fenix/app/src/main/java/org/mozilla/fenix/components/Core.kt
++++ b/fenix/app/src/main/java/org/mozilla/fenix/components/Core.kt
 @@ -8,6 +8,7 @@ import android.content.Context
  import android.content.res.Configuration
  import android.os.Build
@@ -98,16 +98,16 @@ index 098da5015..c235011f9 100644
 +                })
          }
      }
- 
-@@ -238,7 +247,7 @@ class Core(
+
+@@ -258,7 +258,7 @@ class Core(
                  RegionMiddleware(context, locationService),
                  SearchMiddleware(
                      context,
 -                    additionalBundledSearchEngineIds = listOf("reddit", "youtube"),
 +                    additionalBundledSearchEngineIds = listOf("ghostery", "reddit", "youtube"),
-                     migration = SearchMigration(context)
+                     migration = SearchMigration(context),
                  ),
-                 RecordingDevicesMiddleware(context),
--- 
+                 RecordingDevicesMiddleware(context, context.components.notificationsDelegate),
+--
 2.37.2
 

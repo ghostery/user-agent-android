@@ -8,23 +8,23 @@ Subject: Removing "Common myths about private browsing" link
  .../viewholders/PrivateBrowsingDescriptionViewHolder.kt         | 2 +-
  2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/app/src/main/java/org/mozilla/fenix/home/sessioncontrol/SessionControlInteractor.kt b/app/src/main/java/org/mozilla/fenix/home/sessioncontrol/SessionControlInteractor.kt
+diff --git a/fenix/app/src/main/java/org/mozilla/fenix/home/sessioncontrol/SessionControlInteractor.kt b/fenix/app/src/main/java/org/mozilla/fenix/home/sessioncontrol/SessionControlInteractor.kt
 index 787bdb273..7d020a107 100644
---- a/app/src/main/java/org/mozilla/fenix/home/sessioncontrol/SessionControlInteractor.kt
-+++ b/app/src/main/java/org/mozilla/fenix/home/sessioncontrol/SessionControlInteractor.kt
-@@ -341,7 +341,7 @@ class SessionControlInteractor(
+--- a/fenix/app/src/main/java/org/mozilla/fenix/home/sessioncontrol/SessionControlInteractor.kt
++++ b/fenix/app/src/main/java/org/mozilla/fenix/home/sessioncontrol/SessionControlInteractor.kt
+@@ -318,7 +318,7 @@ class SessionControlInteractor(
      }
- 
-     override fun onPrivateBrowsingLearnMoreClicked() {
--        controller.handlePrivateBrowsingLearnMoreClicked()
-+//        controller.handlePrivateBrowsingLearnMoreClicked()
+
+     override fun onLearnMoreClicked() {
+-        privateBrowsingController.handleLearnMoreClicked()
++//        privateBrowsingController.handleLearnMoreClicked()
      }
- 
+
      override fun onPrivateModeButtonClicked(newMode: BrowsingMode, userHasBeenOnboarded: Boolean) {
-diff --git a/app/src/main/java/org/mozilla/fenix/home/sessioncontrol/viewholders/PrivateBrowsingDescriptionViewHolder.kt b/app/src/main/java/org/mozilla/fenix/home/sessioncontrol/viewholders/PrivateBrowsingDescriptionViewHolder.kt
+diff --git a/fenix/app/src/main/java/org/mozilla/fenix/home/sessioncontrol/viewholders/PrivateBrowsingDescriptionViewHolder.kt b/fenix/app/src/main/java/org/mozilla/fenix/home/sessioncontrol/viewholders/PrivateBrowsingDescriptionViewHolder.kt
 index 918d752cb..06e1d9ebc 100644
---- a/app/src/main/java/org/mozilla/fenix/home/sessioncontrol/viewholders/PrivateBrowsingDescriptionViewHolder.kt
-+++ b/app/src/main/java/org/mozilla/fenix/home/sessioncontrol/viewholders/PrivateBrowsingDescriptionViewHolder.kt
+--- a/fenix/app/src/main/java/org/mozilla/fenix/home/sessioncontrol/viewholders/PrivateBrowsingDescriptionViewHolder.kt
++++ b/fenix/app/src/main/java/org/mozilla/fenix/home/sessioncontrol/viewholders/PrivateBrowsingDescriptionViewHolder.kt
 @@ -91,7 +91,7 @@ fun PrivateBrowsingDescription(
          Box(
              modifier = Modifier
@@ -34,6 +34,6 @@ index 918d752cb..06e1d9ebc 100644
                  .clickable(
                      interactionSource = interactionSource,
                      indication = null,
--- 
+--
 2.37.2
 

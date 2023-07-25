@@ -9,20 +9,20 @@ Subject: Help resources point to Ghostery domain
  app/src/main/res/layout/fragment_about.xml    | 17 +--------------
  3 files changed, 13 insertions(+), 42 deletions(-)
 
-diff --git a/app/src/main/java/org/mozilla/fenix/settings/SupportUtils.kt b/app/src/main/java/org/mozilla/fenix/settings/SupportUtils.kt
+diff --git a/fenix/app/src/main/java/org/mozilla/fenix/settings/SupportUtils.kt b/fenix/app/src/main/java/org/mozilla/fenix/settings/SupportUtils.kt
 index 59e463638..8bfc8e6ad 100644
---- a/app/src/main/java/org/mozilla/fenix/settings/SupportUtils.kt
-+++ b/app/src/main/java/org/mozilla/fenix/settings/SupportUtils.kt
-@@ -56,24 +56,25 @@ object SupportUtils {
+--- a/fenix/app/src/main/java/org/mozilla/fenix/settings/SupportUtils.kt
++++ b/fenix/app/src/main/java/org/mozilla/fenix/settings/SupportUtils.kt
+@@ -59,24 +59,23 @@ object SupportUtils {
      }
- 
+
      enum class MozillaPage(internal val path: String) {
 -        PRIVATE_NOTICE("privacy/firefox/"),
--        MANIFESTO("about/manifesto/")
+-        MANIFESTO("about/manifesto/"),
 +        PRIVATE_NOTICE("privacy/privacy/"),
-+        MANIFESTO("ghostery-manifesto/")
++        MANIFESTO("ghostery-manifesto/"),
      }
- 
+
      /**
       * Gets a support page URL for the corresponding topic.
       */
@@ -30,27 +30,25 @@ index 59e463638..8bfc8e6ad 100644
      fun getSumoURLForTopic(
          context: Context,
          topic: SumoTopic,
-         locale: Locale = Locale.getDefault()
+         locale: Locale = Locale.getDefault(),
      ): String {
 -        val escapedTopic = getEncodedTopicUTF8(topic.topicStr)
 -        // Remove the whitespace so a search is not triggered:
--        val appVersion = context.appVersionName?.replace(" ", "")
+-        val appVersion = context.appVersionName.replace(" ", "")
 -        val osTarget = "Android"
 -        val langTag = getLanguageTag(locale)
 -        return "https://support.mozilla.org/1/mobile/$appVersion/$osTarget/$langTag/$escapedTopic"
 +        return when (topic) {
 +            SumoTopic.HELP -> "https://www.ghostery.com/support/"
-+            // "What's new" is used also in the "About Ghostery" preferences entry
-+            SumoTopic.WHATS_NEW -> "https://github.com/ghostery/user-agent-android/releases"
 +            else -> "This topic is unsupported"
 +        }
      }
- 
+
      /**
 @@ -90,10 +91,10 @@ object SupportUtils {
          return "https://support.mozilla.org/kb/access-mozilla-services-firefox-account"
      }
- 
+
 +    @Suppress("UNUSED_PARAMETER")
      fun getMozillaPageUrl(page: MozillaPage, locale: Locale = Locale.getDefault()): String {
          val path = page.path
@@ -58,61 +56,61 @@ index 59e463638..8bfc8e6ad 100644
 -        return "https://www.mozilla.org/$langTag/$path"
 +        return "https://www.ghostery.com/$path"
      }
- 
-     fun getWhatsNewUrl(context: Context) = getSumoURLForTopic(context, SumoTopic.WHATS_NEW)
-diff --git a/app/src/main/java/org/mozilla/fenix/settings/about/AboutFragment.kt b/app/src/main/java/org/mozilla/fenix/settings/about/AboutFragment.kt
+
+     fun createCustomTabIntent(context: Context, url: String): Intent = CustomTabsIntent.Builder()
+diff --git a/fenix/app/src/main/java/org/mozilla/fenix/settings/about/AboutFragment.kt b/fenix/app/src/main/java/org/mozilla/fenix/settings/about/AboutFragment.kt
 index bdf1bc343..b9cf2bc5f 100644
---- a/app/src/main/java/org/mozilla/fenix/settings/about/AboutFragment.kt
-+++ b/app/src/main/java/org/mozilla/fenix/settings/about/AboutFragment.kt
-@@ -124,11 +124,9 @@ class AboutFragment : Fragment(), AboutPageListener {
+--- a/fenix/app/src/main/java/org/mozilla/fenix/settings/about/AboutFragment.kt
++++ b/fenix/app/src/main/java/org/mozilla/fenix/settings/about/AboutFragment.kt
+@@ -120,11 +120,9 @@ class AboutFragment : Fragment(), AboutPageListener {
              ""
          }
- 
+
 -        val content = getString(R.string.about_content, appName)
          val buildDate = BuildConfig.BUILD_DATE
- 
+
          binding.aboutText.text = aboutText
 -        binding.aboutContent.text = content
          binding.buildDate.text = buildDate
      }
- 
-@@ -136,13 +134,7 @@ class AboutFragment : Fragment(), AboutPageListener {
-         val context = requireContext()
- 
-         return listOf(
--            AboutPageItem(
--                AboutItem.ExternalLink(
--                    WHATS_NEW,
--                    SupportUtils.getWhatsNewUrl(context)
--                ),
--                getString(R.string.about_whats_new, getString(R.string.app_name))
--            ),
-+
-             AboutPageItem(
-                 AboutItem.ExternalLink(
-                     SUPPORT,
-@@ -161,13 +153,6 @@ class AboutFragment : Fragment(), AboutPageListener {
+
+@@ -157,13 +148,6 @@ class AboutFragment : Fragment(), AboutPageListener {
                  ),
-                 getString(R.string.about_privacy_notice)
+                 getString(R.string.about_privacy_notice),
              ),
 -            AboutPageItem(
 -                AboutItem.ExternalLink(
 -                    RIGHTS,
--                    SupportUtils.getSumoURLForTopic(context, SupportUtils.SumoTopic.YOUR_RIGHTS)
+-                    SupportUtils.getSumoURLForTopic(context, SupportUtils.SumoTopic.YOUR_RIGHTS),
 -                ),
--                getString(R.string.about_know_your_rights)
+-                getString(R.string.about_know_your_rights),
 -            ),
              AboutPageItem(
                  AboutItem.ExternalLink(LICENSING_INFO, ABOUT_LICENSE_URL),
-                 getString(R.string.about_licensing_information)
-diff --git a/app/src/main/res/layout/fragment_about.xml b/app/src/main/res/layout/fragment_about.xml
+                 getString(R.string.about_licensing_information),
+@@ -132,13 +130,6 @@ class AboutFragment : Fragment(), AboutPageListener {
+         val context = requireContext()
+
+         return listOf(
+-            AboutPageItem(
+-                AboutItem.ExternalLink(
+-                    WHATS_NEW,
+-                    SupportUtils.WHATS_NEW_URL,
+-                ),
+-                getString(R.string.about_whats_new, getString(R.string.app_name)),
+-            ),
+             AboutPageItem(
+                 AboutItem.ExternalLink(
+                     SUPPORT,
+
+diff --git a/fenix/app/src/main/res/layout/fragment_about.xml b/fenix/app/src/main/res/layout/fragment_about.xml
 index 7e9b03ff0..d266d4f8a 100644
---- a/app/src/main/res/layout/fragment_about.xml
-+++ b/app/src/main/res/layout/fragment_about.xml
+--- a/fenix/app/src/main/res/layout/fragment_about.xml
++++ b/fenix/app/src/main/res/layout/fragment_about.xml
 @@ -33,21 +33,6 @@
              app:layout_constraintTop_toTopOf="parent"
              app:layout_constraintWidth_percent="0.75" />
- 
+
 -        <TextView
 -            android:id="@+id/about_content"
 -            style="@style/Header16TextStyle"
@@ -139,7 +137,7 @@ index 7e9b03ff0..d266d4f8a 100644
 +            app:layout_constraintTop_toBottomOf="@id/wordmark"
              app:layout_constraintWidth_percent="0.8"
              tools:text="1.0.x (Build #x), 0d7383fd2\nAC: 1.0.0, 96ae23b628\nGV: 69.x-x\nAS: 1.0.0" />
- 
--- 
+
+--
 2.37.2
 

@@ -7,10 +7,10 @@ Subject: Search widget: replace logo
  .../gecko/search/SearchWidgetProvider.kt      | 23 ++++++++-----------
  1 file changed, 9 insertions(+), 14 deletions(-)
 
-diff --git a/app/src/main/java/org/mozilla/gecko/search/SearchWidgetProvider.kt b/app/src/main/java/org/mozilla/gecko/search/SearchWidgetProvider.kt
+diff --git a/fenix/app/src/main/java/org/mozilla/gecko/search/SearchWidgetProvider.kt b/fenix/app/src/main/java/org/mozilla/gecko/search/SearchWidgetProvider.kt
 index c02594f7a..b5056c68d 100644
---- a/app/src/main/java/org/mozilla/gecko/search/SearchWidgetProvider.kt
-+++ b/app/src/main/java/org/mozilla/gecko/search/SearchWidgetProvider.kt
+--- a/fenix/app/src/main/java/org/mozilla/gecko/search/SearchWidgetProvider.kt
++++ b/fenix/app/src/main/java/org/mozilla/gecko/search/SearchWidgetProvider.kt
 @@ -11,6 +11,7 @@ import android.appwidget.AppWidgetProvider
  import android.content.ComponentName
  import android.content.Context
@@ -21,7 +21,7 @@ index c02594f7a..b5056c68d 100644
  import android.speech.RecognizerIntent
 @@ -158,21 +159,15 @@ class SearchWidgetProvider : AppWidgetProvider() {
      }
- 
+
      private fun RemoteViews.setIcon(context: Context) {
 -        // gradient color available for android:fillColor only on SDK 24+
 -        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
@@ -46,9 +46,9 @@ index c02594f7a..b5056c68d 100644
 +                setTint(Color.rgb(0x00, 0xAE, 0xF0))
 +            }?.toBitmap()
 +        )
- 
+
          val appName = context.getString(R.string.app_name)
          setContentDescription(
--- 
+--
 2.37.2
 

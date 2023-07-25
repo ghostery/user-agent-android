@@ -8,14 +8,14 @@ Subject: Disable wallpapers
  app/src/main/res/xml/home_preferences.xml                | 4 ----
  2 files changed, 13 deletions(-)
 
-diff --git a/app/src/main/java/org/mozilla/fenix/settings/HomeSettingsFragment.kt b/app/src/main/java/org/mozilla/fenix/settings/HomeSettingsFragment.kt
+diff --git a/fenix/app/src/main/java/org/mozilla/fenix/settings/HomeSettingsFragment.kt b/fenix/app/src/main/java/org/mozilla/fenix/settings/HomeSettingsFragment.kt
 index 5660541e6..40c7c6e8b 100644
---- a/app/src/main/java/org/mozilla/fenix/settings/HomeSettingsFragment.kt
-+++ b/app/src/main/java/org/mozilla/fenix/settings/HomeSettingsFragment.kt
+--- a/fenix/app/src/main/java/org/mozilla/fenix/settings/HomeSettingsFragment.kt
++++ b/fenix/app/src/main/java/org/mozilla/fenix/settings/HomeSettingsFragment.kt
 @@ -164,15 +164,6 @@ class HomeSettingsFragment : PreferenceFragmentCompat() {
          val openingScreenAfterFourHours =
              requirePreference<RadioButtonPreference>(R.string.pref_key_start_on_home_after_four_hours)
- 
+
 -        requirePreference<Preference>(R.string.pref_key_wallpapers).apply {
 -            setOnPreferenceClickListener {
 -                view?.findNavController()?.navigate(
@@ -28,14 +28,14 @@ index 5660541e6..40c7c6e8b 100644
          addToRadioGroup(
              openingScreenRadioHomepage,
              openingScreenLastTab,
-diff --git a/app/src/main/res/xml/home_preferences.xml b/app/src/main/res/xml/home_preferences.xml
+diff --git a/fenix/app/src/main/res/xml/home_preferences.xml b/fenix/app/src/main/res/xml/home_preferences.xml
 index a13a10e16..0f01466be 100644
---- a/app/src/main/res/xml/home_preferences.xml
-+++ b/app/src/main/res/xml/home_preferences.xml
+--- a/fenix/app/src/main/res/xml/home_preferences.xml
++++ b/fenix/app/src/main/res/xml/home_preferences.xml
 @@ -41,10 +41,6 @@
          android:key="@string/pref_key_pocket_sponsored_stories"
          android:title="@string/customize_toggle_pocket_sponsored" />
- 
+
 -    <androidx.preference.Preference
 -        android:key="@string/pref_key_wallpapers"
 -        android:title="@string/customize_wallpapers" />
@@ -43,6 +43,6 @@ index a13a10e16..0f01466be 100644
      <androidx.preference.PreferenceCategory
          android:layout="@layout/preference_cat_style"
          android:title="@string/preferences_opening_screen"
--- 
+--
 2.37.2
 

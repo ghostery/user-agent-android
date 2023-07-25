@@ -8,50 +8,50 @@ Subject: Disabling Firefox onboarding
  app/src/main/java/org/mozilla/fenix/utils/Settings.kt | 11 ++---------
  2 files changed, 3 insertions(+), 12 deletions(-)
 
-diff --git a/app/src/main/java/org/mozilla/fenix/onboarding/FenixOnboarding.kt b/app/src/main/java/org/mozilla/fenix/onboarding/FenixOnboarding.kt
+diff --git a/fenix/app/src/main/java/org/mozilla/fenix/onboarding/FenixOnboarding.kt b/fenix/app/src/main/java/org/mozilla/fenix/onboarding/FenixOnboarding.kt
 index a240fa2b0..6ee4b9d96 100644
---- a/app/src/main/java/org/mozilla/fenix/onboarding/FenixOnboarding.kt
-+++ b/app/src/main/java/org/mozilla/fenix/onboarding/FenixOnboarding.kt
+--- a/fenix/app/src/main/java/org/mozilla/fenix/onboarding/FenixOnboarding.kt
++++ b/fenix/app/src/main/java/org/mozilla/fenix/onboarding/FenixOnboarding.kt
 @@ -29,9 +29,7 @@ class FenixOnboarding(context: Context) : PreferencesHolder {
      }
- 
+
      fun userHasBeenOnboarded(): Boolean {
 -        return strictMode.resetAfter(StrictMode.allowThreadDiskReads()) {
 -            onboardedVersion == CURRENT_ONBOARDING_VERSION
 -        }
 +        return true
      }
- 
+
      companion object {
-diff --git a/app/src/main/java/org/mozilla/fenix/utils/Settings.kt b/app/src/main/java/org/mozilla/fenix/utils/Settings.kt
+diff --git a/fenix/app/src/main/java/org/mozilla/fenix/utils/Settings.kt b/fenix/app/src/main/java/org/mozilla/fenix/utils/Settings.kt
 index e56e197ee..aabf35e10 100644
---- a/app/src/main/java/org/mozilla/fenix/utils/Settings.kt
-+++ b/app/src/main/java/org/mozilla/fenix/utils/Settings.kt
-@@ -818,10 +818,7 @@ class Settings(private val appContext: Context) : PreferencesHolder {
-         default = false
+--- a/fenix/app/src/main/java/org/mozilla/fenix/utils/Settings.kt
++++ b/fenix/app/src/main/java/org/mozilla/fenix/utils/Settings.kt
+@@ -1033,10 +1033,7 @@ class Settings(private val appContext: Context) : PreferencesHolder {
+         default = false,
      )
- 
+
 -    var shouldShowOpenInAppBanner by booleanPreference(
 -        appContext.getPreferenceKey(R.string.pref_key_should_show_open_in_app_banner),
--        default = true
+-        default = true,
 -    )
 +    var shouldShowOpenInAppBanner = false
- 
+
      val shouldShowOpenInAppCfr: Boolean
          get() = canShowCfr && shouldShowOpenInAppBanner
-@@ -859,11 +856,7 @@ class Settings(private val appContext: Context) : PreferencesHolder {
+@@ -1074,11 +1071,7 @@ class Settings(private val appContext: Context) : PreferencesHolder {
      /**
       * Indicates if the jump back in CRF should be shown.
       */
 -    var shouldShowJumpBackInCFR by lazyFeatureFlagPreference(
 -        appContext.getPreferenceKey(R.string.pref_key_should_show_jump_back_in_tabs_popup),
--        featureFlag = FeatureFlags.showJumpBackInCFR,
--        default = { onboardScreenSection[OnboardingSection.JUMP_BACK_IN_CFR] == true },
+-        featureFlag = true,
+-        default = { mr2022Sections[Mr2022Section.JUMP_BACK_IN_CFR] == true },
 -    )
 +    var shouldShowJumpBackInCFR = false
- 
-     fun getSitePermissionsPhoneFeatureAction(
-         feature: PhoneFeature,
--- 
+
+     /**
+      *  Returns a sitePermissions action for the provided [feature].
+--
 2.37.2
 

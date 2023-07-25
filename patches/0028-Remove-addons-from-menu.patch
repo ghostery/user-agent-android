@@ -7,10 +7,10 @@ Subject: Remove addons from menu
  .../components/toolbar/DefaultToolbarMenu.kt     | 16 ++++------------
  1 file changed, 4 insertions(+), 12 deletions(-)
 
-diff --git a/app/src/main/java/org/mozilla/fenix/components/toolbar/DefaultToolbarMenu.kt b/app/src/main/java/org/mozilla/fenix/components/toolbar/DefaultToolbarMenu.kt
+diff --git a/fenix/app/src/main/java/org/mozilla/fenix/components/toolbar/DefaultToolbarMenu.kt b/fenix/app/src/main/java/org/mozilla/fenix/components/toolbar/DefaultToolbarMenu.kt
 index d6c558b9e..82fd05ed3 100644
---- a/app/src/main/java/org/mozilla/fenix/components/toolbar/DefaultToolbarMenu.kt
-+++ b/app/src/main/java/org/mozilla/fenix/components/toolbar/DefaultToolbarMenu.kt
+--- a/fenix/app/src/main/java/org/mozilla/fenix/components/toolbar/DefaultToolbarMenu.kt
++++ b/fenix/app/src/main/java/org/mozilla/fenix/components/toolbar/DefaultToolbarMenu.kt
 @@ -14,6 +14,7 @@ import androidx.lifecycle.lifecycleScope
  import kotlinx.coroutines.Job
  import kotlinx.coroutines.flow.mapNotNull
@@ -21,7 +21,7 @@ index d6c558b9e..82fd05ed3 100644
  import mozilla.components.browser.menu.item.BrowserMenuDivider
 @@ -75,18 +76,9 @@ open class DefaultToolbarMenu(
          get() = store.state.selectedTab
- 
+
      override val menuBuilder by lazy {
 -        WebExtensionBrowserMenuBuilder(
 -            items = coreMenuItems,
@@ -40,7 +40,7 @@ index d6c558b9e..82fd05ed3 100644
 +            endOfMenuAlwaysVisible = shouldUseBottomToolbar
          )
      }
- 
--- 
+
+--
 2.37.2
 

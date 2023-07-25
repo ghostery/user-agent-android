@@ -4,17 +4,17 @@ Date: Mon, 8 Jun 2020 14:56:58 +0200
 Subject: Adding Ghostery Icon resources
 
 ---
- ghostery_res/ghostery_logo_white.svg         |  67 ++++++++++++
- ghostery_res/ghostery_logo_white_private.svg | 103 +++++++++++++++++++
+ fenix/ghostery_res/ghostery_logo_white.svg         |  67 ++++++++++++
+ fenix/ghostery_res/ghostery_logo_white_private.svg | 103 +++++++++++++++++++
  2 files changed, 170 insertions(+)
- create mode 100644 ghostery_res/ghostery_logo_white.svg
- create mode 100644 ghostery_res/ghostery_logo_white_private.svg
+ create mode 100644 fenix/ghostery_res/ghostery_logo_white.svg
+ create mode 100644 fenix/ghostery_res/ghostery_logo_white_private.svg
 
-diff --git a/ghostery_res/ghostery_logo_white.svg b/ghostery_res/ghostery_logo_white.svg
+diff --git a/fenix/ghostery_res/ghostery_logo_white.svg b/fenix/ghostery_res/ghostery_logo_white.svg
 new file mode 100644
 index 000000000..7482e5762
 --- /dev/null
-+++ b/ghostery_res/ghostery_logo_white.svg
++++ b/fenix/ghostery_res/ghostery_logo_white.svg
 @@ -0,0 +1,67 @@
 +<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 +<svg
@@ -83,11 +83,11 @@ index 000000000..7482e5762
 +    </g>
 +  </g>
 +</svg>
-diff --git a/ghostery_res/ghostery_logo_white_private.svg b/ghostery_res/ghostery_logo_white_private.svg
+diff --git a/fenix/ghostery_res/ghostery_logo_white_private.svg b/fenix/ghostery_res/ghostery_logo_white_private.svg
 new file mode 100644
 index 000000000..bb3c2179c
 --- /dev/null
-+++ b/ghostery_res/ghostery_logo_white_private.svg
++++ b/fenix/ghostery_res/ghostery_logo_white_private.svg
 @@ -0,0 +1,103 @@
 +<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 +<svg
@@ -192,6 +192,6 @@ index 000000000..bb3c2179c
 +    </g>
 +  </g>
 +</svg>
--- 
+--
 2.37.2
 

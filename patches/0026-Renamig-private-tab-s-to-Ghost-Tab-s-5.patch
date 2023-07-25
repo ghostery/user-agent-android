@@ -7,10 +7,10 @@ Subject: Renamig private tab(s) to Ghost Tab(s) (#5)
  app/src/main/res/values/strings.xml | 50 ++++++++++++++---------------
  1 file changed, 25 insertions(+), 25 deletions(-)
 
-diff --git a/app/src/main/res/values/strings.xml b/app/src/main/res/values/strings.xml
+diff --git a/fenix/app/src/main/res/values/strings.xml b/fenix/app/src/main/res/values/strings.xml
 index 8f9986091..d6bcf4947 100644
---- a/app/src/main/res/values/strings.xml
-+++ b/app/src/main/res/values/strings.xml
+--- a/fenix/app/src/main/res/values/strings.xml
++++ b/fenix/app/src/main/res/values/strings.xml
 @@ -3,17 +3,17 @@
     - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
  <resources xmlns:tools="http://schemas.android.com/tools"  xmlns:moz="http://mozac.org/tools">
@@ -20,7 +20,7 @@ index 8f9986091..d6bcf4947 100644
      <!-- App name for private browsing mode. The first parameter is the name of the app defined in app_name (for example: Fenix)-->
 -    <string name="app_name_private_4">%s (Private)</string>
 +    <string name="app_name_private_4">%s (Ghost Tabs)</string>
- 
+
      <!-- Home Fragment -->
      <!-- Content description (not visible, for screen readers etc.): "Three dot" menu button. -->
      <string name="content_description_menu">More options</string>
@@ -51,7 +51,7 @@ index 8f9986091..d6bcf4947 100644
      <string name="private_browsing_common_myths">
         Common myths about private browsing
      </string>
- 
+
      <!-- Private mode shortcut "contextual feature recommendation" (CFR) -->
      <!-- Text for the main message -->
 -    <string name="cfr_message">Add a shortcut to open private tabs from your Home screen.</string>
@@ -65,7 +65,7 @@ index 8f9986091..d6bcf4947 100644
      <!-- Shortcut action to open new private tab -->
 -    <string name="home_screen_shortcut_open_new_private_tab_2">New private tab</string>
 +    <string name="home_screen_shortcut_open_new_private_tab_2">New Ghost Tab</string>
- 
+
      <!-- Recent Tabs -->
      <!-- Header text for jumping back into the recent tab in the home screen -->
 @@ -226,7 +226,7 @@
@@ -143,7 +143,7 @@ index 8f9986091..d6bcf4947 100644
 +    <string name="pwa_site_controls_title_private">%1$s (Ghost Tabs)</string>
      <!-- Title text for the normal tabs header in the tabs tray which are not part of any tab grouping. -->
      <string name="tab_tray_header_title_1" moz:removedIn="104" tools:ignore="UnusedResources">Other tabs</string>
- 
+
 @@ -810,7 +810,7 @@
      <!-- Bookmark overflow menu open in new tab button -->
      <string name="bookmark_menu_open_in_new_tab_button">Open in new tab</string>
@@ -154,7 +154,7 @@ index 8f9986091..d6bcf4947 100644
      <string name="bookmark_menu_delete_button">Delete</string>
      <!--Bookmark overflow menu save button -->
 @@ -1022,7 +1022,7 @@
- 
+
      <!-- Notifications -->
      <!-- Text shown in the notification that pops up to remind the user that a private browsing session is active. -->
 -    <string name="notification_pbm_delete_text_2">Close private tabs</string>
@@ -183,6 +183,6 @@ index 8f9986091..d6bcf4947 100644
      <!-- Preference for enhanced tracking protection for the custom protection settings -->
      <string name="preference_enhanced_tracking_protection_custom_cryptominers">Cryptominers</string>
      <!-- Preference for enhanced tracking protection for the custom protection settings -->
--- 
+--
 2.37.2
 

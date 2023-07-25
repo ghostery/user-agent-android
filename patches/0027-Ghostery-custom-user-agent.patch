@@ -7,10 +7,10 @@ Subject: Ghostery custom user agent
  app/src/main/java/org/mozilla/fenix/components/Core.kt | 8 ++++++++
  1 file changed, 8 insertions(+)
 
-diff --git a/app/src/main/java/org/mozilla/fenix/components/Core.kt b/app/src/main/java/org/mozilla/fenix/components/Core.kt
+diff --git a/fenix/app/src/main/java/org/mozilla/fenix/components/Core.kt b/fenix/app/src/main/java/org/mozilla/fenix/components/Core.kt
 index 0f2b8d1ad..193bfb4e6 100644
---- a/app/src/main/java/org/mozilla/fenix/components/Core.kt
-+++ b/app/src/main/java/org/mozilla/fenix/components/Core.kt
+--- a/fenix/app/src/main/java/org/mozilla/fenix/components/Core.kt
++++ b/fenix/app/src/main/java/org/mozilla/fenix/components/Core.kt
 @@ -97,6 +97,7 @@ import org.mozilla.fenix.settings.advanced.getSelectedLocale
  import org.mozilla.fenix.telemetry.TelemetryMiddleware
  import org.mozilla.fenix.utils.getUndoDelay
@@ -18,7 +18,7 @@ index 0f2b8d1ad..193bfb4e6 100644
 +import org.mozilla.geckoview.GeckoSession
  import java.util.UUID
  import java.util.concurrent.TimeUnit
- 
+
 @@ -115,6 +116,7 @@ class Core(
       */
      val engine: Engine by lazyMonitored {
@@ -30,7 +30,7 @@ index 0f2b8d1ad..193bfb4e6 100644
 @@ -170,6 +172,12 @@ class Core(
          }
      }
- 
+
 +    val customUserAgent by lazyMonitored {
 +        val defaultUserAgent = GeckoSession.getDefaultUserAgent()
 +        val (prefix, postfix) = defaultUserAgent.split(')')
@@ -40,6 +40,6 @@ index 0f2b8d1ad..193bfb4e6 100644
      /**
       * Passed to [engine] to intercept requests for app links,
       * and various features triggered by page load requests.
--- 
+--
 2.37.2
 

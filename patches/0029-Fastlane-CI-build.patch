@@ -18,14 +18,14 @@ index 7a118b49b..000000000
 -source "https://rubygems.org"
 -
 -gem "fastlane"
-diff --git a/app/build.gradle b/app/build.gradle
+diff --git a/fenix/app/build.gradle b/fenix/app/build.gradle
 index 258316712..b3a49f871 100644
---- a/app/build.gradle
-+++ b/app/build.gradle
+--- a/fenix/app/build.gradle
++++ b/fenix/app/build.gradle
 @@ -77,6 +77,15 @@ android {
          }
      }
- 
+
 +    signingConfigs {
 +        ghostery {
 +            storeFile System.getenv("CERT_PATH") ? file(System.getenv("CERT_PATH")) : null
@@ -46,6 +46,6 @@ index 258316712..b3a49f871 100644
              buildConfigField "boolean", "USE_RELEASE_VERSIONING", "true"
              applicationIdSuffix ".ghostery"
              def deepLinkSchemeValue = "ghostery"
--- 
+--
 2.37.2
 

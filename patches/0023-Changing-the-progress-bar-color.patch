@@ -7,10 +7,10 @@ Subject: Changing the progress bar color
  app/src/main/res/drawable/progress_gradient.xml | 7 ++++---
  1 file changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/app/src/main/res/drawable/progress_gradient.xml b/app/src/main/res/drawable/progress_gradient.xml
+diff --git a/fenix/app/src/main/res/drawable/progress_gradient.xml b/fenix/app/src/main/res/drawable/progress_gradient.xml
 index 76809e6b7..740d8237f 100644
---- a/app/src/main/res/drawable/progress_gradient.xml
-+++ b/app/src/main/res/drawable/progress_gradient.xml
+--- a/fenix/app/src/main/res/drawable/progress_gradient.xml
++++ b/fenix/app/src/main/res/drawable/progress_gradient.xml
 @@ -17,11 +17,12 @@
                      android:bottomRightRadius="8dp"
                      android:topLeftRadius="0dp"
@@ -27,6 +27,6 @@ index 76809e6b7..740d8237f 100644
              </shape>
          </scale>
      </item>
--- 
+--
 2.37.2
 

@@ -11,10 +11,10 @@ Subject: Ghostery splashscreen
  4 files changed, 38 insertions(+), 1 deletion(-)
  create mode 100644 app/src/main/res/drawable/splashscreen_window_background.xml
 
-diff --git a/app/src/main/AndroidManifest.xml b/app/src/main/AndroidManifest.xml
+diff --git a/fenix/app/src/main/AndroidManifest.xml b/fenix/app/src/main/AndroidManifest.xml
 index aab865ec7..6f41c3785 100644
---- a/app/src/main/AndroidManifest.xml
-+++ b/app/src/main/AndroidManifest.xml
+--- a/fenix/app/src/main/AndroidManifest.xml
++++ b/fenix/app/src/main/AndroidManifest.xml
 @@ -34,7 +34,7 @@
          android:label="@string/app_name"
          android:roundIcon="@mipmap/ic_launcher_round"
@@ -23,11 +23,11 @@ index aab865ec7..6f41c3785 100644
 +        android:theme="@style/LaunchTheme"
          android:usesCleartextTraffic="true"
          tools:ignore="UnusedAttribute">
- 
-diff --git a/app/src/main/java/org/mozilla/fenix/HomeActivity.kt b/app/src/main/java/org/mozilla/fenix/HomeActivity.kt
+
+diff --git a/fenix/app/src/main/java/org/mozilla/fenix/HomeActivity.kt b/fenix/app/src/main/java/org/mozilla/fenix/HomeActivity.kt
 index 67352085f..49ddc0fc4 100644
---- a/app/src/main/java/org/mozilla/fenix/HomeActivity.kt
-+++ b/app/src/main/java/org/mozilla/fenix/HomeActivity.kt
+--- a/fenix/app/src/main/java/org/mozilla/fenix/HomeActivity.kt
++++ b/fenix/app/src/main/java/org/mozilla/fenix/HomeActivity.kt
 @@ -35,6 +35,8 @@ import androidx.navigation.fragment.NavHostFragment
  import androidx.navigation.ui.AppBarConfiguration
  import androidx.navigation.ui.NavigationUI
@@ -38,16 +38,16 @@ index 67352085f..49ddc0fc4 100644
  import kotlinx.coroutines.ExperimentalCoroutinesApi
  import kotlinx.coroutines.Job
 @@ -222,6 +224,8 @@ open class HomeActivity : LocaleAwareAppCompatActivity(), NavHostActivity {
- 
+
          components.publicSuffixList.prefetch()
- 
+
 +        setTheme(R.style.NormalTheme)
 +
          binding = ActivityHomeBinding.inflate(layoutInflater)
          setContentView(binding.root)
          ProfilerMarkers.addListenerForOnGlobalLayout(components.core.engine, this, binding.root)
 @@ -361,6 +365,19 @@ open class HomeActivity : LocaleAwareAppCompatActivity(), NavHostActivity {
- 
+
              DefaultBrowserNotificationWorker.setDefaultBrowserNotificationIfNeeded(applicationContext)
          }
 +
@@ -64,13 +64,13 @@ index 67352085f..49ddc0fc4 100644
 +            }
 +        }
      }
- 
+
      override fun onStart() {
-diff --git a/app/src/main/res/drawable/splashscreen_window_background.xml b/app/src/main/res/drawable/splashscreen_window_background.xml
+diff --git a/fenix/app/src/main/res/drawable/splashscreen_window_background.xml b/fenix/app/src/main/res/drawable/splashscreen_window_background.xml
 new file mode 100644
 index 000000000..b7c239b30
 --- /dev/null
-+++ b/app/src/main/res/drawable/splashscreen_window_background.xml
++++ b/fenix/app/src/main/res/drawable/splashscreen_window_background.xml
 @@ -0,0 +1,15 @@
 +<?xml version="1.0" encoding="utf-8"?>
 +<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
@@ -87,14 +87,14 @@ index 000000000..b7c239b30
 +    <item android:drawable="@drawable/big_ghosty"
 +        android:gravity="center" />
 +</layer-list>
-diff --git a/app/src/main/res/values/styles.xml b/app/src/main/res/values/styles.xml
+diff --git a/fenix/app/src/main/res/values/styles.xml b/fenix/app/src/main/res/values/styles.xml
 index d41c8647b..e078b6dad 100644
---- a/app/src/main/res/values/styles.xml
-+++ b/app/src/main/res/values/styles.xml
+--- a/fenix/app/src/main/res/values/styles.xml
++++ b/fenix/app/src/main/res/values/styles.xml
 @@ -128,6 +128,11 @@
          <item name="tabCounterTintColor">?attr/textPrimary</item>
      </style>
- 
+
 +    <style name="LaunchTheme" parent="NormalThemeBase">
 +        <item name="android:statusBarColor">@android:color/transparent</item>
 +        <item name="android:windowBackground">@drawable/splashscreen_window_background</item>
@@ -103,6 +103,6 @@ index d41c8647b..e078b6dad 100644
      <!-- A theme derived from the normal activity theme, but to look and behave like a dialog -->
      <style name="DialogActivityTheme" parent="NormalTheme">
          <item name="android:windowElevation">16dp</item>
--- 
+--
 2.37.2
 
