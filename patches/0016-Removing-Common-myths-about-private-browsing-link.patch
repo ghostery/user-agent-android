@@ -1,4 +1,4 @@
-From 55a62fd2c9b7ca7a5c243959c0ad57b7070d2e52 Mon Sep 17 00:00:00 2001
+From ba5ad686b3cae32e1a647fa98cc9a786f2f112c6 Mon Sep 17 00:00:00 2001
 From: Stefano Pacifici <stefano.pacifici@gmail.com>
 Date: Tue, 23 Jun 2020 16:53:36 +0200
 Subject: Removing "Common myths about private browsing" link
@@ -9,23 +9,23 @@ Subject: Removing "Common myths about private browsing" link
  2 files changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/fenix/app/src/main/java/org/mozilla/fenix/home/sessioncontrol/SessionControlInteractor.kt b/fenix/app/src/main/java/org/mozilla/fenix/home/sessioncontrol/SessionControlInteractor.kt
-index 787bdb273..7d020a107 100644
+index a5687fdacc..94df511b18 100644
 --- a/fenix/app/src/main/java/org/mozilla/fenix/home/sessioncontrol/SessionControlInteractor.kt
 +++ b/fenix/app/src/main/java/org/mozilla/fenix/home/sessioncontrol/SessionControlInteractor.kt
 @@ -318,7 +318,7 @@ class SessionControlInteractor(
      }
-
+ 
      override fun onLearnMoreClicked() {
 -        privateBrowsingController.handleLearnMoreClicked()
 +//        privateBrowsingController.handleLearnMoreClicked()
      }
-
+ 
      override fun onPrivateModeButtonClicked(newMode: BrowsingMode, userHasBeenOnboarded: Boolean) {
 diff --git a/fenix/app/src/main/java/org/mozilla/fenix/home/sessioncontrol/viewholders/PrivateBrowsingDescriptionViewHolder.kt b/fenix/app/src/main/java/org/mozilla/fenix/home/sessioncontrol/viewholders/PrivateBrowsingDescriptionViewHolder.kt
-index 918d752cb..06e1d9ebc 100644
+index 08af2e6aa4..0f6f1f7aa3 100644
 --- a/fenix/app/src/main/java/org/mozilla/fenix/home/sessioncontrol/viewholders/PrivateBrowsingDescriptionViewHolder.kt
 +++ b/fenix/app/src/main/java/org/mozilla/fenix/home/sessioncontrol/viewholders/PrivateBrowsingDescriptionViewHolder.kt
-@@ -91,7 +91,7 @@ fun PrivateBrowsingDescription(
+@@ -90,7 +90,7 @@ fun PrivateBrowsingDescription(
          Box(
              modifier = Modifier
                  .fillMaxWidth()
@@ -34,6 +34,6 @@ index 918d752cb..06e1d9ebc 100644
                  .clickable(
                      interactionSource = interactionSource,
                      indication = null,
---
-2.37.2
+-- 
+2.39.2 (Apple Git-143)
 

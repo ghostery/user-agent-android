@@ -1,4 +1,4 @@
-From 261bf3f40d234486e5d1609f29a2777a9b554d5b Mon Sep 17 00:00:00 2001
+From 3cb839eaaf683b40b10c9bb51e26c2a197e7de36 Mon Sep 17 00:00:00 2001
 From: Sam Macbeth <sammacbeth@users.noreply.github.com>
 Date: Mon, 29 Jun 2020 16:29:21 +0200
 Subject: Browser action integration (#4)
@@ -11,19 +11,19 @@ Subject: Browser action integration (#4)
 ---
  .../mozilla/fenix/browser/BrowserFragment.kt  | 17 +++++++++++++++++
  .../QuickSettingsSheetDialogFragment.kt       |  4 ----
- app/src/main/res/drawable/ic_ghostery.xml     | 19 +++++++++++++++++++
+ .../app/src/main/res/drawable/ic_ghostery.xml | 19 +++++++++++++++++++
  .../fragment_quick_settings_dialog_sheet.xml  | 17 +----------------
  4 files changed, 37 insertions(+), 20 deletions(-)
- create mode 100644 app/src/main/res/drawable/ic_ghostery.xml
+ create mode 100644 fenix/app/src/main/res/drawable/ic_ghostery.xml
 
 diff --git a/fenix/app/src/main/java/org/mozilla/fenix/browser/BrowserFragment.kt b/fenix/app/src/main/java/org/mozilla/fenix/browser/BrowserFragment.kt
-index 49b11f1ae..23163a29a 100644
+index 2e0f5111dc..2409fdd204 100644
 --- a/fenix/app/src/main/java/org/mozilla/fenix/browser/BrowserFragment.kt
 +++ b/fenix/app/src/main/java/org/mozilla/fenix/browser/BrowserFragment.kt
-@@ -72,6 +72,23 @@ class BrowserFragment : BaseBrowserFragment(), UserInteractionHandler {
+@@ -90,6 +90,23 @@ class BrowserFragment : BaseBrowserFragment(), UserInteractionHandler {
              )
          }
-
+ 
 +        val ghosteryAction = BrowserToolbar.Button(
 +            imageDrawable = AppCompatResources.getDrawable(
 +                context,
@@ -45,7 +45,7 @@ index 49b11f1ae..23163a29a 100644
              imageDrawable = AppCompatResources.getDrawable(
                  context,
 diff --git a/fenix/app/src/main/java/org/mozilla/fenix/settings/quicksettings/QuickSettingsSheetDialogFragment.kt b/fenix/app/src/main/java/org/mozilla/fenix/settings/quicksettings/QuickSettingsSheetDialogFragment.kt
-index e96ff23c3..f284ff996 100644
+index 2f6b3b2430..82b8b88910 100644
 --- a/fenix/app/src/main/java/org/mozilla/fenix/settings/quicksettings/QuickSettingsSheetDialogFragment.kt
 +++ b/fenix/app/src/main/java/org/mozilla/fenix/settings/quicksettings/QuickSettingsSheetDialogFragment.kt
 @@ -116,8 +116,6 @@ class QuickSettingsSheetDialogFragment : FenixDialogFragment() {
@@ -58,7 +58,7 @@ index e96ff23c3..f284ff996 100644
              context = context,
              ioScope = viewLifecycleOwner.lifecycleScope + Dispatchers.IO,
 @@ -132,11 +130,9 @@ class QuickSettingsSheetDialogFragment : FenixDialogFragment() {
-
+ 
      override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
          super.onViewCreated(view, savedInstanceState)
 -        observeTrackersChange(requireComponents.core.store)
@@ -71,7 +71,7 @@ index e96ff23c3..f284ff996 100644
      }
 diff --git a/fenix/app/src/main/res/drawable/ic_ghostery.xml b/fenix/app/src/main/res/drawable/ic_ghostery.xml
 new file mode 100644
-index 000000000..7770c4093
+index 0000000000..7770c40930
 --- /dev/null
 +++ b/fenix/app/src/main/res/drawable/ic_ghostery.xml
 @@ -0,0 +1,19 @@
@@ -96,7 +96,7 @@ index 000000000..7770c4093
 +</vector>
 \ No newline at end of file
 diff --git a/fenix/app/src/main/res/layout/fragment_quick_settings_dialog_sheet.xml b/fenix/app/src/main/res/layout/fragment_quick_settings_dialog_sheet.xml
-index 008745706..25f811f30 100644
+index 0087457062..25f811f305 100644
 --- a/fenix/app/src/main/res/layout/fragment_quick_settings_dialog_sheet.xml
 +++ b/fenix/app/src/main/res/layout/fragment_quick_settings_dialog_sheet.xml
 @@ -26,7 +26,7 @@
@@ -105,13 +105,13 @@ index 008745706..25f811f30 100644
              android:layout_height="wrap_content"
 -            app:layout_constraintBottom_toTopOf="@id/trackingProtectionDivider" />
 +            app:layout_constraintBottom_toTopOf="@id/clearSiteDataLayout" />
-
+ 
          <View
              android:id="@+id/webSitePermissionsDivider"
 @@ -37,21 +37,6 @@
              android:background="?borderPrimary"
              app:layout_constraintBottom_toTopOf="@id/websitePermissionsLayout" />
-
+ 
 -        <FrameLayout
 -            android:id="@+id/trackingProtectionLayout"
 -            android:layout_width="match_parent"
@@ -130,6 +130,6 @@ index 008745706..25f811f30 100644
          <FrameLayout
              android:id="@+id/clearSiteDataLayout"
              android:layout_width="match_parent"
---
-2.37.2
+-- 
+2.39.2 (Apple Git-143)
 

@@ -1,4 +1,4 @@
-From cd3e25d1c33bc9ef8269a2b7e15e3651e2dea251 Mon Sep 17 00:00:00 2001
+From bc5f4064803a785cee93725393e8d118267c4b0e Mon Sep 17 00:00:00 2001
 From: Stefano Pacifici <stefano.pacifici@gmail.com>
 Date: Tue, 9 Jun 2020 10:56:17 +0200
 Subject: Remove Firefox Sync
@@ -6,21 +6,21 @@ Subject: Remove Firefox Sync
 ---
  .../mozilla/fenix/library/bookmarks/BookmarkFragment.kt    | 4 +---
  .../org/mozilla/fenix/settings/account/AccountUiView.kt    | 2 +-
- app/src/main/res/layout/component_tabstray2.xml            | 7 -------
+ fenix/app/src/main/res/layout/component_tabstray2.xml      | 7 -------
  3 files changed, 2 insertions(+), 11 deletions(-)
 
 diff --git a/fenix/app/src/main/java/org/mozilla/fenix/library/bookmarks/BookmarkFragment.kt b/fenix/app/src/main/java/org/mozilla/fenix/library/bookmarks/BookmarkFragment.kt
-index 38d3dc684..0663a7998 100644
+index 6306a29deb..fa2893974d 100644
 --- a/fenix/app/src/main/java/org/mozilla/fenix/library/bookmarks/BookmarkFragment.kt
 +++ b/fenix/app/src/main/java/org/mozilla/fenix/library/bookmarks/BookmarkFragment.kt
 @@ -139,7 +139,6 @@ class BookmarkFragment : LibraryPageFragment<BookmarkNode>(), UserInteractionHan
-
+ 
          requireActivity().addMenuProvider(this, viewLifecycleOwner, Lifecycle.State.RESUMED)
-
+ 
 -        val accountManager = requireComponents.backgroundServices.accountManager
          consumeFrom(bookmarkStore) {
              bookmarkView.update(it)
-
+ 
 @@ -147,8 +146,7 @@ class BookmarkFragment : LibraryPageFragment<BookmarkNode>(), UserInteractionHan
              // Don't want to pester user too much with it, and if there are lots of bookmarks present,
              // it'll just get visually lost. Inside of the "Desktop Bookmarks" node, it'll nicely stand-out,
@@ -30,13 +30,13 @@ index 38d3dc684..0663a7998 100644
 +            bookmarkView.binding.bookmarkFoldersSignIn.isVisible = false
          }
      }
-
+ 
 diff --git a/fenix/app/src/main/java/org/mozilla/fenix/settings/account/AccountUiView.kt b/fenix/app/src/main/java/org/mozilla/fenix/settings/account/AccountUiView.kt
-index c204fee61..1b5a9a41d 100644
+index bf6041c6ed..89315f9df0 100644
 --- a/fenix/app/src/main/java/org/mozilla/fenix/settings/account/AccountUiView.kt
 +++ b/fenix/app/src/main/java/org/mozilla/fenix/settings/account/AccountUiView.kt
-@@ -88,7 +88,7 @@ class AccountUiView(
-
+@@ -86,7 +86,7 @@ class AccountUiView(
+ 
              // Signed-out.
          } else {
 -            preferenceSignIn.isVisible = true
@@ -45,13 +45,13 @@ index c204fee61..1b5a9a41d 100644
              preferenceFirefoxAccountAuthError.isVisible = false
              accountPreferenceCategory.isVisible = false
 diff --git a/fenix/app/src/main/res/layout/component_tabstray2.xml b/fenix/app/src/main/res/layout/component_tabstray2.xml
-index 5a34bf2a2..4bfc41e18 100644
+index 3379510c5a..cc5029796a 100644
 --- a/fenix/app/src/main/res/layout/component_tabstray2.xml
 +++ b/fenix/app/src/main/res/layout/component_tabstray2.xml
-@@ -99,13 +99,6 @@
+@@ -100,13 +100,6 @@
              android:contentDescription="@string/tabs_header_private_tabs_title"
              android:icon="@drawable/ic_private_browsing" />
-
+ 
 -        <com.google.android.material.tabs.TabItem
 -            android:layout_width="0dp"
 -            android:layout_height="match_parent"
@@ -60,8 +60,8 @@ index 5a34bf2a2..4bfc41e18 100644
 -            android:icon="@drawable/ic_synced_tabs" />
 -
      </com.google.android.material.tabs.TabLayout>
-
+ 
      <ImageButton
---
-2.37.2
+-- 
+2.39.2 (Apple Git-143)
 

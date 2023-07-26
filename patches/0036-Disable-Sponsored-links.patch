@@ -1,17 +1,17 @@
-From 4ac39400d06a79d08c5a62fc171f04ab9d815801 Mon Sep 17 00:00:00 2001
+From 2abec268b337c8874bec979100dc9f172652402d Mon Sep 17 00:00:00 2001
 From: Krzysztof Modras <chrmod@chrmod.net>
 Date: Tue, 4 Oct 2022 11:32:25 +0200
 Subject: Disable Sponsored links
 
 ---
- app/src/main/java/org/mozilla/fenix/utils/Settings.kt | 5 +----
+ fenix/app/src/main/java/org/mozilla/fenix/utils/Settings.kt | 5 +----
  1 file changed, 1 insertion(+), 4 deletions(-)
 
 diff --git a/fenix/app/src/main/java/org/mozilla/fenix/utils/Settings.kt b/fenix/app/src/main/java/org/mozilla/fenix/utils/Settings.kt
-index 49a54d426..db08a109a 100644
+index 0323877da1..0457281968 100644
 --- a/fenix/app/src/main/java/org/mozilla/fenix/utils/Settings.kt
 +++ b/fenix/app/src/main/java/org/mozilla/fenix/utils/Settings.kt
-@@ -1285,10 +1285,7 @@ class Settings(private val appContext: Context) : PreferencesHolder {
+@@ -1566,10 +1566,7 @@ class Settings(private val appContext: Context) : PreferencesHolder {
      /**
       * Indicates if the Contile functionality should be visible.
       */
@@ -20,9 +20,9 @@ index 49a54d426..db08a109a 100644
 -        default = true,
 -    )
 +    var showContileFeature = false
-
+ 
      /**
       * Indicates if the Task Continuity enhancements are enabled.
---
-2.37.2
+-- 
+2.39.2 (Apple Git-143)
 

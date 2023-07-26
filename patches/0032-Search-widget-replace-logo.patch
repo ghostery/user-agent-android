@@ -1,14 +1,14 @@
-From ebc1c8f964a6f7ee51f4b36c24dc31a0de4782cc Mon Sep 17 00:00:00 2001
+From d2ce89f88b40117ef50a7fb795f064b9d3243c34 Mon Sep 17 00:00:00 2001
 From: Krzysztof Modras <chrmod@chrmod.net>
 Date: Mon, 28 Feb 2022 16:54:55 +0100
 Subject: Search widget: replace logo
 
 ---
- .../gecko/search/SearchWidgetProvider.kt      | 23 ++++++++-----------
- 1 file changed, 9 insertions(+), 14 deletions(-)
+ .../gecko/search/SearchWidgetProvider.kt      | 24 ++++++++-----------
+ 1 file changed, 10 insertions(+), 14 deletions(-)
 
 diff --git a/fenix/app/src/main/java/org/mozilla/gecko/search/SearchWidgetProvider.kt b/fenix/app/src/main/java/org/mozilla/gecko/search/SearchWidgetProvider.kt
-index c02594f7a..b5056c68d 100644
+index 4656b04d57..4fe5456847 100644
 --- a/fenix/app/src/main/java/org/mozilla/gecko/search/SearchWidgetProvider.kt
 +++ b/fenix/app/src/main/java/org/mozilla/gecko/search/SearchWidgetProvider.kt
 @@ -11,6 +11,7 @@ import android.appwidget.AppWidgetProvider
@@ -20,7 +20,7 @@ index c02594f7a..b5056c68d 100644
  import android.os.Bundle
  import android.speech.RecognizerIntent
 @@ -165,20 +166,15 @@ class SearchWidgetProvider : AppWidgetProvider() {
-
+ 
      private fun RemoteViews.setIcon(context: Context) {
          // gradient color available for android:fillColor only on SDK 24+
 -        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
@@ -46,9 +46,9 @@ index c02594f7a..b5056c68d 100644
 +                setTint(Color.rgb(0x00, 0xAE, 0xF0))
 +            }?.toBitmap()
 +        )
-
+ 
          val appName = context.getString(R.string.app_name)
          setContentDescription(
---
-2.37.2
+-- 
+2.39.2 (Apple Git-143)
 

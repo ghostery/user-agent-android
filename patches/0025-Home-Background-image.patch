@@ -1,35 +1,35 @@
-From 8ad670a3841bb6731e72c44bc579b8b3cb6a5229 Mon Sep 17 00:00:00 2001
+From 8c6cca151490c4a676861527bd858dff008d7fde Mon Sep 17 00:00:00 2001
 From: Stefano Pacifici <stefano.pacifici@gmail.com>
 Date: Thu, 16 Jul 2020 17:39:25 +0200
 Subject: Home Background image
 
 ---
- app/src/main/java/org/mozilla/fenix/home/HomeFragment.kt | 3 +--
- app/src/main/res/layout/fragment_home.xml                | 6 ++++++
+ .../src/main/java/org/mozilla/fenix/home/HomeFragment.kt    | 3 +--
+ fenix/app/src/main/res/layout/fragment_home.xml             | 6 ++++++
  2 files changed, 7 insertions(+), 2 deletions(-)
 
 diff --git a/fenix/app/src/main/java/org/mozilla/fenix/home/HomeFragment.kt b/fenix/app/src/main/java/org/mozilla/fenix/home/HomeFragment.kt
-index c0c0b94b1..9e85cedf9 100644
+index a9b007f834..bf1577f055 100644
 --- a/fenix/app/src/main/java/org/mozilla/fenix/home/HomeFragment.kt
 +++ b/fenix/app/src/main/java/org/mozilla/fenix/home/HomeFragment.kt
 @@ -890,8 +890,7 @@ class HomeFragment : Fragment() {
      }
-
+ 
      @VisibleForTesting
 -    internal fun shouldEnableWallpaper() =
 -        (activity as? HomeActivity)?.themeManager?.currentTheme?.isPrivate?.not() ?: false
 +    internal fun shouldEnableWallpaper() = false
-
+ 
      private fun applyWallpaper(wallpaperName: String, orientationChange: Boolean) {
          when {
 diff --git a/fenix/app/src/main/res/layout/fragment_home.xml b/fenix/app/src/main/res/layout/fragment_home.xml
-index 3400cd555..cf2255dbe 100644
+index 084104c651..8316156c63 100644
 --- a/fenix/app/src/main/res/layout/fragment_home.xml
 +++ b/fenix/app/src/main/res/layout/fragment_home.xml
 @@ -15,6 +15,12 @@
      android:layout_height="match_parent"
      android:background="?homeBackground">
-
+ 
 +    <ImageView
 +        android:layout_width="match_parent"
 +        android:layout_height="match_parent"
@@ -39,6 +39,6 @@ index 3400cd555..cf2255dbe 100644
      <androidx.appcompat.widget.AppCompatImageView
          android:id="@+id/wallpaperImageView"
          android:layout_width="match_parent"
---
-2.37.2
+-- 
+2.39.2 (Apple Git-143)
 

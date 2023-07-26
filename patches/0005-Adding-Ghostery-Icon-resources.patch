@@ -1,18 +1,18 @@
-From a964a97b90bae231cd26ede3b45df7cfb090d2b2 Mon Sep 17 00:00:00 2001
+From 3246e3446fd21ea6b5569bb7a9e3a8a1d8cf4642 Mon Sep 17 00:00:00 2001
 From: Stefano Pacifici <stefano.pacifici@gmail.com>
 Date: Mon, 8 Jun 2020 14:56:58 +0200
 Subject: Adding Ghostery Icon resources
 
 ---
- fenix/ghostery_res/ghostery_logo_white.svg         |  67 ++++++++++++
- fenix/ghostery_res/ghostery_logo_white_private.svg | 103 +++++++++++++++++++
+ fenix/ghostery_res/ghostery_logo_white.svg    |  67 ++++++++++++
+ .../ghostery_logo_white_private.svg           | 103 ++++++++++++++++++
  2 files changed, 170 insertions(+)
  create mode 100644 fenix/ghostery_res/ghostery_logo_white.svg
  create mode 100644 fenix/ghostery_res/ghostery_logo_white_private.svg
 
 diff --git a/fenix/ghostery_res/ghostery_logo_white.svg b/fenix/ghostery_res/ghostery_logo_white.svg
 new file mode 100644
-index 000000000..7482e5762
+index 0000000000..7482e57629
 --- /dev/null
 +++ b/fenix/ghostery_res/ghostery_logo_white.svg
 @@ -0,0 +1,67 @@
@@ -85,7 +85,7 @@ index 000000000..7482e5762
 +</svg>
 diff --git a/fenix/ghostery_res/ghostery_logo_white_private.svg b/fenix/ghostery_res/ghostery_logo_white_private.svg
 new file mode 100644
-index 000000000..bb3c2179c
+index 0000000000..bb3c2179ca
 --- /dev/null
 +++ b/fenix/ghostery_res/ghostery_logo_white_private.svg
 @@ -0,0 +1,103 @@
@@ -192,6 +192,6 @@ index 000000000..bb3c2179c
 +    </g>
 +  </g>
 +</svg>
---
-2.37.2
+-- 
+2.39.2 (Apple Git-143)
 

@@ -1,22 +1,22 @@
-From 005326b0f270c89bb2586673dd902153b899ae13 Mon Sep 17 00:00:00 2001
+From 6d0bb6924f8f89d77ad6be5e892b40c659afcec2 Mon Sep 17 00:00:00 2001
 From: Stefano Pacifici <stefano.pacifici@gmail.com>
 Date: Fri, 5 Jun 2020 18:22:06 +0200
 Subject: Changing the wordmark (freshtab title)
 
 White wordmark
 ---
- app/src/main/res/layout/fragment_about.xml |   3 +-
- app/src/main/res/values/styles.xml         |   4 +-
- fenix/ghostery_res/wordmark.svg                  | 103 +++++++++++++++++++++
- fenix/ghostery_res/wordmark_private.svg          | 103 +++++++++++++++++++++
- fenix/ghostery_res/wordmark_white.svg            |  98 ++++++++++++++++++++
+ .../src/main/res/layout/fragment_about.xml    |   3 +-
+ fenix/app/src/main/res/values/styles.xml      |   4 +-
+ fenix/ghostery_res/wordmark.svg               | 103 ++++++++++++++++++
+ fenix/ghostery_res/wordmark_private.svg       | 103 ++++++++++++++++++
+ fenix/ghostery_res/wordmark_white.svg         |  98 +++++++++++++++++
  5 files changed, 308 insertions(+), 3 deletions(-)
  create mode 100644 fenix/ghostery_res/wordmark.svg
  create mode 100644 fenix/ghostery_res/wordmark_private.svg
  create mode 100644 fenix/ghostery_res/wordmark_white.svg
 
 diff --git a/fenix/app/src/main/res/layout/fragment_about.xml b/fenix/app/src/main/res/layout/fragment_about.xml
-index 53d86a98e..7e9b03ff0 100644
+index 53d86a98ed..7e9b03ff0c 100644
 --- a/fenix/app/src/main/res/layout/fragment_about.xml
 +++ b/fenix/app/src/main/res/layout/fragment_about.xml
 @@ -11,6 +11,7 @@
@@ -25,7 +25,7 @@ index 53d86a98e..7e9b03ff0 100644
      android:fillViewport="true"
 +    android:background="?homeBackground"
      tools:context="org.mozilla.fenix.settings.about.AboutFragment">
-
+ 
      <androidx.constraintlayout.widget.ConstraintLayout
 @@ -26,7 +27,7 @@
              android:layout_marginEnd="@dimen/about_header_icon_margin_start_end"
@@ -37,12 +37,12 @@ index 53d86a98e..7e9b03ff0 100644
              app:layout_constraintStart_toStartOf="parent"
              app:layout_constraintTop_toTopOf="parent"
 diff --git a/fenix/app/src/main/res/values/styles.xml b/fenix/app/src/main/res/values/styles.xml
-index a54d3c438..d41c8647b 100644
+index 19eaa6d166..a8935dc9dc 100644
 --- a/fenix/app/src/main/res/values/styles.xml
 +++ b/fenix/app/src/main/res/values/styles.xml
 @@ -118,7 +118,7 @@
          <item name="mozac_widget_favicon_border_color">@color/fx_mobile_border_color_primary</item>
-
+ 
          <!-- Drawables -->
 -        <item name="fenixLogo">@drawable/ic_logo_wordmark_normal</item>
 +        <item name="fenixLogo">@drawable/ic_logo_wordmark_white</item>
@@ -51,7 +51,7 @@ index a54d3c438..d41c8647b 100644
          <item name="homeBackground">@color/fx_mobile_layer_color_1</item>
 @@ -317,7 +317,7 @@
          <item name="mozac_widget_favicon_border_color">@color/photonInk50</item>
-
+ 
          <!-- Drawables -->
 -        <item name="fenixLogo">@drawable/ic_logo_wordmark_private</item>
 +        <item name="fenixLogo">@drawable/ic_logo_wordmark_white</item>
@@ -60,7 +60,7 @@ index a54d3c438..d41c8647b 100644
          <item name="bottomBarBackground">@drawable/private_home_bottom_bar_background_gradient</item>
 diff --git a/fenix/ghostery_res/wordmark.svg b/fenix/ghostery_res/wordmark.svg
 new file mode 100644
-index 000000000..c97885d8c
+index 0000000000..c97885d8ca
 --- /dev/null
 +++ b/fenix/ghostery_res/wordmark.svg
 @@ -0,0 +1,103 @@
@@ -169,7 +169,7 @@ index 000000000..c97885d8c
 +</svg>
 diff --git a/fenix/ghostery_res/wordmark_private.svg b/fenix/ghostery_res/wordmark_private.svg
 new file mode 100644
-index 000000000..fcafa6fab
+index 0000000000..fcafa6faba
 --- /dev/null
 +++ b/fenix/ghostery_res/wordmark_private.svg
 @@ -0,0 +1,103 @@
@@ -278,7 +278,7 @@ index 000000000..fcafa6fab
 +</svg>
 diff --git a/fenix/ghostery_res/wordmark_white.svg b/fenix/ghostery_res/wordmark_white.svg
 new file mode 100644
-index 000000000..7be352f75
+index 0000000000..7be352f751
 --- /dev/null
 +++ b/fenix/ghostery_res/wordmark_white.svg
 @@ -0,0 +1,98 @@
@@ -380,6 +380,6 @@ index 000000000..7be352f75
 +    </g>
 +  </g>
 +</svg>
---
-2.37.2
+-- 
+2.39.2 (Apple Git-143)
 

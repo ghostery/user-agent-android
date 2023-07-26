@@ -1,25 +1,25 @@
-From 393c70d385c998d9d9ff9c81835352fb17fe7179 Mon Sep 17 00:00:00 2001
+From 551ad4f7e7b6283c828e4bddd408b52ac187da86 Mon Sep 17 00:00:00 2001
 From: Stefano Pacifici <stefano.pacifici@gmail.com>
 Date: Wed, 29 Jul 2020 19:08:26 +0200
 Subject: Ghostery custom user agent
 
 ---
- app/src/main/java/org/mozilla/fenix/components/Core.kt | 8 ++++++++
+ .../src/main/java/org/mozilla/fenix/components/Core.kt    | 8 ++++++++
  1 file changed, 8 insertions(+)
 
 diff --git a/fenix/app/src/main/java/org/mozilla/fenix/components/Core.kt b/fenix/app/src/main/java/org/mozilla/fenix/components/Core.kt
-index 0f2b8d1ad..193bfb4e6 100644
+index b284a2b06f..98ac20700c 100644
 --- a/fenix/app/src/main/java/org/mozilla/fenix/components/Core.kt
 +++ b/fenix/app/src/main/java/org/mozilla/fenix/components/Core.kt
-@@ -97,6 +97,7 @@ import org.mozilla.fenix.settings.advanced.getSelectedLocale
+@@ -104,6 +104,7 @@ import org.mozilla.fenix.share.SaveToPDFMiddleware
  import org.mozilla.fenix.telemetry.TelemetryMiddleware
  import org.mozilla.fenix.utils.getUndoDelay
  import org.mozilla.geckoview.GeckoRuntime
 +import org.mozilla.geckoview.GeckoSession
  import java.util.UUID
  import java.util.concurrent.TimeUnit
-
-@@ -115,6 +116,7 @@ class Core(
+ 
+@@ -122,6 +123,7 @@ class Core(
       */
      val engine: Engine by lazyMonitored {
          val defaultSettings = DefaultSettings(
@@ -27,10 +27,10 @@ index 0f2b8d1ad..193bfb4e6 100644
              requestInterceptor = requestInterceptor,
              remoteDebuggingEnabled = context.settings().isRemoteDebuggingEnabled &&
                  Build.VERSION.SDK_INT >= Build.VERSION_CODES.M,
-@@ -170,6 +172,12 @@ class Core(
+@@ -181,6 +183,12 @@ class Core(
          }
      }
-
+ 
 +    val customUserAgent by lazyMonitored {
 +        val defaultUserAgent = GeckoSession.getDefaultUserAgent()
 +        val (prefix, postfix) = defaultUserAgent.split(')')
@@ -40,6 +40,6 @@ index 0f2b8d1ad..193bfb4e6 100644
      /**
       * Passed to [engine] to intercept requests for app links,
       * and various features triggered by page load requests.
---
-2.37.2
+-- 
+2.39.2 (Apple Git-143)
 

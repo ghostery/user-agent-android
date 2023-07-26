@@ -1,19 +1,19 @@
-From dbda7e1be89ca64b630b3814f96fd59d01a4d40e Mon Sep 17 00:00:00 2001
+From dc695eecca8e9c619dfc84a14d4326024491c887 Mon Sep 17 00:00:00 2001
 From: Sam Macbeth <sam@cliqz.com>
 Date: Mon, 3 Aug 2020 18:31:14 +0200
 Subject: Basic ghostery extension integration
 
 ---
- app/build.gradle                                       | 4 +++-
- app/src/main/java/org/mozilla/fenix/components/Core.kt | 8 ++++++++
+ fenix/app/build.gradle                                    | 4 +++-
+ .../src/main/java/org/mozilla/fenix/components/Core.kt    | 8 ++++++++
  2 files changed, 11 insertions(+), 1 deletion(-)
 
 diff --git a/fenix/app/build.gradle b/fenix/app/build.gradle
-index 93ba55042..258316712 100644
+index 50dab8d5e8..cd18be708b 100644
 --- a/fenix/app/build.gradle
 +++ b/fenix/app/build.gradle
-@@ -179,7 +179,9 @@ android {
-
+@@ -194,7 +194,9 @@ android {
+ 
          // manifest.template.json is converted to manifest.json at build time.
          // No need to package the template in the APK.
 -        ignoreAssetsPattern "manifest.template.json"
@@ -21,13 +21,13 @@ index 93ba55042..258316712 100644
 +        // that breaks webextensions i18n as traslation are located in _locales folder
 +        ignoreAssetsPattern "manifest.template.json:!.svn:!.git:!.ds_store:!*.scc:.*:!CVS:!thumbs.db:!picasa.ini:!*~"
      }
-
+ 
      testOptions {
 diff --git a/fenix/app/src/main/java/org/mozilla/fenix/components/Core.kt b/fenix/app/src/main/java/org/mozilla/fenix/components/Core.kt
-index 3db6d32c2..0f2b8d1ad 100644
+index aa5dbe9729..b284a2b06f 100644
 --- a/fenix/app/src/main/java/org/mozilla/fenix/components/Core.kt
 +++ b/fenix/app/src/main/java/org/mozilla/fenix/components/Core.kt
-@@ -159,6 +159,14 @@ class Core(
+@@ -170,6 +170,14 @@ class Core(
                  onError = { ext, throwable ->
                      Log.e("GHOSTERY", "Failed to install Ghostery Search webextension: $ext", throwable)
                  })
@@ -41,7 +41,7 @@ index 3db6d32c2..0f2b8d1ad 100644
 +                })
          }
      }
-
---
-2.37.2
+ 
+-- 
+2.39.2 (Apple Git-143)
 

@@ -1,19 +1,19 @@
-From b9d863c225614b0db2f1353777b501073b6b5d3a Mon Sep 17 00:00:00 2001
+From 5642f934cda0415d3f15f775cea542cffe13a3c8 Mon Sep 17 00:00:00 2001
 From: Krzysztof Modras <chrmod@chrmod.net>
 Date: Thu, 17 Mar 2022 16:25:43 +0100
 Subject: Fixing null version name in About
 
 ---
- app/build.gradle                                              | 2 +-
+ fenix/app/build.gradle                                        | 2 +-
  .../java/org/mozilla/fenix/settings/about/AboutFragment.kt    | 2 +-
- buildSrc/src/main/java/Config.kt                              | 4 ++--
+ fenix/buildSrc/src/main/java/Config.kt                        | 4 ++--
  3 files changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/fenix/app/build.gradle b/fenix/app/build.gradle
-index b3a49f871..7cb97d49d 100644
+index 031ba165ce..0cab10193c 100644
 --- a/fenix/app/build.gradle
 +++ b/fenix/app/build.gradle
-@@ -38,7 +38,7 @@ android {
+@@ -37,7 +37,7 @@ android {
          minSdkVersion Config.minSdkVersion
          targetSdkVersion Config.targetSdkVersion
          versionCode 1
@@ -23,11 +23,11 @@ index b3a49f871..7cb97d49d 100644
          testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
          testInstrumentationRunnerArguments clearPackageData: 'true'
 diff --git a/fenix/app/src/main/java/org/mozilla/fenix/settings/about/AboutFragment.kt b/fenix/app/src/main/java/org/mozilla/fenix/settings/about/AboutFragment.kt
-index b9cf2bc5f..928c1a900 100644
+index f60dfc579b..60bfab2e04 100644
 --- a/fenix/app/src/main/java/org/mozilla/fenix/settings/about/AboutFragment.kt
 +++ b/fenix/app/src/main/java/org/mozilla/fenix/settings/about/AboutFragment.kt
 @@ -108,7 +108,7 @@ class AboutFragment : Fragment(), AboutPageListener {
-
+ 
              String.format(
                  "%s (Build #%s)%s\n%s: %s\n%s: %s",
 -                packageInfo.versionName,
@@ -35,13 +35,13 @@ index b9cf2bc5f..928c1a900 100644
                  versionCode,
                  maybeFenixGitHash,
                  maybeGecko,
-diff --git a/buildSrc/src/main/java/Config.kt b/buildSrc/src/main/java/Config.kt
-index cbcdefd9e..beb199073 100644
+diff --git a/fenix/buildSrc/src/main/java/Config.kt b/fenix/buildSrc/src/main/java/Config.kt
+index 6f0e2ba50b..2af098d2d0 100644
 --- a/fenix/buildSrc/src/main/java/Config.kt
 +++ b/fenix/buildSrc/src/main/java/Config.kt
 @@ -17,13 +17,13 @@ object Config {
      const val targetSdkVersion = 33
-
+ 
      @JvmStatic
 -    private fun generateDebugVersionName(): String {
 +    private fun generateDebugVersionName(project: Project): String {
@@ -53,8 +53,8 @@ index cbcdefd9e..beb199073 100644
 -        return SimpleDateFormat("1.0.yyww", Locale.US).format(today)
 +        return if (project.hasProperty("versionName")) project.property("versionName") as String else SimpleDateFormat("1.0.yyww", Locale.US).format(today)
      }
-
+ 
      @JvmStatic
---
-2.37.2
+-- 
+2.39.2 (Apple Git-143)
 

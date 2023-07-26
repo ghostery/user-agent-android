@@ -1,26 +1,27 @@
-From 40f3001e5480b3bd6694d2c36adc7500dc4462f0 Mon Sep 17 00:00:00 2001
+From ebbb2b177e00dc6259bbe2e8beea8b3067888236 Mon Sep 17 00:00:00 2001
 From: Stefano Pacifici <stefano.pacifici@gmail.com>
 Date: Fri, 5 Jun 2020 18:22:29 +0200
 Subject: Changing the app_name
 
 ---
- app/src/main/res/values/static_strings.xml | 2 +-
- 1 file changed, 2 insertion(+), 2 deletion(-)
+ fenix/app/src/main/res/values/static_strings.xml | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/fenix/app/src/main/res/values/static_strings.xml b/fenix/app/src/main/res/values/static_strings.xml
-index a3fda09ce..0e03f506f 100644
+index 1db7704d2b..eb071288f1 100644
 --- a/fenix/app/src/main/res/values/static_strings.xml
 +++ b/fenix/app/src/main/res/values/static_strings.xml
-@@ -4,7 +4,7 @@
+@@ -4,8 +4,8 @@
     - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
  <resources>
      <!-- Name of the application -->
 -    <string name="app_name" translatable="false">Firefox Fenix</string>
-+    <string name="app_name" translatable="false">Ghostery</string>
 -    <string name="firefox" translatable="false">Firefox</string>
++    <string name="app_name" translatable="false">Ghostery</string>
 +    <string name="firefox" translatable="false">Ghostery</string>
-
+ 
      <!-- Preference for developers -->
---
-2.37.2
+     <string name="preference_leakcanary" translatable="false">LeakCanary</string>
+-- 
+2.39.2 (Apple Git-143)
 

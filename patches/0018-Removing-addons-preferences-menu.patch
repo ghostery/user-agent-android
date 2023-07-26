@@ -1,14 +1,14 @@
-From 68c8440c86efe298eba4e4c80daf253b116f3cfa Mon Sep 17 00:00:00 2001
+From 85aa39a2b50397824a7ff0320944f9357ba6fc1c Mon Sep 17 00:00:00 2001
 From: Stefano Pacifici <stefano.pacifici@gmail.com>
 Date: Thu, 25 Jun 2020 18:02:43 +0200
 Subject: Removing addons preferences menu
 
 ---
- app/src/main/res/xml/preferences.xml | 9 ---------
+ fenix/app/src/main/res/xml/preferences.xml | 9 ---------
  1 file changed, 9 deletions(-)
 
 diff --git a/fenix/app/src/main/res/xml/preferences.xml b/fenix/app/src/main/res/xml/preferences.xml
-index 3f6e52dd4..5ca9fa279 100644
+index d9b239bf2e..30cfeb39bd 100644
 --- a/fenix/app/src/main/res/xml/preferences.xml
 +++ b/fenix/app/src/main/res/xml/preferences.xml
 @@ -119,15 +119,6 @@
@@ -24,9 +24,9 @@ index 3f6e52dd4..5ca9fa279 100644
 -            android:key="@string/pref_key_override_amo_collection"
 -            app:iconSpaceReserved="false"
 -            android:title="@string/preferences_customize_amo_collection" />
-
+ 
          <androidx.preference.Preference
              android:key="@string/pref_key_open_links_in_apps"
---
-2.37.2
+-- 
+2.39.2 (Apple Git-143)
 

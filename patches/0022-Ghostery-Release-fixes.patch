@@ -1,43 +1,15 @@
-From 43ea46cb380263c05c91b6f625f54c7c09d5a44a Mon Sep 17 00:00:00 2001
+From d014ba2d06bab147f84373a2ff3d1d1c056e7526 Mon Sep 17 00:00:00 2001
 From: Stefano Pacifici <stefano.pacifici@gmail.com>
 Date: Tue, 30 Jun 2020 17:59:32 +0200
 Subject: Ghostery Release fixes
 
 ---
- app/src/main/java/org/mozilla/fenix/Config.kt | 5 ++++-
- nimbus.fml.yaml                               | 1 +
+ fenix/app/nimbus.fml.yaml                           | 3 ++-
+ fenix/app/src/main/java/org/mozilla/fenix/Config.kt | 3 +++
  2 files changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/fenix/app/src/main/java/org/mozilla/fenix/Config.kt b/fenix/app/src/main/java/org/mozilla/fenix/Config.kt
-index 114eab812..61467647c 100644
---- a/fenix/app/src/main/java/org/mozilla/fenix/Config.kt
-+++ b/fenix/app/src/main/java/org/mozilla/fenix/Config.kt
-@@ -9,6 +9,7 @@ enum class ReleaseChannel {
-     Nightly,
-     Beta,
-     Release,
-+    Ghostery,
-     ;
-
-     val isReleased: Boolean
-@@ -33,6 +34,7 @@ enum class ReleaseChannel {
-     val isRelease: Boolean
-         get() = when (this) {
-             Release -> true
-+            Ghostery -> true
-             else -> false
-         }
-
-@@ -56,6 +58,7 @@ object Config {
-         "nightly", "benchmark" -> ReleaseChannel.Nightly
-         "beta" -> ReleaseChannel.Beta
-         "release" -> ReleaseChannel.Release
-+        "ghostery" -> ReleaseChannel.Ghostery
-         else -> {
-             throw IllegalStateException("Unknown build type: ${BuildConfig.BUILD_TYPE}")
-         }
 diff --git a/fenix/app/nimbus.fml.yaml b/fenix/app/nimbus.fml.yaml
-index e187a8097..ec5143e4f 100644
+index 43fa52d7bb..8fc9ee9ae4 100644
 --- a/fenix/app/nimbus.fml.yaml
 +++ b/fenix/app/nimbus.fml.yaml
 @@ -9,6 +9,7 @@ channels:
@@ -48,6 +20,43 @@ index e187a8097..ec5143e4f 100644
  includes:
    - onboarding.fml.yaml
  import:
---
-2.37.2
+@@ -358,7 +359,7 @@ types:
+       variants:
+         feature-ui:
+           description: An integer either 0 or 1 indicating if the UI for cookie banner handling should be visible,
+-            0 to hide the UI and 1 to show the UI. The actual UI is composed by cookie banner section 
++            0 to hide the UI and 1 to show the UI. The actual UI is composed by cookie banner section
+             in the settings page, the toolbar section and the re-engagement dialog.
+         feature-setting-value:
+           description: An integer either 0 or 1 indicating if cookie banner setting should be enabled or disabled,
+diff --git a/fenix/app/src/main/java/org/mozilla/fenix/Config.kt b/fenix/app/src/main/java/org/mozilla/fenix/Config.kt
+index 534cf2d804..eeb76107d1 100644
+--- a/fenix/app/src/main/java/org/mozilla/fenix/Config.kt
++++ b/fenix/app/src/main/java/org/mozilla/fenix/Config.kt
+@@ -9,6 +9,7 @@ enum class ReleaseChannel {
+     Nightly,
+     Beta,
+     Release,
++    Ghostery,
+     ;
+ 
+     val isReleased: Boolean
+@@ -33,6 +34,7 @@ enum class ReleaseChannel {
+     val isRelease: Boolean
+         get() = when (this) {
+             Release -> true
++            Ghostery -> true
+             else -> false
+         }
+ 
+@@ -56,6 +58,7 @@ object Config {
+         "nightly", "benchmark" -> ReleaseChannel.Nightly
+         "beta" -> ReleaseChannel.Beta
+         "release" -> ReleaseChannel.Release
++        "ghostery" -> ReleaseChannel.Ghostery
+         else -> {
+             throw IllegalStateException("Unknown build type: ${BuildConfig.BUILD_TYPE}")
+         }
+-- 
+2.39.2 (Apple Git-143)
 

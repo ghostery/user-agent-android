@@ -1,4 +1,4 @@
-From ff0c908287051fc1471a7d4de968e8fb2322f2cd Mon Sep 17 00:00:00 2001
+From 6c2dd62f23dba34987b306181a6497396b5b5db4 Mon Sep 17 00:00:00 2001
 From: Stefano Pacifici <stefano.pacifici@gmail.com>
 Date: Tue, 9 Jun 2020 15:33:50 +0200
 Subject: Removing Pocket from the topsites
@@ -8,7 +8,7 @@ Subject: Removing Pocket from the topsites
  1 file changed, 16 deletions(-)
 
 diff --git a/fenix/app/src/main/java/org/mozilla/fenix/components/Core.kt b/fenix/app/src/main/java/org/mozilla/fenix/components/Core.kt
-index c235011f9..b16f48eab 100644
+index afe64f8db6..e3af508a05 100644
 --- a/fenix/app/src/main/java/org/mozilla/fenix/components/Core.kt
 +++ b/fenix/app/src/main/java/org/mozilla/fenix/components/Core.kt
 @@ -504,22 +504,6 @@ class Core(
@@ -34,6 +34,6 @@ index c235011f9..b16f48eab 100644
                      defaultTopSites.add(
                          Pair(
                              context.getString(R.string.default_top_site_wikipedia),
-
-2.37.2
+-- 
+2.39.2 (Apple Git-143)
 

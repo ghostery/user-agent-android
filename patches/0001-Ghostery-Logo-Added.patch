@@ -1,21 +1,21 @@
-From 962de08f28223f82299ea48129f5eaae53f79e4d Mon Sep 17 00:00:00 2001
+From e34e1fe56dc32b7bb1ad5e2d9cad276bf9ee492d Mon Sep 17 00:00:00 2001
 From: Sam Macbeth <sam@cliqz.com>
 Date: Mon, 24 Aug 2020 16:19:12 +0200
 Subject: Ghostery Logo Added
 
 ---
- fenix/app/build.gradle                              | 19 ++++++++++++++++++-
+ fenix/app/build.gradle                        | 21 +++++++++++++++++--
  .../res/mipmap-anydpi-v26/ic_launcher.xml     |  2 +-
  .../mipmap-anydpi-v26/ic_launcher_round.xml   |  2 +-
- 3 files changed, 20 insertions(+), 3 deletions(-)
+ 3 files changed, 21 insertions(+), 4 deletions(-)
 
 diff --git a/fenix/app/build.gradle b/fenix/app/build.gradle
-index fe39a12064..eb797e05a2 100644
+index fe39a12064..50dab8d5e8 100644
 --- a/fenix/app/build.gradle
 +++ b/fenix/app/build.gradle
 @@ -33,7 +33,7 @@ android {
      }
-
+ 
      defaultConfig {
 -        applicationId "org.mozilla"
 +        applicationId "com.ghostery.android"
@@ -53,7 +53,7 @@ index fe39a12064..eb797e05a2 100644
 +            ]
 +        }
      }
-
+ 
      buildFeatures {
 diff --git a/fenix/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml b/fenix/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml
 index de34ac4858..9e9d6e7325 100644
@@ -68,7 +68,7 @@ index de34ac4858..9e9d6e7325 100644
      <foreground android:drawable="@drawable/ic_launcher_foreground"/>
      <monochrome android:drawable="@drawable/ic_launcher_monochrome"/>
  </adaptive-icon>
-c_launcher_round.xml
+diff --git a/fenix/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml b/fenix/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml
 index de34ac4858..9e9d6e7325 100644
 --- a/fenix/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml
 +++ b/fenix/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml
@@ -81,6 +81,6 @@ index de34ac4858..9e9d6e7325 100644
      <foreground android:drawable="@drawable/ic_launcher_foreground"/>
      <monochrome android:drawable="@drawable/ic_launcher_monochrome"/>
  </adaptive-icon>
---
-2.37.2
+-- 
+2.39.2 (Apple Git-143)
 

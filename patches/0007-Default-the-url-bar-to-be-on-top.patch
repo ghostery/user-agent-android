@@ -1,14 +1,14 @@
-From 1f150b0738e020efbab3abb220c489bd51a4689b Mon Sep 17 00:00:00 2001
+From 1f598d12dbde892b7653fbbecdc422df30a75536 Mon Sep 17 00:00:00 2001
 From: Stefano Pacifici <stefano.pacifici@gmail.com>
 Date: Mon, 8 Jun 2020 15:07:04 +0200
 Subject: Default the url bar to be on top
 
 ---
- app/src/main/java/org/mozilla/fenix/utils/Settings.kt | 2 +-
+ fenix/app/src/main/java/org/mozilla/fenix/utils/Settings.kt | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/fenix/app/src/main/java/org/mozilla/fenix/utils/Settings.kt b/fenix/app/src/main/java/org/mozilla/fenix/utils/Settings.kt
-index aabf35e10..b6e258d59 100644
+index 8e9d3a23a9..a45f7bc4ef 100644
 --- a/fenix/app/src/main/java/org/mozilla/fenix/utils/Settings.kt
 +++ b/fenix/app/src/main/java/org/mozilla/fenix/utils/Settings.kt
 @@ -888,7 +888,7 @@ class Settings(private val appContext: Context) : PreferencesHolder {
@@ -18,8 +18,8 @@ index aabf35e10..b6e258d59 100644
 -        default = { shouldDefaultToBottomToolbar() },
 +        default = { false },
      )
-
+ 
      val toolbarPosition: ToolbarPosition
---
-2.37.2
+-- 
+2.39.2 (Apple Git-143)
 
