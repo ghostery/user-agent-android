@@ -24,4 +24,4 @@ git add . && git commit -a -m "Add extensions"
 
 git tag -f $FENIX_TAG-start
 # apply patches
-# git am --ignore-space-change --ignore-whitespace ../../patches/*
+git am --ignore-space-change --ignore-whitespace ../../patches/*
