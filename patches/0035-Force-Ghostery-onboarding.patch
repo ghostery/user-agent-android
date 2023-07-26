@@ -11,31 +11,30 @@ diff --git a/fenix/app/src/main/java/org/mozilla/fenix/home/HomeFragment.kt b/fe
 index 9e85cedf9..b5cc997dc 100644
 --- a/fenix/app/src/main/java/org/mozilla/fenix/home/HomeFragment.kt
 +++ b/fenix/app/src/main/java/org/mozilla/fenix/home/HomeFragment.kt
-@@ -54,6 +54,7 @@ import mozilla.components.browser.menu.view.MenuButton
+@@ -39,6 +39,7 @@ import kotlinx.coroutines.MainScope
+ import kotlinx.coroutines.delay
+ import kotlinx.coroutines.flow.map
+ import kotlinx.coroutines.launch
++import mozilla.components.browser.state.selector.findCustomTabOrSelectedTab
  import mozilla.components.browser.state.selector.findTab
  import mozilla.components.browser.state.selector.normalTabs
  import mozilla.components.browser.state.selector.privateTabs
-+import mozilla.components.browser.state.selector.selectedTab
- import mozilla.components.browser.state.state.BrowserState
- import mozilla.components.browser.state.state.selectedOrDefaultSearchEngine
- import mozilla.components.browser.state.store.BrowserStore
-@@ -123,6 +124,9 @@ import org.mozilla.fenix.wallpapers.Wallpaper
+@@ -115,6 +116,8 @@ import org.mozilla.fenix.wallpapers.Wallpaper
  import java.lang.ref.WeakReference
  import kotlin.math.min
 
 +var onboardingShownOnce = false
-+val onboardingPattern = """moz-extension://[^/]+/fenix/app/templates/onboarding\.html.*""".toRegex()
-+
++val onboardingPattern = """moz-extension://[^/]+/app/templates/onboarding\.html.*""".toRegex()
  @Suppress("TooManyFunctions", "LargeClass")
  class HomeFragment : Fragment() {
      private val args by navArgs<HomeFragmentArgs>()
-@@ -502,6 +506,25 @@ class HomeFragment : Fragment() {
-         observeSearchEngineChanges()
+@@ -509,6 +512,25 @@ class HomeFragment : Fragment() {
          observeSearchEngineNameChanges()
+         observeWallpaperUpdates()
 
 +        // This is an hack to force the browser to display the extension on-boarding on start-up
 +        consumeFlow(store) { flow ->
-+            flow.map { state -> state.selectedTab?.content?.url }
++            flow.map { state -> state.findCustomTabOrSelectedTab()?.content?.url }
 +                .ifChanged()
 +                .collect { url ->
 +                    val navController = findNavController()
@@ -52,7 +51,7 @@ index 9e85cedf9..b5cc997dc 100644
 +                }
 +        }
 +
-         HomeMenuBuilder(
+         homeMenuView = HomeMenuView(
              view = view,
              context = view.context,
 --

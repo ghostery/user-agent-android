@@ -28,28 +28,33 @@ diff --git a/fenix/app/src/main/java/org/mozilla/fenix/HomeActivity.kt b/fenix/a
 index 67352085f..49ddc0fc4 100644
 --- a/fenix/app/src/main/java/org/mozilla/fenix/HomeActivity.kt
 +++ b/fenix/app/src/main/java/org/mozilla/fenix/HomeActivity.kt
-@@ -35,6 +35,8 @@ import androidx.navigation.fragment.NavHostFragment
+@@ -40,11 +40,13 @@ import androidx.navigation.fragment.NavHostFragment
  import androidx.navigation.ui.AppBarConfiguration
  import androidx.navigation.ui.NavigationUI
  import kotlinx.coroutines.CoroutineScope
-+import kotlinx.coroutines.withContext
 +import kotlinx.coroutines.Dispatchers
  import kotlinx.coroutines.Dispatchers.IO
- import kotlinx.coroutines.ExperimentalCoroutinesApi
+ import kotlinx.coroutines.Dispatchers.Main
  import kotlinx.coroutines.Job
-@@ -222,6 +224,8 @@ open class HomeActivity : LocaleAwareAppCompatActivity(), NavHostActivity {
+ import kotlinx.coroutines.delay
+ import kotlinx.coroutines.launch
++import kotlinx.coroutines.withContext
+ import mozilla.appservices.places.BookmarkRoot
+ import mozilla.components.browser.state.action.ContentAction
+ import mozilla.components.browser.state.action.SearchAction
+@@ -253,6 +255,8 @@ open class HomeActivity : LocaleAwareAppCompatActivity(), NavHostActivity {
 
          components.publicSuffixList.prefetch()
 
 +        setTheme(R.style.NormalTheme)
 +
-         binding = ActivityHomeBinding.inflate(layoutInflater)
-         setContentView(binding.root)
-         ProfilerMarkers.addListenerForOnGlobalLayout(components.core.engine, this, binding.root)
-@@ -361,6 +365,19 @@ open class HomeActivity : LocaleAwareAppCompatActivity(), NavHostActivity {
-
-             DefaultBrowserNotificationWorker.setDefaultBrowserNotificationIfNeeded(applicationContext)
-         }
+         // Changing a language on the Language screen restarts the activity, but the activity keeps
+         // the old layout direction. We have to update the direction manually.
+         window.decorView.layoutDirection = TextUtils.getLayoutDirectionFromLocale(Locale.getDefault())
+@@ -469,6 +473,19 @@ open class HomeActivity : LocaleAwareAppCompatActivity(), NavHostActivity {
+             components.settings,
+             components.core.engine.settings,
+         )
 +
 +        // Now the app is started restore the original background to avoid weird splashscreen
 +        // in oder Fragments

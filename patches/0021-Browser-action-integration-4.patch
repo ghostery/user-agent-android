@@ -48,16 +48,16 @@ diff --git a/fenix/app/src/main/java/org/mozilla/fenix/settings/quicksettings/Qu
 index e96ff23c3..f284ff996 100644
 --- a/fenix/app/src/main/java/org/mozilla/fenix/settings/quicksettings/QuickSettingsSheetDialogFragment.kt
 +++ b/fenix/app/src/main/java/org/mozilla/fenix/settings/quicksettings/QuickSettingsSheetDialogFragment.kt
-@@ -114,8 +114,6 @@ class QuickSettingsSheetDialogFragment : FenixDialogFragment() {
+@@ -116,8 +116,6 @@ class QuickSettingsSheetDialogFragment : FenixDialogFragment() {
          websiteInfoView = WebsiteInfoView(binding.websiteInfoLayout, interactor = interactor)
          websitePermissionsView =
              WebsitePermissionsView(binding.websitePermissionsLayout, interactor)
--        trackingProtectionView =
--            TrackingProtectionView(binding.trackingProtectionLayout, interactor, context.settings())
+-        protectionsView =
+-            ProtectionsView(binding.trackingProtectionLayout, interactor, context.settings())
          clearSiteDataView = ClearSiteDataView(
              context = context,
              ioScope = viewLifecycleOwner.lifecycleScope + Dispatchers.IO,
-@@ -130,11 +128,9 @@ class QuickSettingsSheetDialogFragment : FenixDialogFragment() {
+@@ -132,11 +130,9 @@ class QuickSettingsSheetDialogFragment : FenixDialogFragment() {
 
      override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
          super.onViewCreated(view, savedInstanceState)
@@ -65,7 +65,7 @@ index e96ff23c3..f284ff996 100644
          consumeFrom(quickSettingsStore) {
              websiteInfoView.update(it.webInfoState)
              websitePermissionsView.update(it.websitePermissionsState)
--            trackingProtectionView.update(it.trackingProtectionState)
+-            protectionsView.update(it.protectionsState)
              clearSiteDataView.update(it.webInfoState)
          }
      }

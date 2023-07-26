@@ -26,21 +26,21 @@ diff --git a/fenix/app/src/main/java/org/mozilla/fenix/settings/about/AboutFragm
 index b9cf2bc5f..928c1a900 100644
 --- a/fenix/app/src/main/java/org/mozilla/fenix/settings/about/AboutFragment.kt
 +++ b/fenix/app/src/main/java/org/mozilla/fenix/settings/about/AboutFragment.kt
-@@ -110,7 +110,7 @@ class AboutFragment : Fragment(), AboutPageListener {
+@@ -108,7 +108,7 @@ class AboutFragment : Fragment(), AboutPageListener {
 
              String.format(
-                 "%s (Build #%s)%s\n%s: %s\n%s: %s\n%s: %s",
+                 "%s (Build #%s)%s\n%s: %s\n%s: %s",
 -                packageInfo.versionName,
 +                BuildConfig.VERSION_NAME,
                  versionCode,
                  maybeFenixGitHash,
-                 componentsAbbreviation,
+                 maybeGecko,
 diff --git a/buildSrc/src/main/java/Config.kt b/buildSrc/src/main/java/Config.kt
 index cbcdefd9e..beb199073 100644
---- a/buildSrc/src/main/java/Config.kt
-+++ b/buildSrc/src/main/java/Config.kt
-@@ -16,13 +16,13 @@ object Config {
-     const val targetSdkVersion = 32
+--- a/fenix/buildSrc/src/main/java/Config.kt
++++ b/fenix/buildSrc/src/main/java/Config.kt
+@@ -17,13 +17,13 @@ object Config {
+     const val targetSdkVersion = 33
 
      @JvmStatic
 -    private fun generateDebugVersionName(): String {

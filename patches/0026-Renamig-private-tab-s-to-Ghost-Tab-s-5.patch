@@ -30,9 +30,9 @@ index 8f9986091..d6bcf4947 100644
      <!-- Content description (not visible, for screen readers etc.): "Private Browsing" menu button. -->
 -    <string name="content_description_disable_private_browsing_button">Disable private browsing</string>
 +    <string name="content_description_disable_private_browsing_button">Disable Ghost Tab</string>
-     <!-- Placeholder text shown in the search bar before a user enters text -->
+     <!-- Placeholder text shown in the search bar before a user enters text for the default engine -->
      <string name="search_hint">Search or enter address</string>
-     <!-- Placeholder text shown in the search bar when using application search engines -->
+     <!-- Placeholder text shown in the search bar before a user enters text for a general engine -->
 @@ -21,7 +21,7 @@
      <!-- No Open Tabs Message Description -->
      <string name="no_open_tabs_description">Your open tabs will be shown here.</string>
@@ -42,7 +42,7 @@ index 8f9986091..d6bcf4947 100644
      <!-- Tab tray multi select title in app bar. The first parameter is the number of tabs selected -->
      <string name="tab_tray_multi_select_title">%1$d selected</string>
      <!-- Label of button in create collection dialog for creating a new collection  -->
-@@ -52,14 +52,14 @@
+@@ -60,14 +60,14 @@
      <!-- Explanation for private browsing displayed to users on home view when they first enable private mode
          The first parameter is the name of the app defined in app_name (for example: Fenix) -->
      <string name="private_browsing_placeholder_description_2">
@@ -53,22 +53,22 @@ index 8f9986091..d6bcf4947 100644
      </string>
 
      <!-- Private mode shortcut "contextual feature recommendation" (CFR) -->
-     <!-- Text for the main message -->
--    <string name="cfr_message">Add a shortcut to open private tabs from your Home screen.</string>
-+    <string name="cfr_message">Add a shortcut to open Ghost Tabs from your Home screen.</string>
-     <!-- Text for the positive button -->
-     <string name="cfr_pos_button_text">Add shortcut</string>
-     <!-- Text for the negative button -->
-@@ -109,7 +109,7 @@
+     <!-- Text for the Private mode shortcut CFR message for adding a private mode shortcut to open private tabs from the Home screen -->
+-    <string name="private_mode_cfr_message_2">Launch your next private tab in one tap.</string>
++    <string name="private_mode_cfr_message_2">Launch your next Ghost Tab in one tap.</string>
+     <!-- Text for the positive button to accept adding a Private Browsing shortcut to the Home screen -->
+     <string name="private_mode_cfr_pos_button_text">Add to Home screen</string>
+     <!-- Text for the negative button to decline adding a Private Browsing shortcut to the Home screen -->
+@@ -120,7 +120,7 @@
      <!-- Shortcut action to open new tab -->
      <string name="home_screen_shortcut_open_new_tab_2">New tab</string>
      <!-- Shortcut action to open new private tab -->
 -    <string name="home_screen_shortcut_open_new_private_tab_2">New private tab</string>
 +    <string name="home_screen_shortcut_open_new_private_tab_2">New Ghost Tab</string>
+     <!-- Shortcut action to open Passwords screens -->
+     <string name="home_screen_shortcut_open_password_screen">Passwords shortcut</string>
 
-     <!-- Recent Tabs -->
-     <!-- Header text for jumping back into the recent tab in the home screen -->
-@@ -226,7 +226,7 @@
+@@ -237,7 +237,7 @@
      <!-- Button in the search suggestions onboarding that does not allow search suggestions in private sessions -->
      <string name="search_suggestions_onboarding_do_not_allow_button">Don’t allow</string>
      <!-- Search suggestion onboarding hint title text -->
@@ -76,8 +76,8 @@ index 8f9986091..d6bcf4947 100644
 +    <string name="search_suggestions_onboarding_title">Allow search suggestions in Ghost Tab sessions?</string>
      <!-- Search suggestion onboarding hint description text, first parameter is the name of the app defined in app_name (for example: Fenix)-->
      <string name="search_suggestions_onboarding_text">%s will share everything you type in the address bar with your default search engine.</string>
-     <!-- Search engine suggestion title text. The first parameter is the name of teh suggested engine-->
-@@ -294,15 +294,15 @@
+     <!-- Search engine suggestion title text. The first parameter is the name of the suggested engine-->
+@@ -376,15 +376,15 @@
      <!-- Preference for advanced site permissions -->
      <string name="preferences_site_permissions">Site permissions</string>
      <!-- Preference for private browsing options -->
@@ -97,8 +97,15 @@ index 8f9986091..d6bcf4947 100644
 +    <string name="preferences_add_private_browsing_shortcut">Add Ghost Tab shortcut</string>
      <!-- Preference for enabling "HTTPS-Only" mode -->
      <string name="preferences_https_only_title">HTTPS-Only Mode</string>
-     <!-- Description of the preference to enable "HTTPS-Only" mode. -->
-@@ -316,7 +316,7 @@
+
+@@ -452,13 +452,13 @@
+     <!-- Summary of https only preference if https only is set to on in all tabs -->
+     <string name="preferences_https_only_on_all">On in all tabs</string>
+     <!-- Summary of https only preference if https only is set to on in private tabs only -->
+-    <string name="preferences_https_only_on_private">On in private tabs</string>
++    <string name="preferences_https_only_on_private">On in Ghost Tabs</string>
+     <!-- Text displayed that links to website containing documentation about "HTTPS-Only" mode -->
+     <string name="preferences_http_only_learn_more">Learn more</string>
      <!-- Option for the https only setting -->
      <string name="preferences_https_only_in_all_tabs">Enable in all tabs</string>
      <!-- Option for the https only setting -->
@@ -107,15 +114,6 @@ index 8f9986091..d6bcf4947 100644
      <!-- Title shown in the error page for when trying to access a http website while https only mode is enabled. -->
      <string name="errorpage_httpsonly_title">Secure site not available</string>
      <!-- Message shown in the error page for when trying to access a http website while https only mode is enabled. The message has two paragraphs. This is the first. -->
-@@ -366,7 +366,7 @@
-     <!-- Preference title for switch preference to show voice search button -->
-     <string name="preferences_show_voice_search">Show voice search</string>
-     <!-- Preference title for switch preference to show search suggestions also in private mode -->
--    <string name="preferences_show_search_suggestions_in_private">Show in private sessions</string>
-+    <string name="preferences_show_search_suggestions_in_private">Show in Ghost Tab sessions</string>
-     <!-- Preference title for switch preference to show a clipboard suggestion when searching -->
-     <string name="preferences_show_clipboard_suggestions">Show clipboard suggestions</string>
-     <!-- Preference title for switch preference to suggest browsing history when searching -->
 @@ -663,15 +663,15 @@
      <!-- Title for the list of tabs -->
      <string name="tab_header_label">Open tabs</string>
@@ -135,21 +133,26 @@ index 8f9986091..d6bcf4947 100644
      <!-- Text for the new tab button to indicate syncing command on the synced tabs page -->
      <string name="tab_drawer_fab_sync">Sync</string>
      <!-- Text shown in the menu for sharing all tabs -->
-@@ -723,7 +723,7 @@
+@@ -906,7 +906,7 @@
      <!-- Text for the menu button to delete a top site from history -->
      <string name="delete_from_history">Delete from history</string>
      <!-- Postfix for private WebApp titles, placeholder is replaced with app name -->
 -    <string name="pwa_site_controls_title_private">%1$s (Private Mode)</string>
 +    <string name="pwa_site_controls_title_private">%1$s (Ghost Tabs)</string>
-     <!-- Title text for the normal tabs header in the tabs tray which are not part of any tab grouping. -->
-     <string name="tab_tray_header_title_1" moz:removedIn="104" tools:ignore="UnusedResources">Other tabs</string>
 
-@@ -810,7 +810,7 @@
+     <!-- History -->
+     <!-- Text for the button to search all history -->
+@@ -981,11 +981,11 @@
      <!-- Bookmark overflow menu open in new tab button -->
      <string name="bookmark_menu_open_in_new_tab_button">Open in new tab</string>
      <!-- Bookmark overflow menu open in private tab button -->
 -    <string name="bookmark_menu_open_in_private_tab_button">Open in private tab</string>
 +    <string name="bookmark_menu_open_in_private_tab_button">Open in Ghost Tab</string>
+     <!-- Bookmark overflow menu open all in tabs button -->
+     <string name="bookmark_menu_open_all_in_tabs_button">Open all in new tabs</string>
+     <!-- Bookmark overflow menu open all in private tabs button -->
+-    <string name="bookmark_menu_open_all_in_private_tabs_button">Open all in private tabs</string>
++    <string name="bookmark_menu_open_all_in_private_tabs_button">Open all in Ghost Tabs</string>
      <!-- Bookmark overflow menu delete button -->
      <string name="bookmark_menu_delete_button">Delete</string>
      <!--Bookmark overflow menu save button -->

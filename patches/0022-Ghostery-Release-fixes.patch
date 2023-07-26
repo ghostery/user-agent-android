@@ -12,17 +12,15 @@ diff --git a/fenix/app/src/main/java/org/mozilla/fenix/Config.kt b/fenix/app/src
 index 114eab812..61467647c 100644
 --- a/fenix/app/src/main/java/org/mozilla/fenix/Config.kt
 +++ b/fenix/app/src/main/java/org/mozilla/fenix/Config.kt
-@@ -8,7 +8,8 @@ enum class ReleaseChannel {
-     Debug,
+@@ -9,6 +9,7 @@ enum class ReleaseChannel {
      Nightly,
      Beta,
--    Release;
-+    Release,
-+    Ghostery;
+     Release,
++    Ghostery,
+     ;
 
      val isReleased: Boolean
-         get() = when (this) {
-@@ -32,6 +33,7 @@ enum class ReleaseChannel {
+@@ -33,6 +34,7 @@ enum class ReleaseChannel {
      val isRelease: Boolean
          get() = when (this) {
              Release -> true
@@ -30,26 +28,26 @@ index 114eab812..61467647c 100644
              else -> false
          }
 
-@@ -55,6 +57,7 @@ object Config {
-         "nightly" -> ReleaseChannel.Nightly
+@@ -56,6 +58,7 @@ object Config {
+         "nightly", "benchmark" -> ReleaseChannel.Nightly
          "beta" -> ReleaseChannel.Beta
          "release" -> ReleaseChannel.Release
 +        "ghostery" -> ReleaseChannel.Ghostery
          else -> {
              throw IllegalStateException("Unknown build type: ${BuildConfig.BUILD_TYPE}")
          }
-diff --git a/nimbus.fml.yaml b/nimbus.fml.yaml
+diff --git a/fenix/app/nimbus.fml.yaml b/fenix/app/nimbus.fml.yaml
 index e187a8097..ec5143e4f 100644
---- a/nimbus.fml.yaml
-+++ b/nimbus.fml.yaml
-@@ -4,6 +4,7 @@ channels:
+--- a/fenix/app/nimbus.fml.yaml
++++ b/fenix/app/nimbus.fml.yaml
+@@ -9,6 +9,7 @@ channels:
    - beta
    - nightly
    - developer
 +  - ghostery
- features:
-   homescreen:
-     description: The homescreen that the user goes to when they press home or new tab.
+ includes:
+   - onboarding.fml.yaml
+ import:
 --
 2.37.2
 

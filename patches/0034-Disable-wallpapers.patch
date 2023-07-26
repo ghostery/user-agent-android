@@ -12,14 +12,14 @@ diff --git a/fenix/app/src/main/java/org/mozilla/fenix/settings/HomeSettingsFrag
 index 5660541e6..40c7c6e8b 100644
 --- a/fenix/app/src/main/java/org/mozilla/fenix/settings/HomeSettingsFragment.kt
 +++ b/fenix/app/src/main/java/org/mozilla/fenix/settings/HomeSettingsFragment.kt
-@@ -164,15 +164,6 @@ class HomeSettingsFragment : PreferenceFragmentCompat() {
+@@ -165,15 +165,6 @@ class HomeSettingsFragment : PreferenceFragmentCompat() {
          val openingScreenAfterFourHours =
              requirePreference<RadioButtonPreference>(R.string.pref_key_start_on_home_after_four_hours)
 
 -        requirePreference<Preference>(R.string.pref_key_wallpapers).apply {
 -            setOnPreferenceClickListener {
 -                view?.findNavController()?.navigate(
--                    HomeSettingsFragmentDirections.actionHomeSettingsFragmentToWallpaperSettingsFragment()
+-                    HomeSettingsFragmentDirections.actionHomeSettingsFragmentToWallpaperSettingsFragment(),
 -                )
 -                true
 -            }
