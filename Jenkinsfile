@@ -12,7 +12,7 @@ node('browser-builder') {
     }
 
     image.inside("--env GRADLE_USER_HOME=${pwd()}/gradle_home") {
-        dir('browser') {
+        dir('browser/fenix') {
             stage('bootstrap') {
                 sh './bootstrap.sh'
             }
@@ -31,7 +31,7 @@ node('browser-builder') {
             }
         }
         stage('archive') {
-            archiveArtifacts artifacts: 'browser/app/build/outputs/apk/**/*.apk'
+            archiveArtifacts artifacts: 'browser/fenix/app/build/outputs/apk/**/*.apk'
         }
     }
 }
