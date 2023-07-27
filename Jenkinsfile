@@ -4,6 +4,8 @@ node('browser-builder') {
         sh 'rm -rf browser'
         sh 'git submodule init'
         sh 'git submodule update --force'
+        sh './reset.sh'
+        sh 'rm -rf browser/fenix/app/build'
         sh './import.sh'
     }
 
