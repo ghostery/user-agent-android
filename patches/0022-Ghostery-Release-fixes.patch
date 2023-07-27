@@ -16,19 +16,10 @@ index 43fa52d7bb..8fc9ee9ae4 100644
    - beta
    - nightly
    - developer
-+  - ghostery
++  - fenixGhostery
  includes:
    - onboarding.fml.yaml
  import:
-@@ -358,7 +359,7 @@ types:
-       variants:
-         feature-ui:
-           description: An integer either 0 or 1 indicating if the UI for cookie banner handling should be visible,
--            0 to hide the UI and 1 to show the UI. The actual UI is composed by cookie banner section 
-+            0 to hide the UI and 1 to show the UI. The actual UI is composed by cookie banner section
-             in the settings page, the toolbar section and the re-engagement dialog.
-         feature-setting-value:
-           description: An integer either 0 or 1 indicating if cookie banner setting should be enabled or disabled,
 diff --git a/fenix/app/src/main/java/org/mozilla/fenix/Config.kt b/fenix/app/src/main/java/org/mozilla/fenix/Config.kt
 index 534cf2d804..eeb76107d1 100644
 --- a/fenix/app/src/main/java/org/mozilla/fenix/Config.kt
@@ -39,7 +30,7 @@ index 534cf2d804..eeb76107d1 100644
      Release,
 +    Ghostery,
      ;
- 
+
      val isReleased: Boolean
 @@ -33,6 +34,7 @@ enum class ReleaseChannel {
      val isRelease: Boolean
@@ -48,7 +39,7 @@ index 534cf2d804..eeb76107d1 100644
 +            Ghostery -> true
              else -> false
          }
- 
+
 @@ -56,6 +58,7 @@ object Config {
          "nightly", "benchmark" -> ReleaseChannel.Nightly
          "beta" -> ReleaseChannel.Beta
@@ -57,6 +48,6 @@ index 534cf2d804..eeb76107d1 100644
          else -> {
              throw IllegalStateException("Unknown build type: ${BuildConfig.BUILD_TYPE}")
          }
--- 
+--
 2.39.2 (Apple Git-143)
 
