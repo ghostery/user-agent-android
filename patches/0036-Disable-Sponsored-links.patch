@@ -1,17 +1,30 @@
-From 2abec268b337c8874bec979100dc9f172652402d Mon Sep 17 00:00:00 2001
+From dac35bd006629242416baedc85ae8318ce78b296 Mon Sep 17 00:00:00 2001
 From: Krzysztof Modras <chrmod@chrmod.net>
 Date: Tue, 4 Oct 2022 11:32:25 +0200
 Subject: Disable Sponsored links
 
 ---
- fenix/app/src/main/java/org/mozilla/fenix/utils/Settings.kt | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
+ .../java/org/mozilla/fenix/settings/HomeSettingsFragment.kt  | 1 +
+ fenix/app/src/main/java/org/mozilla/fenix/utils/Settings.kt  | 5 +----
+ 2 files changed, 2 insertions(+), 4 deletions(-)
 
+diff --git a/fenix/app/src/main/java/org/mozilla/fenix/settings/HomeSettingsFragment.kt b/fenix/app/src/main/java/org/mozilla/fenix/settings/HomeSettingsFragment.kt
+index f7a74c3e30..2642cda57b 100644
+--- a/fenix/app/src/main/java/org/mozilla/fenix/settings/HomeSettingsFragment.kt
++++ b/fenix/app/src/main/java/org/mozilla/fenix/settings/HomeSettingsFragment.kt
+@@ -52,6 +52,7 @@ class HomeSettingsFragment : PreferenceFragmentCompat() {
+         }
+ 
+         requirePreference<CheckBoxPreference>(R.string.pref_key_enable_contile).apply {
++            isVisible = false
+             isChecked = context.settings().showContileFeature
+             onPreferenceChangeListener = object : SharedPreferenceUpdater() {
+                 override fun onPreferenceChange(preference: Preference, newValue: Any?): Boolean {
 diff --git a/fenix/app/src/main/java/org/mozilla/fenix/utils/Settings.kt b/fenix/app/src/main/java/org/mozilla/fenix/utils/Settings.kt
-index 0323877da1..0457281968 100644
+index 9e3bfb0ae0..f66b740cf2 100644
 --- a/fenix/app/src/main/java/org/mozilla/fenix/utils/Settings.kt
 +++ b/fenix/app/src/main/java/org/mozilla/fenix/utils/Settings.kt
-@@ -1566,10 +1566,7 @@ class Settings(private val appContext: Context) : PreferencesHolder {
+@@ -1562,10 +1562,7 @@ class Settings(private val appContext: Context) : PreferencesHolder {
      /**
       * Indicates if the Contile functionality should be visible.
       */
