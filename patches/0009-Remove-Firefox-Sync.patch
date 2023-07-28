@@ -1,13 +1,14 @@
-From bc5f4064803a785cee93725393e8d118267c4b0e Mon Sep 17 00:00:00 2001
+From 6c956065cb93ed36cfad403038fc34aac269f90d Mon Sep 17 00:00:00 2001
 From: Stefano Pacifici <stefano.pacifici@gmail.com>
 Date: Tue, 9 Jun 2020 10:56:17 +0200
 Subject: Remove Firefox Sync
 
 ---
  .../mozilla/fenix/library/bookmarks/BookmarkFragment.kt    | 4 +---
+ .../org/mozilla/fenix/library/bookmarks/DesktopFolders.kt  | 3 +--
  .../org/mozilla/fenix/settings/account/AccountUiView.kt    | 2 +-
  fenix/app/src/main/res/layout/component_tabstray2.xml      | 7 -------
- 3 files changed, 2 insertions(+), 11 deletions(-)
+ 4 files changed, 3 insertions(+), 13 deletions(-)
 
 diff --git a/fenix/app/src/main/java/org/mozilla/fenix/library/bookmarks/BookmarkFragment.kt b/fenix/app/src/main/java/org/mozilla/fenix/library/bookmarks/BookmarkFragment.kt
 index 6306a29deb..fa2893974d 100644
@@ -31,6 +32,20 @@ index 6306a29deb..fa2893974d 100644
          }
      }
  
+diff --git a/fenix/app/src/main/java/org/mozilla/fenix/library/bookmarks/DesktopFolders.kt b/fenix/app/src/main/java/org/mozilla/fenix/library/bookmarks/DesktopFolders.kt
+index 19f83fa872..035a66eb36 100644
+--- a/fenix/app/src/main/java/org/mozilla/fenix/library/bookmarks/DesktopFolders.kt
++++ b/fenix/app/src/main/java/org/mozilla/fenix/library/bookmarks/DesktopFolders.kt
+@@ -26,8 +26,7 @@ class DesktopFolders(
+             BookmarkRoot.Mobile.id -> {
+                 // We're going to make a copy of the mobile node, and add-in a synthetic child folder to the top of the
+                 // children's list that contains all of the desktop roots.
+-                val childrenWithVirtualFolder =
+-                    listOfNotNull(virtualDesktopFolder()) + node.children.orEmpty()
++                val childrenWithVirtualFolder = node.children.orEmpty()
+ 
+                 node.copy(children = childrenWithVirtualFolder)
+             }
 diff --git a/fenix/app/src/main/java/org/mozilla/fenix/settings/account/AccountUiView.kt b/fenix/app/src/main/java/org/mozilla/fenix/settings/account/AccountUiView.kt
 index bf6041c6ed..89315f9df0 100644
 --- a/fenix/app/src/main/java/org/mozilla/fenix/settings/account/AccountUiView.kt
