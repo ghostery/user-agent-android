@@ -1,113 +1,99 @@
-From fe23534cdb6dbdd8ab4b2fe4770e3ed7fac2c506 Mon Sep 17 00:00:00 2001
+From 0a8d53beea481d7d1ae71a3e9a1fef2219b1427e Mon Sep 17 00:00:00 2001
 From: Stefano Pacifici <stefano.pacifici@gmail.com>
 Date: Wed, 15 Jul 2020 16:11:33 +0200
 Subject: Ghostery splashscreen
 
 ---
- fenix/app/src/main/AndroidManifest.xml          |  2 +-
- .../main/java/org/mozilla/fenix/HomeActivity.kt | 17 +++++++++++++++++
- .../drawable/splashscreen_window_background.xml | 15 +++++++++++++++
- fenix/app/src/main/res/values/styles.xml        |  5 +++++
- 4 files changed, 38 insertions(+), 1 deletion(-)
- create mode 100644 fenix/app/src/main/res/drawable/splashscreen_window_background.xml
+ fenix/app/build.gradle                                    | 1 +
+ fenix/app/src/main/AndroidManifest.xml                    | 1 +
+ fenix/app/src/main/java/org/mozilla/fenix/HomeActivity.kt | 3 +++
+ fenix/app/src/main/res/values/styles.xml                  | 8 +++++++-
+ fenix/buildSrc/src/main/java/FenixDependencies.kt         | 2 ++
+ 5 files changed, 14 insertions(+), 1 deletion(-)
 
+diff --git a/fenix/app/build.gradle b/fenix/app/build.gradle
+index cd18be708b..992e5ee619 100644
+--- a/fenix/app/build.gradle
++++ b/fenix/app/build.gradle
+@@ -625,6 +625,7 @@ dependencies {
+     implementation FenixDependencies.androidx_lifecycle_viewmodel
+     implementation FenixDependencies.androidx_core
+     implementation FenixDependencies.androidx_core_ktx
++    implementation FenixDependencies.androidx_core_splashscreen
+     implementation FenixDependencies.androidx_transition
+     implementation FenixDependencies.androidx_work_ktx
+     implementation FenixDependencies.androidx_datastore
 diff --git a/fenix/app/src/main/AndroidManifest.xml b/fenix/app/src/main/AndroidManifest.xml
-index a9d41ec477..21552d4313 100644
+index a9d41ec477..9b3557f7fc 100644
 --- a/fenix/app/src/main/AndroidManifest.xml
 +++ b/fenix/app/src/main/AndroidManifest.xml
-@@ -48,7 +48,7 @@
-         android:label="@string/app_name"
-         android:roundIcon="@mipmap/ic_launcher_round"
-         android:supportsRtl="true"
--        android:theme="@style/NormalTheme"
-+        android:theme="@style/LaunchTheme"
-         android:usesCleartextTraffic="true"
-         tools:ignore="UnusedAttribute">
- 
+@@ -101,6 +101,7 @@
+             android:name=".HomeActivity"
+             android:exported="true"
+             android:configChanges="keyboard|keyboardHidden|mcc|mnc|orientation|screenSize|layoutDirection|smallestScreenSize|screenLayout"
++            android:theme="@style/Theme.App.Starting"
+             android:launchMode="singleTask"
+             android:resizeableActivity="true"
+             android:supportsPictureInPicture="true"
 diff --git a/fenix/app/src/main/java/org/mozilla/fenix/HomeActivity.kt b/fenix/app/src/main/java/org/mozilla/fenix/HomeActivity.kt
-index 5d1724eebb..e45cc28e7d 100644
+index 5d1724eebb..17c5a51fea 100644
 --- a/fenix/app/src/main/java/org/mozilla/fenix/HomeActivity.kt
 +++ b/fenix/app/src/main/java/org/mozilla/fenix/HomeActivity.kt
-@@ -40,11 +40,13 @@ import androidx.navigation.fragment.NavHostFragment
- import androidx.navigation.ui.AppBarConfiguration
- import androidx.navigation.ui.NavigationUI
- import kotlinx.coroutines.CoroutineScope
-+import kotlinx.coroutines.Dispatchers
- import kotlinx.coroutines.Dispatchers.IO
- import kotlinx.coroutines.Dispatchers.Main
- import kotlinx.coroutines.Job
- import kotlinx.coroutines.delay
- import kotlinx.coroutines.launch
-+import kotlinx.coroutines.withContext
- import mozilla.appservices.places.BookmarkRoot
- import mozilla.components.browser.state.action.ContentAction
- import mozilla.components.browser.state.action.SearchAction
-@@ -253,6 +255,8 @@ open class HomeActivity : LocaleAwareAppCompatActivity(), NavHostActivity {
- 
+@@ -33,6 +33,7 @@ import androidx.annotation.VisibleForTesting.Companion.PROTECTED
+ import androidx.appcompat.app.ActionBar
+ import androidx.appcompat.widget.Toolbar
+ import androidx.core.app.NotificationManagerCompat
++import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+ import androidx.lifecycle.lifecycleScope
+ import androidx.navigation.NavDestination
+ import androidx.navigation.NavDirections
+@@ -253,6 +254,8 @@ open class HomeActivity : LocaleAwareAppCompatActivity(), NavHostActivity {
+
          components.publicSuffixList.prefetch()
- 
-+        setTheme(R.style.NormalTheme)
+
++        installSplashScreen()
 +
          // Changing a language on the Language screen restarts the activity, but the activity keeps
          // the old layout direction. We have to update the direction manually.
          window.decorView.layoutDirection = TextUtils.getLayoutDirectionFromLocale(Locale.getDefault())
-@@ -469,6 +473,19 @@ open class HomeActivity : LocaleAwareAppCompatActivity(), NavHostActivity {
-             components.settings,
-             components.core.engine.settings,
-         )
-+
-+        // Now the app is started restore the original background to avoid weird splashscreen
-+        // in oder Fragments
-+        lifecycleScope.launch {
-+            kotlinx.coroutines.delay(300L)
-+            withContext(Dispatchers.Main) {
-+                val ta = theme.obtainStyledAttributes(intArrayOf(R.attr.homeBackground))
-+                ta.getDrawable(0)?.let {
-+                        window.setBackgroundDrawable(it)
-+                    }
-+                ta.recycle()
-+            }
-+        }
-     }
- 
-     override fun onStart() {
-diff --git a/fenix/app/src/main/res/drawable/splashscreen_window_background.xml b/fenix/app/src/main/res/drawable/splashscreen_window_background.xml
-new file mode 100644
-index 0000000000..b7c239b30c
---- /dev/null
-+++ b/fenix/app/src/main/res/drawable/splashscreen_window_background.xml
-@@ -0,0 +1,15 @@
-+<?xml version="1.0" encoding="utf-8"?>
-+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-+    <item>
-+        <shape xmlns:android="http://schemas.android.com/apk/res/android"
-+            android:shape="rectangle">
-+            <gradient
-+                android:startColor="#00AEF0"
-+                android:endColor="#fd7e75"
-+                android:angle="-90"/>
-+        </shape>
-+    </item>
-+
-+    <item android:drawable="@drawable/big_ghosty"
-+        android:gravity="center" />
-+</layer-list>
 diff --git a/fenix/app/src/main/res/values/styles.xml b/fenix/app/src/main/res/values/styles.xml
-index a8935dc9dc..03880976a3 100644
+index a8935dc9dc..ab464534e7 100644
 --- a/fenix/app/src/main/res/values/styles.xml
 +++ b/fenix/app/src/main/res/values/styles.xml
-@@ -130,6 +130,11 @@
+@@ -127,7 +127,13 @@
+         <item name="privateBrowsingButtonBackground">@android:color/transparent</item>
+         <item name="privateBrowsingButtonAccent">@color/fx_mobile_text_color_primary</item>
+
          <item name="tabCounterTintColor">?attr/textPrimary</item>
-     </style>
- 
-+    <style name="LaunchTheme" parent="NormalThemeBase">
-+        <item name="android:statusBarColor">@android:color/transparent</item>
-+        <item name="android:windowBackground">@drawable/splashscreen_window_background</item>
 +    </style>
 +
++    <style name="Theme.App.Starting" parent="Theme.SplashScreen">
++        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_launcher_foreground</item>
++        <item name="windowSplashScreenBackground">#202225</item>
++        <item name="postSplashScreenTheme">@style/NormalTheme</item>
+     </style>
+
      <!-- A theme derived from the normal activity theme, but to look and behave like a dialog -->
-     <style name="DialogActivityTheme" parent="NormalTheme">
-         <item name="android:windowElevation">16dp</item>
--- 
+diff --git a/fenix/buildSrc/src/main/java/FenixDependencies.kt b/fenix/buildSrc/src/main/java/FenixDependencies.kt
+index f142f33a9a..f4a5b7a954 100644
+--- a/fenix/buildSrc/src/main/java/FenixDependencies.kt
++++ b/fenix/buildSrc/src/main/java/FenixDependencies.kt
+@@ -41,6 +41,7 @@ object FenixVersions {
+     const val androidx_lifecycle = "2.6.1"
+     const val androidx_fragment = "1.5.7"
+     const val androidx_navigation = "2.5.3"
++    const val androidx_splash_screen = "1.0.1"
+     const val androidx_recyclerview = "1.3.0"
+     const val androidx_core = "1.10.1"
+     const val androidx_paging = "3.1.1"
+@@ -95,6 +96,7 @@ object FenixDependencies {
+     const val androidx_annotation = "androidx.annotation:annotation:${FenixVersions.androidx_annotation}"
+     const val androidx_benchmark_junit4 = "androidx.benchmark:benchmark-junit4:${FenixVersions.androidx_benchmark}"
+     const val androidx_benchmark_macro_junit4 = "androidx.benchmark:benchmark-macro-junit4:${FenixVersions.androidx_benchmark}"
++    const val androidx_core_splashscreen = "androidx.core:core-splashscreen:${FenixVersions.androidx_splash_screen}"
+     const val androidx_profileinstaller = "androidx.profileinstaller:profileinstaller:${FenixVersions.androidx_profileinstaller}"
+     const val androidx_biometric = "androidx.biometric:biometric:${FenixVersions.androidx_biometric}"
+     const val androidx_fragment = "androidx.fragment:fragment-ktx:${FenixVersions.androidx_fragment}"
+--
 2.39.2 (Apple Git-143)
 
