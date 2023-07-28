@@ -1,12 +1,12 @@
-From c6d2df502060e60f56346c2d40253452a2a2a408 Mon Sep 17 00:00:00 2001
+From 388394cd34fbe345f3bac94672a077fbf88842e5 Mon Sep 17 00:00:00 2001
 From: Sam Macbeth <sam@cliqz.com>
 Date: Mon, 3 Aug 2020 15:07:40 +0200
 Subject: Disabling Firefox onboarding
 
 ---
- .../org/mozilla/fenix/onboarding/FenixOnboarding.kt   |  4 +---
- .../src/main/java/org/mozilla/fenix/utils/Settings.kt | 11 ++---------
- 2 files changed, 3 insertions(+), 12 deletions(-)
+ .../fenix/onboarding/FenixOnboarding.kt       |  4 +--
+ .../java/org/mozilla/fenix/utils/Settings.kt  | 27 ++++---------------
+ 2 files changed, 6 insertions(+), 25 deletions(-)
 
 diff --git a/fenix/app/src/main/java/org/mozilla/fenix/onboarding/FenixOnboarding.kt b/fenix/app/src/main/java/org/mozilla/fenix/onboarding/FenixOnboarding.kt
 index a6f3b77a47..454697168b 100644
@@ -24,7 +24,7 @@ index a6f3b77a47..454697168b 100644
  
      companion object {
 diff --git a/fenix/app/src/main/java/org/mozilla/fenix/utils/Settings.kt b/fenix/app/src/main/java/org/mozilla/fenix/utils/Settings.kt
-index a36dcede6a..8e9d3a23a9 100644
+index a36dcede6a..a1d6b70fd2 100644
 --- a/fenix/app/src/main/java/org/mozilla/fenix/utils/Settings.kt
 +++ b/fenix/app/src/main/java/org/mozilla/fenix/utils/Settings.kt
 @@ -1033,10 +1033,7 @@ class Settings(private val appContext: Context) : PreferencesHolder {
@@ -52,6 +52,43 @@ index a36dcede6a..8e9d3a23a9 100644
  
      /**
       *  Returns a sitePermissions action for the provided [feature].
+@@ -1481,11 +1474,7 @@ class Settings(private val appContext: Context) : PreferencesHolder {
+     /**
+      * Indicates if home onboarding dialog should be shown.
+      */
+-    var showHomeOnboardingDialog by lazyFeatureFlagPreference(
+-        appContext.getPreferenceKey(R.string.pref_key_should_show_home_onboarding_dialog),
+-        featureFlag = true,
+-        default = { mr2022Sections[Mr2022Section.HOME_ONBOARDING_DIALOG_EXISTING_USERS] == true },
+-    )
++    var showHomeOnboardingDialog = false
+ 
+     /**
+      * Indicates if the recent tabs functionality should be visible.
+@@ -1653,8 +1642,7 @@ class Settings(private val appContext: Context) : PreferencesHolder {
+     /**
+      * Indicates if juno onboarding feature is enabled.
+      */
+-    val junoOnboardingEnabled: Boolean
+-        get() = FxNimbus.features.junoOnboarding.value().enabled
++    val junoOnboardingEnabled = false
+ 
+     /**
+      * Returns whether juno onboarding should be shown to the user.
+@@ -1662,12 +1650,7 @@ class Settings(private val appContext: Context) : PreferencesHolder {
+      * app icon.
+      */
+     fun shouldShowJunoOnboarding(hasUserBeenOnboarded: Boolean, isLauncherIntent: Boolean): Boolean {
+-        return if (!hasUserBeenOnboarded && isLauncherIntent) {
+-            FxNimbus.features.junoOnboarding.recordExposure()
+-            junoOnboardingEnabled
+-        } else {
+-            false
+-        }
++        return hasUserBeenOnboarded && isLauncherIntent && false
+     }
+ 
+     /**
 -- 
 2.39.2 (Apple Git-143)
 
