@@ -1,0 +1,86 @@
+From c55599bc468af3f346704f355a074440d655185d Mon Sep 17 00:00:00 2001
+From: Krzysztof Modras <chrmod@chrmod.net>
+Date: Fri, 28 Jul 2023 12:04:04 +0200
+Subject: Disable: search for synced tabs
+
+---
+ .../mozilla/fenix/settings/search/SearchEngineFragment.kt   | 6 ------
+ fenix/app/src/main/java/org/mozilla/fenix/utils/Settings.kt | 5 +----
+ fenix/app/src/main/res/xml/search_preferences.xml           | 4 ----
+ fenix/app/src/main/res/xml/search_settings_preferences.xml  | 5 -----
+ 4 files changed, 1 insertion(+), 19 deletions(-)
+
+diff --git a/fenix/app/src/main/java/org/mozilla/fenix/settings/search/SearchEngineFragment.kt b/fenix/app/src/main/java/org/mozilla/fenix/settings/search/SearchEngineFragment.kt
+index 3b2fe6694b..3260c952f1 100644
+--- a/fenix/app/src/main/java/org/mozilla/fenix/settings/search/SearchEngineFragment.kt
++++ b/fenix/app/src/main/java/org/mozilla/fenix/settings/search/SearchEngineFragment.kt
+@@ -83,11 +83,6 @@ class SearchEngineFragment : PreferenceFragmentCompat() {
+                 isChecked = context.settings().shouldShowBookmarkSuggestions
+             }
+ 
+-        val showSyncedTabsSuggestions =
+-            requirePreference<SwitchPreference>(R.string.pref_key_search_synced_tabs).apply {
+-                isChecked = context.settings().shouldShowSyncedTabsSuggestions
+-            }
+-
+         val showClipboardSuggestions =
+             requirePreference<SwitchPreference>(R.string.pref_key_show_clipboard_suggestions).apply {
+                 isChecked = context.settings().shouldShowClipboardSuggestions
+@@ -102,7 +97,6 @@ class SearchEngineFragment : PreferenceFragmentCompat() {
+         showSearchShortcuts.onPreferenceChangeListener = SharedPreferenceUpdater()
+         showHistorySuggestions.onPreferenceChangeListener = SharedPreferenceUpdater()
+         showBookmarkSuggestions.onPreferenceChangeListener = SharedPreferenceUpdater()
+-        showSyncedTabsSuggestions.onPreferenceChangeListener = SharedPreferenceUpdater()
+         showClipboardSuggestions.onPreferenceChangeListener = SharedPreferenceUpdater()
+         searchSuggestionsInPrivatePreference.onPreferenceChangeListener = SharedPreferenceUpdater()
+         showVoiceSearchPreference.onPreferenceChangeListener = object : Preference.OnPreferenceChangeListener {
+diff --git a/fenix/app/src/main/java/org/mozilla/fenix/utils/Settings.kt b/fenix/app/src/main/java/org/mozilla/fenix/utils/Settings.kt
+index 0457281968..0991179cef 100644
+--- a/fenix/app/src/main/java/org/mozilla/fenix/utils/Settings.kt
++++ b/fenix/app/src/main/java/org/mozilla/fenix/utils/Settings.kt
+@@ -377,10 +377,7 @@ class Settings(private val appContext: Context) : PreferencesHolder {
+         default = true,
+     )
+ 
+-    val shouldShowSyncedTabsSuggestions by booleanPreference(
+-        appContext.getPreferenceKey(R.string.pref_key_search_synced_tabs),
+-        default = true,
+-    )
++    val shouldShowSyncedTabsSuggestions = false
+ 
+     val shouldShowClipboardSuggestions by booleanPreference(
+         appContext.getPreferenceKey(R.string.pref_key_show_clipboard_suggestions),
+diff --git a/fenix/app/src/main/res/xml/search_preferences.xml b/fenix/app/src/main/res/xml/search_preferences.xml
+index 9ff9fdf90f..e518147621 100644
+--- a/fenix/app/src/main/res/xml/search_preferences.xml
++++ b/fenix/app/src/main/res/xml/search_preferences.xml
+@@ -43,10 +43,6 @@
+             android:defaultValue="true"
+             android:key="@string/pref_key_search_bookmarks"
+             android:title='@string/preferences_search_bookmarks' />
+-        <SwitchPreference
+-            android:defaultValue="true"
+-            android:key="@string/pref_key_search_synced_tabs"
+-            android:title='@string/preferences_search_synced_tabs' />
+         <SwitchPreference
+             android:defaultValue="true"
+             android:key="@string/pref_key_show_voice_search"
+diff --git a/fenix/app/src/main/res/xml/search_settings_preferences.xml b/fenix/app/src/main/res/xml/search_settings_preferences.xml
+index 1f41a3aa1a..96163602e1 100644
+--- a/fenix/app/src/main/res/xml/search_settings_preferences.xml
++++ b/fenix/app/src/main/res/xml/search_settings_preferences.xml
+@@ -50,11 +50,6 @@
+             android:defaultValue="true"
+             android:key="@string/pref_key_search_bookmarks"
+             android:title='@string/preferences_search_bookmarks' />
+-        <SwitchPreference
+-            app:iconSpaceReserved="false"
+-            android:defaultValue="true"
+-            android:key="@string/pref_key_search_synced_tabs"
+-            android:title='@string/preferences_search_synced_tabs' />
+         <SwitchPreference
+             app:iconSpaceReserved="false"
+             android:defaultValue="true"
+-- 
+2.39.2 (Apple Git-143)
+
