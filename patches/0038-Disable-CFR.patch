@@ -1,0 +1,58 @@
+From 307b85a787623d9646a3cd2c199aab7780213f16 Mon Sep 17 00:00:00 2001
+From: Krzysztof Modras <chrmod@chrmod.net>
+Date: Wed, 2 Aug 2023 14:59:25 +0200
+Subject: Disable CFR
+
+---
+ .../java/org/mozilla/fenix/utils/Settings.kt    | 17 ++++-------------
+ 1 file changed, 4 insertions(+), 13 deletions(-)
+
+diff --git a/fenix/app/src/main/java/org/mozilla/fenix/utils/Settings.kt b/fenix/app/src/main/java/org/mozilla/fenix/utils/Settings.kt
+index f7cf1bc969..22aec62aac 100644
+--- a/fenix/app/src/main/java/org/mozilla/fenix/utils/Settings.kt
++++ b/fenix/app/src/main/java/org/mozilla/fenix/utils/Settings.kt
+@@ -157,8 +157,7 @@ class Settings(private val appContext: Context) : PreferencesHolder {
+         default = 0L,
+     )
+ 
+-    val canShowCfr: Boolean
+-        get() = (System.currentTimeMillis() - lastCfrShownTimeInMillis) > THREE_DAYS_MS
++    val canShowCfr = false
+ 
+     var forceEnableZoom by booleanPreference(
+         appContext.getPreferenceKey(R.string.pref_key_accessibility_force_enable_zoom),
+@@ -742,17 +741,12 @@ class Settings(private val appContext: Context) : PreferencesHolder {
+     /**
+      * Indicates if the total cookie protection CRF feature is enabled.
+      */
+-    val enabledTotalCookieProtectionCFR: Boolean
+-        get() = mr2022Sections[Mr2022Section.TCP_CFR] == true
++    val enabledTotalCookieProtectionCFR = false
+ 
+     /**
+      * Indicates if the total cookie protection CRF should be shown.
+      */
+-    var shouldShowTotalCookieProtectionCFR by lazyFeatureFlagPreference(
+-        appContext.getPreferenceKey(R.string.pref_key_should_show_total_cookie_protection_popup),
+-        featureFlag = true,
+-        default = { enabledTotalCookieProtectionCFR },
+-    )
++    var shouldShowTotalCookieProtectionCFR = false
+ 
+     val blockCookiesSelectionInCustomTrackingProtection by stringPreference(
+         key = appContext.getPreferenceKey(R.string.pref_key_tracking_protection_custom_cookies_select),
+@@ -1180,10 +1174,7 @@ class Settings(private val appContext: Context) : PreferencesHolder {
+ 
+     fun incrementNumTimesPrivateModeOpened() = numTimesPrivateModeOpened.increment()
+ 
+-    var showedPrivateModeContextualFeatureRecommender by booleanPreference(
+-        appContext.getPreferenceKey(R.string.pref_key_showed_private_mode_cfr),
+-        default = false,
+-    )
++    var showedPrivateModeContextualFeatureRecommender = false
+ 
+     private val numTimesPrivateModeOpened = counterPreference(
+         appContext.getPreferenceKey(R.string.pref_key_private_mode_opened),
+-- 
+2.39.2 (Apple Git-143)
+
