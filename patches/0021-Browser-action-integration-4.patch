@@ -1,4 +1,4 @@
-From 3cb839eaaf683b40b10c9bb51e26c2a197e7de36 Mon Sep 17 00:00:00 2001
+From fb855030fb7469ef08bd16800c460cf273ed3836 Mon Sep 17 00:00:00 2001
 From: Sam Macbeth <sammacbeth@users.noreply.github.com>
 Date: Mon, 29 Jun 2020 16:29:21 +0200
 Subject: Browser action integration (#4)

@@ -1,4 +1,4 @@
-From 844efb4b67a79d36185461bf0ae080535154cf50 Mon Sep 17 00:00:00 2001
+From 2bbb0730e2aa61093fdf0f1ecb67586b57f014c3 Mon Sep 17 00:00:00 2001
 From: Sam Macbeth <sam@cliqz.com>
 Date: Mon, 3 Aug 2020 18:24:11 +0200
 Subject: Help resources point to Ghostery domain
@@ -103,7 +103,7 @@ index 99fa4ca65d..f60dfc579b 100644
                  AboutItem.ExternalLink(LICENSING_INFO, ABOUT_LICENSE_URL),
                  getString(R.string.about_licensing_information),
 diff --git a/fenix/app/src/main/res/layout/fragment_about.xml b/fenix/app/src/main/res/layout/fragment_about.xml
-index 7e9b03ff0c..d266d4f8a5 100644
+index f9a150768e..6ebf4150f9 100644
 --- a/fenix/app/src/main/res/layout/fragment_about.xml
 +++ b/fenix/app/src/main/res/layout/fragment_about.xml
 @@ -33,21 +33,6 @@

@@ -1,4 +1,4 @@
-From 1f598d12dbde892b7653fbbecdc422df30a75536 Mon Sep 17 00:00:00 2001
+From fcff2e456d2d26fe959fa2a943dfcc8f04974827 Mon Sep 17 00:00:00 2001
 From: Stefano Pacifici <stefano.pacifici@gmail.com>
 Date: Mon, 8 Jun 2020 15:07:04 +0200
 Subject: Default the url bar to be on top
@@ -8,7 +8,7 @@ Subject: Default the url bar to be on top
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/fenix/app/src/main/java/org/mozilla/fenix/utils/Settings.kt b/fenix/app/src/main/java/org/mozilla/fenix/utils/Settings.kt
-index 8e9d3a23a9..a45f7bc4ef 100644
+index a1d6b70fd2..dac0e86eb5 100644
 --- a/fenix/app/src/main/java/org/mozilla/fenix/utils/Settings.kt
 +++ b/fenix/app/src/main/java/org/mozilla/fenix/utils/Settings.kt
 @@ -888,7 +888,7 @@ class Settings(private val appContext: Context) : PreferencesHolder {

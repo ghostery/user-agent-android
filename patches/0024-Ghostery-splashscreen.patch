@@ -1,4 +1,4 @@
-From 0a8d53beea481d7d1ae71a3e9a1fef2219b1427e Mon Sep 17 00:00:00 2001
+From da76aa8aa7083ccbdbbf3179815b70277da568fe Mon Sep 17 00:00:00 2001
 From: Stefano Pacifici <stefano.pacifici@gmail.com>
 Date: Wed, 15 Jul 2020 16:11:33 +0200
 Subject: Ghostery splashscreen
@@ -7,9 +7,9 @@ Subject: Ghostery splashscreen
  fenix/app/build.gradle                                    | 1 +
  fenix/app/src/main/AndroidManifest.xml                    | 1 +
  fenix/app/src/main/java/org/mozilla/fenix/HomeActivity.kt | 3 +++
- fenix/app/src/main/res/values/styles.xml                  | 8 +++++++-
+ fenix/app/src/main/res/values/styles.xml                  | 6 ++++++
  fenix/buildSrc/src/main/java/FenixDependencies.kt         | 2 ++
- 5 files changed, 14 insertions(+), 1 deletion(-)
+ 5 files changed, 13 insertions(+)
 
 diff --git a/fenix/app/build.gradle b/fenix/app/build.gradle
 index cd18be708b..992e5ee619 100644
@@ -48,32 +48,31 @@ index 5d1724eebb..17c5a51fea 100644
  import androidx.navigation.NavDestination
  import androidx.navigation.NavDirections
 @@ -253,6 +254,8 @@ open class HomeActivity : LocaleAwareAppCompatActivity(), NavHostActivity {
-
+ 
          components.publicSuffixList.prefetch()
-
+ 
 +        installSplashScreen()
 +
          // Changing a language on the Language screen restarts the activity, but the activity keeps
          // the old layout direction. We have to update the direction manually.
          window.decorView.layoutDirection = TextUtils.getLayoutDirectionFromLocale(Locale.getDefault())
 diff --git a/fenix/app/src/main/res/values/styles.xml b/fenix/app/src/main/res/values/styles.xml
-index a8935dc9dc..ab464534e7 100644
+index 19eaa6d166..cafcb06a48 100644
 --- a/fenix/app/src/main/res/values/styles.xml
 +++ b/fenix/app/src/main/res/values/styles.xml
-@@ -127,7 +127,13 @@
-         <item name="privateBrowsingButtonBackground">@android:color/transparent</item>
-         <item name="privateBrowsingButtonAccent">@color/fx_mobile_text_color_primary</item>
-
+@@ -130,6 +130,12 @@
          <item name="tabCounterTintColor">?attr/textPrimary</item>
-+    </style>
-+
+     </style>
+ 
 +    <style name="Theme.App.Starting" parent="Theme.SplashScreen">
 +        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_launcher_foreground</item>
 +        <item name="windowSplashScreenBackground">#202225</item>
 +        <item name="postSplashScreenTheme">@style/NormalTheme</item>
-     </style>
-
++    </style>
++
      <!-- A theme derived from the normal activity theme, but to look and behave like a dialog -->
+     <style name="DialogActivityTheme" parent="NormalTheme">
+         <item name="android:windowElevation">16dp</item>
 diff --git a/fenix/buildSrc/src/main/java/FenixDependencies.kt b/fenix/buildSrc/src/main/java/FenixDependencies.kt
 index f142f33a9a..f4a5b7a954 100644
 --- a/fenix/buildSrc/src/main/java/FenixDependencies.kt
@@ -94,6 +93,6 @@ index f142f33a9a..f4a5b7a954 100644
      const val androidx_profileinstaller = "androidx.profileinstaller:profileinstaller:${FenixVersions.androidx_profileinstaller}"
      const val androidx_biometric = "androidx.biometric:biometric:${FenixVersions.androidx_biometric}"
      const val androidx_fragment = "androidx.fragment:fragment-ktx:${FenixVersions.androidx_fragment}"
---
+-- 
 2.39.2 (Apple Git-143)
 

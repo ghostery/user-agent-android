@@ -1,22 +1,16 @@
-From 6d0bb6924f8f89d77ad6be5e892b40c659afcec2 Mon Sep 17 00:00:00 2001
+From 13607bf7f33d2dd1b39e89fbbd38350bd646c686 Mon Sep 17 00:00:00 2001
 From: Stefano Pacifici <stefano.pacifici@gmail.com>
 Date: Fri, 5 Jun 2020 18:22:06 +0200
 Subject: Changing the wordmark (freshtab title)
 
 White wordmark
 ---
- .../src/main/res/layout/fragment_about.xml    |   3 +-
- fenix/app/src/main/res/values/styles.xml      |   4 +-
- fenix/ghostery_res/wordmark.svg               | 103 ++++++++++++++++++
- fenix/ghostery_res/wordmark_private.svg       | 103 ++++++++++++++++++
- fenix/ghostery_res/wordmark_white.svg         |  98 +++++++++++++++++
- 5 files changed, 308 insertions(+), 3 deletions(-)
- create mode 100644 fenix/ghostery_res/wordmark.svg
- create mode 100644 fenix/ghostery_res/wordmark_private.svg
- create mode 100644 fenix/ghostery_res/wordmark_white.svg
+ fenix/app/src/main/res/layout/fragment_about.xml | 1 +
+ fenix/app/src/main/res/values/dimens.xml         | 4 ++--
+ 2 files changed, 3 insertions(+), 2 deletions(-)
 
 diff --git a/fenix/app/src/main/res/layout/fragment_about.xml b/fenix/app/src/main/res/layout/fragment_about.xml
-index 53d86a98ed..7e9b03ff0c 100644
+index 53d86a98ed..f9a150768e 100644
 --- a/fenix/app/src/main/res/layout/fragment_about.xml
 +++ b/fenix/app/src/main/res/layout/fragment_about.xml
 @@ -11,6 +11,7 @@
@@ -25,7 +19,7 @@ index 53d86a98ed..7e9b03ff0c 100644
      android:fillViewport="true"
 +    android:background="?homeBackground"
      tools:context="org.mozilla.fenix.settings.about.AboutFragment">
-
+ 
      <androidx.constraintlayout.widget.ConstraintLayout
 diff --git a/fenix/app/src/main/res/values/dimens.xml b/fenix/app/src/main/res/values/dimens.xml
 index bcddfc78a5..277bfef15a 100644
@@ -39,9 +33,9 @@ index bcddfc78a5..277bfef15a 100644
 -    <dimen name="wordmark_text_margin_top">10dp</dimen>
 +    <dimen name="wordmark_text_height">40dp</dimen>
 +    <dimen name="wordmark_text_margin_top">0dp</dimen>
-
+ 
      <!-- Browser Fragment -->
      <!--The size of the gap between the tab preview and content layout.-->
---
+-- 
 2.39.2 (Apple Git-143)
 

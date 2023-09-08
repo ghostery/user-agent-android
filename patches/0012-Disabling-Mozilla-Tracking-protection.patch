@@ -1,4 +1,4 @@
-From 678a56892caf428782ddc0f8caf190e687779fd7 Mon Sep 17 00:00:00 2001
+From 0cdd407a0989a35538d43d7fb4f9550164892fc2 Mon Sep 17 00:00:00 2001
 From: Stefano Pacifici <stefano.pacifici@gmail.com>
 Date: Wed, 10 Jun 2020 15:09:45 +0200
 Subject: Disabling Mozilla Tracking protection
@@ -10,7 +10,7 @@ Subject: Disabling Mozilla Tracking protection
  3 files changed, 1 insertion(+), 7 deletions(-)
 
 diff --git a/fenix/app/src/main/java/org/mozilla/fenix/components/Core.kt b/fenix/app/src/main/java/org/mozilla/fenix/components/Core.kt
-index e3af508a05..aa5dbe9729 100644
+index ea2aff8460..87539ce19e 100644
 --- a/fenix/app/src/main/java/org/mozilla/fenix/components/Core.kt
 +++ b/fenix/app/src/main/java/org/mozilla/fenix/components/Core.kt
 @@ -126,7 +126,7 @@ class Core(

@@ -1,4 +1,4 @@
-From 50f095e32804251a6a2f54092ee7ab2980582080 Mon Sep 17 00:00:00 2001
+From de7ad800d32863c9ad064eb0e1a5525fa712c065 Mon Sep 17 00:00:00 2001
 From: Krzysztof Modras <chrmod@chrmod.net>
 Date: Fri, 25 Feb 2022 15:56:39 +0100
 Subject: Disable Telemetry, Nimbus, Collection, Tracking Protection
@@ -8,7 +8,7 @@ Subject: Disable Telemetry, Nimbus, Collection, Tracking Protection
  1 file changed, 7 insertions(+), 28 deletions(-)
 
 diff --git a/fenix/app/src/main/java/org/mozilla/fenix/utils/Settings.kt b/fenix/app/src/main/java/org/mozilla/fenix/utils/Settings.kt
-index 4dfbada16d..0323877da1 100644
+index a4c60270e1..9e3bfb0ae0 100644
 --- a/fenix/app/src/main/java/org/mozilla/fenix/utils/Settings.kt
 +++ b/fenix/app/src/main/java/org/mozilla/fenix/utils/Settings.kt
 @@ -317,10 +317,7 @@ class Settings(private val appContext: Context) : PreferencesHolder {

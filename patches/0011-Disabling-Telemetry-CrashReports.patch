@@ -1,4 +1,4 @@
-From 8f30980b0ea1b0941b4fbc8f2630656dee14e409 Mon Sep 17 00:00:00 2001
+From f327ac2866e387551507e76118d7b88a5537febc Mon Sep 17 00:00:00 2001
 From: Sam Macbeth <sam@cliqz.com>
 Date: Mon, 3 Aug 2020 16:46:47 +0200
 Subject: Disabling Telemetry & CrashReports

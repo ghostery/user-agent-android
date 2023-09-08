@@ -1,4 +1,4 @@
-From dc695eecca8e9c619dfc84a14d4326024491c887 Mon Sep 17 00:00:00 2001
+From f4ded8c5221a933bd7689cc3c0b82413f6c95368 Mon Sep 17 00:00:00 2001
 From: Sam Macbeth <sam@cliqz.com>
 Date: Mon, 3 Aug 2020 18:31:14 +0200
 Subject: Basic ghostery extension integration
@@ -24,7 +24,7 @@ index 50dab8d5e8..cd18be708b 100644
  
      testOptions {
 diff --git a/fenix/app/src/main/java/org/mozilla/fenix/components/Core.kt b/fenix/app/src/main/java/org/mozilla/fenix/components/Core.kt
-index aa5dbe9729..b284a2b06f 100644
+index 87539ce19e..bc1049f9df 100644
 --- a/fenix/app/src/main/java/org/mozilla/fenix/components/Core.kt
 +++ b/fenix/app/src/main/java/org/mozilla/fenix/components/Core.kt
 @@ -170,6 +170,14 @@ class Core(

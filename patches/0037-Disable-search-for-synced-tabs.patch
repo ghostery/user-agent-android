@@ -1,4 +1,4 @@
-From c55599bc468af3f346704f355a074440d655185d Mon Sep 17 00:00:00 2001
+From 8818c032ce1a8b0eaff871554f9e7634e65ffe87 Mon Sep 17 00:00:00 2001
 From: Krzysztof Modras <chrmod@chrmod.net>
 Date: Fri, 28 Jul 2023 12:04:04 +0200
 Subject: Disable: search for synced tabs
@@ -35,7 +35,7 @@ index 3b2fe6694b..3260c952f1 100644
          searchSuggestionsInPrivatePreference.onPreferenceChangeListener = SharedPreferenceUpdater()
          showVoiceSearchPreference.onPreferenceChangeListener = object : Preference.OnPreferenceChangeListener {
 diff --git a/fenix/app/src/main/java/org/mozilla/fenix/utils/Settings.kt b/fenix/app/src/main/java/org/mozilla/fenix/utils/Settings.kt
-index 0457281968..0991179cef 100644
+index f66b740cf2..f7cf1bc969 100644
 --- a/fenix/app/src/main/java/org/mozilla/fenix/utils/Settings.kt
 +++ b/fenix/app/src/main/java/org/mozilla/fenix/utils/Settings.kt
 @@ -377,10 +377,7 @@ class Settings(private val appContext: Context) : PreferencesHolder {

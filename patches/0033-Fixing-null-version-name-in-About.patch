@@ -1,4 +1,4 @@
-From 5642f934cda0415d3f15f775cea542cffe13a3c8 Mon Sep 17 00:00:00 2001
+From 6a6038afa9a1d1cedffb218ce27ac9fed5ca1405 Mon Sep 17 00:00:00 2001
 From: Krzysztof Modras <chrmod@chrmod.net>
 Date: Thu, 17 Mar 2022 16:25:43 +0100
 Subject: Fixing null version name in About
@@ -10,7 +10,7 @@ Subject: Fixing null version name in About
  3 files changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/fenix/app/build.gradle b/fenix/app/build.gradle
-index 031ba165ce..0cab10193c 100644
+index d813edaed2..e653f675a8 100644
 --- a/fenix/app/build.gradle
 +++ b/fenix/app/build.gradle
 @@ -37,7 +37,7 @@ android {

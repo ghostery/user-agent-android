@@ -1,4 +1,4 @@
-From d46e21ef8998cd0506af5a36d7f2d0c5fba91c50 Mon Sep 17 00:00:00 2001
+From 53237574f9aebff53143e648560e217c3427871e Mon Sep 17 00:00:00 2001
 From: Sam Macbeth <sam@cliqz.com>
 Date: Tue, 4 Aug 2020 17:08:25 +0200
 Subject: Fastlane CI build
@@ -19,7 +19,7 @@ index 7a118b49be..0000000000
 -
 -gem "fastlane"
 diff --git a/fenix/app/build.gradle b/fenix/app/build.gradle
-index cd18be708b..031ba165ce 100644
+index 992e5ee619..d813edaed2 100644
 --- a/fenix/app/build.gradle
 +++ b/fenix/app/build.gradle
 @@ -85,6 +85,15 @@ android {

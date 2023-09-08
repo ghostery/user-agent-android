@@ -1,4 +1,4 @@
-From 551ad4f7e7b6283c828e4bddd408b52ac187da86 Mon Sep 17 00:00:00 2001
+From 87a3551021def990e8234c08b824023976489792 Mon Sep 17 00:00:00 2001
 From: Stefano Pacifici <stefano.pacifici@gmail.com>
 Date: Wed, 29 Jul 2020 19:08:26 +0200
 Subject: Ghostery custom user agent
@@ -8,7 +8,7 @@ Subject: Ghostery custom user agent
  1 file changed, 8 insertions(+)
 
 diff --git a/fenix/app/src/main/java/org/mozilla/fenix/components/Core.kt b/fenix/app/src/main/java/org/mozilla/fenix/components/Core.kt
-index b284a2b06f..98ac20700c 100644
+index bc1049f9df..94558fea29 100644
 --- a/fenix/app/src/main/java/org/mozilla/fenix/components/Core.kt
 +++ b/fenix/app/src/main/java/org/mozilla/fenix/components/Core.kt
 @@ -104,6 +104,7 @@ import org.mozilla.fenix.share.SaveToPDFMiddleware
