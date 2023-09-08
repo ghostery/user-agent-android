@@ -1,2 +1,2 @@
 #!/bin/bash
-export FENIX_TAG=fenix-v115.2.1
+export FENIX_TAG=fenix-v117.0.1
