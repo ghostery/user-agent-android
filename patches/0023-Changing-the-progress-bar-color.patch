@@ -1,16 +1,16 @@
-From cc6902c80af2d3ddc4c94627b5c0de2b840183b7 Mon Sep 17 00:00:00 2001
+From e82df3419390db3ff23ac49a674a626bbf98541a Mon Sep 17 00:00:00 2001
 From: Stefano Pacifici <stefano.pacifici@gmail.com>
 Date: Tue, 7 Jul 2020 14:43:34 +0200
 Subject: Changing the progress bar color
 
 ---
- app/src/main/res/drawable/progress_gradient.xml | 7 ++++---
+ fenix/app/src/main/res/drawable/progress_gradient.xml | 7 ++++---
  1 file changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/app/src/main/res/drawable/progress_gradient.xml b/app/src/main/res/drawable/progress_gradient.xml
-index 76809e6b7..740d8237f 100644
---- a/app/src/main/res/drawable/progress_gradient.xml
-+++ b/app/src/main/res/drawable/progress_gradient.xml
+diff --git a/fenix/app/src/main/res/drawable/progress_gradient.xml b/fenix/app/src/main/res/drawable/progress_gradient.xml
+index 76809e6b72..740d8237f6 100644
+--- a/fenix/app/src/main/res/drawable/progress_gradient.xml
++++ b/fenix/app/src/main/res/drawable/progress_gradient.xml
 @@ -17,11 +17,12 @@
                      android:bottomRightRadius="8dp"
                      android:topLeftRadius="0dp"
@@ -28,5 +28,5 @@ index 76809e6b7..740d8237f 100644
          </scale>
      </item>
 -- 
-2.37.2
+2.39.2 (Apple Git-143)
 

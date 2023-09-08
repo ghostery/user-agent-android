@@ -1,18 +1,18 @@
-From dbda7e1be89ca64b630b3814f96fd59d01a4d40e Mon Sep 17 00:00:00 2001
+From f4ded8c5221a933bd7689cc3c0b82413f6c95368 Mon Sep 17 00:00:00 2001
 From: Sam Macbeth <sam@cliqz.com>
 Date: Mon, 3 Aug 2020 18:31:14 +0200
 Subject: Basic ghostery extension integration
 
 ---
- app/build.gradle                                       | 4 +++-
- app/src/main/java/org/mozilla/fenix/components/Core.kt | 8 ++++++++
+ fenix/app/build.gradle                                    | 4 +++-
+ .../src/main/java/org/mozilla/fenix/components/Core.kt    | 8 ++++++++
  2 files changed, 11 insertions(+), 1 deletion(-)
 
-diff --git a/app/build.gradle b/app/build.gradle
-index 93ba55042..258316712 100644
---- a/app/build.gradle
-+++ b/app/build.gradle
-@@ -179,7 +179,9 @@ android {
+diff --git a/fenix/app/build.gradle b/fenix/app/build.gradle
+index 50dab8d5e8..cd18be708b 100644
+--- a/fenix/app/build.gradle
++++ b/fenix/app/build.gradle
+@@ -194,7 +194,9 @@ android {
  
          // manifest.template.json is converted to manifest.json at build time.
          // No need to package the template in the APK.
@@ -23,11 +23,11 @@ index 93ba55042..258316712 100644
      }
  
      testOptions {
-diff --git a/app/src/main/java/org/mozilla/fenix/components/Core.kt b/app/src/main/java/org/mozilla/fenix/components/Core.kt
-index 3db6d32c2..0f2b8d1ad 100644
---- a/app/src/main/java/org/mozilla/fenix/components/Core.kt
-+++ b/app/src/main/java/org/mozilla/fenix/components/Core.kt
-@@ -159,6 +159,14 @@ class Core(
+diff --git a/fenix/app/src/main/java/org/mozilla/fenix/components/Core.kt b/fenix/app/src/main/java/org/mozilla/fenix/components/Core.kt
+index 87539ce19e..bc1049f9df 100644
+--- a/fenix/app/src/main/java/org/mozilla/fenix/components/Core.kt
++++ b/fenix/app/src/main/java/org/mozilla/fenix/components/Core.kt
+@@ -170,6 +170,14 @@ class Core(
                  onError = { ext, throwable ->
                      Log.e("GHOSTERY", "Failed to install Ghostery Search webextension: $ext", throwable)
                  })
@@ -43,5 +43,5 @@ index 3db6d32c2..0f2b8d1ad 100644
      }
  
 -- 
-2.37.2
+2.39.2 (Apple Git-143)
 

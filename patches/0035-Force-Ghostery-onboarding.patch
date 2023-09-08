@@ -1,41 +1,40 @@
-From 1a4f815886c26682714a641652b8b7fc2b378030 Mon Sep 17 00:00:00 2001
+From 50892856fab0547cc8ecfb3e54c6006d4e2d9aea Mon Sep 17 00:00:00 2001
 From: Krzysztof Modras <chrmod@chrmod.net>
 Date: Mon, 3 Oct 2022 18:40:09 +0200
 Subject: Force Ghostery onboarding
 
 ---
- .../org/mozilla/fenix/home/HomeFragment.kt    | 23 +++++++++++++++++++
- 1 file changed, 23 insertions(+)
+ .../org/mozilla/fenix/home/HomeFragment.kt    | 22 +++++++++++++++++++
+ 1 file changed, 22 insertions(+)
 
-diff --git a/app/src/main/java/org/mozilla/fenix/home/HomeFragment.kt b/app/src/main/java/org/mozilla/fenix/home/HomeFragment.kt
-index 9e85cedf9..b5cc997dc 100644
---- a/app/src/main/java/org/mozilla/fenix/home/HomeFragment.kt
-+++ b/app/src/main/java/org/mozilla/fenix/home/HomeFragment.kt
-@@ -54,6 +54,7 @@ import mozilla.components.browser.menu.view.MenuButton
+diff --git a/fenix/app/src/main/java/org/mozilla/fenix/home/HomeFragment.kt b/fenix/app/src/main/java/org/mozilla/fenix/home/HomeFragment.kt
+index bf1577f055..3b37e6b2f3 100644
+--- a/fenix/app/src/main/java/org/mozilla/fenix/home/HomeFragment.kt
++++ b/fenix/app/src/main/java/org/mozilla/fenix/home/HomeFragment.kt
+@@ -39,6 +39,7 @@ import kotlinx.coroutines.MainScope
+ import kotlinx.coroutines.delay
+ import kotlinx.coroutines.flow.map
+ import kotlinx.coroutines.launch
++import mozilla.components.browser.state.selector.findCustomTabOrSelectedTab
  import mozilla.components.browser.state.selector.findTab
  import mozilla.components.browser.state.selector.normalTabs
  import mozilla.components.browser.state.selector.privateTabs
-+import mozilla.components.browser.state.selector.selectedTab
- import mozilla.components.browser.state.state.BrowserState
- import mozilla.components.browser.state.state.selectedOrDefaultSearchEngine
- import mozilla.components.browser.state.store.BrowserStore
-@@ -123,6 +124,9 @@ import org.mozilla.fenix.wallpapers.Wallpaper
+@@ -115,6 +116,8 @@ import org.mozilla.fenix.wallpapers.Wallpaper
  import java.lang.ref.WeakReference
  import kotlin.math.min
  
 +var onboardingShownOnce = false
 +val onboardingPattern = """moz-extension://[^/]+/app/templates/onboarding\.html.*""".toRegex()
-+
  @Suppress("TooManyFunctions", "LargeClass")
  class HomeFragment : Fragment() {
      private val args by navArgs<HomeFragmentArgs>()
-@@ -502,6 +506,25 @@ class HomeFragment : Fragment() {
-         observeSearchEngineChanges()
+@@ -509,6 +512,25 @@ class HomeFragment : Fragment() {
          observeSearchEngineNameChanges()
+         observeWallpaperUpdates()
  
 +        // This is an hack to force the browser to display the extension on-boarding on start-up
 +        consumeFlow(store) { flow ->
-+            flow.map { state -> state.selectedTab?.content?.url }
++            flow.map { state -> state.findCustomTabOrSelectedTab()?.content?.url }
 +                .ifChanged()
 +                .collect { url ->
 +                    val navController = findNavController()
@@ -52,9 +51,9 @@ index 9e85cedf9..b5cc997dc 100644
 +                }
 +        }
 +
-         HomeMenuBuilder(
+         homeMenuView = HomeMenuView(
              view = view,
              context = view.context,
 -- 
-2.37.2
+2.39.2 (Apple Git-143)
 

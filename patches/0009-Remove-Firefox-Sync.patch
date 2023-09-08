@@ -1,27 +1,28 @@
-From cd3e25d1c33bc9ef8269a2b7e15e3651e2dea251 Mon Sep 17 00:00:00 2001
+From b257444e8a37f7269164de9cea905016ddbfceec Mon Sep 17 00:00:00 2001
 From: Stefano Pacifici <stefano.pacifici@gmail.com>
 Date: Tue, 9 Jun 2020 10:56:17 +0200
 Subject: Remove Firefox Sync
 
 ---
  .../mozilla/fenix/library/bookmarks/BookmarkFragment.kt    | 4 +---
+ .../org/mozilla/fenix/library/bookmarks/DesktopFolders.kt  | 3 +--
  .../org/mozilla/fenix/settings/account/AccountUiView.kt    | 2 +-
- app/src/main/res/layout/component_tabstray2.xml            | 7 -------
- 3 files changed, 2 insertions(+), 11 deletions(-)
+ fenix/app/src/main/res/layout/component_tabstray2.xml      | 7 -------
+ 4 files changed, 3 insertions(+), 13 deletions(-)
 
-diff --git a/app/src/main/java/org/mozilla/fenix/library/bookmarks/BookmarkFragment.kt b/app/src/main/java/org/mozilla/fenix/library/bookmarks/BookmarkFragment.kt
-index 38d3dc684..0663a7998 100644
---- a/app/src/main/java/org/mozilla/fenix/library/bookmarks/BookmarkFragment.kt
-+++ b/app/src/main/java/org/mozilla/fenix/library/bookmarks/BookmarkFragment.kt
-@@ -134,7 +134,6 @@ class BookmarkFragment : LibraryPageFragment<BookmarkNode>(), UserInteractionHan
+diff --git a/fenix/app/src/main/java/org/mozilla/fenix/library/bookmarks/BookmarkFragment.kt b/fenix/app/src/main/java/org/mozilla/fenix/library/bookmarks/BookmarkFragment.kt
+index 6306a29deb..fa2893974d 100644
+--- a/fenix/app/src/main/java/org/mozilla/fenix/library/bookmarks/BookmarkFragment.kt
++++ b/fenix/app/src/main/java/org/mozilla/fenix/library/bookmarks/BookmarkFragment.kt
+@@ -139,7 +139,6 @@ class BookmarkFragment : LibraryPageFragment<BookmarkNode>(), UserInteractionHan
  
-     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-         super.onViewCreated(view, savedInstanceState)
+         requireActivity().addMenuProvider(this, viewLifecycleOwner, Lifecycle.State.RESUMED)
+ 
 -        val accountManager = requireComponents.backgroundServices.accountManager
          consumeFrom(bookmarkStore) {
              bookmarkView.update(it)
  
-@@ -142,8 +141,7 @@ class BookmarkFragment : LibraryPageFragment<BookmarkNode>(), UserInteractionHan
+@@ -147,8 +146,7 @@ class BookmarkFragment : LibraryPageFragment<BookmarkNode>(), UserInteractionHan
              // Don't want to pester user too much with it, and if there are lots of bookmarks present,
              // it'll just get visually lost. Inside of the "Desktop Bookmarks" node, it'll nicely stand-out,
              // since there are always only three other items in there. It's also the right place contextually.
@@ -31,11 +32,25 @@ index 38d3dc684..0663a7998 100644
          }
      }
  
-diff --git a/app/src/main/java/org/mozilla/fenix/settings/account/AccountUiView.kt b/app/src/main/java/org/mozilla/fenix/settings/account/AccountUiView.kt
-index c204fee61..1b5a9a41d 100644
---- a/app/src/main/java/org/mozilla/fenix/settings/account/AccountUiView.kt
-+++ b/app/src/main/java/org/mozilla/fenix/settings/account/AccountUiView.kt
-@@ -88,7 +88,7 @@ class AccountUiView(
+diff --git a/fenix/app/src/main/java/org/mozilla/fenix/library/bookmarks/DesktopFolders.kt b/fenix/app/src/main/java/org/mozilla/fenix/library/bookmarks/DesktopFolders.kt
+index 19f83fa872..035a66eb36 100644
+--- a/fenix/app/src/main/java/org/mozilla/fenix/library/bookmarks/DesktopFolders.kt
++++ b/fenix/app/src/main/java/org/mozilla/fenix/library/bookmarks/DesktopFolders.kt
+@@ -26,8 +26,7 @@ class DesktopFolders(
+             BookmarkRoot.Mobile.id -> {
+                 // We're going to make a copy of the mobile node, and add-in a synthetic child folder to the top of the
+                 // children's list that contains all of the desktop roots.
+-                val childrenWithVirtualFolder =
+-                    listOfNotNull(virtualDesktopFolder()) + node.children.orEmpty()
++                val childrenWithVirtualFolder = node.children.orEmpty()
+ 
+                 node.copy(children = childrenWithVirtualFolder)
+             }
+diff --git a/fenix/app/src/main/java/org/mozilla/fenix/settings/account/AccountUiView.kt b/fenix/app/src/main/java/org/mozilla/fenix/settings/account/AccountUiView.kt
+index bf6041c6ed..89315f9df0 100644
+--- a/fenix/app/src/main/java/org/mozilla/fenix/settings/account/AccountUiView.kt
++++ b/fenix/app/src/main/java/org/mozilla/fenix/settings/account/AccountUiView.kt
+@@ -86,7 +86,7 @@ class AccountUiView(
  
              // Signed-out.
          } else {
@@ -44,11 +59,11 @@ index c204fee61..1b5a9a41d 100644
              preferenceFirefoxAccount.isVisible = false
              preferenceFirefoxAccountAuthError.isVisible = false
              accountPreferenceCategory.isVisible = false
-diff --git a/app/src/main/res/layout/component_tabstray2.xml b/app/src/main/res/layout/component_tabstray2.xml
-index 5a34bf2a2..4bfc41e18 100644
---- a/app/src/main/res/layout/component_tabstray2.xml
-+++ b/app/src/main/res/layout/component_tabstray2.xml
-@@ -99,13 +99,6 @@
+diff --git a/fenix/app/src/main/res/layout/component_tabstray2.xml b/fenix/app/src/main/res/layout/component_tabstray2.xml
+index 3379510c5a..cc5029796a 100644
+--- a/fenix/app/src/main/res/layout/component_tabstray2.xml
++++ b/fenix/app/src/main/res/layout/component_tabstray2.xml
+@@ -100,13 +100,6 @@
              android:contentDescription="@string/tabs_header_private_tabs_title"
              android:icon="@drawable/ic_private_browsing" />
  
@@ -63,5 +78,5 @@ index 5a34bf2a2..4bfc41e18 100644
  
      <ImageButton
 -- 
-2.37.2
+2.39.2 (Apple Git-143)
 

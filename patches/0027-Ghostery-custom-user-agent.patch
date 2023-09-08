@@ -1,17 +1,17 @@
-From 393c70d385c998d9d9ff9c81835352fb17fe7179 Mon Sep 17 00:00:00 2001
+From 87a3551021def990e8234c08b824023976489792 Mon Sep 17 00:00:00 2001
 From: Stefano Pacifici <stefano.pacifici@gmail.com>
 Date: Wed, 29 Jul 2020 19:08:26 +0200
 Subject: Ghostery custom user agent
 
 ---
- app/src/main/java/org/mozilla/fenix/components/Core.kt | 8 ++++++++
+ .../src/main/java/org/mozilla/fenix/components/Core.kt    | 8 ++++++++
  1 file changed, 8 insertions(+)
 
-diff --git a/app/src/main/java/org/mozilla/fenix/components/Core.kt b/app/src/main/java/org/mozilla/fenix/components/Core.kt
-index 0f2b8d1ad..193bfb4e6 100644
---- a/app/src/main/java/org/mozilla/fenix/components/Core.kt
-+++ b/app/src/main/java/org/mozilla/fenix/components/Core.kt
-@@ -97,6 +97,7 @@ import org.mozilla.fenix.settings.advanced.getSelectedLocale
+diff --git a/fenix/app/src/main/java/org/mozilla/fenix/components/Core.kt b/fenix/app/src/main/java/org/mozilla/fenix/components/Core.kt
+index bc1049f9df..94558fea29 100644
+--- a/fenix/app/src/main/java/org/mozilla/fenix/components/Core.kt
++++ b/fenix/app/src/main/java/org/mozilla/fenix/components/Core.kt
+@@ -104,6 +104,7 @@ import org.mozilla.fenix.share.SaveToPDFMiddleware
  import org.mozilla.fenix.telemetry.TelemetryMiddleware
  import org.mozilla.fenix.utils.getUndoDelay
  import org.mozilla.geckoview.GeckoRuntime
@@ -19,7 +19,7 @@ index 0f2b8d1ad..193bfb4e6 100644
  import java.util.UUID
  import java.util.concurrent.TimeUnit
  
-@@ -115,6 +116,7 @@ class Core(
+@@ -122,6 +123,7 @@ class Core(
       */
      val engine: Engine by lazyMonitored {
          val defaultSettings = DefaultSettings(
@@ -27,7 +27,7 @@ index 0f2b8d1ad..193bfb4e6 100644
              requestInterceptor = requestInterceptor,
              remoteDebuggingEnabled = context.settings().isRemoteDebuggingEnabled &&
                  Build.VERSION.SDK_INT >= Build.VERSION_CODES.M,
-@@ -170,6 +172,12 @@ class Core(
+@@ -181,6 +183,12 @@ class Core(
          }
      }
  
@@ -41,5 +41,5 @@ index 0f2b8d1ad..193bfb4e6 100644
       * Passed to [engine] to intercept requests for app links,
       * and various features triggered by page load requests.
 -- 
-2.37.2
+2.39.2 (Apple Git-143)
 

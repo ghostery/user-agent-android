@@ -1,19 +1,19 @@
-From 962de08f28223f82299ea48129f5eaae53f79e4d Mon Sep 17 00:00:00 2001
+From ebb45e5dbe1efe7a876a7f5db8a0b064ed235242 Mon Sep 17 00:00:00 2001
 From: Sam Macbeth <sam@cliqz.com>
 Date: Mon, 24 Aug 2020 16:19:12 +0200
 Subject: Ghostery Logo Added
 
 ---
- app/build.gradle                              | 19 ++++++++++++++++++-
+ fenix/app/build.gradle                        | 21 +++++++++++++++++--
  .../res/mipmap-anydpi-v26/ic_launcher.xml     |  2 +-
  .../mipmap-anydpi-v26/ic_launcher_round.xml   |  2 +-
- 3 files changed, 20 insertions(+), 3 deletions(-)
+ 3 files changed, 21 insertions(+), 4 deletions(-)
 
-diff --git a/app/build.gradle b/app/build.gradle
-index f346771cc..fe68d68f4 100644
---- a/app/build.gradle
-+++ b/app/build.gradle
-@@ -34,7 +34,7 @@ android {
+diff --git a/fenix/app/build.gradle b/fenix/app/build.gradle
+index fe39a12064..50dab8d5e8 100644
+--- a/fenix/app/build.gradle
++++ b/fenix/app/build.gradle
+@@ -33,7 +33,7 @@ android {
      }
  
      defaultConfig {
@@ -22,9 +22,18 @@ index f346771cc..fe68d68f4 100644
          minSdkVersion Config.minSdkVersion
          targetSdkVersion Config.targetSdkVersion
          versionCode 1
-@@ -147,6 +147,23 @@ android {
-                     "deepLinkScheme": deepLinkSchemeValue
-             ]
+@@ -110,7 +110,7 @@ android {
+         debug {
+             shrinkResources false
+             minifyEnabled false
+-            applicationIdSuffix ".fenix.debug"
++            applicationIdSuffix ".debug"
+             resValue "bool", "IS_DEBUG", "true"
+             pseudoLocalesEnabled true
+         }
+@@ -162,6 +162,23 @@ android {
+             applicationIdSuffix ".fenix"
+             debuggable false
          }
 +        ghostery releaseTemplate >> {
 +            buildConfigField "boolean", "USE_RELEASE_VERSIONING", "true"
@@ -32,44 +41,46 @@ index f346771cc..fe68d68f4 100644
 +            def deepLinkSchemeValue = "ghostery"
 +            buildConfigField "String", "DEEP_LINK_SCHEME", "\"$deepLinkSchemeValue\""
 +            manifestPlaceholders = [
-+                    // This release type is meant to replace Firefox (Release channel) and therefore needs to inherit
-+                    // its sharedUserId for all eternity. See:
-+                    // https://searchfox.org/mozilla-central/search?q=moz_android_shared_id&case=false&regexp=false&path=
-+                    // Shipping an app update without sharedUserId can have
-+                    // fatal consequences. For example see:
-+                    //  - https://issuetracker.google.com/issues/36924841
-+                    //  - https://issuetracker.google.com/issues/36905922
-+                    "sharedUserId": "com.ghostery.android.ghostery.sharedID",
-+                    "deepLinkScheme": deepLinkSchemeValue
++                // This release type is meant to replace Firefox (Release channel) and therefore needs to inherit
++                // its sharedUserId for all eternity. See:
++                // https://searchfox.org/mozilla-central/search?q=moz_android_shared_id&case=false&regexp=false&path=
++                // Shipping an app update without sharedUserId can have
++                // fatal consequences. For example see:
++                //  - https://issuetracker.google.com/issues/36924841
++                //  - https://issuetracker.google.com/issues/36905922
++                "sharedUserId": "com.ghostery.android.ghostery.sharedID",
++                "deepLinkScheme": deepLinkSchemeValue,
 +            ]
 +        }
      }
  
      buildFeatures {
-diff --git a/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml b/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml
-index be0fd11ac..6736fafb7 100644
---- a/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml
-+++ b/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml
-@@ -3,6 +3,6 @@
+diff --git a/fenix/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml b/fenix/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml
+index de34ac4858..9e9d6e7325 100644
+--- a/fenix/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml
++++ b/fenix/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml
+@@ -3,7 +3,7 @@
     - License, v. 2.0. If a copy of the MPL was not distributed with this
     - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
  <adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">
 -    <background android:drawable="@color/ic_launcher_background"/>
 +    <background android:drawable="@drawable/ic_launcher_background"/>
      <foreground android:drawable="@drawable/ic_launcher_foreground"/>
+     <monochrome android:drawable="@drawable/ic_launcher_monochrome"/>
  </adaptive-icon>
-diff --git a/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml b/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml
-index be0fd11ac..6736fafb7 100644
---- a/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml
-+++ b/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml
-@@ -3,6 +3,6 @@
+diff --git a/fenix/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml b/fenix/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml
+index de34ac4858..9e9d6e7325 100644
+--- a/fenix/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml
++++ b/fenix/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml
+@@ -3,7 +3,7 @@
     - License, v. 2.0. If a copy of the MPL was not distributed with this
     - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
  <adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">
 -    <background android:drawable="@color/ic_launcher_background"/>
 +    <background android:drawable="@drawable/ic_launcher_background"/>
      <foreground android:drawable="@drawable/ic_launcher_foreground"/>
+     <monochrome android:drawable="@drawable/ic_launcher_monochrome"/>
  </adaptive-icon>
 -- 
-2.37.2
+2.39.2 (Apple Git-143)
 

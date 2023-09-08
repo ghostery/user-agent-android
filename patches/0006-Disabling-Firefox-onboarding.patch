@@ -1,18 +1,18 @@
-From 5053793efdbf58df6953f7c0c42394349761714e Mon Sep 17 00:00:00 2001
+From 430ca3ae98a1cea2cff735afb01cd5517b74a29b Mon Sep 17 00:00:00 2001
 From: Sam Macbeth <sam@cliqz.com>
 Date: Mon, 3 Aug 2020 15:07:40 +0200
 Subject: Disabling Firefox onboarding
 
 ---
- .../org/mozilla/fenix/onboarding/FenixOnboarding.kt   |  4 +---
- app/src/main/java/org/mozilla/fenix/utils/Settings.kt | 11 ++---------
- 2 files changed, 3 insertions(+), 12 deletions(-)
+ .../fenix/onboarding/FenixOnboarding.kt       |  4 +--
+ .../java/org/mozilla/fenix/utils/Settings.kt  | 27 ++++---------------
+ 2 files changed, 6 insertions(+), 25 deletions(-)
 
-diff --git a/app/src/main/java/org/mozilla/fenix/onboarding/FenixOnboarding.kt b/app/src/main/java/org/mozilla/fenix/onboarding/FenixOnboarding.kt
-index a240fa2b0..6ee4b9d96 100644
---- a/app/src/main/java/org/mozilla/fenix/onboarding/FenixOnboarding.kt
-+++ b/app/src/main/java/org/mozilla/fenix/onboarding/FenixOnboarding.kt
-@@ -29,9 +29,7 @@ class FenixOnboarding(context: Context) : PreferencesHolder {
+diff --git a/fenix/app/src/main/java/org/mozilla/fenix/onboarding/FenixOnboarding.kt b/fenix/app/src/main/java/org/mozilla/fenix/onboarding/FenixOnboarding.kt
+index a6f3b77a47..454697168b 100644
+--- a/fenix/app/src/main/java/org/mozilla/fenix/onboarding/FenixOnboarding.kt
++++ b/fenix/app/src/main/java/org/mozilla/fenix/onboarding/FenixOnboarding.kt
+@@ -46,9 +46,7 @@ class FenixOnboarding(context: Context) : PreferencesHolder {
      }
  
      fun userHasBeenOnboarded(): Boolean {
@@ -23,35 +23,72 @@ index a240fa2b0..6ee4b9d96 100644
      }
  
      companion object {
-diff --git a/app/src/main/java/org/mozilla/fenix/utils/Settings.kt b/app/src/main/java/org/mozilla/fenix/utils/Settings.kt
-index e56e197ee..aabf35e10 100644
---- a/app/src/main/java/org/mozilla/fenix/utils/Settings.kt
-+++ b/app/src/main/java/org/mozilla/fenix/utils/Settings.kt
-@@ -818,10 +818,7 @@ class Settings(private val appContext: Context) : PreferencesHolder {
-         default = false
+diff --git a/fenix/app/src/main/java/org/mozilla/fenix/utils/Settings.kt b/fenix/app/src/main/java/org/mozilla/fenix/utils/Settings.kt
+index a36dcede6a..a1d6b70fd2 100644
+--- a/fenix/app/src/main/java/org/mozilla/fenix/utils/Settings.kt
++++ b/fenix/app/src/main/java/org/mozilla/fenix/utils/Settings.kt
+@@ -1033,10 +1033,7 @@ class Settings(private val appContext: Context) : PreferencesHolder {
+         default = false,
      )
  
 -    var shouldShowOpenInAppBanner by booleanPreference(
 -        appContext.getPreferenceKey(R.string.pref_key_should_show_open_in_app_banner),
--        default = true
+-        default = true,
 -    )
 +    var shouldShowOpenInAppBanner = false
  
      val shouldShowOpenInAppCfr: Boolean
          get() = canShowCfr && shouldShowOpenInAppBanner
-@@ -859,11 +856,7 @@ class Settings(private val appContext: Context) : PreferencesHolder {
+@@ -1074,11 +1071,7 @@ class Settings(private val appContext: Context) : PreferencesHolder {
      /**
       * Indicates if the jump back in CRF should be shown.
       */
 -    var shouldShowJumpBackInCFR by lazyFeatureFlagPreference(
 -        appContext.getPreferenceKey(R.string.pref_key_should_show_jump_back_in_tabs_popup),
--        featureFlag = FeatureFlags.showJumpBackInCFR,
--        default = { onboardScreenSection[OnboardingSection.JUMP_BACK_IN_CFR] == true },
+-        featureFlag = true,
+-        default = { mr2022Sections[Mr2022Section.JUMP_BACK_IN_CFR] == true },
 -    )
 +    var shouldShowJumpBackInCFR = false
  
-     fun getSitePermissionsPhoneFeatureAction(
-         feature: PhoneFeature,
+     /**
+      *  Returns a sitePermissions action for the provided [feature].
+@@ -1481,11 +1474,7 @@ class Settings(private val appContext: Context) : PreferencesHolder {
+     /**
+      * Indicates if home onboarding dialog should be shown.
+      */
+-    var showHomeOnboardingDialog by lazyFeatureFlagPreference(
+-        appContext.getPreferenceKey(R.string.pref_key_should_show_home_onboarding_dialog),
+-        featureFlag = true,
+-        default = { mr2022Sections[Mr2022Section.HOME_ONBOARDING_DIALOG_EXISTING_USERS] == true },
+-    )
++    var showHomeOnboardingDialog = false
+ 
+     /**
+      * Indicates if the recent tabs functionality should be visible.
+@@ -1653,8 +1642,7 @@ class Settings(private val appContext: Context) : PreferencesHolder {
+     /**
+      * Indicates if juno onboarding feature is enabled.
+      */
+-    val junoOnboardingEnabled: Boolean
+-        get() = FxNimbus.features.junoOnboarding.value().enabled
++    val junoOnboardingEnabled = false
+ 
+     /**
+      * Returns whether juno onboarding should be shown to the user.
+@@ -1662,12 +1650,7 @@ class Settings(private val appContext: Context) : PreferencesHolder {
+      * app icon.
+      */
+     fun shouldShowJunoOnboarding(hasUserBeenOnboarded: Boolean, isLauncherIntent: Boolean): Boolean {
+-        return if (!hasUserBeenOnboarded && isLauncherIntent) {
+-            FxNimbus.features.junoOnboarding.recordExposure()
+-            junoOnboardingEnabled
+-        } else {
+-            false
+-        }
++        return hasUserBeenOnboarded && isLauncherIntent && false
+     }
+ 
+     /**
 -- 
-2.37.2
+2.39.2 (Apple Git-143)
 

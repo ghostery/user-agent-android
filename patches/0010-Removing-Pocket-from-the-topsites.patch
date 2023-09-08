@@ -1,4 +1,4 @@
-From ff0c908287051fc1471a7d4de968e8fb2322f2cd Mon Sep 17 00:00:00 2001
+From df05ce4822b420cd8de9ed803d76dddddc71eb1a Mon Sep 17 00:00:00 2001
 From: Stefano Pacifici <stefano.pacifici@gmail.com>
 Date: Tue, 9 Jun 2020 15:33:50 +0200
 Subject: Removing Pocket from the topsites
@@ -7,27 +7,27 @@ Subject: Removing Pocket from the topsites
  .../java/org/mozilla/fenix/components/Core.kt    | 16 ----------------
  1 file changed, 16 deletions(-)
 
-diff --git a/app/src/main/java/org/mozilla/fenix/components/Core.kt b/app/src/main/java/org/mozilla/fenix/components/Core.kt
-index c235011f9..b16f48eab 100644
---- a/app/src/main/java/org/mozilla/fenix/components/Core.kt
-+++ b/app/src/main/java/org/mozilla/fenix/components/Core.kt
-@@ -458,22 +458,6 @@ class Core(
-                         )
+diff --git a/fenix/app/src/main/java/org/mozilla/fenix/components/Core.kt b/fenix/app/src/main/java/org/mozilla/fenix/components/Core.kt
+index 027a0418b0..ea2aff8460 100644
+--- a/fenix/app/src/main/java/org/mozilla/fenix/components/Core.kt
++++ b/fenix/app/src/main/java/org/mozilla/fenix/components/Core.kt
+@@ -504,22 +504,6 @@ class Core(
+                         ),
                      )
                  } else {
 -                    defaultTopSites.add(
 -                        Pair(
 -                            context.getString(R.string.default_top_site_google),
--                            SupportUtils.GOOGLE_URL
--                        )
+-                            SupportUtils.GOOGLE_URL,
+-                        ),
 -                    )
 -
 -                    if (LocaleManager.getSelectedLocale(context).language == "en") {
 -                        defaultTopSites.add(
 -                            Pair(
 -                                context.getString(R.string.pocket_pinned_top_articles),
--                                SupportUtils.POCKET_TRENDING_URL
--                            )
+-                                SupportUtils.POCKET_TRENDING_URL,
+-                            ),
 -                        )
 -                    }
 -
@@ -35,5 +35,5 @@ index c235011f9..b16f48eab 100644
                          Pair(
                              context.getString(R.string.default_top_site_wikipedia),
 -- 
-2.37.2
+2.39.2 (Apple Git-143)
 

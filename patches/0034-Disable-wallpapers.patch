@@ -1,25 +1,25 @@
-From c9c4d97297c30364fb2e7c1af111705bd5c283c7 Mon Sep 17 00:00:00 2001
+From b6e63aa9a5d37f7daac4c3eec6b4f22068d62000 Mon Sep 17 00:00:00 2001
 From: Krzysztof Modras <chrmod@chrmod.net>
 Date: Fri, 15 Apr 2022 16:10:00 +0200
 Subject: Disable wallpapers
 
 ---
  .../org/mozilla/fenix/settings/HomeSettingsFragment.kt   | 9 ---------
- app/src/main/res/xml/home_preferences.xml                | 4 ----
+ fenix/app/src/main/res/xml/home_preferences.xml          | 4 ----
  2 files changed, 13 deletions(-)
 
-diff --git a/app/src/main/java/org/mozilla/fenix/settings/HomeSettingsFragment.kt b/app/src/main/java/org/mozilla/fenix/settings/HomeSettingsFragment.kt
-index 5660541e6..40c7c6e8b 100644
---- a/app/src/main/java/org/mozilla/fenix/settings/HomeSettingsFragment.kt
-+++ b/app/src/main/java/org/mozilla/fenix/settings/HomeSettingsFragment.kt
-@@ -164,15 +164,6 @@ class HomeSettingsFragment : PreferenceFragmentCompat() {
+diff --git a/fenix/app/src/main/java/org/mozilla/fenix/settings/HomeSettingsFragment.kt b/fenix/app/src/main/java/org/mozilla/fenix/settings/HomeSettingsFragment.kt
+index 5c5f0ecbf2..f7a74c3e30 100644
+--- a/fenix/app/src/main/java/org/mozilla/fenix/settings/HomeSettingsFragment.kt
++++ b/fenix/app/src/main/java/org/mozilla/fenix/settings/HomeSettingsFragment.kt
+@@ -165,15 +165,6 @@ class HomeSettingsFragment : PreferenceFragmentCompat() {
          val openingScreenAfterFourHours =
              requirePreference<RadioButtonPreference>(R.string.pref_key_start_on_home_after_four_hours)
  
 -        requirePreference<Preference>(R.string.pref_key_wallpapers).apply {
 -            setOnPreferenceClickListener {
 -                view?.findNavController()?.navigate(
--                    HomeSettingsFragmentDirections.actionHomeSettingsFragmentToWallpaperSettingsFragment()
+-                    HomeSettingsFragmentDirections.actionHomeSettingsFragmentToWallpaperSettingsFragment(),
 -                )
 -                true
 -            }
@@ -28,11 +28,11 @@ index 5660541e6..40c7c6e8b 100644
          addToRadioGroup(
              openingScreenRadioHomepage,
              openingScreenLastTab,
-diff --git a/app/src/main/res/xml/home_preferences.xml b/app/src/main/res/xml/home_preferences.xml
-index a13a10e16..0f01466be 100644
---- a/app/src/main/res/xml/home_preferences.xml
-+++ b/app/src/main/res/xml/home_preferences.xml
-@@ -41,10 +41,6 @@
+diff --git a/fenix/app/src/main/res/xml/home_preferences.xml b/fenix/app/src/main/res/xml/home_preferences.xml
+index 35d97891d5..4dc3d9502b 100644
+--- a/fenix/app/src/main/res/xml/home_preferences.xml
++++ b/fenix/app/src/main/res/xml/home_preferences.xml
+@@ -38,10 +38,6 @@
          android:key="@string/pref_key_pocket_sponsored_stories"
          android:title="@string/customize_toggle_pocket_sponsored" />
  
@@ -44,5 +44,5 @@ index a13a10e16..0f01466be 100644
          android:layout="@layout/preference_cat_style"
          android:title="@string/preferences_opening_screen"
 -- 
-2.37.2
+2.39.2 (Apple Git-143)
 

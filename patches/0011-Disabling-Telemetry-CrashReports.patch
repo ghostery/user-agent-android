@@ -1,44 +1,31 @@
-From f4ed5fc0aece00c33b3a884a6192a9ad36035a5b Mon Sep 17 00:00:00 2001
+From f327ac2866e387551507e76118d7b88a5537febc Mon Sep 17 00:00:00 2001
 From: Sam Macbeth <sam@cliqz.com>
 Date: Mon, 3 Aug 2020 16:46:47 +0200
 Subject: Disabling Telemetry & CrashReports
 
 ---
- app/build.gradle                              |  2 +-
- .../org/mozilla/fenix/FenixApplication.kt     |  6 +---
- .../org/mozilla/fenix/components/Analytics.kt | 29 +++++--------------
- .../fenix/crashes/DummyCrashReporter.kt       | 19 ++++++++++++
- app/src/main/res/xml/preferences.xml          | 10 -------
- 5 files changed, 29 insertions(+), 37 deletions(-)
- create mode 100644 app/src/main/java/org/mozilla/fenix/crashes/DummyCrashReporter.kt
+ .../org/mozilla/fenix/FenixApplication.kt     |  6 +--
+ .../org/mozilla/fenix/components/Analytics.kt | 38 ++++---------------
+ .../fenix/crashes/DummyCrashReporter.kt       | 19 ++++++++++
+ .../fenix/settings/SettingsFragment.kt        |  1 -
+ fenix/app/src/main/res/xml/preferences.xml    | 10 -----
+ 5 files changed, 28 insertions(+), 46 deletions(-)
+ create mode 100644 fenix/app/src/main/java/org/mozilla/fenix/crashes/DummyCrashReporter.kt
 
-diff --git a/app/build.gradle b/app/build.gradle
-index fe68d68f4..93ba55042 100644
---- a/app/build.gradle
-+++ b/app/build.gradle
-@@ -102,7 +102,7 @@ android {
-         debug {
-             shrinkResources false
-             minifyEnabled false
--            applicationIdSuffix ".fenix.debug"
-+            applicationIdSuffix ".debug"
-             resValue "bool", "IS_DEBUG", "true"
-             pseudoLocalesEnabled true
-         }
-diff --git a/app/src/main/java/org/mozilla/fenix/FenixApplication.kt b/app/src/main/java/org/mozilla/fenix/FenixApplication.kt
-index 848ec3a1f..612bb2dcb 100644
---- a/app/src/main/java/org/mozilla/fenix/FenixApplication.kt
-+++ b/app/src/main/java/org/mozilla/fenix/FenixApplication.kt
-@@ -149,7 +149,7 @@ open class FenixApplication : LocaleAwareApplication(), Provider {
- 
+diff --git a/fenix/app/src/main/java/org/mozilla/fenix/FenixApplication.kt b/fenix/app/src/main/java/org/mozilla/fenix/FenixApplication.kt
+index ce569f79bb..9c248ebbb3 100644
+--- a/fenix/app/src/main/java/org/mozilla/fenix/FenixApplication.kt
++++ b/fenix/app/src/main/java/org/mozilla/fenix/FenixApplication.kt
+@@ -168,7 +168,7 @@ open class FenixApplication : LocaleAwareApplication(), Provider {
      @OptIn(DelicateCoroutinesApi::class) // GlobalScope usage
+     @VisibleForTesting
      protected open fun initializeGlean() {
 -        val telemetryEnabled = settings().isTelemetryEnabled
 +        val telemetryEnabled = false
  
          logger.debug("Initializing Glean (uploadEnabled=$telemetryEnabled})")
  
-@@ -390,10 +390,6 @@ open class FenixApplication : LocaleAwareApplication(), Provider {
+@@ -459,10 +459,6 @@ open class FenixApplication : LocaleAwareApplication(), Provider {
      }
  
      private fun setupCrashReporting() {
@@ -48,20 +35,20 @@ index 848ec3a1f..612bb2dcb 100644
 -            .install(this)
      }
  
-     /**
-diff --git a/app/src/main/java/org/mozilla/fenix/components/Analytics.kt b/app/src/main/java/org/mozilla/fenix/components/Analytics.kt
-index abfd470ac..48a72f57d 100644
---- a/app/src/main/java/org/mozilla/fenix/components/Analytics.kt
-+++ b/app/src/main/java/org/mozilla/fenix/components/Analytics.kt
-@@ -24,6 +24,7 @@ import org.mozilla.fenix.ReleaseChannel
- import org.mozilla.fenix.components.metrics.AdjustMetricsService
- import org.mozilla.fenix.components.metrics.GleanMetricsService
+     protected open fun initializeNimbus() {
+diff --git a/fenix/app/src/main/java/org/mozilla/fenix/components/Analytics.kt b/fenix/app/src/main/java/org/mozilla/fenix/components/Analytics.kt
+index 7fc3826788..8eee7abbbd 100644
+--- a/fenix/app/src/main/java/org/mozilla/fenix/components/Analytics.kt
++++ b/fenix/app/src/main/java/org/mozilla/fenix/components/Analytics.kt
+@@ -30,6 +30,7 @@ import org.mozilla.fenix.components.metrics.InstallReferrerMetricsService
  import org.mozilla.fenix.components.metrics.MetricController
+ import org.mozilla.fenix.components.metrics.MetricsStorage
+ import org.mozilla.fenix.crashes.CrashFactCollector
 +import org.mozilla.fenix.crashes.DummyCrashReporter
  import org.mozilla.fenix.experiments.createNimbus
+ import org.mozilla.fenix.ext.components
  import org.mozilla.fenix.ext.settings
- import org.mozilla.fenix.gleanplumb.CustomAttributeProvider
-@@ -44,10 +45,6 @@ class Analytics(
+@@ -49,10 +50,6 @@ class Analytics(
  ) {
      val crashReporter: CrashReporter by lazyMonitored {
          val services = mutableListOf<CrashReporterService>()
@@ -72,7 +59,7 @@ index abfd470ac..48a72f57d 100644
  
          if (isSentryEnabled()) {
              // We treat caught exceptions similar to debug logging.
-@@ -71,17 +68,10 @@ class Analytics(
+@@ -76,21 +73,10 @@ class Analytics(
              )
  
              services.add(sentryService)
@@ -83,16 +70,20 @@ index abfd470ac..48a72f57d 100644
 -        // The name "Fenix" here matches the product name on Socorro and is unrelated to the actual app name:
 -        // https://bugzilla.mozilla.org/show_bug.cgi?id=1523284
 -        val socorroService = MozillaSocorroService(
--            context, appName = "Fenix",
--            version = MOZ_APP_VERSION, buildId = MOZ_APP_BUILDID, vendor = MOZ_APP_VENDOR,
--            releaseChannel = MOZ_UPDATE_CHANNEL, distributionId = distributionId
+-            context,
+-            appName = "Fenix",
+-            version = MOZ_APP_VERSION,
+-            buildId = MOZ_APP_BUILDID,
+-            vendor = MOZ_APP_VENDOR,
+-            releaseChannel = MOZ_UPDATE_CHANNEL,
+-            distributionId = distributionId,
 -        )
 -        services.add(socorroService)
 -
          val intent = Intent(context, HomeActivity::class.java).apply {
              flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
          }
-@@ -100,11 +90,11 @@ class Analytics(
+@@ -109,11 +95,11 @@ class Analytics(
          CrashReporter(
              context = context,
              services = services,
@@ -101,32 +92,37 @@ index abfd470ac..48a72f57d 100644
              shouldPrompt = CrashReporter.Prompt.ALWAYS,
              promptConfiguration = CrashReporter.PromptConfiguration(
                  appName = context.getString(R.string.app_name),
--                organizationName = "Mozilla"
-+                organizationName = "Ghostery"
+-                organizationName = "Mozilla",
++                organizationName = "Ghostery",
              ),
              enabled = true,
-             nonFatalCrashIntent = pendingIntent
-@@ -113,12 +103,9 @@ class Analytics(
+             nonFatalCrashIntent = pendingIntent,
+@@ -135,17 +121,9 @@ class Analytics(
  
      val metrics: MetricController by lazyMonitored {
          MetricController.create(
 -            listOf(
 -                GleanMetricsService(context),
--                AdjustMetricsService(context as Application)
+-                AdjustMetricsService(
+-                    application = context as Application,
+-                    storage = metricsStorage,
+-                    crashReporter = crashReporter,
+-                ),
+-                InstallReferrerMetricsService(context),
 -            ),
 -            isDataTelemetryEnabled = { context.settings().isTelemetryEnabled },
 -            isMarketingDataTelemetryEnabled = { context.settings().isMarketingTelemetryEnabled },
 +            listOf(),
 +            isDataTelemetryEnabled = { false },
 +            isMarketingDataTelemetryEnabled = { false },
-             context.settings()
+             context.settings(),
          )
      }
-diff --git a/app/src/main/java/org/mozilla/fenix/crashes/DummyCrashReporter.kt b/app/src/main/java/org/mozilla/fenix/crashes/DummyCrashReporter.kt
+diff --git a/fenix/app/src/main/java/org/mozilla/fenix/crashes/DummyCrashReporter.kt b/fenix/app/src/main/java/org/mozilla/fenix/crashes/DummyCrashReporter.kt
 new file mode 100644
-index 000000000..de5b53ff5
+index 0000000000..de5b53ff5a
 --- /dev/null
-+++ b/app/src/main/java/org/mozilla/fenix/crashes/DummyCrashReporter.kt
++++ b/fenix/app/src/main/java/org/mozilla/fenix/crashes/DummyCrashReporter.kt
 @@ -0,0 +1,19 @@
 +package org.mozilla.fenix.crashes
 +
@@ -148,11 +144,23 @@ index 000000000..de5b53ff5
 +    override fun report(crash: Crash.UncaughtExceptionCrash): String? = null
 +}
 \ No newline at end of file
-diff --git a/app/src/main/res/xml/preferences.xml b/app/src/main/res/xml/preferences.xml
-index 5cc4db58d..42e670dbe 100644
---- a/app/src/main/res/xml/preferences.xml
-+++ b/app/src/main/res/xml/preferences.xml
-@@ -130,16 +130,6 @@
+diff --git a/fenix/app/src/main/java/org/mozilla/fenix/settings/SettingsFragment.kt b/fenix/app/src/main/java/org/mozilla/fenix/settings/SettingsFragment.kt
+index bb1e1fd1f9..765524168e 100644
+--- a/fenix/app/src/main/java/org/mozilla/fenix/settings/SettingsFragment.kt
++++ b/fenix/app/src/main/java/org/mozilla/fenix/settings/SettingsFragment.kt
+@@ -491,7 +491,6 @@ class SettingsFragment : PreferenceFragmentCompat() {
+         setupGeckoLogsPreference(requireContext().settings())
+         setupAllowDomesticChinaFxaServerPreference()
+         setupHttpsOnlyPreferences()
+-        setupNotificationPreference()
+         setupSearchPreference()
+         setupHomepagePreference()
+         setupTrackingProtectionPreference()
+diff --git a/fenix/app/src/main/res/xml/preferences.xml b/fenix/app/src/main/res/xml/preferences.xml
+index 2e0366e11b..59e338c53c 100644
+--- a/fenix/app/src/main/res/xml/preferences.xml
++++ b/fenix/app/src/main/res/xml/preferences.xml
+@@ -128,16 +128,6 @@
              app:iconSpaceReserved="false"
              android:title="@string/preferences_delete_browsing_data_on_quit" />
  
@@ -170,5 +178,5 @@ index 5cc4db58d..42e670dbe 100644
  
      <PreferenceCategory
 -- 
-2.37.2
+2.39.2 (Apple Git-143)
 

@@ -1,4 +1,4 @@
-From 009c904816414cbb03b9503f2c45c632b19b352d Mon Sep 17 00:00:00 2001
+From de7ad800d32863c9ad064eb0e1a5525fa712c065 Mon Sep 17 00:00:00 2001
 From: Krzysztof Modras <chrmod@chrmod.net>
 Date: Fri, 25 Feb 2022 15:56:39 +0100
 Subject: Disable Telemetry, Nimbus, Collection, Tracking Protection
@@ -7,70 +7,70 @@ Subject: Disable Telemetry, Nimbus, Collection, Tracking Protection
  .../java/org/mozilla/fenix/utils/Settings.kt  | 35 ++++---------------
  1 file changed, 7 insertions(+), 28 deletions(-)
 
-diff --git a/app/src/main/java/org/mozilla/fenix/utils/Settings.kt b/app/src/main/java/org/mozilla/fenix/utils/Settings.kt
-index 17602393e..49a54d426 100644
---- a/app/src/main/java/org/mozilla/fenix/utils/Settings.kt
-+++ b/app/src/main/java/org/mozilla/fenix/utils/Settings.kt
-@@ -229,10 +229,7 @@ class Settings(private val appContext: Context) : PreferencesHolder {
-         default = false
+diff --git a/fenix/app/src/main/java/org/mozilla/fenix/utils/Settings.kt b/fenix/app/src/main/java/org/mozilla/fenix/utils/Settings.kt
+index a4c60270e1..9e3bfb0ae0 100644
+--- a/fenix/app/src/main/java/org/mozilla/fenix/utils/Settings.kt
++++ b/fenix/app/src/main/java/org/mozilla/fenix/utils/Settings.kt
+@@ -317,10 +317,7 @@ class Settings(private val appContext: Context) : PreferencesHolder {
+         default = false,
      )
  
 -    var showCollectionsPlaceholderOnHome by booleanPreference(
 -        appContext.getPreferenceKey(R.string.pref_key_show_collections_placeholder_home),
--        default = true
+-        default = true,
 -    )
 +    var showCollectionsPlaceholderOnHome = false
  
      val isCrashReportingEnabled: Boolean
          get() = isCrashReportEnabledInBuild &&
-@@ -246,20 +243,11 @@ class Settings(private val appContext: Context) : PreferencesHolder {
-         default = false
+@@ -334,20 +331,11 @@ class Settings(private val appContext: Context) : PreferencesHolder {
+         default = false,
      )
  
--    val isTelemetryEnabled by booleanPreference(
+-    var isTelemetryEnabled by booleanPreference(
 -        appContext.getPreferenceKey(R.string.pref_key_telemetry),
--        default = true
+-        default = true,
 -    )
-+    val isTelemetryEnabled = false
++    var isTelemetryEnabled = false
  
 -    var isMarketingTelemetryEnabled by booleanPreference(
 -        appContext.getPreferenceKey(R.string.pref_key_marketing_telemetry),
--        default = !Config.channel.isMozillaOnline
+-        default = !Config.channel.isMozillaOnline,
 -    )
 +    var isMarketingTelemetryEnabled = false
  
 -    var isExperimentationEnabled by booleanPreference(
 -        appContext.getPreferenceKey(R.string.pref_key_experimentation),
--        default = true
+-        default = true,
 -    )
 +    var isExperimentationEnabled = false
  
      var isOverrideTPPopupsForPerformanceTest = false
  
-@@ -530,20 +518,11 @@ class Settings(private val appContext: Context) : PreferencesHolder {
-         default = false
+@@ -722,20 +710,11 @@ class Settings(private val appContext: Context) : PreferencesHolder {
+         default = false,
      )
  
 -    val useStandardTrackingProtection by booleanPreference(
 -        appContext.getPreferenceKey(R.string.pref_key_tracking_protection_standard_option),
--        true
+-        true,
 -    )
 +    val useStandardTrackingProtection = false
  
 -    val useStrictTrackingProtection by booleanPreference(
 -        appContext.getPreferenceKey(R.string.pref_key_tracking_protection_strict_default),
--        false
+-        false,
 -    )
 +    val useStrictTrackingProtection = false
  
 -    val useCustomTrackingProtection by booleanPreference(
 -        appContext.getPreferenceKey(R.string.pref_key_tracking_protection_custom_option),
--        false
+-        false,
 -    )
 +    val useCustomTrackingProtection = false
  
      @VisibleForTesting(otherwise = PRIVATE)
      fun setStrictETP() {
 -- 
-2.37.2
+2.39.2 (Apple Git-143)
 

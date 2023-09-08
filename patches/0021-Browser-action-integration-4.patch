@@ -1,4 +1,4 @@
-From 261bf3f40d234486e5d1609f29a2777a9b554d5b Mon Sep 17 00:00:00 2001
+From fb855030fb7469ef08bd16800c460cf273ed3836 Mon Sep 17 00:00:00 2001
 From: Sam Macbeth <sammacbeth@users.noreply.github.com>
 Date: Mon, 29 Jun 2020 16:29:21 +0200
 Subject: Browser action integration (#4)
@@ -11,16 +11,16 @@ Subject: Browser action integration (#4)
 ---
  .../mozilla/fenix/browser/BrowserFragment.kt  | 17 +++++++++++++++++
  .../QuickSettingsSheetDialogFragment.kt       |  4 ----
- app/src/main/res/drawable/ic_ghostery.xml     | 19 +++++++++++++++++++
+ .../app/src/main/res/drawable/ic_ghostery.xml | 19 +++++++++++++++++++
  .../fragment_quick_settings_dialog_sheet.xml  | 17 +----------------
  4 files changed, 37 insertions(+), 20 deletions(-)
- create mode 100644 app/src/main/res/drawable/ic_ghostery.xml
+ create mode 100644 fenix/app/src/main/res/drawable/ic_ghostery.xml
 
-diff --git a/app/src/main/java/org/mozilla/fenix/browser/BrowserFragment.kt b/app/src/main/java/org/mozilla/fenix/browser/BrowserFragment.kt
-index 49b11f1ae..23163a29a 100644
---- a/app/src/main/java/org/mozilla/fenix/browser/BrowserFragment.kt
-+++ b/app/src/main/java/org/mozilla/fenix/browser/BrowserFragment.kt
-@@ -72,6 +72,23 @@ class BrowserFragment : BaseBrowserFragment(), UserInteractionHandler {
+diff --git a/fenix/app/src/main/java/org/mozilla/fenix/browser/BrowserFragment.kt b/fenix/app/src/main/java/org/mozilla/fenix/browser/BrowserFragment.kt
+index 2e0f5111dc..2409fdd204 100644
+--- a/fenix/app/src/main/java/org/mozilla/fenix/browser/BrowserFragment.kt
++++ b/fenix/app/src/main/java/org/mozilla/fenix/browser/BrowserFragment.kt
+@@ -90,6 +90,23 @@ class BrowserFragment : BaseBrowserFragment(), UserInteractionHandler {
              )
          }
  
@@ -44,20 +44,20 @@ index 49b11f1ae..23163a29a 100644
          val homeAction = BrowserToolbar.Button(
              imageDrawable = AppCompatResources.getDrawable(
                  context,
-diff --git a/app/src/main/java/org/mozilla/fenix/settings/quicksettings/QuickSettingsSheetDialogFragment.kt b/app/src/main/java/org/mozilla/fenix/settings/quicksettings/QuickSettingsSheetDialogFragment.kt
-index e96ff23c3..f284ff996 100644
---- a/app/src/main/java/org/mozilla/fenix/settings/quicksettings/QuickSettingsSheetDialogFragment.kt
-+++ b/app/src/main/java/org/mozilla/fenix/settings/quicksettings/QuickSettingsSheetDialogFragment.kt
-@@ -114,8 +114,6 @@ class QuickSettingsSheetDialogFragment : FenixDialogFragment() {
+diff --git a/fenix/app/src/main/java/org/mozilla/fenix/settings/quicksettings/QuickSettingsSheetDialogFragment.kt b/fenix/app/src/main/java/org/mozilla/fenix/settings/quicksettings/QuickSettingsSheetDialogFragment.kt
+index 2f6b3b2430..82b8b88910 100644
+--- a/fenix/app/src/main/java/org/mozilla/fenix/settings/quicksettings/QuickSettingsSheetDialogFragment.kt
++++ b/fenix/app/src/main/java/org/mozilla/fenix/settings/quicksettings/QuickSettingsSheetDialogFragment.kt
+@@ -116,8 +116,6 @@ class QuickSettingsSheetDialogFragment : FenixDialogFragment() {
          websiteInfoView = WebsiteInfoView(binding.websiteInfoLayout, interactor = interactor)
          websitePermissionsView =
              WebsitePermissionsView(binding.websitePermissionsLayout, interactor)
--        trackingProtectionView =
--            TrackingProtectionView(binding.trackingProtectionLayout, interactor, context.settings())
+-        protectionsView =
+-            ProtectionsView(binding.trackingProtectionLayout, interactor, context.settings())
          clearSiteDataView = ClearSiteDataView(
              context = context,
              ioScope = viewLifecycleOwner.lifecycleScope + Dispatchers.IO,
-@@ -130,11 +128,9 @@ class QuickSettingsSheetDialogFragment : FenixDialogFragment() {
+@@ -132,11 +130,9 @@ class QuickSettingsSheetDialogFragment : FenixDialogFragment() {
  
      override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
          super.onViewCreated(view, savedInstanceState)
@@ -65,15 +65,15 @@ index e96ff23c3..f284ff996 100644
          consumeFrom(quickSettingsStore) {
              websiteInfoView.update(it.webInfoState)
              websitePermissionsView.update(it.websitePermissionsState)
--            trackingProtectionView.update(it.trackingProtectionState)
+-            protectionsView.update(it.protectionsState)
              clearSiteDataView.update(it.webInfoState)
          }
      }
-diff --git a/app/src/main/res/drawable/ic_ghostery.xml b/app/src/main/res/drawable/ic_ghostery.xml
+diff --git a/fenix/app/src/main/res/drawable/ic_ghostery.xml b/fenix/app/src/main/res/drawable/ic_ghostery.xml
 new file mode 100644
-index 000000000..7770c4093
+index 0000000000..7770c40930
 --- /dev/null
-+++ b/app/src/main/res/drawable/ic_ghostery.xml
++++ b/fenix/app/src/main/res/drawable/ic_ghostery.xml
 @@ -0,0 +1,19 @@
 +<?xml version="1.0" encoding="utf-8"?>
 +<!-- This Source Code Form is subject to the terms of the Mozilla Public
@@ -95,10 +95,10 @@ index 000000000..7770c4093
 +  </group>
 +</vector>
 \ No newline at end of file
-diff --git a/app/src/main/res/layout/fragment_quick_settings_dialog_sheet.xml b/app/src/main/res/layout/fragment_quick_settings_dialog_sheet.xml
-index 008745706..25f811f30 100644
---- a/app/src/main/res/layout/fragment_quick_settings_dialog_sheet.xml
-+++ b/app/src/main/res/layout/fragment_quick_settings_dialog_sheet.xml
+diff --git a/fenix/app/src/main/res/layout/fragment_quick_settings_dialog_sheet.xml b/fenix/app/src/main/res/layout/fragment_quick_settings_dialog_sheet.xml
+index 0087457062..25f811f305 100644
+--- a/fenix/app/src/main/res/layout/fragment_quick_settings_dialog_sheet.xml
++++ b/fenix/app/src/main/res/layout/fragment_quick_settings_dialog_sheet.xml
 @@ -26,7 +26,7 @@
              android:id="@+id/websitePermissionsLayout"
              android:layout_width="match_parent"
@@ -131,5 +131,5 @@ index 008745706..25f811f30 100644
              android:id="@+id/clearSiteDataLayout"
              android:layout_width="match_parent"
 -- 
-2.37.2
+2.39.2 (Apple Git-143)
 

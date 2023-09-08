@@ -1,81 +1,102 @@
-From 636cf5d7b735f3aeb4d23b485aca594034f25a5e Mon Sep 17 00:00:00 2001
+From 25604ee7e62173642316827447c5bae18b117757 Mon Sep 17 00:00:00 2001
 From: Stefano Pacifici <stefano.pacifici@gmail.com>
 Date: Mon, 8 Jun 2020 16:28:41 +0200
-Subject: Ghostery Glow as default search engine
+Subject: Ghostery Private Search as default search engine
 
 ---
- app/src/main/assets/search/list.json           | 11 +++++++++++
- app/src/main/assets/searchplugins/ghostery.xml | 18 ++++++++++++++++++
- .../main/assets/searchplugins/startpage.xml    | 12 ++++++++++++
- .../java/org/mozilla/fenix/components/Core.kt  | 11 ++++++++++-
- 4 files changed, 51 insertions(+), 1 deletion(-)
- create mode 100644 app/src/main/assets/search/list.json
- create mode 100644 app/src/main/assets/searchplugins/ghostery.xml
- create mode 100644 app/src/main/assets/searchplugins/startpage.xml
+ .../search/storage/SearchEngineReader.kt      |  2 ++
+ fenix/app/src/main/assets/search/list.json    | 11 +++++++++++
+ .../src/main/assets/searchplugins/brave.xml   | 19 +++++++++++++++++++
+ .../main/assets/searchplugins/ghostery.xml    | 18 ++++++++++++++++++
+ .../java/org/mozilla/fenix/components/Core.kt | 11 ++++++++++-
+ 5 files changed, 60 insertions(+), 1 deletion(-)
+ create mode 100644 fenix/app/src/main/assets/search/list.json
+ create mode 100644 fenix/app/src/main/assets/searchplugins/brave.xml
+ create mode 100644 fenix/app/src/main/assets/searchplugins/ghostery.xml
 
-diff --git a/app/src/main/assets/search/list.json b/app/src/main/assets/search/list.json
+diff --git a/android-components/components/feature/search/src/main/java/mozilla/components/feature/search/storage/SearchEngineReader.kt b/android-components/components/feature/search/src/main/java/mozilla/components/feature/search/storage/SearchEngineReader.kt
+index 3f623ae701..04218c42b6 100644
+--- a/android-components/components/feature/search/src/main/java/mozilla/components/feature/search/storage/SearchEngineReader.kt
++++ b/android-components/components/feature/search/src/main/java/mozilla/components/feature/search/storage/SearchEngineReader.kt
+@@ -31,6 +31,8 @@ internal val GENERAL_SEARCH_ENGINE_IDS = setOf(
+     "ddg",
+     "bing",
+     "baidu",
++    "brave",
++    "ghostery",
+     "ecosia",
+     "qwant",
+     "yahoo-jp",
+diff --git a/fenix/app/src/main/assets/search/list.json b/fenix/app/src/main/assets/search/list.json
 new file mode 100644
-index 000000000..bcf51fb42
+index 0000000000..d224a75269
 --- /dev/null
-+++ b/app/src/main/assets/search/list.json
++++ b/fenix/app/src/main/assets/search/list.json
 @@ -0,0 +1,11 @@
 +{
 +  "default": {
-+    "searchDefault": "Ghostery Glow",
-+    "searchOrder": ["Ghostery Glow", "Bing", "DuckDuckGo", "Startpage", "Google"],
++    "searchDefault": "Ghostery Private Search",
++    "searchOrder": ["Ghostery Private Search", "Brave", "Bing", "DuckDuckGo", "Google"],
 +    "visibleDefaultEngines": [
-+      "ghostery", "google-b-m", "bing", "ddg", "startpage"
++      "ghostery", "brave", "google-b-m", "bing", "ddg"
 +    ]
 +  },
 +  "regionOverrides": {},
 +  "locales": {}
 +}
-diff --git a/app/src/main/assets/searchplugins/ghostery.xml b/app/src/main/assets/searchplugins/ghostery.xml
+diff --git a/fenix/app/src/main/assets/searchplugins/brave.xml b/fenix/app/src/main/assets/searchplugins/brave.xml
 new file mode 100644
-index 000000000..80d6c067f
+index 0000000000..2c594b1a7b
 --- /dev/null
-+++ b/app/src/main/assets/searchplugins/ghostery.xml
++++ b/fenix/app/src/main/assets/searchplugins/brave.xml
+@@ -0,0 +1,19 @@
++<?xml version="1.0" encoding="utf-8"?>
++<!-- This Source Code Form is subject to the terms of the Mozilla Public
++   - License, v. 2.0. If a copy of the MPL was not distributed with this
++   - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
++<SearchPlugin xmlns="http://www.mozilla.org/2006/browser/search/">
++    <ShortName>Brave</ShortName>
++    <Description>Brave Search: private, independent, open</Description>
++    <LongName>Brave Search</LongName>
++    <InputEncoding>UTF-8</InputEncoding>
++    <Image width="32" height="32">data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAAnFBMVEVHcEwXBgA3DQl/HBF5HBLeMCmwKBLXMyC6KQ3dMBLbMxjuOijgLgviKwHwOiryOyXwMAv5PST0LwnuLQD7QiXwLQD1LQD7LwjxNQr4Myf5OR/yPxf4OS3/Pyb/QivxTCj+SjD/VT7xXT35alL6d2L8iHb4loX5o5f7sKX0w73/zMb00s//1M754uH76+z18PT39ff/9fT8+vz///96nB6rAAAAFXRSTlMAAw0ZJDRIWGV2kKSuwcLT1e3v+/wkomRQAAABoklEQVR42nWT2WKCMBBFi6DgUpUlasUgCGGPIPz/v3WSkECV3hce7snMnUz4mkhT+pqVfnQGHfVZ/3BVOizeTG1pGvvbRPuludQm/vZ2+/nQVhv9IMDX6xmEk8Rj3ytyXXcniTX4OHq+6rzsurYpsuJJ7wi0HoAVAEHdcwHAVV0AWA3Awg5w1r9oTQVQFRVtMoQcOYsZBHHflyTEUd61+R1d4qJpHgiZKqNo8Moj0rXEzyhvgtBOU0ApEuSsQipSFAxQLSLKgaTu2uouUvoIWUMGA6bgRIlfEPKSg8/mdA05xYHfQ9+T8Nm11I+Fj45yCm0DAI4hZYqj8JRQNgJoo+7aZEDUsyaRxxo0/CLNcdMeACmPmREeMQXf1cdt7iWQ43Mqge/JvjcAhHVPSUiIHxcwo4wg14UDIOIwgzGfqf+4ILkqtS4MCoZlUfDVqsYQbJCSAQXUHyPIN4OFsq7NTuCOr0Xetj0QhJwE4Bh/n7XlDcRZAK6lvT38lT0FnJX0x9/O2I3Azpj7+xaWLQDH4hN+CoowQB2fL6KO/1NE19+O/wIwPEoAZi8ATQAAAABJRU5ErkJggg==</Image>
++    <Url type="text/html" method="get" template="https://search.brave.com/search">
++      <Param name="q" value="{searchTerms}"/>
++      <Param name="client" value="ghostery-private-browser-android"/>
++    </Url>
++    <Url type="application/x-suggestions+json" method="GET" template="https://search.brave.com/api/suggest">
++      <Param name="q" value="{searchTerms}"/>
++      <Param name="client" value="ghostery-private-browser-android"/>
++    </Url>
++</SearchPlugin>
+diff --git a/fenix/app/src/main/assets/searchplugins/ghostery.xml b/fenix/app/src/main/assets/searchplugins/ghostery.xml
+new file mode 100644
+index 0000000000..815963c75a
+--- /dev/null
++++ b/fenix/app/src/main/assets/searchplugins/ghostery.xml
 @@ -0,0 +1,18 @@
 +<?xml version="1.0" encoding="utf-8"?>
 +<!-- This Source Code Form is subject to the terms of the Mozilla Public
 +   - License, v. 2.0. If a copy of the MPL was not distributed with this
 +   - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
 +<SearchPlugin xmlns="http://www.mozilla.org/2006/browser/search/">
-+    <ShortName>Ghostery Glow</ShortName>
++    <ShortName>Ghostery Private Search</ShortName>
 +    <Description>Private Search Engine</Description>
 +    <LongName>Ghostery Search</LongName>
 +    <Image width="48" height="48">data:image/png;base64,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</Image>
-+    <Url type="text/html" method="get" template="https://glowstery.com/search">
++    <Url type="text/html" method="get" template="https://ghosterysearch.com/search">
 +      <Param name="q" value="{searchTerms}"/>
-+      <Param name="client" value="ghostery-dawn-android"/>
++      <Param name="client" value="ghostery-private-browser-android"/>
 +    </Url>
-+    <Url type="application/x-suggestions+json" method="GET" template="https://glowstery.com/suggest">
++    <Url type="application/x-suggestions+json" method="GET" template="https://ghosterysearch.com/suggest">
 +      <Param name="q" value="{searchTerms}"/>
-+      <Param name="client" value="ghostery-dawn-android"/>
++      <Param name="client" value="ghostery-private-browser-android"/>
 +    </Url>
 +</SearchPlugin>
-diff --git a/app/src/main/assets/searchplugins/startpage.xml b/app/src/main/assets/searchplugins/startpage.xml
-new file mode 100644
-index 000000000..52eadfe4f
---- /dev/null
-+++ b/app/src/main/assets/searchplugins/startpage.xml
-@@ -0,0 +1,12 @@
-+<?xml version="1.0" encoding="UTF-8"?>
-+<OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/">
-+<ShortName>Startpage</ShortName>
-+<Description>Startpage Search</Description>
-+<InputEncoding>UTF-8</InputEncoding>
-+<Image width="32" height="32">data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAAA7EAAAOxAGVKw4bAAAEUUlEQVRYhb2XW2xUZRDHf7NsLb1YESq0oAlGrBBqLaXFIikmggGLYCEbhWCsEhOCiZcQIMjFByKoaYmx8mQkkReBBLWGhAdQQ3igtRJBrImIFUq1BdtS6HV7trvjw+nuuezZbdHaSU72fDPfzPef78xtxTDCeSIcUtUFIvgYB1IVRKgHKsUwwnUiWjoeB8cDoV4MI6x2pgiojtdaIxIKDQ0vBXBgcfGEcBhaWuHvDjBCkJEO9+dC9mRFZGR9r3e/7UKIJ5PX1y+cPC3UnYOefnEdoczIFZaWKSWFgs+ncfrJ3uM+gZuamuHg58LtbkvVDsHu0+xZsGGdkpGezKKTkgJoaoYDBwXDGL3B6bmweaOSNnGUAKwYAPu36esX3v1QuNUjpseqIPDADJgzC9LSlI5O4cIv5l5TLihQlK+8ul4R8YoJsO5R7TEQFZh06ox5eJSbmgovBZR5j2IzrKxZIRyphYYLlpXzjXD5D8h7yO1vfBx4Fp5wWDj7gxP3K2uVooJ4r9ImKpXPK/mPgGjUR+HM985gTUQ+VQEEVetpaYXeXhBVRJVZM5WCOcTk7v0+HwSeVROBms+l3xPvt6/9UY/seXyjXYZdMb2Y/XAEEecVisvBqdlC6Xy4ecviGSFIvSvevl3fFYQmNV0VrlyD+6bAPVmQPRkyM5Jm67+mEevA6Em51tKGDnuZ4vczPXfaiFp+NyN6NeFwmM6bt2hra2cgOMjjJQWAxNX2KF1svERg/Vux9fx5czn82f64fW59f3yuQnd3H0+Vv8zt7t4Y79An7/FEaaENpPVNh4YivL//U4eNhQsKPeqA3UlT3zMNs7IyWLSwyMHbvP0DLjZetnFM48GgwbZd1Zz7sTHGnjDBx+pVSz0Pd+t7BiHA1WutrAq8xkBwMLbfnzKB8mWLKVtUTNbdmVxuaubosRO0/Hnd0SQqVi6hau+WEQAQBRDWRP36+Inv2LKjCo0M5zhWyY39Rp2xpWXVvq08t2JJnD3P9UjzQO3xb9i1p4bBQVtHUixAHgDunZRF7dEDTM+darPpPQ/YYsB7HqhYuYTaIx/zZFnJcDGxwKGmWk5OtsNMV1c3b27dh2GEHLa83u+oDrT81cbZuvM0t7QSCg2RPWUShY/NoXhePrv3fMSxr046HKx8sYKd2zbinCCcNGaFyDAM1m/Yyk8/X3Lwa6p3sPzpxYkBJJoHEs+IYO/ndrp+o5M1616nvaMrxsvMSOfLwzU8OHOGp76rDiSa4ew8TSjPmTaFmuqdpKRYBba3r583tuxlYGDQU3/M/4gUF81l9/ZNDny//naFL74+5bnfcx5wP8n6udd6baCcFwLPWKcoBIODo58HLLJ4ifq5tXbK33l7E909vXx7up7ionwCq5c5ekPSeWAsKRJRfL7EaehXJQLyv/0pFRHP9m3KzCxocDLjr9ctT37gnehLvRjGUB5wCCh1CfFOxf8uVyUiQgNQ+Q/LESVT7byGNwAAAABJRU5ErkJggg==</Image>
-+<Url type="text/html" template="https://www.startpage.com/sp/search">
-+  <Param name="query" value="{searchTerms}"/>
-+  <Param name="segment" value="ghostery-dawn-android"/>
-+</Url>
-+<Url type="application/x-suggestions+json" rel="suggestions" template="https://www.startpage.com/suggestions?q={searchTerms}&amp;format=opensearch"/>
-+</OpenSearchDescription>
-diff --git a/app/src/main/java/org/mozilla/fenix/components/Core.kt b/app/src/main/java/org/mozilla/fenix/components/Core.kt
-index 098da5015..c235011f9 100644
---- a/app/src/main/java/org/mozilla/fenix/components/Core.kt
-+++ b/app/src/main/java/org/mozilla/fenix/components/Core.kt
+diff --git a/fenix/app/src/main/java/org/mozilla/fenix/components/Core.kt b/fenix/app/src/main/java/org/mozilla/fenix/components/Core.kt
+index b620c393fe..027a0418b0 100644
+--- a/fenix/app/src/main/java/org/mozilla/fenix/components/Core.kt
++++ b/fenix/app/src/main/java/org/mozilla/fenix/components/Core.kt
 @@ -8,6 +8,7 @@ import android.content.Context
  import android.content.res.Configuration
  import android.os.Build
@@ -84,7 +105,7 @@ index 098da5015..c235011f9 100644
  import androidx.appcompat.content.res.AppCompatResources.getDrawable
  import androidx.core.content.ContextCompat
  import androidx.core.graphics.drawable.toBitmap
-@@ -150,6 +151,14 @@ class Core(
+@@ -161,6 +162,14 @@ class Core(
              if (Config.channel.isNightlyOrDebug || Config.channel.isBeta) {
                  WebCompatReporterFeature.install(it, "fenix")
              }
@@ -99,15 +120,15 @@ index 098da5015..c235011f9 100644
          }
      }
  
-@@ -238,7 +247,7 @@ class Core(
+@@ -258,7 +267,7 @@ class Core(
                  RegionMiddleware(context, locationService),
                  SearchMiddleware(
                      context,
 -                    additionalBundledSearchEngineIds = listOf("reddit", "youtube"),
-+                    additionalBundledSearchEngineIds = listOf("ghostery", "reddit", "youtube"),
-                     migration = SearchMigration(context)
++                    additionalBundledSearchEngineIds = listOf("ghostery", "brave", "reddit", "youtube"),
+                     migration = SearchMigration(context),
                  ),
-                 RecordingDevicesMiddleware(context),
+                 RecordingDevicesMiddleware(context, context.components.notificationsDelegate),
 -- 
-2.37.2
+2.39.2 (Apple Git-143)
 

@@ -1,28 +1,38 @@
-From 43ea46cb380263c05c91b6f625f54c7c09d5a44a Mon Sep 17 00:00:00 2001
+From 4fd757c827acb0c688c3483f065437c12a52f4a1 Mon Sep 17 00:00:00 2001
 From: Stefano Pacifici <stefano.pacifici@gmail.com>
 Date: Tue, 30 Jun 2020 17:59:32 +0200
 Subject: Ghostery Release fixes
 
 ---
- app/src/main/java/org/mozilla/fenix/Config.kt | 5 ++++-
- nimbus.fml.yaml                               | 1 +
- 2 files changed, 5 insertions(+), 1 deletion(-)
+ fenix/app/nimbus.fml.yaml                           | 1 +
+ fenix/app/src/main/java/org/mozilla/fenix/Config.kt | 3 +++
+ 2 files changed, 4 insertions(+)
 
-diff --git a/app/src/main/java/org/mozilla/fenix/Config.kt b/app/src/main/java/org/mozilla/fenix/Config.kt
-index 114eab812..61467647c 100644
---- a/app/src/main/java/org/mozilla/fenix/Config.kt
-+++ b/app/src/main/java/org/mozilla/fenix/Config.kt
-@@ -8,7 +8,8 @@ enum class ReleaseChannel {
-     Debug,
+diff --git a/fenix/app/nimbus.fml.yaml b/fenix/app/nimbus.fml.yaml
+index 43fa52d7bb..66bb5e91f2 100644
+--- a/fenix/app/nimbus.fml.yaml
++++ b/fenix/app/nimbus.fml.yaml
+@@ -9,6 +9,7 @@ channels:
+   - beta
+   - nightly
+   - developer
++  - fenixGhostery
+ includes:
+   - onboarding.fml.yaml
+ import:
+diff --git a/fenix/app/src/main/java/org/mozilla/fenix/Config.kt b/fenix/app/src/main/java/org/mozilla/fenix/Config.kt
+index 534cf2d804..eeb76107d1 100644
+--- a/fenix/app/src/main/java/org/mozilla/fenix/Config.kt
++++ b/fenix/app/src/main/java/org/mozilla/fenix/Config.kt
+@@ -9,6 +9,7 @@ enum class ReleaseChannel {
      Nightly,
      Beta,
--    Release;
-+    Release,
-+    Ghostery;
+     Release,
++    Ghostery,
+     ;
  
      val isReleased: Boolean
-         get() = when (this) {
-@@ -32,6 +33,7 @@ enum class ReleaseChannel {
+@@ -33,6 +34,7 @@ enum class ReleaseChannel {
      val isRelease: Boolean
          get() = when (this) {
              Release -> true
@@ -30,26 +40,14 @@ index 114eab812..61467647c 100644
              else -> false
          }
  
-@@ -55,6 +57,7 @@ object Config {
-         "nightly" -> ReleaseChannel.Nightly
+@@ -56,6 +58,7 @@ object Config {
+         "nightly", "benchmark" -> ReleaseChannel.Nightly
          "beta" -> ReleaseChannel.Beta
          "release" -> ReleaseChannel.Release
 +        "ghostery" -> ReleaseChannel.Ghostery
          else -> {
              throw IllegalStateException("Unknown build type: ${BuildConfig.BUILD_TYPE}")
          }
-diff --git a/nimbus.fml.yaml b/nimbus.fml.yaml
-index e187a8097..ec5143e4f 100644
---- a/nimbus.fml.yaml
-+++ b/nimbus.fml.yaml
-@@ -4,6 +4,7 @@ channels:
-   - beta
-   - nightly
-   - developer
-+  - ghostery
- features:
-   homescreen:
-     description: The homescreen that the user goes to when they press home or new tab.
 -- 
-2.37.2
+2.39.2 (Apple Git-143)
 

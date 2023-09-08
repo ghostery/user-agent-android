@@ -1,18 +1,18 @@
-From b7b1781f73d91842385c1400208250acce7a9814 Mon Sep 17 00:00:00 2001
+From 01910bad6c7e9b94c49fbb44ea990f8c1b9afc60 Mon Sep 17 00:00:00 2001
 From: Stefano Pacifici <stefano.pacifici@gmail.com>
 Date: Mon, 15 Jun 2020 10:40:37 +0200
 Subject: Replacing the status logo
 
 ---
- app/src/main/res/drawable/ic_status_logo.xml | 20 +++---
- ghostery_res/simplified_ghostery.svg         | 69 ++++++++++++++++++++
+ .../src/main/res/drawable/ic_status_logo.xml  | 20 +++---
+ fenix/ghostery_res/simplified_ghostery.svg    | 69 +++++++++++++++++++
  2 files changed, 79 insertions(+), 10 deletions(-)
- create mode 100644 ghostery_res/simplified_ghostery.svg
+ create mode 100644 fenix/ghostery_res/simplified_ghostery.svg
 
-diff --git a/app/src/main/res/drawable/ic_status_logo.xml b/app/src/main/res/drawable/ic_status_logo.xml
-index 7c8de0a09..baec060b8 100644
---- a/app/src/main/res/drawable/ic_status_logo.xml
-+++ b/app/src/main/res/drawable/ic_status_logo.xml
+diff --git a/fenix/app/src/main/res/drawable/ic_status_logo.xml b/fenix/app/src/main/res/drawable/ic_status_logo.xml
+index 7c8de0a09b..baec060b8b 100644
+--- a/fenix/app/src/main/res/drawable/ic_status_logo.xml
++++ b/fenix/app/src/main/res/drawable/ic_status_logo.xml
 @@ -1,12 +1,12 @@
 -<?xml version="1.0" encoding="utf-8"?>
 -<!-- This Source Code Form is subject to the terms of the Mozilla Public
@@ -36,11 +36,11 @@ index 7c8de0a09..baec060b8 100644
 +      android:strokeColor="#00000000"
 +      android:fillType="evenOdd"/>
  </vector>
-diff --git a/ghostery_res/simplified_ghostery.svg b/ghostery_res/simplified_ghostery.svg
+diff --git a/fenix/ghostery_res/simplified_ghostery.svg b/fenix/ghostery_res/simplified_ghostery.svg
 new file mode 100644
-index 000000000..3eefd4af1
+index 0000000000..3eefd4af11
 --- /dev/null
-+++ b/ghostery_res/simplified_ghostery.svg
++++ b/fenix/ghostery_res/simplified_ghostery.svg
 @@ -0,0 +1,69 @@
 +<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 +<svg
@@ -112,5 +112,5 @@ index 000000000..3eefd4af1
 +  </g>
 +</svg>
 -- 
-2.37.2
+2.39.2 (Apple Git-143)
 

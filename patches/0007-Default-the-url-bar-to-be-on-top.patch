@@ -1,25 +1,25 @@
-From 1f150b0738e020efbab3abb220c489bd51a4689b Mon Sep 17 00:00:00 2001
+From fcff2e456d2d26fe959fa2a943dfcc8f04974827 Mon Sep 17 00:00:00 2001
 From: Stefano Pacifici <stefano.pacifici@gmail.com>
 Date: Mon, 8 Jun 2020 15:07:04 +0200
 Subject: Default the url bar to be on top
 
 ---
- app/src/main/java/org/mozilla/fenix/utils/Settings.kt | 2 +-
+ fenix/app/src/main/java/org/mozilla/fenix/utils/Settings.kt | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/app/src/main/java/org/mozilla/fenix/utils/Settings.kt b/app/src/main/java/org/mozilla/fenix/utils/Settings.kt
-index aabf35e10..b6e258d59 100644
---- a/app/src/main/java/org/mozilla/fenix/utils/Settings.kt
-+++ b/app/src/main/java/org/mozilla/fenix/utils/Settings.kt
-@@ -677,7 +677,7 @@ class Settings(private val appContext: Context) : PreferencesHolder {
-     var shouldUseBottomToolbar by booleanPreference(
+diff --git a/fenix/app/src/main/java/org/mozilla/fenix/utils/Settings.kt b/fenix/app/src/main/java/org/mozilla/fenix/utils/Settings.kt
+index a1d6b70fd2..dac0e86eb5 100644
+--- a/fenix/app/src/main/java/org/mozilla/fenix/utils/Settings.kt
++++ b/fenix/app/src/main/java/org/mozilla/fenix/utils/Settings.kt
+@@ -888,7 +888,7 @@ class Settings(private val appContext: Context) : PreferencesHolder {
+     var shouldUseBottomToolbar by lazyFeatureFlagPreference(
          appContext.getPreferenceKey(R.string.pref_key_toolbar_bottom),
-         // Default accessibility users to top toolbar
--        default = !touchExplorationIsEnabled && !switchServiceIsEnabled
-+        default = false // !touchExplorationIsEnabled && !switchServiceIsEnabled
+         featureFlag = true,
+-        default = { shouldDefaultToBottomToolbar() },
++        default = { false },
      )
  
      val toolbarPosition: ToolbarPosition
 -- 
-2.37.2
+2.39.2 (Apple Git-143)
 

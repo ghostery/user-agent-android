@@ -4,6 +4,8 @@ node('browser-builder') {
         sh 'rm -rf browser'
         sh 'git submodule init'
         sh 'git submodule update --force'
+        sh './reset.sh'
+        sh 'rm -rf browser/fenix/app/build'
         sh './import.sh'
     }
 
@@ -12,7 +14,7 @@ node('browser-builder') {
     }
 
     image.inside("--env GRADLE_USER_HOME=${pwd()}/gradle_home") {
-        dir('browser') {
+        dir('browser/fenix') {
             stage('bootstrap') {
                 sh './bootstrap.sh'
             }
@@ -31,7 +33,7 @@ node('browser-builder') {
             }
         }
         stage('archive') {
-            archiveArtifacts artifacts: 'browser/app/build/outputs/apk/**/*.apk'
+            archiveArtifacts artifacts: 'browser/fenix/app/build/outputs/apk/**/*.apk'
         }
     }
 }

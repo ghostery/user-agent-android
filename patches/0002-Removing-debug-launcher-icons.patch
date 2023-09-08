@@ -1,13 +1,13 @@
-From ce45b42a6f89a7f2d294248e19311e223112c678 Mon Sep 17 00:00:00 2001
+From 144289b219d572c58837fa6eea2c07d8b1bcca51 Mon Sep 17 00:00:00 2001
 From: Stefano Pacifici <stefano.pacifici@gmail.com>
 Date: Fri, 5 Jun 2020 14:36:17 +0200
 Subject: Removing debug launcher icons
 
 ---
  .../res/drawable/ic_launcher_foreground.xml   |  83 ------------------
- app/src/debug/res/mipmap-hdpi/ic_launcher.png | Bin 3568 -> 0 bytes
+ .../src/debug/res/mipmap-hdpi/ic_launcher.png | Bin 3568 -> 0 bytes
  .../res/mipmap-hdpi/ic_launcher_round.png     | Bin 5056 -> 0 bytes
- app/src/debug/res/mipmap-mdpi/ic_launcher.png | Bin 2389 -> 0 bytes
+ .../src/debug/res/mipmap-mdpi/ic_launcher.png | Bin 2389 -> 0 bytes
  .../res/mipmap-mdpi/ic_launcher_round.png     | Bin 3021 -> 0 bytes
  .../debug/res/mipmap-xhdpi/ic_launcher.png    | Bin 5316 -> 0 bytes
  .../res/mipmap-xhdpi/ic_launcher_round.png    | Bin 7356 -> 0 bytes
@@ -17,23 +17,23 @@ Subject: Removing debug launcher icons
  .../res/mipmap-xxxhdpi/ic_launcher_round.png  | Bin 17007 -> 0 bytes
  .../ic_launcher_private_foreground.xml        |  18 ----
  12 files changed, 101 deletions(-)
- delete mode 100644 app/src/debug/res/drawable/ic_launcher_foreground.xml
- delete mode 100644 app/src/debug/res/mipmap-hdpi/ic_launcher.png
- delete mode 100644 app/src/debug/res/mipmap-hdpi/ic_launcher_round.png
- delete mode 100644 app/src/debug/res/mipmap-mdpi/ic_launcher.png
- delete mode 100644 app/src/debug/res/mipmap-mdpi/ic_launcher_round.png
- delete mode 100644 app/src/debug/res/mipmap-xhdpi/ic_launcher.png
- delete mode 100644 app/src/debug/res/mipmap-xhdpi/ic_launcher_round.png
- delete mode 100644 app/src/debug/res/mipmap-xxhdpi/ic_launcher.png
- delete mode 100644 app/src/debug/res/mipmap-xxhdpi/ic_launcher_round.png
- delete mode 100644 app/src/debug/res/mipmap-xxxhdpi/ic_launcher.png
- delete mode 100644 app/src/debug/res/mipmap-xxxhdpi/ic_launcher_round.png
- delete mode 100644 app/src/main/res/drawable-v26/ic_launcher_private_foreground.xml
+ delete mode 100644 fenix/app/src/debug/res/drawable/ic_launcher_foreground.xml
+ delete mode 100644 fenix/app/src/debug/res/mipmap-hdpi/ic_launcher.png
+ delete mode 100644 fenix/app/src/debug/res/mipmap-hdpi/ic_launcher_round.png
+ delete mode 100644 fenix/app/src/debug/res/mipmap-mdpi/ic_launcher.png
+ delete mode 100644 fenix/app/src/debug/res/mipmap-mdpi/ic_launcher_round.png
+ delete mode 100644 fenix/app/src/debug/res/mipmap-xhdpi/ic_launcher.png
+ delete mode 100644 fenix/app/src/debug/res/mipmap-xhdpi/ic_launcher_round.png
+ delete mode 100644 fenix/app/src/debug/res/mipmap-xxhdpi/ic_launcher.png
+ delete mode 100644 fenix/app/src/debug/res/mipmap-xxhdpi/ic_launcher_round.png
+ delete mode 100644 fenix/app/src/debug/res/mipmap-xxxhdpi/ic_launcher.png
+ delete mode 100644 fenix/app/src/debug/res/mipmap-xxxhdpi/ic_launcher_round.png
+ delete mode 100644 fenix/app/src/main/res/drawable-v26/ic_launcher_private_foreground.xml
 
-diff --git a/app/src/debug/res/drawable/ic_launcher_foreground.xml b/app/src/debug/res/drawable/ic_launcher_foreground.xml
+diff --git a/fenix/app/src/debug/res/drawable/ic_launcher_foreground.xml b/fenix/app/src/debug/res/drawable/ic_launcher_foreground.xml
 deleted file mode 100644
-index 844e479ef..000000000
---- a/app/src/debug/res/drawable/ic_launcher_foreground.xml
+index 844e479ef4..0000000000
+--- a/fenix/app/src/debug/res/drawable/ic_launcher_foreground.xml
 +++ /dev/null
 @@ -1,83 +0,0 @@
 -<?xml version="1.0" encoding="utf-8"?>
@@ -119,7 +119,7 @@ index 844e479ef..000000000
 -    <path android:pathData="M92.3,75.7c0,0.6 -0.4,1 -1,1a1,1 0,0 1,-1 -1c0,-0.5 0.5,-1 1,-1 0.6,0 1,0.5 1,1zM117.6,75.4c0,0.6 -0.5,1 -1,1a1,1 0,0 1,-1 -1.1c0,-0.5 0.5,-1 1,-1a1,1 0,0 1,1 1.1z"
 -          android:fillColor="#fff"/>
 -</vector>
-diff --git a/app/src/debug/res/mipmap-hdpi/ic_launcher.png b/app/src/debug/res/mipmap-hdpi/ic_launcher.png
+diff --git a/fenix/app/src/debug/res/mipmap-hdpi/ic_launcher.png b/fenix/app/src/debug/res/mipmap-hdpi/ic_launcher.png
 deleted file mode 100644
 index 873b31cf5a66711a0c6f04630f750966ae740e3d..0000000000000000000000000000000000000000
 GIT binary patch
@@ -197,7 +197,7 @@ z7sILgWmKeUh0u{iktnaF&gQ=oS+bM~OZRG3YcA+i>psw`%C6{C<?l}|;W6{rg$_a&
 zp_50q<T>;NO~L1Qinj|`bSxH@^eHYDuP*WYXKt|m509DA(W%i-Kb;sG85tipl||?v
 qbP+nyBs4`x$aI@-(`~v<k@o+tKosn;jGWm30000<MNUMnLSTaL->xA5
 
-diff --git a/app/src/debug/res/mipmap-hdpi/ic_launcher_round.png b/app/src/debug/res/mipmap-hdpi/ic_launcher_round.png
+diff --git a/fenix/app/src/debug/res/mipmap-hdpi/ic_launcher_round.png b/fenix/app/src/debug/res/mipmap-hdpi/ic_launcher_round.png
 deleted file mode 100644
 index 1536d6f1b02dc52abfb42bda6855e77c845ae510..0000000000000000000000000000000000000000
 GIT binary patch
@@ -304,7 +304,7 @@ zoK;m^Ts)1{Bu?up9dis?-+Yn$Eyws=qok3vl1Itwma?QwDSL!l_dW-!M80hqlc?1;
 zD^O_%;84JMSw2Nx<(Na#NLtAwd8G^~3zOheq&Pa2RSbDp0DqZC{+46PIn_jVxc>zo
 We*VS|Q5IwX0000<MNUMnLSTZ_iKK`C
 
-diff --git a/app/src/debug/res/mipmap-mdpi/ic_launcher.png b/app/src/debug/res/mipmap-mdpi/ic_launcher.png
+diff --git a/fenix/app/src/debug/res/mipmap-mdpi/ic_launcher.png b/fenix/app/src/debug/res/mipmap-mdpi/ic_launcher.png
 deleted file mode 100644
 index 9cea9ac22fcf29051a5de114bcd9daaa31f6eb50..0000000000000000000000000000000000000000
 GIT binary patch
@@ -360,7 +360,7 @@ z1pi0%zp16~&m6rx{^4tY&m5w`F{=x7HYeAtvmGbFG75aZS||?>0$1z3zeoY~A`V#a
 zsSTJcF9}-$*caBr*9jKUPrp^%u~D#$QYX&q9J!D?)aU*SMyu)o)@W6N00000NkvXX
 Hu0mjfEdWXJ
 
-diff --git a/app/src/debug/res/mipmap-mdpi/ic_launcher_round.png b/app/src/debug/res/mipmap-mdpi/ic_launcher_round.png
+diff --git a/fenix/app/src/debug/res/mipmap-mdpi/ic_launcher_round.png b/fenix/app/src/debug/res/mipmap-mdpi/ic_launcher_round.png
 deleted file mode 100644
 index f7e6606ce79478addc07998b4a06b1e2ff8101c1..0000000000000000000000000000000000000000
 GIT binary patch
@@ -428,7 +428,7 @@ z#MfLgYU{tIeEyDw+uX;`Sci3a42{(}Z47kUyd(cJ!4n5Nfy9vL$)hQOfg`g+LR5t;
 z+~z)h=F|ywj`4T@kHj6k6kI7dZ=Jd8iq5?xK`h*M_W838dz;7fMV|i;_&lrki*mg5
 P00000NkvXXu0mjfOnKCM
 
-diff --git a/app/src/debug/res/mipmap-xhdpi/ic_launcher.png b/app/src/debug/res/mipmap-xhdpi/ic_launcher.png
+diff --git a/fenix/app/src/debug/res/mipmap-xhdpi/ic_launcher.png b/fenix/app/src/debug/res/mipmap-xhdpi/ic_launcher.png
 deleted file mode 100644
 index 2850da3e92c8c8075b76e50c4c8001ee89402439..0000000000000000000000000000000000000000
 GIT binary patch
@@ -540,7 +540,7 @@ zs1lqo%s!6hOPncO!WmJ~6rC1DQ3fKiFzk$+n;dqAMQ|dx5ghrrQoi_9jbua<#U^os
 z=?iIL1|#z(MTX!&a3MGm+)O|6l@~(gvvZL*IU;;qgi)x3N~nZNsDw(Wgi5H)u>2pB
 We)O9@RvWDV0000<MNUMnLSTYXd>p?3
 
-diff --git a/app/src/debug/res/mipmap-xhdpi/ic_launcher_round.png b/app/src/debug/res/mipmap-xhdpi/ic_launcher_round.png
+diff --git a/fenix/app/src/debug/res/mipmap-xhdpi/ic_launcher_round.png b/fenix/app/src/debug/res/mipmap-xhdpi/ic_launcher_round.png
 deleted file mode 100644
 index e75172b17deba2c2676910d2bce5f1a58675def9..0000000000000000000000000000000000000000
 GIT binary patch
@@ -691,7 +691,7 @@ znq##M+KSRPKJbN4d^gYW1E&x}m2>S%16e`|g{-}y2OS|1rL2Skilu59?-RODgkw0C
 zHfW1BwQall8rm}Og9XVDvlKXwVYst}GIHT-K&@v5e8)cQtH)ThF$j3a3xW+*8>TkA
 iw$=Jv_tWEg`F0udKaC&rpUK<+0000<MNUMnLSTYhpag3G
 
-diff --git a/app/src/debug/res/mipmap-xxhdpi/ic_launcher.png b/app/src/debug/res/mipmap-xxhdpi/ic_launcher.png
+diff --git a/fenix/app/src/debug/res/mipmap-xxhdpi/ic_launcher.png b/fenix/app/src/debug/res/mipmap-xxhdpi/ic_launcher.png
 deleted file mode 100644
 index 0b52a7603267598577230041a5a15f1f4a744519..0000000000000000000000000000000000000000
 GIT binary patch
@@ -866,7 +866,7 @@ zf*OYQb)okung=<cgJpK&vZI8wczz=y9YlDzEGU2yC^NQH6lJEwF0vrWj`ZJ-M?yqI
 z2x!0n77rU`Vp35=nFzZu*bRpRzO@er768CN5WxI*|D6lBLE%b53QcYvD{fAHW2^`O
 c0000_E|boijCe{?KL7v#07*qoM6N<$f|KPZ-T(jq
 
-diff --git a/app/src/debug/res/mipmap-xxhdpi/ic_launcher_round.png b/app/src/debug/res/mipmap-xxhdpi/ic_launcher_round.png
+diff --git a/fenix/app/src/debug/res/mipmap-xxhdpi/ic_launcher_round.png b/fenix/app/src/debug/res/mipmap-xxhdpi/ic_launcher_round.png
 deleted file mode 100644
 index 766d720d7e68bc735ccde5d732d2cc994383cb2b..0000000000000000000000000000000000000000
 GIT binary patch
@@ -1103,7 +1103,7 @@ zbGI}}vwF#N9fM|IacU8>QVARiu{=yIUKX@Il0h{eKlAchk3tlTW#iZu&Sl`-*ELDA
 zb_k`C3TB`(n5YsKTFb>u`P|HVj0#ayvNQ?PAf!^sRc+U)cJXU?e*=@{zvL8yUAEB0
 QjsO4v07*qoM6N<$f&esRi2wiq
 
-diff --git a/app/src/debug/res/mipmap-xxxhdpi/ic_launcher.png b/app/src/debug/res/mipmap-xxxhdpi/ic_launcher.png
+diff --git a/fenix/app/src/debug/res/mipmap-xxxhdpi/ic_launcher.png b/fenix/app/src/debug/res/mipmap-xxxhdpi/ic_launcher.png
 deleted file mode 100644
 index 2f0901633b475b11769b47e6470aab0662984110..0000000000000000000000000000000000000000
 GIT binary patch
@@ -1344,7 +1344,7 @@ z@Yq{fzOC#c+pSfS0{^UlK}ib8fufX_=RR`9`Kx|rB1qj4TncXcBE2?zvl0eg8y=ez
 zuGAHO^5l2E5R%9-Fi7%Y3W)DmQOs@_{C|6JEC2ui05HhkdJuan0000000000z5p3d
 VfTnMlRuTXJ002ovPDHLkV1j)Cvb6vJ
 
-diff --git a/app/src/debug/res/mipmap-xxxhdpi/ic_launcher_round.png b/app/src/debug/res/mipmap-xxxhdpi/ic_launcher_round.png
+diff --git a/fenix/app/src/debug/res/mipmap-xxxhdpi/ic_launcher_round.png b/fenix/app/src/debug/res/mipmap-xxxhdpi/ic_launcher_round.png
 deleted file mode 100644
 index 39be5c5dafe07fbc30a0e39c753c11853328b15c..0000000000000000000000000000000000000000
 GIT binary patch
@@ -1681,10 +1681,10 @@ zThRgiw-z)RTW78+bC*~v&)OMt!n=ikz4X5MFt`HY3Pnm}1ao8LR7eU?bi@CV8?r`n
 zNI7M<g#T#iee<EPgCWEf2}RO{)klww*`j;defy$;aD>B6RP#t*_x!JJzWo7mM;XrI
 S_{g3B0000<MNUMnLSTaIQCvR&
 
-diff --git a/app/src/main/res/drawable-v26/ic_launcher_private_foreground.xml b/app/src/main/res/drawable-v26/ic_launcher_private_foreground.xml
+diff --git a/fenix/app/src/main/res/drawable-v26/ic_launcher_private_foreground.xml b/fenix/app/src/main/res/drawable-v26/ic_launcher_private_foreground.xml
 deleted file mode 100644
-index 458c4efac..000000000
---- a/app/src/main/res/drawable-v26/ic_launcher_private_foreground.xml
+index 458c4efacf..0000000000
+--- a/fenix/app/src/main/res/drawable-v26/ic_launcher_private_foreground.xml
 +++ /dev/null
 @@ -1,18 +0,0 @@
 -<!-- This Source Code Form is subject to the terms of the Mozilla Public
@@ -1706,5 +1706,5 @@ index 458c4efac..000000000
 -  </group>
 -</vector>
 -- 
-2.37.2
+2.39.2 (Apple Git-143)
 

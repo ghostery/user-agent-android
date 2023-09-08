@@ -1,17 +1,17 @@
-From e4925231cb272003728a2ad5f435c2447b82d1c9 Mon Sep 17 00:00:00 2001
+From f0137b0616d3c1490889ec99ee13ed4e85b95fac Mon Sep 17 00:00:00 2001
 From: Krzysztof Modras <chrmod@chrmod.net>
 Date: Fri, 25 Feb 2022 16:01:33 +0100
 Subject: Disable Pocket
 
 ---
- app/src/main/java/org/mozilla/fenix/FeatureFlags.kt | 5 ++---
+ fenix/app/src/main/java/org/mozilla/fenix/FeatureFlags.kt | 5 ++---
  1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/app/src/main/java/org/mozilla/fenix/FeatureFlags.kt b/app/src/main/java/org/mozilla/fenix/FeatureFlags.kt
-index 0e4ee1e64..d82b069be 100644
---- a/app/src/main/java/org/mozilla/fenix/FeatureFlags.kt
-+++ b/app/src/main/java/org/mozilla/fenix/FeatureFlags.kt
-@@ -66,10 +66,9 @@ object FeatureFlags {
+diff --git a/fenix/app/src/main/java/org/mozilla/fenix/FeatureFlags.kt b/fenix/app/src/main/java/org/mozilla/fenix/FeatureFlags.kt
+index 3641aa5214..b1a6bce415 100644
+--- a/fenix/app/src/main/java/org/mozilla/fenix/FeatureFlags.kt
++++ b/fenix/app/src/main/java/org/mozilla/fenix/FeatureFlags.kt
+@@ -34,10 +34,9 @@ object FeatureFlags {
      /**
       * Show Pocket recommended stories on home.
       */
@@ -25,5 +25,5 @@ index 0e4ee1e64..d82b069be 100644
  
      /**
 -- 
-2.37.2
+2.39.2 (Apple Git-143)
 
