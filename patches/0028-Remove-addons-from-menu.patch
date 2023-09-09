@@ -8,7 +8,7 @@ Subject: Remove addons from menu
  1 file changed, 4 insertions(+), 12 deletions(-)
 
 diff --git a/fenix/app/src/main/java/org/mozilla/fenix/components/toolbar/DefaultToolbarMenu.kt b/fenix/app/src/main/java/org/mozilla/fenix/components/toolbar/DefaultToolbarMenu.kt
-index 43ec5b4c51..3fbd1e31db 100644
+index 799a55ea58..94b8d6f416 100644
 --- a/fenix/app/src/main/java/org/mozilla/fenix/components/toolbar/DefaultToolbarMenu.kt
 +++ b/fenix/app/src/main/java/org/mozilla/fenix/components/toolbar/DefaultToolbarMenu.kt
 @@ -14,6 +14,7 @@ import androidx.lifecycle.lifecycleScope
@@ -19,10 +19,11 @@ index 43ec5b4c51..3fbd1e31db 100644
  import mozilla.components.browser.menu.BrowserMenuHighlight
  import mozilla.components.browser.menu.BrowserMenuItem
  import mozilla.components.browser.menu.WebExtensionBrowserMenuBuilder
-@@ -76,18 +77,9 @@ open class DefaultToolbarMenu(
+@@ -79,19 +80,9 @@ open class DefaultToolbarMenu(
          get() = store.state.selectedTab
- 
+
      override val menuBuilder by lazy {
+-        FxNimbus.features.print.recordExposure()
 -        WebExtensionBrowserMenuBuilder(
 -            items = coreMenuItems,
 -            endOfMenuAlwaysVisible = shouldUseBottomToolbar,
@@ -40,7 +41,7 @@ index 43ec5b4c51..3fbd1e31db 100644
 +            endOfMenuAlwaysVisible = shouldUseBottomToolbar
          )
      }
- 
--- 
+
+--
 2.39.2 (Apple Git-143)
 

@@ -12,14 +12,17 @@ diff --git a/fenix/app/src/main/java/org/mozilla/fenix/settings/HomeSettingsFrag
 index 5c5f0ecbf2..f7a74c3e30 100644
 --- a/fenix/app/src/main/java/org/mozilla/fenix/settings/HomeSettingsFragment.kt
 +++ b/fenix/app/src/main/java/org/mozilla/fenix/settings/HomeSettingsFragment.kt
-@@ -165,15 +165,6 @@ class HomeSettingsFragment : PreferenceFragmentCompat() {
+@@ -166,18 +166,6 @@ class HomeSettingsFragment : PreferenceFragmentCompat() {
          val openingScreenAfterFourHours =
              requirePreference<RadioButtonPreference>(R.string.pref_key_start_on_home_after_four_hours)
- 
+
 -        requirePreference<Preference>(R.string.pref_key_wallpapers).apply {
 -            setOnPreferenceClickListener {
--                view?.findNavController()?.navigate(
--                    HomeSettingsFragmentDirections.actionHomeSettingsFragmentToWallpaperSettingsFragment(),
+-                view?.findNavController()?.navigateWithBreadcrumb(
+-                    directions = HomeSettingsFragmentDirections.actionHomeSettingsFragmentToWallpaperSettingsFragment(),
+-                    navigateFrom = "HomeSettingsFragment",
+-                    navigateTo = "ActionHomeSettingsFragmentToWallpaperSettingsFragment",
+-                    crashReporter = context.components.analytics.crashReporter,
 -                )
 -                true
 -            }
@@ -35,7 +38,7 @@ index 35d97891d5..4dc3d9502b 100644
 @@ -38,10 +38,6 @@
          android:key="@string/pref_key_pocket_sponsored_stories"
          android:title="@string/customize_toggle_pocket_sponsored" />
- 
+
 -    <androidx.preference.Preference
 -        android:key="@string/pref_key_wallpapers"
 -        android:title="@string/customize_wallpapers" />
@@ -43,6 +46,6 @@ index 35d97891d5..4dc3d9502b 100644
      <androidx.preference.PreferenceCategory
          android:layout="@layout/preference_cat_style"
          android:title="@string/preferences_opening_screen"
--- 
+--
 2.39.2 (Apple Git-143)
 

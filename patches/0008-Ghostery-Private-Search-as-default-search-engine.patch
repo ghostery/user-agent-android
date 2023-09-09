@@ -119,16 +119,16 @@ index b620c393fe..027a0418b0 100644
 +                })
          }
      }
- 
-@@ -258,7 +267,7 @@ class Core(
+
+@@ -270,7 +277,7 @@ class Core(
                  RegionMiddleware(context, locationService),
                  SearchMiddleware(
-                     context,
+                     context = context,
 -                    additionalBundledSearchEngineIds = listOf("reddit", "youtube"),
 +                    additionalBundledSearchEngineIds = listOf("ghostery", "brave", "reddit", "youtube"),
                      migration = SearchMigration(context),
+                     searchExtraParams = searchExtraParams,
                  ),
-                 RecordingDevicesMiddleware(context, context.components.notificationsDelegate),
--- 
+--
 2.39.2 (Apple Git-143)
 

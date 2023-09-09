@@ -13,14 +13,14 @@ diff --git a/fenix/app/build.gradle b/fenix/app/build.gradle
 index fe39a12064..50dab8d5e8 100644
 --- a/fenix/app/build.gradle
 +++ b/fenix/app/build.gradle
-@@ -33,7 +33,7 @@ android {
+@@ -32,7 +32,7 @@ android {
      }
- 
+
      defaultConfig {
 -        applicationId "org.mozilla"
 +        applicationId "com.ghostery.android"
-         minSdkVersion Config.minSdkVersion
-         targetSdkVersion Config.targetSdkVersion
+         minSdkVersion config.minSdkVersion
+         targetSdkVersion config.targetSdkVersion
          versionCode 1
 @@ -110,7 +110,7 @@ android {
          debug {
@@ -53,7 +53,7 @@ index fe39a12064..50dab8d5e8 100644
 +            ]
 +        }
      }
- 
+
      buildFeatures {
 diff --git a/fenix/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml b/fenix/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml
 index de34ac4858..9e9d6e7325 100644
@@ -81,6 +81,6 @@ index de34ac4858..9e9d6e7325 100644
      <foreground android:drawable="@drawable/ic_launcher_foreground"/>
      <monochrome android:drawable="@drawable/ic_launcher_monochrome"/>
  </adaptive-icon>
--- 
+--
 2.39.2 (Apple Git-143)
 

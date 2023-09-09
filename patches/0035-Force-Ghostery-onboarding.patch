@@ -11,8 +11,8 @@ diff --git a/fenix/app/src/main/java/org/mozilla/fenix/home/HomeFragment.kt b/fe
 index bf1577f055..3b37e6b2f3 100644
 --- a/fenix/app/src/main/java/org/mozilla/fenix/home/HomeFragment.kt
 +++ b/fenix/app/src/main/java/org/mozilla/fenix/home/HomeFragment.kt
-@@ -39,6 +39,7 @@ import kotlinx.coroutines.MainScope
- import kotlinx.coroutines.delay
+@@ -40,6 +40,7 @@ import kotlinx.coroutines.delay
+ import kotlinx.coroutines.flow.distinctUntilChanged
  import kotlinx.coroutines.flow.map
  import kotlinx.coroutines.launch
 +import mozilla.components.browser.state.selector.findCustomTabOrSelectedTab
@@ -22,7 +22,7 @@ index bf1577f055..3b37e6b2f3 100644
 @@ -115,6 +116,8 @@ import org.mozilla.fenix.wallpapers.Wallpaper
  import java.lang.ref.WeakReference
  import kotlin.math.min
- 
+
 +var onboardingShownOnce = false
 +val onboardingPattern = """moz-extension://[^/]+/app/templates/onboarding\.html.*""".toRegex()
  @Suppress("TooManyFunctions", "LargeClass")
@@ -31,7 +31,7 @@ index bf1577f055..3b37e6b2f3 100644
 @@ -509,6 +512,25 @@ class HomeFragment : Fragment() {
          observeSearchEngineNameChanges()
          observeWallpaperUpdates()
- 
+
 +        // This is an hack to force the browser to display the extension on-boarding on start-up
 +        consumeFlow(store) { flow ->
 +            flow.map { state -> state.findCustomTabOrSelectedTab()?.content?.url }
@@ -54,6 +54,6 @@ index bf1577f055..3b37e6b2f3 100644
          homeMenuView = HomeMenuView(
              view = view,
              context = view.context,
--- 
+--
 2.39.2 (Apple Git-143)
 
