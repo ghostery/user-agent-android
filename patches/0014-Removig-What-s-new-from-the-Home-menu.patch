@@ -11,10 +11,10 @@ diff --git a/fenix/app/src/main/java/org/mozilla/fenix/home/HomeMenu.kt b/fenix/
 index 1588f03a84..cdfeb884f8 100644
 --- a/fenix/app/src/main/java/org/mozilla/fenix/home/HomeMenu.kt
 +++ b/fenix/app/src/main/java/org/mozilla/fenix/home/HomeMenu.kt
-@@ -98,12 +98,6 @@ class HomeMenu(
+@@ -100,12 +100,6 @@ class HomeMenu(
          }
      }
- 
+
 -    private fun syncSignInMenuItem(): BrowserMenuItem {
 -        return BrowserMenuSignIn(primaryTextColor) {
 -            onItemTapped.invoke(Item.SyncAccount(accountManager.accountState))
@@ -24,10 +24,10 @@ index 1588f03a84..cdfeb884f8 100644
      val desktopItem = BrowserMenuImageSwitch(
          imageResource = R.drawable.ic_desktop,
          label = context.getString(R.string.browser_menu_desktop_site),
-@@ -140,14 +134,6 @@ class HomeMenu(
+@@ -142,14 +136,6 @@ class HomeMenu(
              onItemTapped.invoke(Item.Downloads)
          }
- 
+
 -        val extensionsItem = BrowserMenuImageText(
 -            context.getString(R.string.browser_menu_add_ons),
 -            R.drawable.ic_addons_extensions,
@@ -39,10 +39,10 @@ index 1588f03a84..cdfeb884f8 100644
          val manageAccountAndDevicesItem = SimpleBrowserMenuItem(
              context.getString(R.string.browser_menu_manage_account_and_devices),
              textColorResource = primaryTextColor,
-@@ -155,26 +141,6 @@ class HomeMenu(
+@@ -157,26 +143,6 @@ class HomeMenu(
              onItemTapped.invoke(Item.ManageAccountAndDevices)
          }
- 
+
 -        val whatsNewItem = BrowserMenuHighlightableItem(
 -            context.getString(R.string.browser_menu_whats_new),
 -            R.drawable.ic_whats_new,
@@ -57,7 +57,7 @@ index 1588f03a84..cdfeb884f8 100644
 -
 -        val helpItem = BrowserMenuImageText(
 -            context.getString(R.string.browser_menu_help),
--            R.drawable.mozac_ic_help,
+-            R.drawable.mozac_ic_help_circle_24,
 -            primaryTextColor,
 -        ) {
 -            onItemTapped.invoke(Item.Help)
@@ -66,10 +66,10 @@ index 1588f03a84..cdfeb884f8 100644
          val customizeHomeItem = BrowserMenuImageText(
              context.getString(R.string.browser_menu_customize_home_1),
              R.drawable.ic_customize,
-@@ -193,30 +159,14 @@ class HomeMenu(
+@@ -196,36 +162,19 @@ class HomeMenu(
              onItemTapped.invoke(Item.Settings)
          }
- 
+
 -        // Only query account manager if it has been initialized.
 -        // We don't want to cause its initialization just for this check.
 -        val accountAuthItem =
@@ -81,12 +81,18 @@ index 1588f03a84..cdfeb884f8 100644
 -                null
 -            }
 -
+         // Since syncSignIn & accountAuth items take us to the same place -> we won't show them in the same time
+         // We will show syncSignIn item when the accountAuth item:
+         //    1. is not needed or
+         //    2. it is needed, but the account manager is not available yet
+-        val syncSignInMenuItem = if (accountAuthItem == null) syncSignInMenuItem() else null
+
          val menuItems = listOfNotNull(
              bookmarksItem,
              historyItem,
              downloadsItem,
 -            extensionsItem,
--            syncSignInMenuItem(),
+-            syncSignInMenuItem,
 -            accountAuthItem,
              if (Config.channel.isMozillaOnline) manageAccountAndDevicesItem else null,
              BrowserMenuDivider(),
@@ -97,6 +103,6 @@ index 1588f03a84..cdfeb884f8 100644
              customizeHomeItem,
              settingsItem,
              if (settings.shouldDeleteBrowsingDataOnQuit) quitItem else null,
--- 
+--
 2.39.2 (Apple Git-143)
 

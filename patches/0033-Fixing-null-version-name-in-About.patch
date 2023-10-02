@@ -6,16 +6,16 @@ Subject: Fixing null version name in About
 ---
  fenix/app/build.gradle                                        | 2 +-
  .../java/org/mozilla/fenix/settings/about/AboutFragment.kt    | 2 +-
- fenix/buildSrc/src/main/java/Config.kt                        | 4 ++--
+ fenix/buildSrc/src/main/java/ConfigPlugin.kt                        | 4 ++--
  3 files changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/fenix/app/build.gradle b/fenix/app/build.gradle
 index d813edaed2..e653f675a8 100644
 --- a/fenix/app/build.gradle
 +++ b/fenix/app/build.gradle
-@@ -37,7 +37,7 @@ android {
-         minSdkVersion Config.minSdkVersion
-         targetSdkVersion Config.targetSdkVersion
+@@ -36,7 +36,7 @@ android {
+         minSdkVersion config.minSdkVersion
+         targetSdkVersion config.targetSdkVersion
          versionCode 1
 -        versionName Config.generateDebugVersionName()
 +        versionName Config.generateDebugVersionName(project)
@@ -27,7 +27,7 @@ index f60dfc579b..60bfab2e04 100644
 --- a/fenix/app/src/main/java/org/mozilla/fenix/settings/about/AboutFragment.kt
 +++ b/fenix/app/src/main/java/org/mozilla/fenix/settings/about/AboutFragment.kt
 @@ -108,7 +108,7 @@ class AboutFragment : Fragment(), AboutPageListener {
- 
+
              String.format(
                  "%s (Build #%s)%s\n%s: %s\n%s: %s",
 -                packageInfo.versionName,
@@ -35,13 +35,13 @@ index f60dfc579b..60bfab2e04 100644
                  versionCode,
                  maybeFenixGitHash,
                  maybeGecko,
-diff --git a/fenix/buildSrc/src/main/java/Config.kt b/fenix/buildSrc/src/main/java/Config.kt
-index 6f0e2ba50b..2af098d2d0 100644
---- a/fenix/buildSrc/src/main/java/Config.kt
-+++ b/fenix/buildSrc/src/main/java/Config.kt
-@@ -17,13 +17,13 @@ object Config {
-     const val targetSdkVersion = 33
- 
+diff --git a/android-components/plugins/config/src/main/java/ConfigPlugin.kt b/android-components/plugins/config/src/main/java/ConfigPlugin.kt
+index 03740f36db..4d161267d1 100644
+--- a/android-components/plugins/config/src/main/java/ConfigPlugin.kt
++++ b/android-components/plugins/config/src/main/java/ConfigPlugin.kt
+@@ -19,13 +19,13 @@ class ConfigPlugin : Plugin<Settings> {
+ object Config {
+
      @JvmStatic
 -    private fun generateDebugVersionName(): String {
 +    private fun generateDebugVersionName(project: Project): String {
@@ -53,8 +53,8 @@ index 6f0e2ba50b..2af098d2d0 100644
 -        return SimpleDateFormat("1.0.yyww", Locale.US).format(today)
 +        return if (project.hasProperty("versionName")) project.property("versionName") as String else SimpleDateFormat("1.0.yyww", Locale.US).format(today)
      }
- 
+
      @JvmStatic
--- 
+--
 2.39.2 (Apple Git-143)
 
