@@ -67,12 +67,12 @@ index 421e306002..43ec5b4c51 100644
                  BrowserMenuDivider(),
                  findInPageItem,
                  desktopSiteItem,
-@@ -392,7 +370,6 @@ open class DefaultToolbarMenu(
+@@ -390,7 +370,6 @@ open class DefaultToolbarMenu(
                  addToHomeScreenItem.apply { visible = ::canAddToHomescreen },
                  installToHomescreen.apply { visible = ::canInstall },
                  if (shouldShowTopSites) addRemoveTopSitesItem else null,
 -                saveToCollectionItem,
-                 if (FeatureFlags.print && FxNimbus.features.print.value().browserPrintEnabled) printPageItem else null,
+                 if (FxNimbus.features.print.value().browserPrintEnabled) printPageItem else null,
                  BrowserMenuDivider(),
                  settingsItem,
 diff --git a/fenix/app/src/main/java/org/mozilla/fenix/home/sessioncontrol/SessionControlAdapter.kt b/fenix/app/src/main/java/org/mozilla/fenix/home/sessioncontrol/SessionControlAdapter.kt

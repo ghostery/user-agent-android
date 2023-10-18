@@ -14,13 +14,13 @@ index a5687fdacc..94df511b18 100644
 +++ b/fenix/app/src/main/java/org/mozilla/fenix/home/sessioncontrol/SessionControlInteractor.kt
 @@ -318,7 +318,7 @@ class SessionControlInteractor(
      }
- 
+
      override fun onLearnMoreClicked() {
 -        privateBrowsingController.handleLearnMoreClicked()
 +//        privateBrowsingController.handleLearnMoreClicked()
      }
- 
-     override fun onPrivateModeButtonClicked(newMode: BrowsingMode, userHasBeenOnboarded: Boolean) {
+
+     override fun onPrivateModeButtonClicked(newMode: BrowsingMode) {
 diff --git a/fenix/app/src/main/java/org/mozilla/fenix/home/sessioncontrol/viewholders/PrivateBrowsingDescriptionViewHolder.kt b/fenix/app/src/main/java/org/mozilla/fenix/home/sessioncontrol/viewholders/PrivateBrowsingDescriptionViewHolder.kt
 index 08af2e6aa4..0f6f1f7aa3 100644
 --- a/fenix/app/src/main/java/org/mozilla/fenix/home/sessioncontrol/viewholders/PrivateBrowsingDescriptionViewHolder.kt
@@ -34,6 +34,6 @@ index 08af2e6aa4..0f6f1f7aa3 100644
                  .clickable(
                      interactionSource = interactionSource,
                      indication = null,
--- 
+--
 2.39.2 (Apple Git-143)
 
