@@ -22,19 +22,19 @@ index ce569f79bb..9c248ebbb3 100644
      protected open fun initializeGlean() {
 -        val telemetryEnabled = settings().isTelemetryEnabled
 +        val telemetryEnabled = false
- 
+
          logger.debug("Initializing Glean (uploadEnabled=$telemetryEnabled})")
- 
+
 @@ -459,10 +459,6 @@ open class FenixApplication : LocaleAwareApplication(), Provider {
      }
- 
+
      private fun setupCrashReporting() {
 -        components
 -            .analytics
 -            .crashReporter
 -            .install(this)
      }
- 
+
      protected open fun initializeNimbus() {
 diff --git a/fenix/app/src/main/java/org/mozilla/fenix/components/Analytics.kt b/fenix/app/src/main/java/org/mozilla/fenix/components/Analytics.kt
 index 7fc3826788..8eee7abbbd 100644
@@ -56,17 +56,17 @@ index 7fc3826788..8eee7abbbd 100644
 -            true -> "MozillaOnline"
 -            false -> "Mozilla"
 -        }
- 
+
          if (isSentryEnabled()) {
              // We treat caught exceptions similar to debug logging.
-@@ -76,21 +73,10 @@ class Analytics(
-             )
- 
+@@ -86,21 +83,10 @@ class Analytics(
+             }
+
              services.add(sentryService)
 +        } else {
 +            services.add(DummyCrashReporter())
          }
- 
+
 -        // The name "Fenix" here matches the product name on Socorro and is unrelated to the actual app name:
 -        // https://bugzilla.mozilla.org/show_bug.cgi?id=1523284
 -        val socorroService = MozillaSocorroService(
@@ -98,7 +98,7 @@ index 7fc3826788..8eee7abbbd 100644
              enabled = true,
              nonFatalCrashIntent = pendingIntent,
 @@ -135,17 +121,9 @@ class Analytics(
- 
+
      val metrics: MetricController by lazyMonitored {
          MetricController.create(
 -            listOf(
@@ -163,7 +163,7 @@ index 2e0366e11b..59e338c53c 100644
 @@ -128,16 +128,6 @@
              app:iconSpaceReserved="false"
              android:title="@string/preferences_delete_browsing_data_on_quit" />
- 
+
 -        <androidx.preference.Preference
 -            android:key="@string/pref_key_notifications"
 -            app:iconSpaceReserved="false"
@@ -175,8 +175,8 @@ index 2e0366e11b..59e338c53c 100644
 -            android:title="@string/preferences_data_collection" />
 -
      </androidx.preference.PreferenceCategory>
- 
+
      <PreferenceCategory
--- 
+--
 2.39.2 (Apple Git-143)
 

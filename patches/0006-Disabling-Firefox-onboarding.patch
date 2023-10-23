@@ -14,14 +14,14 @@ index a6f3b77a47..454697168b 100644
 +++ b/fenix/app/src/main/java/org/mozilla/fenix/onboarding/FenixOnboarding.kt
 @@ -46,9 +46,7 @@ class FenixOnboarding(context: Context) : PreferencesHolder {
      }
- 
+
      fun userHasBeenOnboarded(): Boolean {
 -        return strictMode.resetAfter(StrictMode.allowThreadDiskReads()) {
 -            onboardedVersion == CURRENT_ONBOARDING_VERSION
 -        }
 +        return true
      }
- 
+
      companion object {
 diff --git a/fenix/app/src/main/java/org/mozilla/fenix/utils/Settings.kt b/fenix/app/src/main/java/org/mozilla/fenix/utils/Settings.kt
 index a36dcede6a..a1d6b70fd2 100644
@@ -30,13 +30,13 @@ index a36dcede6a..a1d6b70fd2 100644
 @@ -1033,10 +1033,7 @@ class Settings(private val appContext: Context) : PreferencesHolder {
          default = false,
      )
- 
+
 -    var shouldShowOpenInAppBanner by booleanPreference(
 -        appContext.getPreferenceKey(R.string.pref_key_should_show_open_in_app_banner),
 -        default = true,
 -    )
 +    var shouldShowOpenInAppBanner = false
- 
+
      val shouldShowOpenInAppCfr: Boolean
          get() = canShowCfr && shouldShowOpenInAppBanner
 @@ -1074,11 +1071,7 @@ class Settings(private val appContext: Context) : PreferencesHolder {
@@ -49,7 +49,7 @@ index a36dcede6a..a1d6b70fd2 100644
 -        default = { mr2022Sections[Mr2022Section.JUMP_BACK_IN_CFR] == true },
 -    )
 +    var shouldShowJumpBackInCFR = false
- 
+
      /**
       *  Returns a sitePermissions action for the provided [feature].
 @@ -1481,11 +1474,7 @@ class Settings(private val appContext: Context) : PreferencesHolder {
@@ -62,7 +62,7 @@ index a36dcede6a..a1d6b70fd2 100644
 -        default = { mr2022Sections[Mr2022Section.HOME_ONBOARDING_DIALOG_EXISTING_USERS] == true },
 -    )
 +    var showHomeOnboardingDialog = false
- 
+
      /**
       * Indicates if the recent tabs functionality should be visible.
 @@ -1653,8 +1642,7 @@ class Settings(private val appContext: Context) : PreferencesHolder {
@@ -72,10 +72,10 @@ index a36dcede6a..a1d6b70fd2 100644
 -    val junoOnboardingEnabled: Boolean
 -        get() = FxNimbus.features.junoOnboarding.value().enabled
 +    val junoOnboardingEnabled = false
- 
+
      /**
       * Returns whether juno onboarding should be shown to the user.
-@@ -1662,12 +1650,7 @@ class Settings(private val appContext: Context) : PreferencesHolder {
+@@ -1668,12 +1668,7 @@ class Settings(private val appContext: Context) : PreferencesHolder {
       * app icon.
       */
      fun shouldShowJunoOnboarding(hasUserBeenOnboarded: Boolean, isLauncherIntent: Boolean): Boolean {
@@ -87,8 +87,8 @@ index a36dcede6a..a1d6b70fd2 100644
 -        }
 +        return hasUserBeenOnboarded && isLauncherIntent && false
      }
- 
-     /**
--- 
+
+     val feltPrivateBrowsingEnabled: Boolean
+--
 2.39.2 (Apple Git-143)
 
