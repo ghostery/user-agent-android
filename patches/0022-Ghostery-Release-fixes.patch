@@ -19,7 +19,7 @@ index 43fa52d7bb..66bb5e91f2 100644
 +  - fenixGhostery
  includes:
    - onboarding.fml.yaml
- import:
+   - pbm.fml.yaml
 diff --git a/fenix/app/src/main/java/org/mozilla/fenix/Config.kt b/fenix/app/src/main/java/org/mozilla/fenix/Config.kt
 index 534cf2d804..eeb76107d1 100644
 --- a/fenix/app/src/main/java/org/mozilla/fenix/Config.kt
@@ -30,7 +30,7 @@ index 534cf2d804..eeb76107d1 100644
      Release,
 +    Ghostery,
      ;
- 
+
      val isReleased: Boolean
 @@ -33,6 +34,7 @@ enum class ReleaseChannel {
      val isRelease: Boolean
@@ -39,7 +39,7 @@ index 534cf2d804..eeb76107d1 100644
 +            Ghostery -> true
              else -> false
          }
- 
+
 @@ -56,6 +58,7 @@ object Config {
          "nightly", "benchmark" -> ReleaseChannel.Nightly
          "beta" -> ReleaseChannel.Beta
@@ -48,6 +48,6 @@ index 534cf2d804..eeb76107d1 100644
          else -> {
              throw IllegalStateException("Unknown build type: ${BuildConfig.BUILD_TYPE}")
          }
--- 
+--
 2.39.2 (Apple Git-143)
 
