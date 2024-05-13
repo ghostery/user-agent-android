@@ -32,16 +32,16 @@ index 765524168e..ace215e8d7 100644
          setupHomepagePreference()
 -        setupTrackingProtectionPreference()
      }
- 
+
      /**
 diff --git a/fenix/app/src/main/res/xml/preferences.xml b/fenix/app/src/main/res/xml/preferences.xml
-index 59e338c53c..3215c2488c 100644
+index ea44783d44..5c5b1a623d 100644
 --- a/fenix/app/src/main/res/xml/preferences.xml
 +++ b/fenix/app/src/main/res/xml/preferences.xml
 @@ -108,11 +108,6 @@
-             android:title="@string/preferences_cookie_banner_reduction"
-             app:isPreferenceVisible="false" />
- 
+             app:isPreferenceVisible="false"
+             android:title="@string/preferences_cookie_banner_reduction_private_mode" />
+
 -        <androidx.preference.Preference
 -            android:key="@string/pref_key_tracking_protection_settings"
 -            app:iconSpaceReserved="false"
@@ -50,6 +50,7 @@ index 59e338c53c..3215c2488c 100644
          <androidx.preference.Preference
              android:key="@string/pref_key_site_permissions"
              app:iconSpaceReserved="false"
--- 
+
+--
 2.39.2 (Apple Git-143)
 

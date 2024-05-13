@@ -65,30 +65,21 @@ index a36dcede6a..a1d6b70fd2 100644
 
      /**
       * Indicates if the recent tabs functionality should be visible.
-@@ -1653,8 +1642,7 @@ class Settings(private val appContext: Context) : PreferencesHolder {
-     /**
-      * Indicates if juno onboarding feature is enabled.
-      */
--    val junoOnboardingEnabled: Boolean
--        get() = FxNimbus.features.junoOnboarding.value().enabled
-+    val junoOnboardingEnabled = false
-
-     /**
-      * Returns whether juno onboarding should be shown to the user.
-@@ -1668,12 +1668,7 @@ class Settings(private val appContext: Context) : PreferencesHolder {
+@@ -1715,12 +1715,7 @@ class Settings(private val appContext: Context) : PreferencesHolder {
       * app icon.
       */
-     fun shouldShowJunoOnboarding(hasUserBeenOnboarded: Boolean, isLauncherIntent: Boolean): Boolean {
+     fun shouldShowOnboarding(hasUserBeenOnboarded: Boolean, isLauncherIntent: Boolean): Boolean {
 -        return if (!hasUserBeenOnboarded && isLauncherIntent) {
 -            FxNimbus.features.junoOnboarding.recordExposure()
--            junoOnboardingEnabled
+-            true
 -        } else {
 -            false
 -        }
-+        return hasUserBeenOnboarded && isLauncherIntent && false
++        return !hasUserBeenOnboarded && isLauncherIntent
      }
 
-     val feltPrivateBrowsingEnabled: Boolean
+     val feltPrivateBrowsingEnabled by lazyFeatureFlagPreference(
+
 --
 2.39.2 (Apple Git-143)
 

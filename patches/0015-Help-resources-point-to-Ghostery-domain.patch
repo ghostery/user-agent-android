@@ -15,14 +15,14 @@ index e867be39f2..3fb43a9596 100644
 +++ b/fenix/app/src/main/java/org/mozilla/fenix/settings/SupportUtils.kt
 @@ -59,24 +59,23 @@ object SupportUtils {
      }
- 
+
      enum class MozillaPage(internal val path: String) {
 -        PRIVATE_NOTICE("privacy/firefox/"),
 -        MANIFESTO("about/manifesto/"),
 +        PRIVATE_NOTICE("privacy/privacy/"),
 +        MANIFESTO("ghostery-manifesto/"),
      }
- 
+
      /**
       * Gets a support page URL for the corresponding topic.
       */
@@ -43,12 +43,12 @@ index e867be39f2..3fb43a9596 100644
 +            else -> "This topic is unsupported"
 +        }
      }
- 
+
      /**
 @@ -93,10 +92,10 @@ object SupportUtils {
          return "https://support.mozilla.org/kb/access-mozilla-services-firefox-account"
      }
- 
+
 +    @Suppress("UNUSED_PARAMETER")
      fun getMozillaPageUrl(page: MozillaPage, locale: Locale = Locale.getDefault()): String {
          val path = page.path
@@ -56,39 +56,40 @@ index e867be39f2..3fb43a9596 100644
 -        return "https://www.mozilla.org/$langTag/$path"
 +        return "https://www.ghostery.com/$path"
      }
- 
+
      fun createCustomTabIntent(context: Context, url: String): Intent = CustomTabsIntent.Builder()
 diff --git a/fenix/app/src/main/java/org/mozilla/fenix/settings/about/AboutFragment.kt b/fenix/app/src/main/java/org/mozilla/fenix/settings/about/AboutFragment.kt
-index 99fa4ca65d..f60dfc579b 100644
+index 49254f5c18..2b94edd8da 100644
 --- a/fenix/app/src/main/java/org/mozilla/fenix/settings/about/AboutFragment.kt
 +++ b/fenix/app/src/main/java/org/mozilla/fenix/settings/about/AboutFragment.kt
-@@ -120,11 +120,9 @@ class AboutFragment : Fragment(), AboutPageListener {
+@@ -119,11 +119,9 @@ class AboutFragment : Fragment(), AboutPageListener {
              ""
          }
- 
+
 -        val content = getString(R.string.about_content, appName)
          val buildDate = BuildConfig.BUILD_DATE
- 
+
          binding.aboutText.text = aboutText
 -        binding.aboutContent.text = content
          binding.buildDate.text = buildDate
      }
- 
-@@ -132,13 +130,6 @@ class AboutFragment : Fragment(), AboutPageListener {
+
+@@ -131,14 +129,6 @@ class AboutFragment : Fragment(), AboutPageListener {
          val context = requireContext()
- 
+
          return listOf(
 -            AboutPageItem(
 -                AboutItem.ExternalLink(
 -                    WHATS_NEW,
 -                    SupportUtils.WHATS_NEW_URL,
 -                ),
--                getString(R.string.about_whats_new, getString(R.string.app_name)),
+-                // Note: Fenix only has release notes for 'Release' versions, NOT 'Beta' & 'Nightly'.
+-                getString(R.string.about_whats_new, getString(R.string.firefox)),
 -            ),
              AboutPageItem(
                  AboutItem.ExternalLink(
                      SUPPORT,
-@@ -157,13 +148,6 @@ class AboutFragment : Fragment(), AboutPageListener {
+@@ -157,13 +147,6 @@ class AboutFragment : Fragment(), AboutPageListener {
                  ),
                  getString(R.string.about_privacy_notice),
              ),
@@ -102,6 +103,7 @@ index 99fa4ca65d..f60dfc579b 100644
              AboutPageItem(
                  AboutItem.ExternalLink(LICENSING_INFO, ABOUT_LICENSE_URL),
                  getString(R.string.about_licensing_information),
+
 diff --git a/fenix/app/src/main/res/layout/fragment_about.xml b/fenix/app/src/main/res/layout/fragment_about.xml
 index f9a150768e..6ebf4150f9 100644
 --- a/fenix/app/src/main/res/layout/fragment_about.xml
@@ -109,7 +111,7 @@ index f9a150768e..6ebf4150f9 100644
 @@ -33,21 +33,6 @@
              app:layout_constraintTop_toTopOf="parent"
              app:layout_constraintWidth_percent="0.75" />
- 
+
 -        <TextView
 -            android:id="@+id/about_content"
 -            style="@style/Header16TextStyle"
@@ -136,7 +138,7 @@ index f9a150768e..6ebf4150f9 100644
 +            app:layout_constraintTop_toBottomOf="@id/wordmark"
              app:layout_constraintWidth_percent="0.8"
              tools:text="1.0.x (Build #x), 0d7383fd2\nAC: 1.0.0, 96ae23b628\nGV: 69.x-x\nAS: 1.0.0" />
- 
--- 
+
+--
 2.39.2 (Apple Git-143)
 

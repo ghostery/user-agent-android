@@ -12,43 +12,19 @@ Subject: Disabling Telemetry & CrashReports
  5 files changed, 28 insertions(+), 46 deletions(-)
  create mode 100644 fenix/app/src/main/java/org/mozilla/fenix/crashes/DummyCrashReporter.kt
 
-diff --git a/fenix/app/src/main/java/org/mozilla/fenix/FenixApplication.kt b/fenix/app/src/main/java/org/mozilla/fenix/FenixApplication.kt
-index ce569f79bb..9c248ebbb3 100644
---- a/fenix/app/src/main/java/org/mozilla/fenix/FenixApplication.kt
-+++ b/fenix/app/src/main/java/org/mozilla/fenix/FenixApplication.kt
-@@ -168,7 +168,7 @@ open class FenixApplication : LocaleAwareApplication(), Provider {
-     @OptIn(DelicateCoroutinesApi::class) // GlobalScope usage
-     @VisibleForTesting
-     protected open fun initializeGlean() {
--        val telemetryEnabled = settings().isTelemetryEnabled
-+        val telemetryEnabled = false
-
-         logger.debug("Initializing Glean (uploadEnabled=$telemetryEnabled})")
-
-@@ -459,10 +459,6 @@ open class FenixApplication : LocaleAwareApplication(), Provider {
-     }
-
-     private fun setupCrashReporting() {
--        components
--            .analytics
--            .crashReporter
--            .install(this)
-     }
-
-     protected open fun initializeNimbus() {
 diff --git a/fenix/app/src/main/java/org/mozilla/fenix/components/Analytics.kt b/fenix/app/src/main/java/org/mozilla/fenix/components/Analytics.kt
-index 7fc3826788..8eee7abbbd 100644
+index 0208c135b5..0ca6ccb759 100644
 --- a/fenix/app/src/main/java/org/mozilla/fenix/components/Analytics.kt
 +++ b/fenix/app/src/main/java/org/mozilla/fenix/components/Analytics.kt
-@@ -30,6 +30,7 @@ import org.mozilla.fenix.components.metrics.InstallReferrerMetricsService
+@@ -29,6 +29,7 @@ import org.mozilla.fenix.components.metrics.InstallReferrerMetricsService
  import org.mozilla.fenix.components.metrics.MetricController
  import org.mozilla.fenix.components.metrics.MetricsStorage
  import org.mozilla.fenix.crashes.CrashFactCollector
 +import org.mozilla.fenix.crashes.DummyCrashReporter
- import org.mozilla.fenix.experiments.createNimbus
  import org.mozilla.fenix.ext.components
  import org.mozilla.fenix.ext.settings
-@@ -49,10 +50,6 @@ class Analytics(
+ import org.mozilla.fenix.perf.lazyMonitored
+@@ -46,10 +47,6 @@ class Analytics(
  ) {
      val crashReporter: CrashReporter by lazyMonitored {
          val services = mutableListOf<CrashReporterService>()
@@ -59,7 +35,7 @@ index 7fc3826788..8eee7abbbd 100644
 
          if (isSentryEnabled()) {
              // We treat caught exceptions similar to debug logging.
-@@ -86,21 +83,10 @@ class Analytics(
+@@ -80,21 +77,10 @@ class Analytics(
              }
 
              services.add(sentryService)
@@ -83,7 +59,7 @@ index 7fc3826788..8eee7abbbd 100644
          val intent = Intent(context, HomeActivity::class.java).apply {
              flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
          }
-@@ -109,11 +95,11 @@ class Analytics(
+@@ -113,11 +99,11 @@ class Analytics(
          CrashReporter(
              context = context,
              services = services,
@@ -97,7 +73,7 @@ index 7fc3826788..8eee7abbbd 100644
              ),
              enabled = true,
              nonFatalCrashIntent = pendingIntent,
-@@ -135,17 +121,9 @@ class Analytics(
+@@ -139,17 +125,9 @@ class Analytics(
 
      val metrics: MetricController by lazyMonitored {
          MetricController.create(
@@ -177,6 +153,23 @@ index 2e0366e11b..59e338c53c 100644
      </androidx.preference.PreferenceCategory>
 
      <PreferenceCategory
+diff --git a/fenix/app/src/main/java/org/mozilla/fenix/utils/Settings.kt b/fenix/app/src/main/java/org/mozilla/fenix/utils/Settings.kt
+index 3ac19ebd25..880e2f000d 100644
+--- a/fenix/app/src/main/java/org/mozilla/fenix/utils/Settings.kt
++++ b/fenix/app/src/main/java/org/mozilla/fenix/utils/Settings.kt
+@@ -337,10 +337,7 @@ class Settings(private val appContext: Context) : PreferencesHolder {
+         default = false,
+     )
+
+-    var isTelemetryEnabled by booleanPreference(
+-        appContext.getPreferenceKey(R.string.pref_key_telemetry),
+-        default = true,
+-    )
++    var isTelemetryEnabled = false
+
+     var isMarketingTelemetryEnabled by booleanPreference(
+         appContext.getPreferenceKey(R.string.pref_key_marketing_telemetry),
+
 --
 2.39.2 (Apple Git-143)
 
