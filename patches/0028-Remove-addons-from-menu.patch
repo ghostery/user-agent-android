@@ -5,7 +5,8 @@ Subject: Remove addons from menu
 
 ---
  .../components/toolbar/DefaultToolbarMenu.kt     | 16 ++++------------
- 1 file changed, 4 insertions(+), 12 deletions(-)
+ .../main/java/org/mozilla/fenix/settings/SettingsFragment.kt | 1 -
+ 2 file changed, 4 insertions(+), 13 deletions(-)
 
 diff --git a/fenix/app/src/main/java/org/mozilla/fenix/components/toolbar/DefaultToolbarMenu.kt b/fenix/app/src/main/java/org/mozilla/fenix/components/toolbar/DefaultToolbarMenu.kt
 index 799a55ea58..94b8d6f416 100644
@@ -41,6 +42,19 @@ index 799a55ea58..94b8d6f416 100644
 +            endOfMenuAlwaysVisible = shouldUseBottomToolbar
          )
      }
+
+diff --git a/fenix/app/src/main/java/org/mozilla/fenix/settings/SettingsFragment.kt b/fenix/app/src/main/java/org/mozilla/fenix/settings/SettingsFragment.kt
+index c5b148767d..e1d616ad32 100644
+--- a/fenix/app/src/main/java/org/mozilla/fenix/settings/SettingsFragment.kt
++++ b/fenix/app/src/main/java/org/mozilla/fenix/settings/SettingsFragment.kt
+@@ -506,7 +506,6 @@ class SettingsFragment : PreferenceFragmentCompat() {
+                 (requireContext().components.core.engine.profiler?.isProfilerActive() != null)
+         }
+         setupCookieBannerPreference()
+-        setupInstallAddonFromFilePreference(requireContext().settings())
+         setupAmoCollectionOverridePreference(requireContext().settings())
+         setupGeckoLogsPreference(requireContext().settings())
+         setupAllowDomesticChinaFxaServerPreference()
 
 --
 2.39.2 (Apple Git-143)
