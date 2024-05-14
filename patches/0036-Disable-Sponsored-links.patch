@@ -14,7 +14,7 @@ index f7a74c3e30..2642cda57b 100644
 +++ b/fenix/app/src/main/java/org/mozilla/fenix/settings/HomeSettingsFragment.kt
 @@ -52,6 +52,7 @@ class HomeSettingsFragment : PreferenceFragmentCompat() {
          }
- 
+
          requirePreference<CheckBoxPreference>(R.string.pref_key_enable_contile).apply {
 +            isVisible = false
              isChecked = context.settings().showContileFeature
@@ -24,7 +24,7 @@ diff --git a/fenix/app/src/main/java/org/mozilla/fenix/utils/Settings.kt b/fenix
 index 9e3bfb0ae0..f66b740cf2 100644
 --- a/fenix/app/src/main/java/org/mozilla/fenix/utils/Settings.kt
 +++ b/fenix/app/src/main/java/org/mozilla/fenix/utils/Settings.kt
-@@ -1562,10 +1562,7 @@ class Settings(private val appContext: Context) : PreferencesHolder {
+@@ -1664,10 +1664,7 @@ class Settings(private val appContext: Context) : PreferencesHolder {
      /**
       * Indicates if the Contile functionality should be visible.
       */
@@ -33,9 +33,9 @@ index 9e3bfb0ae0..f66b740cf2 100644
 -        default = true,
 -    )
 +    var showContileFeature = false
- 
+
      /**
-      * Indicates if the Task Continuity enhancements are enabled.
--- 
+      * Indicates if the Unified Search feature should be visible.
+--
 2.39.2 (Apple Git-143)
 

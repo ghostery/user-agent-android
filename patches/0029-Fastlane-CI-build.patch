@@ -19,13 +19,13 @@ index 7a118b49be..0000000000
 -
 -gem "fastlane"
 diff --git a/fenix/app/build.gradle b/fenix/app/build.gradle
-index 992e5ee619..d813edaed2 100644
+index ef751ab047..6d993a2268 100644
 --- a/fenix/app/build.gradle
 +++ b/fenix/app/build.gradle
-@@ -85,6 +85,15 @@ android {
-         ]
+@@ -86,6 +86,15 @@ android {
+         buildConfigField "String[]", "SUPPORTED_LOCALE_ARRAY", getSupportedLocales()
      }
- 
+
 +    signingConfigs {
 +        ghostery {
 +            storeFile System.getenv("CERT_PATH") ? file(System.getenv("CERT_PATH")) : null
@@ -38,7 +38,7 @@ index 992e5ee619..d813edaed2 100644
      def releaseTemplate = {
          // We allow disabling optimization by passing `-PdisableOptimization` to gradle. This is used
          // in automation for UI testing non-debug builds.
-@@ -163,6 +172,7 @@ android {
+@@ -164,6 +173,7 @@ android {
              debuggable false
          }
          ghostery releaseTemplate >> {
@@ -46,6 +46,7 @@ index 992e5ee619..d813edaed2 100644
              buildConfigField "boolean", "USE_RELEASE_VERSIONING", "true"
              applicationIdSuffix ".ghostery"
              def deepLinkSchemeValue = "ghostery"
--- 
+
+--
 2.39.2 (Apple Git-143)
 

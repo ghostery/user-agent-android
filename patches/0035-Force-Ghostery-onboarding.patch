@@ -11,20 +11,21 @@ diff --git a/fenix/app/src/main/java/org/mozilla/fenix/home/HomeFragment.kt b/fe
 index bf1577f055..3b37e6b2f3 100644
 --- a/fenix/app/src/main/java/org/mozilla/fenix/home/HomeFragment.kt
 +++ b/fenix/app/src/main/java/org/mozilla/fenix/home/HomeFragment.kt
-@@ -40,6 +40,7 @@ import kotlinx.coroutines.delay
- import kotlinx.coroutines.flow.distinctUntilChanged
- import kotlinx.coroutines.flow.map
+@@ -57,6 +57,7 @@ import kotlinx.coroutines.flow.map
+ import kotlinx.coroutines.isActive
  import kotlinx.coroutines.launch
+ import mozilla.components.browser.menu.view.MenuButton
 +import mozilla.components.browser.state.selector.findCustomTabOrSelectedTab
  import mozilla.components.browser.state.selector.findTab
  import mozilla.components.browser.state.selector.normalTabs
  import mozilla.components.browser.state.selector.privateTabs
-@@ -117,6 +118,8 @@ import org.mozilla.fenix.wallpapers.Wallpaper
+@@ -147,6 +147,9 @@ import org.mozilla.fenix.utils.allowUndo
+ import org.mozilla.fenix.wallpapers.Wallpaper
  import java.lang.ref.WeakReference
- import kotlin.math.min
 
 +var onboardingShownOnce = false
 +val onboardingPattern = """moz-extension://[^/]+/pages/onboarding/index.html.*""".toRegex()
++
  @Suppress("TooManyFunctions", "LargeClass")
  class HomeFragment : Fragment() {
      private val args by navArgs<HomeFragmentArgs>()

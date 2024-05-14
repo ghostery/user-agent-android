@@ -17,13 +17,13 @@ Subject: Browser action integration (#4)
  create mode 100644 fenix/app/src/main/res/drawable/ic_ghostery.xml
 
 diff --git a/fenix/app/src/main/java/org/mozilla/fenix/browser/BrowserFragment.kt b/fenix/app/src/main/java/org/mozilla/fenix/browser/BrowserFragment.kt
-index 2e0f5111dc..2409fdd204 100644
+index 3acba253b2..d0849d7440 100644
 --- a/fenix/app/src/main/java/org/mozilla/fenix/browser/BrowserFragment.kt
 +++ b/fenix/app/src/main/java/org/mozilla/fenix/browser/BrowserFragment.kt
-@@ -90,6 +90,23 @@ class BrowserFragment : BaseBrowserFragment(), UserInteractionHandler {
+@@ -116,6 +116,23 @@ class BrowserFragment : BaseBrowserFragment(), UserInteractionHandler {
              )
          }
- 
+
 +        val ghosteryAction = BrowserToolbar.Button(
 +            imageDrawable = AppCompatResources.getDrawable(
 +                context,
@@ -41,24 +41,30 @@ index 2e0f5111dc..2409fdd204 100644
 +
 +        browserToolbarView.view.addPageAction(ghosteryAction)
 +
-         val homeAction = BrowserToolbar.Button(
-             imageDrawable = AppCompatResources.getDrawable(
-                 context,
+         val isPrivate = (activity as HomeActivity).browsingModeManager.mode.isPrivate
+
+         if (!IncompleteRedesignToolbarFeature(context.settings()).isEnabled) {
+
 diff --git a/fenix/app/src/main/java/org/mozilla/fenix/settings/quicksettings/QuickSettingsSheetDialogFragment.kt b/fenix/app/src/main/java/org/mozilla/fenix/settings/quicksettings/QuickSettingsSheetDialogFragment.kt
-index 2f6b3b2430..82b8b88910 100644
+index 3f5c19f39a..82b8b88910 100644
 --- a/fenix/app/src/main/java/org/mozilla/fenix/settings/quicksettings/QuickSettingsSheetDialogFragment.kt
 +++ b/fenix/app/src/main/java/org/mozilla/fenix/settings/quicksettings/QuickSettingsSheetDialogFragment.kt
-@@ -116,8 +116,6 @@ class QuickSettingsSheetDialogFragment : FenixDialogFragment() {
+@@ -116,13 +116,6 @@ class QuickSettingsSheetDialogFragment : FenixDialogFragment() {
          websiteInfoView = WebsiteInfoView(binding.websiteInfoLayout, interactor = interactor)
          websitePermissionsView =
              WebsitePermissionsView(binding.websitePermissionsLayout, interactor)
 -        protectionsView =
--            ProtectionsView(binding.trackingProtectionLayout, interactor, context.settings())
+-            ProtectionsView(
+-                binding.trackingProtectionLayout,
+-                binding.trackingProtectionDivider,
+-                interactor,
+-                context.settings(),
+-            )
          clearSiteDataView = ClearSiteDataView(
              context = context,
              ioScope = viewLifecycleOwner.lifecycleScope + Dispatchers.IO,
-@@ -132,11 +130,9 @@ class QuickSettingsSheetDialogFragment : FenixDialogFragment() {
- 
+@@ -137,11 +130,9 @@ class QuickSettingsSheetDialogFragment : FenixDialogFragment() {
+
      override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
          super.onViewCreated(view, savedInstanceState)
 -        observeTrackersChange(requireComponents.core.store)
@@ -69,6 +75,7 @@ index 2f6b3b2430..82b8b88910 100644
              clearSiteDataView.update(it.webInfoState)
          }
      }
+
 diff --git a/fenix/app/src/main/res/drawable/ic_ghostery.xml b/fenix/app/src/main/res/drawable/ic_ghostery.xml
 new file mode 100644
 index 0000000000..7770c40930
@@ -105,13 +112,13 @@ index 0087457062..25f811f305 100644
              android:layout_height="wrap_content"
 -            app:layout_constraintBottom_toTopOf="@id/trackingProtectionDivider" />
 +            app:layout_constraintBottom_toTopOf="@id/clearSiteDataLayout" />
- 
+
          <View
              android:id="@+id/webSitePermissionsDivider"
 @@ -37,21 +37,6 @@
              android:background="?borderPrimary"
              app:layout_constraintBottom_toTopOf="@id/websitePermissionsLayout" />
- 
+
 -        <FrameLayout
 -            android:id="@+id/trackingProtectionLayout"
 -            android:layout_width="match_parent"
@@ -130,6 +137,6 @@ index 0087457062..25f811f305 100644
          <FrameLayout
              android:id="@+id/clearSiteDataLayout"
              android:layout_width="match_parent"
--- 
+--
 2.39.2 (Apple Git-143)
 
