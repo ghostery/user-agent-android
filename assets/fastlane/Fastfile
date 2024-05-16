@@ -19,7 +19,7 @@ platform :android do
   desc "Submit a new internal testing version to the Play store"
   lane :internal do
     gradle(
-      task: "clean assemble",
+      task: "clean bundle",
       build_type: "ghostery"
     )
     upload_to_play_store(
