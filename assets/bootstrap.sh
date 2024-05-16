@@ -3,7 +3,7 @@ set -x
 set -e
 
 EXT_DIR="app/src/main/assets/extensions/ghostery"
-DOWNLOAD_URL="https://github.com/ghostery/ghostery-extension/releases/download/v10.3.1/ghostery-firefox.zip"
+DOWNLOAD_URL="https://github.com/ghostery/ghostery-extension/releases/download/v10.3.2/ghostery-firefox.zip"
 rm -rf "$EXT_DIR"
 mkdir -p "$EXT_DIR"
 curl -L -o ghostery.zip "$DOWNLOAD_URL"
