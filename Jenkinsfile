@@ -33,7 +33,7 @@ node('browser-builder') {
             }
         }
         stage('archive') {
-            archiveArtifacts artifacts: 'browser/fenix/app/build/outputs/apk/**/*.apk'
+            archiveArtifacts artifacts: 'browser/fenix/app/build/outputs/bundle/**/*.aab'
         }
     }
 }
