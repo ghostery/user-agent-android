@@ -1,0 +1,30 @@
+From 22ab8fb3416e62b3832e642bfcc896a1944941ea Mon Sep 17 00:00:00 2001
+From: Krzysztof Modras <chrmod@chrmod.net>
+Date: Mon, 20 May 2024 12:48:52 +0200
+Subject: Disable: Cookie Banner
+
+---
+ fenix/app/src/main/java/org/mozilla/fenix/utils/Settings.kt | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
+
+diff --git a/fenix/app/src/main/java/org/mozilla/fenix/utils/Settings.kt b/fenix/app/src/main/java/org/mozilla/fenix/utils/Settings.kt
+index 84560a14a5..8cfd5604e9 100644
+--- a/fenix/app/src/main/java/org/mozilla/fenix/utils/Settings.kt
++++ b/fenix/app/src/main/java/org/mozilla/fenix/utils/Settings.kt
+@@ -622,11 +622,9 @@ class Settings(private val appContext: Context) : PreferencesHolder {
+     val shouldUseCookieBannerPrivateModeDefaultValue: Boolean
+         get() = cookieBannersSection[CookieBannersSection.FEATURE_SETTING_VALUE_PBM] == 1
+ 
+-    val shouldUseCookieBanner: Boolean
+-        get() = cookieBannersSection[CookieBannersSection.FEATURE_SETTING_VALUE] == 1
++    val shouldUseCookieBanner = false
+ 
+-    val shouldShowCookieBannerUI: Boolean
+-        get() = cookieBannersSection[CookieBannersSection.FEATURE_UI] == 1
++    val shouldShowCookieBannerUI = false
+ 
+     val shouldEnableCookieBannerDetectOnly: Boolean
+         get() = cookieBannersSection[CookieBannersSection.FEATURE_SETTING_DETECT_ONLY] == 1
+-- 
+2.39.3 (Apple Git-145)
+
