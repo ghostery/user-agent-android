@@ -1,7 +1,8 @@
 node('browser-builder') {
     stage('checkout') {
-        checkout scm
         sh 'rm -rf browser'
+        sh 'rm -rf .git'
+        checkout scm
         sh 'git submodule init'
         sh 'git submodule update --force'
         sh './reset.sh'
