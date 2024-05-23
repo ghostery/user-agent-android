@@ -8,10 +8,11 @@ Subject: Removing Collections (again)
  .../sessioncontrol/SessionControlAdapter.kt   | 21 --------------
  .../home/sessioncontrol/SessionControlView.kt | 28 ++-----------------
  .../fenix/tabstray/TabsTrayFragment.kt        |  1 -
+ .../fenix/tabstray/TabsTrayBanner.kt          | 15 ----------
  .../browser/SelectionBannerBinding.kt         |  4 ---
  .../main/res/layout/component_tabstray2.xml   |  2 +-
  .../res/layout/tabstray_multiselect_items.xml | 13 ---------
- 7 files changed, 3 insertions(+), 89 deletions(-)
+ 8 files changed, 3 insertions(+), 104 deletions(-)
 
 diff --git a/fenix/app/src/main/java/org/mozilla/fenix/components/toolbar/DefaultToolbarMenu.kt b/fenix/app/src/main/java/org/mozilla/fenix/components/toolbar/DefaultToolbarMenu.kt
 index 8428377562..d2df2f5042 100644
@@ -233,6 +234,32 @@ index 67d2eee9e2..01b3348b22 100644
      <ImageButton
          android:id="@+id/share_multi_select"
          android:layout_width="48dp"
+diff --git a/fenix/app/src/main/java/org/mozilla/fenix/tabstray/TabsTrayBanner.kt b/fenix/app/src/main/java/org/mozilla/fenix/tabstray/TabsTrayBanner.kt
+index 13e9c1d4c0..b79cf09111 100644
+--- a/fenix/app/src/main/java/org/mozilla/fenix/tabstray/TabsTrayBanner.kt
++++ b/fenix/app/src/main/java/org/mozilla/fenix/tabstray/TabsTrayBanner.kt
+@@ -243,21 +243,6 @@ private fun SingleSelectBanner(
+                         unselectedContentColor = inactiveColor,
+                     )
+
+-                    Tab(
+-                        selected = selectedPage == Page.SyncedTabs,
+-                        onClick = { onTabPageIndicatorClicked(Page.SyncedTabs) },
+-                        modifier = Modifier
+-                            .fillMaxHeight()
+-                            .testTag(TabsTrayTestTag.syncedTabsPageButton),
+-                        icon = {
+-                            Icon(
+-                                painter = painterResource(id = R.drawable.ic_synced_tabs),
+-                                contentDescription = stringResource(id = R.string.tabs_header_synced_tabs_title),
+-                            )
+-                        },
+-                        selectedContentColor = selectedColor,
+-                        unselectedContentColor = inactiveColor,
+-                    )
+                 }
+             }
+
 --
 2.39.2 (Apple Git-143)
 
