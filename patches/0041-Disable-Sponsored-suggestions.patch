@@ -1,0 +1,122 @@
+From 5378fa6af26655632ce5b0468046b16b46762a68 Mon Sep 17 00:00:00 2001
+From: Krzysztof Modras <chrmod@chrmod.net>
+Date: Thu, 23 May 2024 14:58:35 +0200
+Subject: Disable Sponsored suggestions
+
+---
+ .../settings/search/SearchEngineFragment.kt      | 16 ----------------
+ .../org/mozilla/fenix/tabstray/TabsTrayBanner.kt | 15 ---------------
+ .../java/org/mozilla/fenix/utils/Settings.kt     |  6 +-----
+ .../main/res/xml/search_settings_preferences.xml |  9 ---------
+ 4 files changed, 1 insertion(+), 45 deletions(-)
+
+diff --git a/fenix/app/src/main/java/org/mozilla/fenix/settings/search/SearchEngineFragment.kt b/fenix/app/src/main/java/org/mozilla/fenix/settings/search/SearchEngineFragment.kt
+index 5656418f0f..cdc69220f4 100644
+--- a/fenix/app/src/main/java/org/mozilla/fenix/settings/search/SearchEngineFragment.kt
++++ b/fenix/app/src/main/java/org/mozilla/fenix/settings/search/SearchEngineFragment.kt
+@@ -34,15 +34,9 @@ class SearchEngineFragment : PreferenceFragmentCompat() {
+             rootKey,
+         )
+ 
+-        requirePreference<SwitchPreference>(R.string.pref_key_show_sponsored_suggestions).apply {
+-            isVisible = context.settings().enableFxSuggest
+-        }
+         requirePreference<SwitchPreference>(R.string.pref_key_show_nonsponsored_suggestions).apply {
+             isVisible = context.settings().enableFxSuggest
+         }
+-        requirePreference<Preference>(R.string.pref_key_learn_about_fx_suggest).apply {
+-            isVisible = context.settings().enableFxSuggest
+-        }
+ 
+         view?.hideKeyboard()
+     }
+@@ -93,15 +87,6 @@ class SearchEngineFragment : PreferenceFragmentCompat() {
+                 isChecked = context.settings().shouldShowVoiceSearch
+             }
+ 
+-        val showSponsoredSuggestionsPreference =
+-            requirePreference<SwitchPreference>(R.string.pref_key_show_sponsored_suggestions).apply {
+-                isChecked = context.settings().showSponsoredSuggestions
+-                summary = getString(
+-                    R.string.preferences_show_sponsored_suggestions_summary,
+-                    getString(R.string.app_name),
+-                )
+-            }
+-
+         val showNonSponsoredSuggestionsPreference =
+             requirePreference<SwitchPreference>(R.string.pref_key_show_nonsponsored_suggestions).apply {
+                 isChecked = context.settings().showNonSponsoredSuggestions
+@@ -136,7 +121,6 @@ class SearchEngineFragment : PreferenceFragmentCompat() {
+             true
+         }
+ 
+-        showSponsoredSuggestionsPreference.onPreferenceChangeListener = SharedPreferenceUpdater()
+         showNonSponsoredSuggestionsPreference.onPreferenceChangeListener = SharedPreferenceUpdater()
+     }
+ 
+diff --git a/fenix/app/src/main/java/org/mozilla/fenix/tabstray/TabsTrayBanner.kt b/fenix/app/src/main/java/org/mozilla/fenix/tabstray/TabsTrayBanner.kt
+index 13e9c1d4c0..b79cf09111 100644
+--- a/fenix/app/src/main/java/org/mozilla/fenix/tabstray/TabsTrayBanner.kt
++++ b/fenix/app/src/main/java/org/mozilla/fenix/tabstray/TabsTrayBanner.kt
+@@ -243,21 +243,6 @@ private fun SingleSelectBanner(
+                         unselectedContentColor = inactiveColor,
+                     )
+ 
+-                    Tab(
+-                        selected = selectedPage == Page.SyncedTabs,
+-                        onClick = { onTabPageIndicatorClicked(Page.SyncedTabs) },
+-                        modifier = Modifier
+-                            .fillMaxHeight()
+-                            .testTag(TabsTrayTestTag.syncedTabsPageButton),
+-                        icon = {
+-                            Icon(
+-                                painter = painterResource(id = R.drawable.ic_synced_tabs),
+-                                contentDescription = stringResource(id = R.string.tabs_header_synced_tabs_title),
+-                            )
+-                        },
+-                        selectedContentColor = selectedColor,
+-                        unselectedContentColor = inactiveColor,
+-                    )
+                 }
+             }
+ 
+diff --git a/fenix/app/src/main/java/org/mozilla/fenix/utils/Settings.kt b/fenix/app/src/main/java/org/mozilla/fenix/utils/Settings.kt
+index 8cfd5604e9..062757c252 100644
+--- a/fenix/app/src/main/java/org/mozilla/fenix/utils/Settings.kt
++++ b/fenix/app/src/main/java/org/mozilla/fenix/utils/Settings.kt
+@@ -1885,11 +1885,7 @@ class Settings(private val appContext: Context) : PreferencesHolder {
+      * Indicates if the user has chosen to show sponsored search suggestions in the awesomebar.
+      * The default value is computed lazily, and based on whether Firefox Suggest is enabled.
+      */
+-    var showSponsoredSuggestions by lazyFeatureFlagPreference(
+-        key = appContext.getPreferenceKey(R.string.pref_key_show_sponsored_suggestions),
+-        default = { enableFxSuggest },
+-        featureFlag = FeatureFlags.fxSuggest,
+-    )
++    var showSponsoredSuggestions = false
+ 
+     /**
+      * Indicates if the user has chosen to show search suggestions for web content in the
+diff --git a/fenix/app/src/main/res/xml/search_settings_preferences.xml b/fenix/app/src/main/res/xml/search_settings_preferences.xml
+index 7170f1bb07..253c9dde4c 100644
+--- a/fenix/app/src/main/res/xml/search_settings_preferences.xml
++++ b/fenix/app/src/main/res/xml/search_settings_preferences.xml
+@@ -59,15 +59,6 @@
+             android:key="@string/pref_key_show_nonsponsored_suggestions"
+             android:title="@string/preferences_show_nonsponsored_suggestions"
+             android:summary="@string/preferences_show_nonsponsored_suggestions_summary" />
+-        <SwitchPreference
+-            app:iconSpaceReserved="false"
+-            android:key="@string/pref_key_show_sponsored_suggestions"
+-            android:title="@string/preferences_show_sponsored_suggestions"
+-            android:summary="@string/preferences_show_sponsored_suggestions_summary" />
+-        <Preference
+-            app:iconSpaceReserved="false"
+-            android:key="@string/pref_key_learn_about_fx_suggest"
+-            android:title="@string/preference_search_learn_about_fx_suggest" />
+     </PreferenceCategory>
+ 
+     <PreferenceCategory
+-- 
+2.39.3 (Apple Git-145)
+
