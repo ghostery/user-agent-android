@@ -13,7 +13,7 @@ index 50dab8d5e8..cd18be708b 100644
 --- a/fenix/app/build.gradle
 +++ b/fenix/app/build.gradle
 @@ -194,7 +194,9 @@ android {
- 
+
          // manifest.template.json is converted to manifest.json at build time.
          // No need to package the template in the APK.
 -        ignoreAssetsPattern "manifest.template.json"
@@ -21,27 +21,27 @@ index 50dab8d5e8..cd18be708b 100644
 +        // that breaks webextensions i18n as traslation are located in _locales folder
 +        ignoreAssetsPattern "manifest.template.json:!.svn:!.git:!.ds_store:!*.scc:.*:!CVS:!thumbs.db:!picasa.ini:!*~"
      }
- 
+
      testOptions {
 diff --git a/fenix/app/src/main/java/org/mozilla/fenix/components/Core.kt b/fenix/app/src/main/java/org/mozilla/fenix/components/Core.kt
 index 87539ce19e..bc1049f9df 100644
 --- a/fenix/app/src/main/java/org/mozilla/fenix/components/Core.kt
 +++ b/fenix/app/src/main/java/org/mozilla/fenix/components/Core.kt
-@@ -170,6 +170,14 @@ class Core(
-                 onError = { ext, throwable ->
-                     Log.e("GHOSTERY", "Failed to install Ghostery Search webextension: $ext", throwable)
+@@ -185,6 +185,14 @@ class Core(
+                 onError = { throwable ->
+                     Log.e("GHOSTERY", "Failed to install Ghostery Search webextension", throwable)
                  })
 +
-+            it.installWebExtension("Ghostery", "resource://android/assets/extensions/ghostery/",
++            it.installBuiltInWebExtension("ghostery", "resource://android/assets/extensions/ghostery/",
 +                onSuccess = {
 +                    Log.d("GHOSTERY", "Installed Ghostery webextension: ${it.id}")
 +                },
-+                onError = { ext, throwable ->
-+                    Log.e("GHOSTERY", "Failed to install Ghostery webextension: $ext", throwable)
++                onError = { throwable ->
++                    Log.e("GHOSTERY", "Failed to install Ghostery webextension", throwable)
 +                })
          }
      }
- 
--- 
+
+--
 2.39.2 (Apple Git-143)
 

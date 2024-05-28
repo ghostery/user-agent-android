@@ -105,17 +105,17 @@ index b620c393fe..027a0418b0 100644
  import androidx.appcompat.content.res.AppCompatResources.getDrawable
  import androidx.core.content.ContextCompat
  import androidx.core.graphics.drawable.toBitmap
-@@ -161,6 +162,14 @@ class Core(
+@@ -160,6 +161,14 @@ class Core(
              if (Config.channel.isNightlyOrDebug || Config.channel.isBeta) {
                  WebCompatReporterFeature.install(it, "fenix")
              }
 +
-+            it.installWebExtension("GhosterySearch", "resource://android/assets/extensions/ghostery-search/",
++            it.installBuiltInWebExtension("ghostery-search", "resource://android/assets/extensions/ghostery-search/",
 +                onSuccess = {
 +                    Log.d("GHOSTERY", "Installed Ghostery Search webextension: ${it.id}")
 +                },
-+                onError = { ext, throwable ->
-+                    Log.e("GHOSTERY", "Failed to install Ghostery Search webextension: $ext", throwable)
++                onError = { throwable ->
++                    Log.e("GHOSTERY", "Failed to install Ghostery Search webextension", throwable)
 +                })
          }
      }

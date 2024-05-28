@@ -1,7 +1,8 @@
 node('browser-builder') {
     stage('checkout') {
-        checkout scm
         sh 'rm -rf browser'
+        sh 'rm -rf .git'
+        checkout scm
         sh 'git submodule init'
         sh 'git submodule update --force'
         sh './reset.sh'
@@ -33,7 +34,7 @@ node('browser-builder') {
             }
         }
         stage('archive') {
-            archiveArtifacts artifacts: 'browser/fenix/app/build/outputs/apk/**/*.apk'
+            archiveArtifacts artifacts: 'browser/fenix/app/build/outputs/bundle/**/*.aab'
         }
     }
 }

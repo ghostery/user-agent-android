@@ -1,0 +1,43 @@
+From 39d48dd57667bff15fb024661afd93809499a248 Mon Sep 17 00:00:00 2001
+From: Krzysztof Modras <chrmod@chrmod.net>
+Date: Wed, 22 May 2024 16:02:22 +0200
+Subject: Fix targetActivity
+
+---
+ fenix/app/src/main/AndroidManifest.xml | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/fenix/app/src/main/AndroidManifest.xml b/fenix/app/src/main/AndroidManifest.xml
+index dfe1b757f8..2cda44043c 100644
+--- a/fenix/app/src/main/AndroidManifest.xml
++++ b/fenix/app/src/main/AndroidManifest.xml
+@@ -75,7 +75,7 @@
+         <activity-alias
+             android:name="${applicationId}.App"
+             android:exported="true"
+-            android:targetActivity=".${targetActivity}">
++            android:targetActivity="org.mozilla.fenix.HomeActivity">
+             <intent-filter>
+                 <action android:name="android.intent.action.MAIN" />
+ 
+@@ -107,7 +107,7 @@
+         </activity-alias>
+ 
+         <activity
+-            android:name=".HomeActivity"
++            android:name="org.mozilla.fenix.HomeActivity"
+             android:theme="@style/SplashScreen"
+             android:exported="true"
+             android:configChanges="keyboard|keyboardHidden|mcc|mnc|orientation|screenSize|layoutDirection|smallestScreenSize|screenLayout"
+@@ -177,7 +177,7 @@
+             android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
+ 
+         <activity
+-            android:name=".IntentReceiverActivity"
++            android:name="org.mozilla.fenix.IntentReceiverActivity"
+             android:theme="@style/Theme.Transparent"
+             android:relinquishTaskIdentity="true"
+             android:taskAffinity=""
+-- 
+2.39.3 (Apple Git-145)
+

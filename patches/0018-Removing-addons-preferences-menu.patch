@@ -8,10 +8,10 @@ Subject: Removing addons preferences menu
  1 file changed, 9 deletions(-)
 
 diff --git a/fenix/app/src/main/res/xml/preferences.xml b/fenix/app/src/main/res/xml/preferences.xml
-index d9b239bf2e..30cfeb39bd 100644
+index cf6821acce..066481472d 100644
 --- a/fenix/app/src/main/res/xml/preferences.xml
 +++ b/fenix/app/src/main/res/xml/preferences.xml
-@@ -119,15 +119,6 @@
+@@ -124,21 +124,6 @@
          android:title="@string/preferences_category_advanced"
          android:key="@string/pref_key_advanced"
          android:layout="@layout/preference_category_no_icon_style">
@@ -21,12 +21,19 @@ index d9b239bf2e..30cfeb39bd 100644
 -            android:title="@string/preferences_addons" />
 -
 -        <androidx.preference.Preference
+-            android:key="@string/pref_key_install_local_addon"
+-            app:iconSpaceReserved="false"
+-            app:isPreferenceVisible="false"
+-            android:title="@string/preferences_install_local_addon" />
+-
+-        <androidx.preference.Preference
 -            android:key="@string/pref_key_override_amo_collection"
 -            app:iconSpaceReserved="false"
 -            android:title="@string/preferences_customize_amo_collection" />
- 
+
          <androidx.preference.Preference
              android:key="@string/pref_key_open_links_in_apps"
--- 
+
+--
 2.39.2 (Apple Git-143)
 

@@ -8,16 +8,17 @@ Subject: Removing Collections (again)
  .../sessioncontrol/SessionControlAdapter.kt   | 21 --------------
  .../home/sessioncontrol/SessionControlView.kt | 28 ++-----------------
  .../fenix/tabstray/TabsTrayFragment.kt        |  1 -
+ .../fenix/tabstray/TabsTrayBanner.kt          | 15 ----------
  .../browser/SelectionBannerBinding.kt         |  4 ---
  .../main/res/layout/component_tabstray2.xml   |  2 +-
  .../res/layout/tabstray_multiselect_items.xml | 13 ---------
- 7 files changed, 3 insertions(+), 89 deletions(-)
+ 8 files changed, 3 insertions(+), 104 deletions(-)
 
 diff --git a/fenix/app/src/main/java/org/mozilla/fenix/components/toolbar/DefaultToolbarMenu.kt b/fenix/app/src/main/java/org/mozilla/fenix/components/toolbar/DefaultToolbarMenu.kt
-index 421e306002..43ec5b4c51 100644
+index 8428377562..d2df2f5042 100644
 --- a/fenix/app/src/main/java/org/mozilla/fenix/components/toolbar/DefaultToolbarMenu.kt
 +++ b/fenix/app/src/main/java/org/mozilla/fenix/components/toolbar/DefaultToolbarMenu.kt
-@@ -222,10 +222,6 @@ open class DefaultToolbarMenu(
+@@ -245,10 +245,6 @@ open class DefaultToolbarMenu(
          onItemTapped.invoke(ToolbarMenu.Item.Downloads)
      }
 
@@ -28,7 +29,7 @@ index 421e306002..43ec5b4c51 100644
      private val findInPageItem = BrowserMenuImageText(
          label = context.getString(R.string.browser_menu_find_in_page),
          imageResource = R.drawable.mozac_ic_search_24,
-@@ -297,14 +293,6 @@ open class DefaultToolbarMenu(
+@@ -335,14 +331,6 @@ open class DefaultToolbarMenu(
          },
      )
 
@@ -43,7 +44,7 @@ index 421e306002..43ec5b4c51 100644
      private val printPageItem = BrowserMenuImageText(
          label = context.getString(R.string.menu_print),
          imageResource = R.drawable.ic_print,
-@@ -362,14 +350,6 @@ open class DefaultToolbarMenu(
+@@ -400,14 +388,6 @@ open class DefaultToolbarMenu(
          onItemTapped.invoke(ToolbarMenu.Item.Quit)
      }
 
@@ -58,7 +59,7 @@ index 421e306002..43ec5b4c51 100644
      @VisibleForTesting(otherwise = PRIVATE)
      val coreMenuItems by lazy {
          val menuItems =
-@@ -380,8 +360,6 @@ open class DefaultToolbarMenu(
+@@ -418,8 +398,6 @@ open class DefaultToolbarMenu(
                  bookmarksItem,
                  historyItem,
                  downloadsItem,
@@ -66,8 +67,8 @@ index 421e306002..43ec5b4c51 100644
 -                syncMenuItem(),
                  BrowserMenuDivider(),
                  findInPageItem,
-                 desktopSiteItem,
-@@ -390,7 +370,6 @@ open class DefaultToolbarMenu(
+                 translationsItem.apply { visible = ::shouldShowTranslations },
+@@ -432,7 +410,6 @@ open class DefaultToolbarMenu(
                  addToHomeScreenItem.apply { visible = ::canAddToHomescreen },
                  installToHomescreen.apply { visible = ::canInstall },
                  if (shouldShowTopSites) addRemoveTopSitesItem else null,
@@ -233,6 +234,32 @@ index 67d2eee9e2..01b3348b22 100644
      <ImageButton
          android:id="@+id/share_multi_select"
          android:layout_width="48dp"
+diff --git a/fenix/app/src/main/java/org/mozilla/fenix/tabstray/TabsTrayBanner.kt b/fenix/app/src/main/java/org/mozilla/fenix/tabstray/TabsTrayBanner.kt
+index 13e9c1d4c0..b79cf09111 100644
+--- a/fenix/app/src/main/java/org/mozilla/fenix/tabstray/TabsTrayBanner.kt
++++ b/fenix/app/src/main/java/org/mozilla/fenix/tabstray/TabsTrayBanner.kt
+@@ -243,21 +243,6 @@ private fun SingleSelectBanner(
+                         unselectedContentColor = inactiveColor,
+                     )
+
+-                    Tab(
+-                        selected = selectedPage == Page.SyncedTabs,
+-                        onClick = { onTabPageIndicatorClicked(Page.SyncedTabs) },
+-                        modifier = Modifier
+-                            .fillMaxHeight()
+-                            .testTag(TabsTrayTestTag.syncedTabsPageButton),
+-                        icon = {
+-                            Icon(
+-                                painter = painterResource(id = R.drawable.ic_synced_tabs),
+-                                contentDescription = stringResource(id = R.string.tabs_header_synced_tabs_title),
+-                            )
+-                        },
+-                        selectedContentColor = selectedColor,
+-                        unselectedContentColor = inactiveColor,
+-                    )
+                 }
+             }
+
 --
 2.39.2 (Apple Git-143)
 

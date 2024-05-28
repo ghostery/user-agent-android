@@ -14,7 +14,7 @@ index d813edaed2..e653f675a8 100644
 --- a/fenix/app/build.gradle
 +++ b/fenix/app/build.gradle
 @@ -36,7 +36,7 @@ android {
-         minSdkVersion config.minSdkVersion
+         compileSdk config.compileSdkVersion
          targetSdkVersion config.targetSdkVersion
          versionCode 1
 -        versionName Config.generateDebugVersionName()
@@ -22,6 +22,7 @@ index d813edaed2..e653f675a8 100644
          vectorDrawables.useSupportLibrary = true
          testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
          testInstrumentationRunnerArguments clearPackageData: 'true'
+
 diff --git a/fenix/app/src/main/java/org/mozilla/fenix/settings/about/AboutFragment.kt b/fenix/app/src/main/java/org/mozilla/fenix/settings/about/AboutFragment.kt
 index f60dfc579b..60bfab2e04 100644
 --- a/fenix/app/src/main/java/org/mozilla/fenix/settings/about/AboutFragment.kt
