@@ -1,3 +1,9 @@
+# This project is discontinued.
+
+We recommend to use [Ghostery Tracker and Ad Blocker](https://www.ghostery.com/ghostery-ad-blocker) in [Firefox]([https://www.mozilla.org/firefox/](https://play.google.com/store/apps/details?id=org.mozilla.firefox&hl=pl&gl=US&pli=1)).
+
+---
+
 # Ghostery Browser for Android
 
 This is the next generation Ghostery Browser for Android based on Firefox Fenix.
